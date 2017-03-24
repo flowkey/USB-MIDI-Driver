@@ -89,10 +89,10 @@
 		037122091E852D75009CC189 /* MIDIManager */ = {
 			isa = PBXGroup;
 			children = (
-				037122111E8530DE009CC189 /* MIDIMessage.swift */,
-				0371220F1E852F3A009CC189 /* MIDIManagerProtocol.swift */,
-				0371220D1E852F23009CC189 /* MIDIDevice.swift */,
 				0371220A1E852D75009CC189 /* iOS */,
+				0371220D1E852F23009CC189 /* MIDIDevice.swift */,
+				0371220F1E852F3A009CC189 /* MIDIManagerProtocol.swift */,
+				037122111E8530DE009CC189 /* MIDIMessage.swift */,
 				039ECCA01E853BE3001FC194 /* UInt8+MIDI.swift */,
 			);
 			name = MIDIManager;
@@ -131,11 +131,11 @@
 		03A7F7321E850D5300849AE2 /* NoteDetection */ = {
 			isa = PBXGroup;
 			children = (
-				037122091E852D75009CC189 /* MIDIManager */,
-				03A7F74A1E850DD500849AE2 /* AudioEngine */,
 				03A7F7331E850D5300849AE2 /* NoteDetection.h */,
 				03A7F7341E850D5300849AE2 /* Info.plist */,
 				037122051E852BA6009CC189 /* NoteDetection.swift */,
+				03A7F74A1E850DD500849AE2 /* AudioEngine */,
+				037122091E852D75009CC189 /* MIDIManager */,
 			);
 			path = NoteDetection;
 			sourceTree = "<group>";
