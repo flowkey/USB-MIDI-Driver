@@ -28,15 +28,14 @@ extension AudioUnit {
             mReserved: 0
         )
 
-        // https://developer.apple.com/library/content/documentation/MusicAudio/Conceptual/AudioUnitHostingGuide_iOS/AudioUnitHostingFundamentals/AudioUnitHostingFundamentals.html
-
+        // Apple Resource for Audio Unit Hosting: https://goo.gl/SN1OlC
         // Doing this requires us to manage audio output manually, since by default iOS sets audio output to receiver
         try inputUnit.setProperty(kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Input, .inputBus, UInt32(true))
         try inputUnit.setProperty(kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Output, .outputBus, UInt32(true))
 
         try inputUnit.setProperty(kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, .inputBus, streamFormat)
         try inputUnit.setProperty(kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, .outputBus, streamFormat)
-        
+
         return inputUnit
     }
 }
@@ -58,9 +57,17 @@ extension AudioUnit {
     }
 
     func setProperty<PropertyData>
-    (_ propertyID: AudioUnitPropertyID, _ scope: AudioUnitScope, _ element: AudioUnitElement, _ data: PropertyData) throws {
+    (_ propertyID: AudioUnitPropertyID, _ scope: AudioUnitScope, _ element: AudioUnitElement, _ data: PropertyData)
+    throws {
         var data = data
-        try AudioUnitSetProperty(self, propertyID, scope, element, &data, UInt32(MemoryLayout<PropertyData>.size)).throwOnError()
+        try AudioUnitSetProperty(
+            self,
+            propertyID,
+            scope,
+            element,
+            &data,
+            UInt32(MemoryLayout<PropertyData>.size)
+        ).throwOnError()
     }
 
     func start() throws { try AudioOutputUnitStart(self).throwOnError() }

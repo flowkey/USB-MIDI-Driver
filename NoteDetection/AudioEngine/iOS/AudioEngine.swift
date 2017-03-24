@@ -14,7 +14,7 @@ public class AudioEngine: AudioEngineProtocol {
     var audioData: [Float] = []
 
     public var onAudioData: OnAudioDataCallback? {
-        didSet { try! setInputUnitCallback() }
+        didSet { do { try setInputUnitCallback() } catch { print(error.localizedDescription) } }
     }
 
     public var onSettingsChanged: OnAudioEngineSettingsChangedCallback?
