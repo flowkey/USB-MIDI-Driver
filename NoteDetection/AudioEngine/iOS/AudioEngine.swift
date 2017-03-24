@@ -19,16 +19,6 @@ public class AudioEngine: AudioEngineProtocol {
 
     public var onSettingsChanged: OnAudioEngineSettingsChangedCallback?
 
-    // If the first init fails, allow users to try again until it works:
-    private static var _sharedInstance: AudioEngine?
-    public static var sharedInstance: AudioEngine? {
-        if _sharedInstance == nil {
-            _sharedInstance = try? AudioEngine()
-        }
-
-        return _sharedInstance
-    }
-
     // AudioEngine has no public initialisers and is only accessible via `sharedInstance`:
     private init() throws {
         let audioSession = AVAudioSession.sharedInstance()
