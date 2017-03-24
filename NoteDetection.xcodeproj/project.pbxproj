@@ -7,9 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		037121CF1E85241B009CC189 /* AudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037121CC1E85241B009CC189 /* AudioEngine.swift */; };
+		037121D01E85241B009CC189 /* AudioUnitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037121CD1E85241B009CC189 /* AudioUnitExtensions.swift */; };
+		037121D11E85241B009CC189 /* OSStatus+LocalizedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037121CE1E85241B009CC189 /* OSStatus+LocalizedError.swift */; };
 		03A7F73A1E850D5300849AE2 /* NoteDetection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03A7F7301E850D5300849AE2 /* NoteDetection.framework */; };
 		03A7F73F1E850D5300849AE2 /* NoteDetectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A7F73E1E850D5300849AE2 /* NoteDetectionTests.swift */; };
 		03A7F7411E850D5300849AE2 /* NoteDetection.h in Headers */ = {isa = PBXBuildFile; fileRef = 03A7F7331E850D5300849AE2 /* NoteDetection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		03A7F74D1E850E0600849AE2 /* AudioEngineProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A7F74C1E850E0600849AE2 /* AudioEngineProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,12 +27,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		037121CC1E85241B009CC189 /* AudioEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioEngine.swift; sourceTree = "<group>"; };
+		037121CD1E85241B009CC189 /* AudioUnitExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioUnitExtensions.swift; sourceTree = "<group>"; };
+		037121CE1E85241B009CC189 /* OSStatus+LocalizedError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OSStatus+LocalizedError.swift"; sourceTree = "<group>"; };
 		03A7F7301E850D5300849AE2 /* NoteDetection.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NoteDetection.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		03A7F7331E850D5300849AE2 /* NoteDetection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NoteDetection.h; sourceTree = "<group>"; };
 		03A7F7341E850D5300849AE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		03A7F7391E850D5300849AE2 /* NoteDetectionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NoteDetectionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		03A7F73E1E850D5300849AE2 /* NoteDetectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetectionTests.swift; sourceTree = "<group>"; };
 		03A7F7401E850D5300849AE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		03A7F74C1E850E0600849AE2 /* AudioEngineProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioEngineProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +58,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		037121CB1E85241B009CC189 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				037121CC1E85241B009CC189 /* AudioEngine.swift */,
+				037121CD1E85241B009CC189 /* AudioUnitExtensions.swift */,
+				037121CE1E85241B009CC189 /* OSStatus+LocalizedError.swift */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
 		03A7F7261E850D5300849AE2 = {
 			isa = PBXGroup;
 			children = (
@@ -71,6 +89,8 @@
 		03A7F7321E850D5300849AE2 /* NoteDetection */ = {
 			isa = PBXGroup;
 			children = (
+				03A7F74B1E850DE000849AE2 /* MIDIManager */,
+				03A7F74A1E850DD500849AE2 /* AudioEngine */,
 				03A7F7331E850D5300849AE2 /* NoteDetection.h */,
 				03A7F7341E850D5300849AE2 /* Info.plist */,
 			);
@@ -84,6 +104,22 @@
 				03A7F7401E850D5300849AE2 /* Info.plist */,
 			);
 			path = NoteDetectionTests;
+			sourceTree = "<group>";
+		};
+		03A7F74A1E850DD500849AE2 /* AudioEngine */ = {
+			isa = PBXGroup;
+			children = (
+				037121CB1E85241B009CC189 /* iOS */,
+				03A7F74C1E850E0600849AE2 /* AudioEngineProtocol.swift */,
+			);
+			path = AudioEngine;
+			sourceTree = "<group>";
+		};
+		03A7F74B1E850DE000849AE2 /* MIDIManager */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MIDIManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -149,6 +185,7 @@
 					03A7F72F1E850D5300849AE2 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = FTSYMMN5B5;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 					03A7F7381E850D5300849AE2 = {
@@ -198,6 +235,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				037121CF1E85241B009CC189 /* AudioEngine.swift in Sources */,
+				03A7F74D1E850E0600849AE2 /* AudioEngineProtocol.swift in Sources */,
+				037121D11E85241B009CC189 /* OSStatus+LocalizedError.swift in Sources */,
+				037121D01E85241B009CC189 /* AudioUnitExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -322,6 +363,7 @@
 		03A7F7451E850D5300849AE2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = FTSYMMN5B5;
@@ -334,6 +376,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.flowkey.NoteDetection;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -341,6 +384,7 @@
 		03A7F7461E850D5300849AE2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = FTSYMMN5B5;
@@ -360,6 +404,7 @@
 		03A7F7481E850D5300849AE2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = FTSYMMN5B5;
 				INFOPLIST_FILE = NoteDetectionTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -372,6 +417,7 @@
 		03A7F7491E850D5300849AE2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = FTSYMMN5B5;
 				INFOPLIST_FILE = NoteDetectionTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -400,6 +446,7 @@
 				03A7F7461E850D5300849AE2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		03A7F7471E850D5300849AE2 /* Build configuration list for PBXNativeTarget "NoteDetectionTests" */ = {
 			isa = XCConfigurationList;
@@ -408,6 +455,7 @@
 				03A7F7491E850D5300849AE2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
