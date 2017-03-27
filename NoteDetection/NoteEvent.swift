@@ -82,7 +82,7 @@ extension NoteEvent {
     }
 
     private func getNotes(for hands: LearnableHands = []) -> Set<Note> {
-        switch hands{
+        switch hands {
         case [.left] : return notesL
         case [.right]: return notesR
         default: return notesL.union(notesR)
