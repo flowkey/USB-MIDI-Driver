@@ -6,7 +6,7 @@
 //  Copyright © 2017 flowkey. All rights reserved.
 //
 
-// FIXME: Clean up, then remove swiftlint:disable
+// TODO: Clean up, then remove swiftlint:disable
 // swiftlint:disable file_length
 
 import Foundation
