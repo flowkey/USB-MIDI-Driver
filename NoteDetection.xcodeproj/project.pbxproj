@@ -164,6 +164,8 @@
 		037E22D51E891CBD00BBA993 /* Stuff */ = {
 			isa = PBXGroup;
 			children = (
+				037E22D91E891FAF00BBA993 /* NoteDetectionData.swift */,
+				037E22DB1E89208900BBA993 /* NoteEvent.swift */,
 				037E22DD1E8920D400BBA993 /* LearnableHand.swift */,
 				037E22D11E8919B800BBA993 /* AudioHelper.swift */,
 				037E22D31E8919F300BBA993 /* ChromaVector.swift */,
@@ -179,8 +181,6 @@
 		037E22D61E891F0900BBA993 /* PitchDetection */ = {
 			isa = PBXGroup;
 			children = (
-				037E22D91E891FAF00BBA993 /* NoteDetectionData.swift */,
-				037E22DB1E89208900BBA993 /* NoteEvent.swift */,
 				037E22D71E891F2000BBA993 /* PitchDetection.swift */,
 			);
 			name = PitchDetection;
