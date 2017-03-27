@@ -6,17 +6,15 @@
 //  Copyright © 2017 flowkey. All rights reserved.
 //
 
-import Foundation
-
 public protocol NoteDetection {
+    var inputType: InputType { get }
+    var onInputLevelChanged: ((Float) -> Void)? { get set }
+
     func start()
     func stop()
-    func setExpectedEvent()
-    func setInputType(type: InputType)
 
+    func setExpectedEvent()
     var onEventDetected: (() -> Void)? { get set }
-    var onInputLevelChanged: ((Float) -> Void)? { get set }
-    var onMIDIDeviceListChanged: OnMIDIDeviceListChangedCallback? { get set }
 }
 
 public enum InputType {

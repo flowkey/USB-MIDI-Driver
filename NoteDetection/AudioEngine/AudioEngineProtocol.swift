@@ -7,11 +7,11 @@
 //
 
 public typealias OnAudioDataCallback = (([Float32]) -> Void)
-public typealias OnAudioEngineSettingsChangedCallback = ((_ sampleRate: Double) -> Void)
+public typealias OnSamplerateChanged = ((_ sampleRate: Double) -> Void)
 
 public protocol AudioEngineProtocol {
     var onAudioData: OnAudioDataCallback? { get set }
-    var onSettingsChanged: OnAudioEngineSettingsChangedCallback? { get set }
+    var onSamplerateChanged: OnSamplerateChanged? { get set }
 
     func start() throws
     func stop() throws

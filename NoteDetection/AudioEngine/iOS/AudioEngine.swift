@@ -17,7 +17,7 @@ public class AudioEngine: AudioEngineProtocol {
         didSet { do { try setInputUnitCallback() } catch { print(error.localizedDescription) } }
     }
 
-    public var onSettingsChanged: OnAudioEngineSettingsChangedCallback?
+    public var onSamplerateChanged: OnSamplerateChanged?
 
     // AudioEngine has no public initialisers and is only accessible via `sharedInstance`:
     private init() throws {
@@ -81,7 +81,7 @@ public class AudioEngine: AudioEngineProtocol {
         try audioIOUnit.initialize()
         if wasRunning { try start() }
 
-        onSettingsChanged?(newSampleRate)
+        onSamplerateChanged?(newSampleRate)
     }
 
     deinit {
