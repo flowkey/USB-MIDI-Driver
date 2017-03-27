@@ -1,18 +1,7 @@
-//
-//  AudiopitchDetection
-//  pitchDetection
-//
-//  Created by Geordie Jay on 17.04.15.
-//  Copyright (c) 2015 Geordie Jay. All rights reserved.
-//
-//
-// This class takes our raw datatypes (audioBuffer and spectrum) and
-// turns it into other low-level data (ChromaVectors, FFT spectrum etc.)
-
 public typealias OnAudioProcessedCallback = (ProcessedAudio) -> Void
 public typealias OnVolumeUpdatedCallback = (Float) -> Void
 
-final public class AudioNoteDetection: NoteDetection {
+final public class AudioNoteDetection: NoteDetectionProtocol {
 
 
     // TODO: implement things
