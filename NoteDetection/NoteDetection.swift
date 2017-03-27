@@ -8,12 +8,12 @@
 
 public protocol NoteDetection {
     var inputType: InputType { get }
-    var onInputLevelChanged: ((Float) -> Void)? { get set }
+//    var onInputLevelChanged: ((Float) -> Void)? { get set }
 
     func start()
     func stop()
 
-    func setExpectedEvent()
+    func setExpectedEvent(_: NoteDetectionData)
     var onEventDetected: (() -> Void)? { get set }
 }
 
