@@ -13,6 +13,8 @@ public protocol AudioEngineProtocol {
     var onAudioData: OnAudioDataCallback? { get set }
     var onSamplerateChanged: OnSamplerateChanged? { get set }
 
+    var sampleRate: Double { get }
+
     func start() throws
     func stop() throws
 }

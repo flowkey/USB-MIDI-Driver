@@ -37,7 +37,7 @@ class NativePitchDetectionTests: XCTestCase {
 
     func testFilterbankMapping() {
         let sineWave = createSineWave(bufferLength, f: midiNumberForA.inHz, fs: Double(sampleRate))
-        let audioNoteDetection = AudioNoteDetection(sampleRate: sampleRate)
+        let audioNoteDetection = AudioNoteDetection()
 
         for _ in 0...100 {
             audioNoteDetection.process(audio: sineWave)
@@ -55,7 +55,7 @@ class NativePitchDetectionTests: XCTestCase {
 
     func testChromaMapping() {
         let sineWave = createSineWave(bufferLength, f: midiNumberForA.inHz, fs: Double(sampleRate))
-        let audioProcessor = AudioNoteDetection(sampleRate: sampleRate)
+        let audioProcessor = AudioNoteDetection()
 
         for _ in 0...100 {
             audioProcessor.process(audio: sineWave)

@@ -3,23 +3,13 @@ public typealias OnVolumeUpdatedCallback = (Float) -> Void
 
 final public class AudioNoteDetection: NoteDetectionProtocol {
 
-
-    // TODO: implement things
-    public var onEventDetected: (() -> Void)?
-
-    public func start() {
-
-    }
-
-    public func stop() {
-
-    }
-
     public let inputType: InputType = .audio
-
 
     let lowRange: CountableClosedRange<MIDINumber>
     let highRange: CountableClosedRange<MIDINumber>
+
+    var audioEngine: AudioEngine
+    var follower: AudioFollower
 
     let filterbank: FilterBank
     public let pitchDetection: PitchDetection
@@ -28,22 +18,45 @@ final public class AudioNoteDetection: NoteDetectionProtocol {
     public var onAudioProcessed: OnAudioProcessedCallback?
     public var onVolumeUpdated: OnVolumeUpdatedCallback?
 
-    init (sampleRate: Double) {
+    public var onEventDetected: (() -> Void)? {
+        didSet {
+            follower.onFollow = onEventDetected
+        }
+    }
+
+    init () {
         // Chroma extractors for our different ranges:
         lowRange = MIDINumber(note: .g, octave: 1) ... MIDINumber(note: .d, octave: 5)
         highRange = lowRange.last! ... MIDINumber(note: .d, octave: 7)
 
         let fullRange = lowRange.first! ... highRange.last!
 
+        audioEngine = try! AudioEngine()
+        follower = AudioFollower()
+
         // Setup processors
-        filterbank = FilterBank(noteRange: fullRange, sampleRate: sampleRate)
+        filterbank = FilterBank(noteRange: fullRange, sampleRate: audioEngine.sampleRate)
         pitchDetection = PitchDetection(lowNoteBoundary: lowRange.last!)
         onsetDetection = OnsetDetection(feature: SpectralFlux())
+
+        // Setup follower
+        onsetDetection.onOnsetDetected = follower.onOnsetDetected
+        pitchDetection.onNotesDetected = follower.onNotesDetected
+        follower.onFollow = onEventDetected
+    }
+
+    public func start() {
+        audioEngine.onAudioData = self.process
+        try! audioEngine.start()
+    }
+
+    public func stop() {
+        try! audioEngine.stop()
     }
 
     /// Creates a new AudioNoteDetection preserving existing delegates, but with a different sampleRate.
     func cloned(newSampleRate sampleRate: Double) -> AudioNoteDetection {
-        let copy = AudioNoteDetection(sampleRate: sampleRate)
+        let copy = AudioNoteDetection()
         copy.onAudioProcessed = self.onAudioProcessed
         copy.onVolumeUpdated = self.onVolumeUpdated
         return copy

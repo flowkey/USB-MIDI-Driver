@@ -17,10 +17,14 @@ public class AudioEngine: AudioEngineProtocol {
         didSet { do { try setInputUnitCallback() } catch { print(error.localizedDescription) } }
     }
 
+    public var sampleRate: Double {
+        get { return AVAudioSession.sharedInstance().sampleRate }
+    }
+
     public var onSamplerateChanged: OnSamplerateChanged?
 
     // AudioEngine has no public initialisers and is only accessible via `sharedInstance`:
-    private init() throws {
+    init() throws {
         let audioSession = AVAudioSession.sharedInstance()
         try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
         try audioSession.overrideOutputAudioPort(.speaker)

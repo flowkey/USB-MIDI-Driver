@@ -41,6 +41,13 @@
 		03881DC01E892E0C00D61E9B /* FilterBankTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03881DBC1E892E0C00D61E9B /* FilterBankTests.swift */; };
 		03881DC11E892E0C00D61E9B /* AppleFilterBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03881DBD1E892E0C00D61E9B /* AppleFilterBank.swift */; };
 		03881DC51E892EB500D61E9B /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03881DC21E892EB500D61E9B /* SampleData.swift */; };
+		03881DCD1E8946E300D61E9B /* Follower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03881DCA1E8946E300D61E9B /* Follower.swift */; };
+		03881DCE1E8946E300D61E9B /* AudioFollower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03881DCB1E8946E300D61E9B /* AudioFollower.swift */; };
+		03881DCF1E8946E300D61E9B /* MIDIFollower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03881DCC1E8946E300D61E9B /* MIDIFollower.swift */; };
+		03881DD51E89475C00D61E9B /* AudioFollowerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03881DD11E89475C00D61E9B /* AudioFollowerTest.swift */; };
+		03881DD61E89475C00D61E9B /* FollowerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03881DD21E89475C00D61E9B /* FollowerTest.swift */; };
+		03881DD71E89475C00D61E9B /* MIDIFollowerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03881DD31E89475C00D61E9B /* MIDIFollowerTest.swift */; };
+		03881DD81E89475C00D61E9B /* NoteEventsFixture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03881DD41E89475C00D61E9B /* NoteEventsFixture.swift */; };
 		039ECC9D1E8537E2001FC194 /* MIDIManager+Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039ECC9C1E8537E2001FC194 /* MIDIManager+Debug.swift */; };
 		039ECC9F1E853A85001FC194 /* MIDIObjectRef.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039ECC9E1E853A84001FC194 /* MIDIObjectRef.swift */; };
 		039ECCA11E853BE3001FC194 /* UInt8+MIDI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039ECCA01E853BE3001FC194 /* UInt8+MIDI.swift */; };
@@ -96,6 +103,13 @@
 		03881DBC1E892E0C00D61E9B /* FilterBankTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterBankTests.swift; sourceTree = "<group>"; };
 		03881DBD1E892E0C00D61E9B /* AppleFilterBank.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleFilterBank.swift; sourceTree = "<group>"; };
 		03881DC21E892EB500D61E9B /* SampleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SampleData.swift; path = ../AmazingAudioTests/SampleData.swift; sourceTree = "<group>"; };
+		03881DCA1E8946E300D61E9B /* Follower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Follower.swift; sourceTree = "<group>"; };
+		03881DCB1E8946E300D61E9B /* AudioFollower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioFollower.swift; sourceTree = "<group>"; };
+		03881DCC1E8946E300D61E9B /* MIDIFollower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIFollower.swift; sourceTree = "<group>"; };
+		03881DD11E89475C00D61E9B /* AudioFollowerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioFollowerTest.swift; sourceTree = "<group>"; };
+		03881DD21E89475C00D61E9B /* FollowerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowerTest.swift; sourceTree = "<group>"; };
+		03881DD31E89475C00D61E9B /* MIDIFollowerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIFollowerTest.swift; sourceTree = "<group>"; };
+		03881DD41E89475C00D61E9B /* NoteEventsFixture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteEventsFixture.swift; sourceTree = "<group>"; };
 		039ECC9C1E8537E2001FC194 /* MIDIManager+Debug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MIDIManager+Debug.swift"; sourceTree = "<group>"; };
 		039ECC9E1E853A84001FC194 /* MIDIObjectRef.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIObjectRef.swift; sourceTree = "<group>"; };
 		039ECCA01E853BE3001FC194 /* UInt8+MIDI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UInt8+MIDI.swift"; sourceTree = "<group>"; };
@@ -225,6 +239,27 @@
 			path = ../../NativePlayerIOS/NativePitchDetection/PitchDetectionTests;
 			sourceTree = "<group>";
 		};
+		03881DC91E8946BD00D61E9B /* Follower */ = {
+			isa = PBXGroup;
+			children = (
+				03881DCA1E8946E300D61E9B /* Follower.swift */,
+				03881DCB1E8946E300D61E9B /* AudioFollower.swift */,
+				03881DCC1E8946E300D61E9B /* MIDIFollower.swift */,
+			);
+			name = Follower;
+			sourceTree = "<group>";
+		};
+		03881DD01E89472200D61E9B /* FollowerTests */ = {
+			isa = PBXGroup;
+			children = (
+				03881DD11E89475C00D61E9B /* AudioFollowerTest.swift */,
+				03881DD21E89475C00D61E9B /* FollowerTest.swift */,
+				03881DD31E89475C00D61E9B /* MIDIFollowerTest.swift */,
+				03881DD41E89475C00D61E9B /* NoteEventsFixture.swift */,
+			);
+			name = FollowerTests;
+			sourceTree = "<group>";
+		};
 		03A7F7261E850D5300849AE2 = {
 			isa = PBXGroup;
 			children = (
@@ -247,6 +282,7 @@
 		03A7F7321E850D5300849AE2 /* NoteDetection */ = {
 			isa = PBXGroup;
 			children = (
+				03881DC91E8946BD00D61E9B /* Follower */,
 				03A7F74A1E850DD500849AE2 /* AudioEngine */,
 				037E22B71E8913F500BBA993 /* AudioNoteDetection */,
 				03A7F7341E850D5300849AE2 /* Info.plist */,
@@ -261,6 +297,7 @@
 		03A7F73D1E850D5300849AE2 /* NoteDetectionTests */ = {
 			isa = PBXGroup;
 			children = (
+				03881DD01E89472200D61E9B /* FollowerTests */,
 				03881DC41E892EB500D61E9B /* Supporting Files */,
 				03881DBA1E892E0C00D61E9B /* NativePitchDetectionTests.swift */,
 				03881DBB1E892E0C00D61E9B /* AndroidMathTests.swift */,
@@ -417,6 +454,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				037E22D01E89192300BBA993 /* MIDINumber+MusicalNote.swift in Sources */,
+				03881DCD1E8946E300D61E9B /* Follower.swift in Sources */,
 				0371220C1E852D8D009CC189 /* MIDIManager.swift in Sources */,
 				037E22DC1E89208900BBA993 /* NoteEvent.swift in Sources */,
 				03881DB21E89266C00D61E9B /* AudioNoteDetection.swift in Sources */,
@@ -427,6 +465,7 @@
 				039ECCA11E853BE3001FC194 /* UInt8+MIDI.swift in Sources */,
 				037E22C31E8915A500BBA993 /* CrossPlatformHelper.swift in Sources */,
 				037121CF1E85241B009CC189 /* AudioEngine.swift in Sources */,
+				03881DCE1E8946E300D61E9B /* AudioFollower.swift in Sources */,
 				037E22BD1E89145400BBA993 /* FlowMath.swift in Sources */,
 				03A7F74D1E850E0600849AE2 /* AudioEngineProtocol.swift in Sources */,
 				037121D11E85241B009CC189 /* OSStatus+LocalizedError.swift in Sources */,
@@ -440,6 +479,7 @@
 				037E22D81E891F2000BBA993 /* PitchDetection.swift in Sources */,
 				03881DB81E8927BB00D61E9B /* Filter.swift in Sources */,
 				037E22C11E89151B00BBA993 /* PlatformApple.swift in Sources */,
+				03881DCF1E8946E300D61E9B /* MIDIFollower.swift in Sources */,
 				037E22BB1E89140500BBA993 /* OnsetFeatures.swift in Sources */,
 				039ECC9D1E8537E2001FC194 /* MIDIManager+Debug.swift in Sources */,
 				037E22DE1E8920D400BBA993 /* LearnableHand.swift in Sources */,
@@ -452,14 +492,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03881DD81E89475C00D61E9B /* NoteEventsFixture.swift in Sources */,
 				037E22C51E89160C00BBA993 /* MIDIMessageTests.swift in Sources */,
 				037E22C71E89161900BBA993 /* AudioHelperTests.swift in Sources */,
 				03881DBE1E892E0C00D61E9B /* NativePitchDetectionTests.swift in Sources */,
 				037E22C91E89161F00BBA993 /* ChromaVectorTests.swift in Sources */,
+				03881DD61E89475C00D61E9B /* FollowerTest.swift in Sources */,
+				03881DD51E89475C00D61E9B /* AudioFollowerTest.swift in Sources */,
 				03881DC11E892E0C00D61E9B /* AppleFilterBank.swift in Sources */,
 				03A7F73F1E850D5300849AE2 /* NoteDetectionTests.swift in Sources */,
 				03881DC01E892E0C00D61E9B /* FilterBankTests.swift in Sources */,
 				03881DC51E892EB500D61E9B /* SampleData.swift in Sources */,
+				03881DD71E89475C00D61E9B /* MIDIFollowerTest.swift in Sources */,
 				03881DBF1E892E0C00D61E9B /* AndroidMathTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
