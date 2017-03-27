@@ -31,7 +31,6 @@
 		037E22D81E891F2000BBA993 /* PitchDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22D71E891F2000BBA993 /* PitchDetection.swift */; };
 		037E22DA1E891FAF00BBA993 /* NoteDetectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22D91E891FAF00BBA993 /* NoteDetectionData.swift */; };
 		037E22DC1E89208900BBA993 /* NoteEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22DB1E89208900BBA993 /* NoteEvent.swift */; };
-		037E22DE1E8920D400BBA993 /* LearnableHand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22DD1E8920D400BBA993 /* LearnableHand.swift */; };
 		03881DB21E89266C00D61E9B /* AudioNoteDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03881DB11E89266C00D61E9B /* AudioNoteDetection.swift */; };
 		03881DB41E8926AC00D61E9B /* ProcessedAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03881DB31E8926AC00D61E9B /* ProcessedAudio.swift */; };
 		03881DB81E8927BB00D61E9B /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03881DB61E8927BB00D61E9B /* Filter.swift */; };
@@ -93,7 +92,6 @@
 		037E22D71E891F2000BBA993 /* PitchDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchDetection.swift; sourceTree = "<group>"; };
 		037E22D91E891FAF00BBA993 /* NoteDetectionData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteDetectionData.swift; sourceTree = "<group>"; };
 		037E22DB1E89208900BBA993 /* NoteEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteEvent.swift; sourceTree = "<group>"; };
-		037E22DD1E8920D400BBA993 /* LearnableHand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnableHand.swift; sourceTree = "<group>"; };
 		03881DB11E89266C00D61E9B /* AudioNoteDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioNoteDetection.swift; sourceTree = "<group>"; };
 		03881DB31E8926AC00D61E9B /* ProcessedAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProcessedAudio.swift; sourceTree = "<group>"; };
 		03881DB61E8927BB00D61E9B /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
@@ -201,7 +199,6 @@
 			children = (
 				037E22D91E891FAF00BBA993 /* NoteDetectionData.swift */,
 				037E22DB1E89208900BBA993 /* NoteEvent.swift */,
-				037E22DD1E8920D400BBA993 /* LearnableHand.swift */,
 				037E22D11E8919B800BBA993 /* AudioHelper.swift */,
 				037E22D31E8919F300BBA993 /* ChromaVector.swift */,
 				037E22C21E8915A500BBA993 /* CrossPlatformHelper.swift */,
@@ -482,7 +479,6 @@
 				03881DCF1E8946E300D61E9B /* MIDIFollower.swift in Sources */,
 				037E22BB1E89140500BBA993 /* OnsetFeatures.swift in Sources */,
 				039ECC9D1E8537E2001FC194 /* MIDIManager+Debug.swift in Sources */,
-				037E22DE1E8920D400BBA993 /* LearnableHand.swift in Sources */,
 				037E22BA1E89140500BBA993 /* OnsetDetection.swift in Sources */,
 				037122101E852F3A009CC189 /* MIDIManagerProtocol.swift in Sources */,
 			);

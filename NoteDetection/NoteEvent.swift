@@ -65,15 +65,15 @@ extension NoteEvent {
         self.lightningKeyIndexes = []
 
         // Set them here:
-        let eventWithBothHands = withOnly(hands: [.left, .right])
+        let eventWithBothHands = withHands(left: true, right: true)
         self.notes = eventWithBothHands.notes
         self.noteNames = eventWithBothHands.noteNames
         self.lightningKeyIndexes = eventWithBothHands.lightningKeyIndexes
     }
 
-    public func withOnly(hands: LearnableHands) -> NoteEvent {
+    public func withHands(left: Bool, right: Bool) -> NoteEvent {
         var newEvent = self
-        let notes = getNotes(for: hands).sorted(by: { $0.key < $1.key })
+        let notes = getNotes(left: left, right: right).sorted(by: { $0.key < $1.key })
         newEvent.notes = Set(notes.map({$0.key}))
         newEvent.noteNames = notes.map({$0.name})
         newEvent.lightningKeyIndexes = makeLightningKeyIndexes(from: notes)
@@ -81,12 +81,10 @@ extension NoteEvent {
         return newEvent
     }
 
-    private func getNotes(for hands: LearnableHands = []) -> Set<Note> {
-        switch hands {
-        case [.left] : return notesL
-        case [.right]: return notesR
-        default: return notesL.union(notesR)
-        }
+    private func getNotes(left: Bool, right: Bool) -> Set<Note> {
+        if left  && !right { return notesL }
+        if right && !left  { return notesR }
+        return notesL.union(notesR)
     }
 }
 
