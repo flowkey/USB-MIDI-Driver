@@ -8,7 +8,7 @@
 
 public enum MusicalNote: Int, CustomStringConvertible {
     case c = 0, cSharp, d, dSharp, e, f, fSharp, g, gSharp, a, aSharp, b
-    
+
     internal var noteName: String {
         switch self {
         case .c:        return "C"
@@ -25,7 +25,7 @@ public enum MusicalNote: Int, CustomStringConvertible {
         case .b:        return "B"
         }
     }
-    
+
     public var description: String {
         return "♪" + noteName
     }

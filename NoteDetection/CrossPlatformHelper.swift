@@ -31,4 +31,3 @@ public func getTimeInMillisecondsSince1970() -> Double {
     gettimeofday(&now, nil)
     return (Double(now.tv_sec) * Double(MSEC_PER_SEC)) + (Double(now.tv_usec) / Double(MSEC_PER_SEC))
 }
-

@@ -89,9 +89,9 @@ public struct ChromaVector: CustomStringConvertible, Equatable {
 
     public func similarity(to other: ChromaVector) -> Float {
 
-        var x:Float = 0
-        var y:Float = 0
-        var z:Float = 0
+        var x: Float = 0
+        var y: Float = 0
+        var z: Float = 0
 
         var a = self.toRaw
         var b = other.toRaw
@@ -118,7 +118,7 @@ public struct ChromaVector: CustomStringConvertible, Equatable {
             var valueToAdd: Float = 1.0
             var valueToAddToFifth: Float = 0.0
 
-            if key <= lowKeyBoundary  {
+            if key <= lowKeyBoundary {
                 valueToAdd = 0.5
                 valueToAddToFifth = computeExpectedValueForFith(of: key)
             }

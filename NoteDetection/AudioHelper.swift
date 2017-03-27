@@ -12,7 +12,7 @@ let midiNumberForA = MIDINumber(69)
 /*
  * MARK: conversion between linear values and decibel (for amplitudes, therefore 20 or 0.05 as factors)
  */
-public func linearToDecibel(_ linearValue: Float, referenceValue: Float = 1) -> Float{
+public func linearToDecibel(_ linearValue: Float, referenceValue: Float = 1) -> Float {
     return 20 * log10(linearValue / referenceValue)
 }
 
