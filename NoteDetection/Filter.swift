@@ -32,13 +32,13 @@ struct Filter {
         //    let b1 = Double(0)      / a0 -- not used
         //    let b2 = -alpha         / a0 --
 
-        if (abs(a1) < (1 + a2)) {
+        if abs(a1) < (1 + a2) {
         } else {
             print("|a1| < 1 + a2")
             print("Warning: a1 is unstable\n")
         }
 
-        if (abs(a2) < 1) {
+        if abs(a2) < 1 {
         } else {
             print("|a2| < 1")
             print("Warning: a2 is unstable\n")

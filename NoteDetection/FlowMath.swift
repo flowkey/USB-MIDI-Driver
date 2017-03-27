@@ -71,11 +71,13 @@ func min(_ x: [Double]) -> Double {
 }
 
 func sum(_ x: [Float]) -> Float {
-    return cblas_sasum(Int32(x.count), x, 1)
+//    return cblas_sasum(Int32(x.count), x, 1) // NOT the same as v​DSP_sve, since it calculates the sum of absolute values in x
+    return x.reduce(0, { $0 + $1 })
 }
 
 func sum(_ x: [Double]) -> Double {
-    return cblas_dasum(Int32(x.count), x, 1)
+//    return cblas_dasum(Int32(x.count), x, 1) // NOT the same as v​DSP_sve, since it calculates the sum of absolute values in x
+    return x.reduce(0, { $0 + $1 })
 }
 
 func sqrt(_ x: [Float]) -> [Float] {
@@ -136,7 +138,7 @@ func median(_ input: [Float], use_vDSP_vsort: Bool = false) -> Float {
     let half = array.count / 2
 
     // if array.count is even, take the mean of both of center elements
-    if (array.count % 2 == 0) {
+    if array.count % 2 == 0 {
         return (array[half - 1] + array[half]) / 2.0
     } else {
         // use the middle (center) element
