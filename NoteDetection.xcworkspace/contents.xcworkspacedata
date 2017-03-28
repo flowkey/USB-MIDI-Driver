@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:../native-commons/FlowCommons.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Testumgebung/Testumgebung.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:NoteDetection.xcodeproj">
+   </FileRef>
+</Workspace>

@@ -50,6 +50,7 @@
 		03A7F73F1E850D5300849AE2 /* NoteDetectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A7F73E1E850D5300849AE2 /* NoteDetectionTests.swift */; };
 		03A7F7411E850D5300849AE2 /* NoteDetection.h in Headers */ = {isa = PBXBuildFile; fileRef = 03A7F7331E850D5300849AE2 /* NoteDetection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03A7F74D1E850E0600849AE2 /* AudioEngineProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A7F74C1E850E0600849AE2 /* AudioEngineProtocol.swift */; };
+		03B2A53E1E8AB9F70051FF2A /* FlowCommons.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03B2A53D1E8AB9F70051FF2A /* FlowCommons.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,6 +111,7 @@
 		03A7F73E1E850D5300849AE2 /* NoteDetectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetectionTests.swift; sourceTree = "<group>"; };
 		03A7F7401E850D5300849AE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		03A7F74C1E850E0600849AE2 /* AudioEngineProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioEngineProtocol.swift; sourceTree = "<group>"; };
+		03B2A53D1E8AB9F70051FF2A /* FlowCommons.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FlowCommons.framework; path = "../../../Library/Developer/Xcode/DerivedData/NoteDetection-dsvijhmzhgbyhdduaqrmlgwiudbw/Build/Products/Debug-iphoneos/FlowCommons.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03B2A53E1E8AB9F70051FF2A /* FlowCommons.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,6 +255,7 @@
 				03A7F73D1E850D5300849AE2 /* NoteDetectionTests */,
 				03A7F7311E850D5300849AE2 /* Products */,
 				037122131E8532A0009CC189 /* .swiftlint.yml */,
+				03B2A53C1E8AB9F70051FF2A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -304,6 +308,14 @@
 				037121CB1E85241B009CC189 /* iOS */,
 			);
 			path = AudioEngine;
+			sourceTree = "<group>";
+		};
+		03B2A53C1E8AB9F70051FF2A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				03B2A53D1E8AB9F70051FF2A /* FlowCommons.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

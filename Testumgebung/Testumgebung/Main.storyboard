@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="IXv-gy-QWg">
+    <device id="retina3_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Main View Controller-->
+        <scene sceneID="m5U-Yn-dm8">
+            <objects>
+                <tabBarController id="IXv-gy-QWg" customClass="MainViewController" customModule="Testumgebung" customModuleProvider="target" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="mH3-xd-ECI">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="N81-NQ-Rhq" kind="relationship" relationship="viewControllers" id="LIA-9u-JCM"/>
+                        <segue destination="qce-vY-fWX" kind="relationship" relationship="viewControllers" id="WZh-U4-anw"/>
+                        <segue destination="rG1-Qs-Mmu" kind="relationship" relationship="viewControllers" id="GL6-DM-PVx"/>
+                        <segue destination="Lrl-pY-j0Z" kind="relationship" relationship="viewControllers" id="N0M-lC-FJu"/>
+                        <segue destination="gwv-LY-8tw" kind="relationship" relationship="viewControllers" id="1Fu-iA-Jgn"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j38-RX-VHr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-332" y="8"/>
+        </scene>
+        <!--Chroma Vector-->
+        <scene sceneID="mOg-Ny-TRY">
+            <objects>
+                <viewController title="Chroma Vector" id="N81-NQ-Rhq" customClass="GraphViewController" customModule="Testumgebung" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="pEg-cl-Epv"/>
+                        <viewControllerLayoutGuide type="bottom" id="kpv-hi-K5q"/>
+                    </layoutGuides>
+                    <view key="view" tag="1" contentMode="scaleToFill" id="nJy-8l-FyE" customClass="GraphView" customModule="Testumgebung" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="431"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="GF9-mC-hHH" customClass="GraphBackground" customModule="Testumgebung" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="431"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="48M-mJ-fgw">
+                                        <rect key="frame" x="60" y="24" width="32" height="30"/>
+                                        <state key="normal" title="Stop"/>
+                                        <connections>
+                                            <action selector="Stop:" destination="N81-NQ-Rhq" eventType="touchUpInside" id="5PN-ea-WnR"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UXY-AI-KQs">
+                                        <rect key="frame" x="18" y="24" width="34" height="30"/>
+                                        <state key="normal" title="Start"/>
+                                        <connections>
+                                            <action selector="Start:" destination="N81-NQ-Rhq" eventType="touchUpInside" id="Qti-yE-f34"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="UXY-AI-KQs" firstAttribute="baseline" secondItem="48M-mJ-fgw" secondAttribute="baseline" id="7er-VK-G1e"/>
+                                    <constraint firstItem="UXY-AI-KQs" firstAttribute="top" secondItem="GF9-mC-hHH" secondAttribute="topMargin" constant="16" id="R7a-gh-bws"/>
+                                    <constraint firstItem="48M-mJ-fgw" firstAttribute="leading" secondItem="UXY-AI-KQs" secondAttribute="trailing" constant="8" symbolic="YES" id="iAc-jk-rZl"/>
+                                    <constraint firstItem="UXY-AI-KQs" firstAttribute="leading" secondItem="GF9-mC-hHH" secondAttribute="leadingMargin" constant="10" id="zxG-4J-fNe"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="GF9-mC-hHH" firstAttribute="top" secondItem="nJy-8l-FyE" secondAttribute="top" id="7se-ER-CIS"/>
+                            <constraint firstItem="GF9-mC-hHH" firstAttribute="bottom" secondItem="kpv-hi-K5q" secondAttribute="top" id="890-wR-K1d"/>
+                            <constraint firstAttribute="trailing" secondItem="GF9-mC-hHH" secondAttribute="trailing" id="cMU-om-du9"/>
+                            <constraint firstItem="GF9-mC-hHH" firstAttribute="leading" secondItem="nJy-8l-FyE" secondAttribute="leading" id="lba-7v-b2M"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="pointColour">
+                                <color key="value" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="lineColour">
+                                <color key="value" red="0.01176470588" green="0.69803921570000005" blue="0.60784313729999995" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <tabBarItem key="tabBarItem" title="Chroma Vector" id="KBX-60-fJR"/>
+                    <connections>
+                        <outlet property="graphView" destination="nJy-8l-FyE" id="i9g-uI-Kk4"/>
+                        <outlet property="view" destination="nJy-8l-FyE" id="aZE-er-aJl"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fjk-3m-feO" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="651" y="150"/>
+        </scene>
+        <!--Filter Bank-->
+        <scene sceneID="EUl-DH-LKa">
+            <objects>
+                <viewController title="Filter Bank" id="qce-vY-fWX" customClass="GraphViewController" customModule="Testumgebung" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="CEu-vg-foa"/>
+                        <viewControllerLayoutGuide type="bottom" id="6Wc-Rl-DIK"/>
+                    </layoutGuides>
+                    <view key="view" tag="1" contentMode="scaleToFill" id="UpL-eK-2L9" customClass="GraphView" customModule="Testumgebung" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="431"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="kak-hT-XH2" customClass="GraphBackground" customModule="Testumgebung" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="431"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="kak-hT-XH2" firstAttribute="bottom" secondItem="6Wc-Rl-DIK" secondAttribute="top" id="Idm-Pr-Gwe"/>
+                            <constraint firstItem="kak-hT-XH2" firstAttribute="top" secondItem="UpL-eK-2L9" secondAttribute="top" id="MkI-rr-bWs"/>
+                            <constraint firstItem="kak-hT-XH2" firstAttribute="leading" secondItem="UpL-eK-2L9" secondAttribute="leading" id="Tbw-ni-Asx"/>
+                            <constraint firstAttribute="trailing" secondItem="kak-hT-XH2" secondAttribute="trailing" id="kd7-jE-RZm"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="pointColour">
+                                <color key="value" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="lineColour">
+                                <color key="value" red="0.01176470588" green="0.69803921570000005" blue="0.60784313729999995" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="similarityColor">
+                                <color key="value" red="1" green="1" blue="0.0" alpha="0.25" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <tabBarItem key="tabBarItem" title="Filter Bank" id="TsS-WF-94U"/>
+                    <connections>
+                        <outlet property="graphView" destination="UpL-eK-2L9" id="Tup-TN-OpV"/>
+                        <outlet property="view" destination="UpL-eK-2L9" id="BU3-ct-rXb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1JV-MM-gVo" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="651" y="885"/>
+        </scene>
+        <!--Waveform-->
+        <scene sceneID="d2k-xZ-Xzs">
+            <objects>
+                <viewController title="Waveform" id="Lrl-pY-j0Z" customClass="GraphViewController" customModule="Testumgebung" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="nuK-zo-gOj"/>
+                        <viewControllerLayoutGuide type="bottom" id="PaA-Ph-3gX"/>
+                    </layoutGuides>
+                    <view key="view" tag="1" contentMode="scaleToFill" id="iwo-gK-9gr" customClass="WaveformView" customModule="Testumgebung" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="431"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="pointColour">
+                                <color key="value" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="lineColour">
+                                <color key="value" red="0.01176470588" green="0.69803921570000005" blue="0.60784313729999995" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <tabBarItem key="tabBarItem" title="Waveform" id="ynw-bP-Mhr"/>
+                    <connections>
+                        <outlet property="graphView" destination="iwo-gK-9gr" id="TqT-Yl-msy"/>
+                        <outlet property="view" destination="iwo-gK-9gr" id="KCH-Ah-FrS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sao-w4-86f" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-290" y="885"/>
+        </scene>
+        <!--Onset-->
+        <scene sceneID="b2z-Gm-dpe">
+            <objects>
+                <viewController title="Onset" id="rG1-Qs-Mmu" userLabel="Onset" customClass="GraphViewController" customModule="Testumgebung" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="OLm-rF-3B8"/>
+                        <viewControllerLayoutGuide type="bottom" id="JFC-KP-rjh"/>
+                    </layoutGuides>
+                    <view key="view" tag="1" contentMode="scaleToFill" id="cZ5-Dx-xxY" customClass="OnsetView" customModule="Testumgebung" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="431"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="pointColour">
+                                <color key="value" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="lineColour">
+                                <color key="value" red="0.01176470588" green="0.69803921570000005" blue="0.60784313729999995" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <tabBarItem key="tabBarItem" title="Onset" id="fY6-7B-1ft" userLabel="Onset"/>
+                    <connections>
+                        <outlet property="graphView" destination="cZ5-Dx-xxY" id="LI3-dI-xFa"/>
+                        <outlet property="view" destination="cZ5-Dx-xxY" id="AeT-wn-Gc5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MSj-V9-pd2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1030" y="901"/>
+        </scene>
+        <!--MIDIView-->
+        <scene sceneID="l5k-lu-jW8">
+            <objects>
+                <viewController id="gwv-LY-8tw" userLabel="MIDIView" customClass="MidiViewController" customModule="Testumgebung" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="WAi-VM-Oad"/>
+                        <viewControllerLayoutGuide type="bottom" id="iCm-HL-RvF"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="SlW-qK-Nyi" customClass="MidiView" customModule="Testumgebung" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="MIDI" id="bZ9-yz-Vuo" userLabel="MIDI2"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OsE-mf-Fi9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1503" y="40"/>
+        </scene>
+    </scenes>
+</document>

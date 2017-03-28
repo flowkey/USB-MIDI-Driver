@@ -2,6 +2,7 @@
 # exclude submodules for now, we can include them later step by step
 excluded:
   - FlowCommons
+  - Testumgebung
 
 # only show warning instead of error
 line_length:
