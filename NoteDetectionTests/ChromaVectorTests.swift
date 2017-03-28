@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import FlowCommons
 @testable import NoteDetection
 
 class ChromaTests: XCTestCase {

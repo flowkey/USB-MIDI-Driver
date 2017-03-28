@@ -10,6 +10,7 @@
 
 import Accelerate
 import NoteDetection
+import FlowCommons
 
 class AppleFilter {
     init(sampleRate: Double, centreFrequency: Double, Q: Double) {

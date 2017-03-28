@@ -1,0 +1,41 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "72E21EC3530DC2B99DEFE5BA3A8EA80B5EC7E6B9",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "9F65A476A58933AE6B22EAE730A194955F98FC66" : 0,
+    "F1BC4876811AFC3F9EBAC1327B95940A459E2E4A" : 0,
+    "72E21EC3530DC2B99DEFE5BA3A8EA80B5EC7E6B9" : 0,
+    "D224A7F90AB08AA7D13C57AEC2E888D2D41ED414" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "9C8E331C-CB80-4B56-A813-644E0C5E64F9",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "72E21EC3530DC2B99DEFE5BA3A8EA80B5EC7E6B9" : "NativePitchDetection\/",
+    "D224A7F90AB08AA7D13C57AEC2E888D2D41ED414" : ".."
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Testumgebung",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Testumgebung\/Testumgebung.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/flowkey\/nativeAudio.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "72E21EC3530DC2B99DEFE5BA3A8EA80B5EC7E6B9"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/mattt\/Surge.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9F65A476A58933AE6B22EAE730A194955F98FC66"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:flowkey\/flowkey-app-2.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D224A7F90AB08AA7D13C57AEC2E888D2D41ED414"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F1BC4876811AFC3F9EBAC1327B95940A459E2E4A"
+    }
+  ]
+}

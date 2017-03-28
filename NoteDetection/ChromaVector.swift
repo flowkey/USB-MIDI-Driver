@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Geordie Jay. All rights reserved.
 //
 
+import FlowCommons
+
 // maximum key, until which additional tolerance for low keys as well as an expected chroma value
 // for the fifth of a key is calculated. determined through obervation of filterbank during testing
 fileprivate let lowKeyBoundary = 48

@@ -6,6 +6,8 @@
 //  Copyright © 2016 flowkey GmbH. All rights reserved.
 //
 
+import FlowCommons
+
 public final class AudioFollower: Follower {
     public init() {}
 

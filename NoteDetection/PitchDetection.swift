@@ -6,6 +6,8 @@
 //  Copyright © 2017 flowkey. All rights reserved.
 //
 
+import FlowCommons
+
 public typealias OnPitchDetectedCallback = (_ timestamp: Double, PitchDetectionData) -> Void
 
 public class PitchDetection {

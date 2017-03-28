@@ -7,7 +7,7 @@
 //
 
 import XCTest
-
+import FlowCommons
 @testable import NoteDetection
 
 final class DummyFollower: Follower {

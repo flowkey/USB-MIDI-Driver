@@ -6,6 +6,8 @@
 //  Copyright © 2017 flowkey. All rights reserved.
 //
 
+import FlowCommons
+
 public protocol NoteDetectionProtocol {
     var inputType: InputType { get }
 //    var onInputLevelChanged: ((Float) -> Void)? { get set }

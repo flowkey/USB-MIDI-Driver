@@ -6,6 +6,8 @@
 //  Copyright © 2016 flowkey. All rights reserved.
 //
 
+import FlowCommons
+
 public typealias JSONDict = [String:AnyObject]
 
 // maximum key, until which additional tolerance for low keys as well as an expected chroma value
@@ -23,14 +25,14 @@ public struct PitchDetectionData {
     public let notes: Set<MIDINumber>
 }
 
-extension PitchDetectionData: CustomDebugStringConvertible {
-    // Make our notes printable in the debugger:
-    public var debugDescription: String {
-        return "\nNotes: \(notes.map { $0.description }) == MIDINumbers: \(notes) -- " +
-                "Expected chroma: \(expectedChroma.description) -- " +
-                "Tolerance: \(tolerance)"
-    }
-}
+//extension PitchDetectionData: CustomDebugStringConvertible {
+//    // Make our notes printable in the debugger:
+//    public var debugDescription: String {
+//        return "\nNotes: \(notes.map { $0.description }) == MIDINumbers: \(notes) -- " +
+//                "Expected chroma: \(expectedChroma.description) -- " +
+//                "Tolerance: \(tolerance)"
+//    }
+//}
 
 public extension PitchDetectionData {
     init(from: NoteEvent) {

@@ -8,7 +8,7 @@
 
 // swiftlint:disable file_length
 
-import NoteDetection
+import FlowCommons
 
 let anotherDayInParadiseNoteEvents = [
     NoteEvent(x: 147, t: 1200, notesL: [57, 60, 64], notesR: [72]),

@@ -5,7 +5,7 @@
 //  Created by flowing erik on 26.09.16.
 //  Copyright © 2016 flowkey GmbH. All rights reserved.
 //
-
+import FlowCommons
 
 public final class MIDIFollower: Follower {
     public init() {}

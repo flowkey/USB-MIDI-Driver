@@ -1,14 +1,7 @@
 # paths to ignore during linting. Takes precedence over `included`.
 # exclude submodules for now, we can include them later step by step
 excluded:
-  - PromiseKit
-  - apollo-ios
-  - Down
   - FlowCommons
-  - NativeFollower
-  - NativePitchDetection
-  - FlowkeyPlayer/API.swift
-  - PlayerLogic/PlayerLogicTests/
 
 # only show warning instead of error
 line_length:

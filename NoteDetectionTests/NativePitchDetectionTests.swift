@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import FlowCommons
 import Accelerate
 
 @testable import NoteDetection

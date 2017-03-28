@@ -6,7 +6,7 @@
 //  Copyright © 2016 flowkey GmbH. All rights reserved.
 //
 
-import Foundation
+import FlowCommons
 
 public protocol Follower: class {
     typealias EventListener = () -> Void

@@ -1,3 +1,5 @@
+import FlowCommons
+
 public typealias OnAudioProcessedCallback = (ProcessedAudio) -> Void
 public typealias OnVolumeUpdatedCallback = (Float) -> Void
 

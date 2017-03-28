@@ -9,6 +9,7 @@
 import Foundation
 import Accelerate
 import XCTest
+import FlowCommons
 @testable import NoteDetection
 
 class AudioHelperTests: XCTestCase {
