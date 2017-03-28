@@ -18,8 +18,6 @@ class AudioFollowerTests: XCTestCase {
 
     var audioFollower: AudioFollower = AudioFollower()
 
-    let noteEvents = anotherDayInParadiseNoteEvents
-
     override func setUp() {
         super.setUp()
         audioFollower = AudioFollower()
@@ -39,7 +37,7 @@ class AudioFollowerTests: XCTestCase {
         }
 
         afterTimeout(ms: 0, callback: { self.audioFollower.onOnsetDetected(timestamp: getTimeInMillisecondsSince1970()) })
-        afterTimeout(ms: 100, callback: { self.audioFollower.onNotesDetected(timestamp: getTimeInMillisecondsSince1970()) })
+        afterTimeout(ms: 100, callback: { self.audioFollower.onPitchDetected(timestamp: getTimeInMillisecondsSince1970()) })
 
 
         self.waitForExpectations(timeout: 0.5) { error in
@@ -59,7 +57,7 @@ class AudioFollowerTests: XCTestCase {
 
 
         afterTimeout(ms: 0, callback: { self.audioFollower.onOnsetDetected(timestamp: getTimeInMillisecondsSince1970()) })
-        afterTimeout(ms: 300, callback: { self.audioFollower.onNotesDetected(timestamp: getTimeInMillisecondsSince1970()) })
+        afterTimeout(ms: 300, callback: { self.audioFollower.onPitchDetected(timestamp: getTimeInMillisecondsSince1970()) })
 
         afterTimeout(ms: 500, callback: { expectation.fulfill() })
 

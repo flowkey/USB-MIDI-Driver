@@ -194,10 +194,9 @@
 			name = OnsetDetection;
 			sourceTree = "<group>";
 		};
-		037E22D51E891CBD00BBA993 /* Stuff */ = {
+		037E22D51E891CBD00BBA993 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
-				037E22DB1E89208900BBA993 /* NoteEvent.swift */,
 				037E22D11E8919B800BBA993 /* AudioHelper.swift */,
 				037E22D31E8919F300BBA993 /* ChromaVector.swift */,
 				037E22C21E8915A500BBA993 /* CrossPlatformHelper.swift */,
@@ -206,7 +205,7 @@
 				037E22BE1E89151B00BBA993 /* PlatformAndroid.swift */,
 				037E22BF1E89151B00BBA993 /* PlatformApple.swift */,
 			);
-			name = Stuff;
+			name = Lib;
 			sourceTree = "<group>";
 		};
 		037E22D61E891F0900BBA993 /* PitchDetection */ = {
@@ -282,11 +281,12 @@
 				03A7F7331E850D5300849AE2 /* NoteDetection.h */,
 				03A7F7341E850D5300849AE2 /* Info.plist */,
 				037122051E852BA6009CC189 /* NoteDetection.swift */,
+				037E22DB1E89208900BBA993 /* NoteEvent.swift */,
 				03A7F74A1E850DD500849AE2 /* AudioEngine */,
 				037E22B71E8913F500BBA993 /* AudioNoteDetection */,
 				03881DC91E8946BD00D61E9B /* Follower */,
 				037122091E852D75009CC189 /* MIDIManager */,
-				037E22D51E891CBD00BBA993 /* Stuff */,
+				037E22D51E891CBD00BBA993 /* Lib */,
 			);
 			path = NoteDetection;
 			sourceTree = "<group>";

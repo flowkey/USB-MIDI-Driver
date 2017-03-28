@@ -19,9 +19,7 @@ final public class AudioNoteDetection: NoteDetectionProtocol {
     public var onVolumeUpdated: OnVolumeUpdatedCallback?
 
     public var onEventDetected: (() -> Void)? {
-        didSet {
-            follower.onFollow = onEventDetected
-        }
+        didSet { follower.onFollow = onEventDetected }
     }
 
     init () {
