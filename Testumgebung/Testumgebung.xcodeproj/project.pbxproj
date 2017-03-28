@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		038348731DA6644600792C51 /* Fixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038348721DA6644600792C51 /* Fixtures.swift */; };
+		03B2A5401E8AC1320051FF2A /* NoteDetection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03B2A53F1E8AC1320051FF2A /* NoteDetection.framework */; };
+		03B2A5411E8AC1320051FF2A /* NoteDetection.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 03B2A53F1E8AC1320051FF2A /* NoteDetection.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		03B2A5441E8AC1F20051FF2A /* FlowCommons.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03B2A5431E8AC1F20051FF2A /* FlowCommons.framework */; };
+		03B2A5451E8AC1F20051FF2A /* FlowCommons.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 03B2A5431E8AC1F20051FF2A /* FlowCommons.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		03B86D041B53CD45003DC61C /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B86D031B53CD45003DC61C /* WaveformView.swift */; };
 		03B86D061B53CD4F003DC61C /* OnsetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B86D051B53CD4F003DC61C /* OnsetView.swift */; };
 		03FB3F031B7CD866003E85B5 /* MidiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FB3F021B7CD866003E85B5 /* MidiView.swift */; };
@@ -25,7 +28,6 @@
 		5CFA60221B386D6C00A50DA6 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFA601C1B386D6C00A50DA6 /* GraphViewController.swift */; };
 		5CFA60231B386D6C00A50DA6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5CFA601D1B386D6C00A50DA6 /* Main.storyboard */; };
 		5CFA60241B386D6C00A50DA6 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFA601E1B386D6C00A50DA6 /* MainViewController.swift */; };
-		5CFA60251B386D6C00A50DA6 /* NoteEventThrower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFA601F1B386D6C00A50DA6 /* NoteEventThrower.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +47,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				03B2A5411E8AC1320051FF2A /* NoteDetection.framework in Embed Frameworks */,
+				03B2A5451E8AC1F20051FF2A /* FlowCommons.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -52,7 +56,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		038348721DA6644600792C51 /* Fixtures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fixtures.swift; sourceTree = "<group>"; };
+		03B2A53F1E8AC1320051FF2A /* NoteDetection.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NoteDetection.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		03B2A5431E8AC1F20051FF2A /* FlowCommons.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FlowCommons.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		03B86D031B53CD45003DC61C /* WaveformView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveformView.swift; sourceTree = "<group>"; };
 		03B86D051B53CD4F003DC61C /* OnsetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnsetView.swift; sourceTree = "<group>"; };
 		03FB3F021B7CD866003E85B5 /* MidiView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MidiView.swift; sourceTree = "<group>"; };
@@ -74,7 +79,6 @@
 		5CFA601C1B386D6C00A50DA6 /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
 		5CFA601D1B386D6C00A50DA6 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		5CFA601E1B386D6C00A50DA6 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		5CFA601F1B386D6C00A50DA6 /* NoteEventThrower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteEventThrower.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +86,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03B2A5401E8AC1320051FF2A /* NoteDetection.framework in Frameworks */,
+				03B2A5441E8AC1F20051FF2A /* FlowCommons.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +104,8 @@
 		5C43689A1B38690000C748C3 = {
 			isa = PBXGroup;
 			children = (
+				03B2A5431E8AC1F20051FF2A /* FlowCommons.framework */,
+				03B2A53F1E8AC1320051FF2A /* NoteDetection.framework */,
 				5C4368A51B38690000C748C3 /* Testumgebung */,
 				5C4368A41B38690000C748C3 /* Products */,
 			);
@@ -115,7 +123,6 @@
 		5C4368A51B38690000C748C3 /* Testumgebung */ = {
 			isa = PBXGroup;
 			children = (
-				038348721DA6644600792C51 /* Fixtures.swift */,
 				5C4368A81B38690000C748C3 /* AppDelegate.swift */,
 				5C4368AF1B38690000C748C3 /* Images.xcassets */,
 				5CFA601A1B386D6C00A50DA6 /* GraphBackground.swift */,
@@ -125,7 +132,6 @@
 				5CFA601C1B386D6C00A50DA6 /* GraphViewController.swift */,
 				5CFA601D1B386D6C00A50DA6 /* Main.storyboard */,
 				5CFA601E1B386D6C00A50DA6 /* MainViewController.swift */,
-				5CFA601F1B386D6C00A50DA6 /* NoteEventThrower.swift */,
 				5C4368A61B38690000C748C3 /* Supporting Files */,
 				03FB3F021B7CD866003E85B5 /* MidiView.swift */,
 				03FB3F041B7CDA02003E85B5 /* MidiViewController.swift */,
@@ -266,9 +272,7 @@
 				03FB3F051B7CDA02003E85B5 /* MidiViewController.swift in Sources */,
 				5CFA60241B386D6C00A50DA6 /* MainViewController.swift in Sources */,
 				03FB3F031B7CD866003E85B5 /* MidiView.swift in Sources */,
-				038348731DA6644600792C51 /* Fixtures.swift in Sources */,
 				5CFA60211B386D6C00A50DA6 /* GraphView.swift in Sources */,
-				5CFA60251B386D6C00A50DA6 /* NoteEventThrower.swift in Sources */,
 				03B86D041B53CD45003DC61C /* WaveformView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

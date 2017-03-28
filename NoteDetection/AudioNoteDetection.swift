@@ -24,7 +24,7 @@ final public class AudioNoteDetection: NoteDetectionProtocol {
         didSet { follower.onFollow = onEventDetected }
     }
 
-    init () {
+    public init () {
         // Chroma extractors for our different ranges:
         lowRange = MIDINumber(note: .g, octave: 1) ... MIDINumber(note: .d, octave: 5)
         highRange = lowRange.last! ... MIDINumber(note: .d, octave: 7)

@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-import PitchDetection
+
 
 protocol MidiViewDataSource {
     var command: Int {get}

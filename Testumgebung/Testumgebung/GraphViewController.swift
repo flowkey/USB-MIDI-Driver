@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-import PitchDetection
+import NoteDetection
 
 class GraphViewController: UIViewController, GraphViewDataSource {
     
@@ -34,19 +34,11 @@ class GraphViewController: UIViewController, GraphViewDataSource {
     }
 
     @IBAction func Start(_ sender: UIButton) {
-        do {
-            try AudioEngineIOS.sharedInstance?.start()
-        } catch let error as NSError {
-            print(error.description)
-        }
+        audioNoteDetection.start()
     }
 
     @IBAction func Stop(_ sender: UIButton) {
-        do {
-            try AudioEngineIOS.sharedInstance?.stop()
-        } catch let error as NSError {
-            print(error.description)
-        }
+        audioNoteDetection.stop()
     }
 
     override func viewWillDisappear(_ animated: Bool) {

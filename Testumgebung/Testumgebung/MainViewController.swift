@@ -7,14 +7,12 @@
 //
 
 import UIKit
-import PitchDetection
+import NoteDetection
 import FlowCommons
 
+public let audioNoteDetection = AudioNoteDetection()
 
-@objc class MainViewController: UITabBarController, UITabBarControllerDelegate, AudioProcessorDisplayDelegate {
-    
-
-    let audioEngine = AudioEngineIOS.sharedInstance
+@objc class MainViewController: UITabBarController, UITabBarControllerDelegate {
     
     let midiManager = MIDIManager.sharedInstance
     var graphViewController: GraphViewController?
@@ -41,30 +39,22 @@ import FlowCommons
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         graphViewController = viewController as? GraphViewController
     }
-    
-    func followEventListener(_ nextNoteEvent: NoteEvent?) -> Void {
-        guard let noteEvent = nextNoteEvent else { return }
-        audioEngine?.setExpectedEvent(noteEvent)
-    }
 
-    // MARK: View controller lifecycle stuff:
-    
     override func viewWillAppear(_ animated: Bool) {
-        
         self.delegate = self // TabBarControllerDelegate
         graphViewController = self.viewControllers?[0] as? GraphViewController
         
-        try? audioEngine?.start()
+        audioNoteDetection.start()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        // bad practice not to handle errors, but this is an internal test app
-        audioEngine?.setDisplayDelegate(self)
+        audioNoteDetection.onAudioProcessed = { processedAudio in
+            self.lastProcessedBlock = processedAudio
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        audioEngine?.setDisplayDelegate(nil)
-        try? audioEngine?.stop()
+        audioNoteDetection.stop()
         self.delegate = nil
         NotificationCenter.default.removeObserver(self)
     }

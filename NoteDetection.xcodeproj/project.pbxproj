@@ -50,7 +50,7 @@
 		03A7F73F1E850D5300849AE2 /* NoteDetectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A7F73E1E850D5300849AE2 /* NoteDetectionTests.swift */; };
 		03A7F7411E850D5300849AE2 /* NoteDetection.h in Headers */ = {isa = PBXBuildFile; fileRef = 03A7F7331E850D5300849AE2 /* NoteDetection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03A7F74D1E850E0600849AE2 /* AudioEngineProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A7F74C1E850E0600849AE2 /* AudioEngineProtocol.swift */; };
-		03B2A53E1E8AB9F70051FF2A /* FlowCommons.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03B2A53D1E8AB9F70051FF2A /* FlowCommons.framework */; };
+		03B2A5421E8AC1D40051FF2A /* FlowCommons.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03B2A53D1E8AB9F70051FF2A /* FlowCommons.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,7 +119,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				03B2A53E1E8AB9F70051FF2A /* FlowCommons.framework in Frameworks */,
+				03B2A5421E8AC1D40051FF2A /* FlowCommons.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
