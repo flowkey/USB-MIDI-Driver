@@ -6,7 +6,7 @@
 //  Copyright © 2017 flowkey. All rights reserved.
 //
 
-public typealias OnNotesDetectedCallback = (_ timestamp: Double, NoteDetectionData) -> Void
+public typealias OnPitchDetectedCallback = (_ timestamp: Double, PitchDetectionData) -> Void
 
 public class PitchDetection {
 
@@ -16,7 +16,7 @@ public class PitchDetection {
     }
 
     // Let someone know when we play the event correctly
-    public var onNotesDetected: OnNotesDetectedCallback?
+    public var onPitchDetected: OnPitchDetectedCallback?
 
     fileprivate let lowNoteBoundary: MIDINumber
     fileprivate var statusBuffer: [Bool]       // Store the previous runs' status booleans
@@ -31,7 +31,7 @@ public class PitchDetection {
         // If we have an event, compare its ChromaVector to the one we just received here
         // Call "onNotesDetected" for the expected event if our statusBuffers are true
 
-        if let noteDetectionData = self.expectedNoteEvent {
+        if let noteDetectionData = self.expectedPitch {
 
             // remove oldest status
             statusBuffer.remove(at: 0)
@@ -44,7 +44,7 @@ public class PitchDetection {
             statusBuffer.append(currentBufferStatus)
 
             if statusBufferIsAllTrue {
-                performOnMainThread { self.onNotesDetected?(getTimeInMillisecondsSince1970(), noteDetectionData) }
+                performOnMainThread { self.onPitchDetected?(getTimeInMillisecondsSince1970(), noteDetectionData) }
 
                 // Reset the status buffer to reduce the likelihood of repeated notes being detected immediately:
                 statusBuffer = [Bool](repeating: false, count: statusBuffer.count)
@@ -74,21 +74,21 @@ public class PitchDetection {
         }
     }
 
-    public var expectedNoteEvent: NoteDetectionData? {
-        didSet {if let event = expectedNoteEvent {
-            currentDetectionMode = detectionModeForEvent(event)
+    public var expectedPitch: PitchDetectionData? {
+        didSet {if let pitchDetectionData = expectedPitch {
+            currentDetectionMode = getDetectionMode(from: pitchDetectionData)
         }}
     }
 
-    fileprivate func detectionModeForEvent(_ event: NoteDetectionData) -> DetectionMode {
+    fileprivate func getDetectionMode(from data: PitchDetectionData) -> DetectionMode {
         // Check how many low notes are expected in the event
-        let lowNotesExpected: Int = event.notes.reduce(0) { (total, note) in
+        let lowNotesExpected: Int = data.notes.reduce(0) { (total, note) in
             return note < self.lowNoteBoundary ? (total + 1) : total
         }
 
         switch lowNotesExpected {
         case 0: return .highPitches                   // no low notes expected
-        case event.notes.count: return .lowPitches    // no high notes exptected
+        case data.notes.count: return .lowPitches    // no high notes exptected
         default: return .highAndLow                   // check it all
         }
     }

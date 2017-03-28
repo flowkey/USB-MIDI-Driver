@@ -12,7 +12,7 @@ public typealias JSONDict = [String:AnyObject]
 // for the fifth of a key is calculated. determined through obervation of filterbank during testing
 fileprivate let lowKeyBoundary = 48
 
-public struct NoteDetectionData {
+public struct PitchDetectionData {
     /// Contains 12 values between 0 and 1, but typically 0 or 1
     public let expectedChroma: ChromaVector
 
@@ -23,7 +23,7 @@ public struct NoteDetectionData {
     public let notes: Set<MIDINumber>
 }
 
-extension NoteDetectionData: CustomDebugStringConvertible {
+extension PitchDetectionData: CustomDebugStringConvertible {
     // Make our notes printable in the debugger:
     public var debugDescription: String {
         return "\nNotes: \(notes.map { $0.description }) == MIDINumbers: \(notes) -- " +
@@ -32,10 +32,10 @@ extension NoteDetectionData: CustomDebugStringConvertible {
     }
 }
 
-public extension NoteDetectionData {
+public extension PitchDetectionData {
     init(from: NoteEvent) {
         self.notes = from.notes
-        self.tolerance = NoteDetectionData.calculateTolerance(for: notes)
+        self.tolerance = PitchDetectionData.calculateTolerance(for: notes)
         self.expectedChroma = ChromaVector.composeExpected(from: notes)
     }
 

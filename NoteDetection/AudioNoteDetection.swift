@@ -41,7 +41,7 @@ final public class AudioNoteDetection: NoteDetectionProtocol {
 
         // Setup follower
         onsetDetection.onOnsetDetected = follower.onOnsetDetected
-        pitchDetection.onNotesDetected = follower.onNotesDetected
+        pitchDetection.onPitchDetected = follower.onPitchDetected
         follower.onFollow = onEventDetected
     }
 
@@ -82,7 +82,7 @@ final public class AudioNoteDetection: NoteDetectionProtocol {
             return // print("Too quiet, not detecting")
         }
 
-        // Do Note / Onset Detection
+        // Do Pitch / Onset Detection
         filterbank.calculateMagnitudes(buffer)
 
         let onsetData = onsetDetection.run(buffer, filterbankMagnitudes: filterbank.magnitudes)
@@ -101,8 +101,8 @@ final public class AudioNoteDetection: NoteDetectionProtocol {
         }
     }
 
-    public func setExpectedEvent(_ event: NoteDetectionData) {
-        pitchDetection.expectedNoteEvent = event
+    public func setExpectedEvent(noteEvent: NoteEvent) {
+        pitchDetection.expectedPitch = PitchDetectionData(from: noteEvent)
     }
 
     func chroma(_ detectionMode: PitchDetection.DetectionMode) -> ChromaVector {

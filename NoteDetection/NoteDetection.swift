@@ -13,7 +13,7 @@ public protocol NoteDetectionProtocol {
     func start()
     func stop()
 
-    func setExpectedEvent(_: NoteDetectionData)
+    func setExpectedEvent(noteEvent: NoteEvent)
     var onEventDetected: (() -> Void)? { get set }
 }
 

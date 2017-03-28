@@ -29,7 +29,7 @@
 		037E22D21E8919B800BBA993 /* AudioHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22D11E8919B800BBA993 /* AudioHelper.swift */; };
 		037E22D41E8919F300BBA993 /* ChromaVector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22D31E8919F300BBA993 /* ChromaVector.swift */; };
 		037E22D81E891F2000BBA993 /* PitchDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22D71E891F2000BBA993 /* PitchDetection.swift */; };
-		037E22DA1E891FAF00BBA993 /* NoteDetectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22D91E891FAF00BBA993 /* NoteDetectionData.swift */; };
+		037E22DA1E891FAF00BBA993 /* PitchDetectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22D91E891FAF00BBA993 /* PitchDetectionData.swift */; };
 		037E22DC1E89208900BBA993 /* NoteEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22DB1E89208900BBA993 /* NoteEvent.swift */; };
 		03881DB21E89266C00D61E9B /* AudioNoteDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03881DB11E89266C00D61E9B /* AudioNoteDetection.swift */; };
 		03881DB41E8926AC00D61E9B /* ProcessedAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03881DB31E8926AC00D61E9B /* ProcessedAudio.swift */; };
@@ -90,7 +90,7 @@
 		037E22D11E8919B800BBA993 /* AudioHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioHelper.swift; sourceTree = "<group>"; };
 		037E22D31E8919F300BBA993 /* ChromaVector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChromaVector.swift; sourceTree = "<group>"; };
 		037E22D71E891F2000BBA993 /* PitchDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchDetection.swift; sourceTree = "<group>"; };
-		037E22D91E891FAF00BBA993 /* NoteDetectionData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteDetectionData.swift; sourceTree = "<group>"; };
+		037E22D91E891FAF00BBA993 /* PitchDetectionData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchDetectionData.swift; sourceTree = "<group>"; };
 		037E22DB1E89208900BBA993 /* NoteEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteEvent.swift; sourceTree = "<group>"; };
 		03881DB11E89266C00D61E9B /* AudioNoteDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioNoteDetection.swift; sourceTree = "<group>"; };
 		03881DB31E8926AC00D61E9B /* ProcessedAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProcessedAudio.swift; sourceTree = "<group>"; };
@@ -175,11 +175,11 @@
 		037E22B71E8913F500BBA993 /* AudioNoteDetection */ = {
 			isa = PBXGroup;
 			children = (
-				03881DB51E8927AF00D61E9B /* Filterbank */,
 				03881DB11E89266C00D61E9B /* AudioNoteDetection.swift */,
-				037E22D61E891F0900BBA993 /* PitchDetection */,
-				037E22CA1E89177200BBA993 /* OnsetDetection */,
 				03881DB31E8926AC00D61E9B /* ProcessedAudio.swift */,
+				03881DB51E8927AF00D61E9B /* Filterbank */,
+				037E22CA1E89177200BBA993 /* OnsetDetection */,
+				037E22D61E891F0900BBA993 /* PitchDetection */,
 			);
 			name = AudioNoteDetection;
 			sourceTree = "<group>";
@@ -197,7 +197,6 @@
 		037E22D51E891CBD00BBA993 /* Stuff */ = {
 			isa = PBXGroup;
 			children = (
-				037E22D91E891FAF00BBA993 /* NoteDetectionData.swift */,
 				037E22DB1E89208900BBA993 /* NoteEvent.swift */,
 				037E22D11E8919B800BBA993 /* AudioHelper.swift */,
 				037E22D31E8919F300BBA993 /* ChromaVector.swift */,
@@ -214,6 +213,7 @@
 			isa = PBXGroup;
 			children = (
 				037E22D71E891F2000BBA993 /* PitchDetection.swift */,
+				037E22D91E891FAF00BBA993 /* PitchDetectionData.swift */,
 			);
 			name = PitchDetection;
 			sourceTree = "<group>";
@@ -279,14 +279,14 @@
 		03A7F7321E850D5300849AE2 /* NoteDetection */ = {
 			isa = PBXGroup;
 			children = (
-				03881DC91E8946BD00D61E9B /* Follower */,
+				03A7F7331E850D5300849AE2 /* NoteDetection.h */,
+				03A7F7341E850D5300849AE2 /* Info.plist */,
+				037122051E852BA6009CC189 /* NoteDetection.swift */,
 				03A7F74A1E850DD500849AE2 /* AudioEngine */,
 				037E22B71E8913F500BBA993 /* AudioNoteDetection */,
-				03A7F7341E850D5300849AE2 /* Info.plist */,
-				037E22D51E891CBD00BBA993 /* Stuff */,
+				03881DC91E8946BD00D61E9B /* Follower */,
 				037122091E852D75009CC189 /* MIDIManager */,
-				03A7F7331E850D5300849AE2 /* NoteDetection.h */,
-				037122051E852BA6009CC189 /* NoteDetection.swift */,
+				037E22D51E891CBD00BBA993 /* Stuff */,
 			);
 			path = NoteDetection;
 			sourceTree = "<group>";
@@ -458,7 +458,7 @@
 				037122121E8530DE009CC189 /* MIDIMessage.swift in Sources */,
 				037E22CC1E8917A700BBA993 /* LocalExtreme.swift in Sources */,
 				03881DB41E8926AC00D61E9B /* ProcessedAudio.swift in Sources */,
-				037E22DA1E891FAF00BBA993 /* NoteDetectionData.swift in Sources */,
+				037E22DA1E891FAF00BBA993 /* PitchDetectionData.swift in Sources */,
 				039ECCA11E853BE3001FC194 /* UInt8+MIDI.swift in Sources */,
 				037E22C31E8915A500BBA993 /* CrossPlatformHelper.swift in Sources */,
 				037121CF1E85241B009CC189 /* AudioEngine.swift in Sources */,
@@ -626,6 +626,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = NoteDetection/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.flowkey.NoteDetection;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -647,6 +648,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = NoteDetection/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.flowkey.NoteDetection;
 				PRODUCT_NAME = "$(TARGET_NAME)";
