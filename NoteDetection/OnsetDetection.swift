@@ -82,3 +82,34 @@ public class OnsetDetection {
         return false
     }
 }
+
+func isLocalMaximum(amplitudes: [Float], centreIndex: Int) -> Bool {
+    return isLocalExtreme(findMinimum: false, numArray: amplitudes, checkPosition: centreIndex)
+}
+
+func isLocalMinimum(amplitudes: [Float], centreIndex: Int) -> Bool {
+    return isLocalExtreme(findMinimum: true, numArray: amplitudes, checkPosition: centreIndex)
+}
+
+func isLocalExtreme(findMinimum: Bool, numArray: [Float], checkPosition: Int) -> Bool {
+    // enumerate gives us a tuple like this: (index, value):
+    return numArray.enumerated().reduce(true) { (isTrueSoFar, cur: (i: Int, value: Float)) -> Bool in
+
+        if !isTrueSoFar { return false }
+
+        var shouldBeDecreasing: Bool {
+            return findMinimum ? (cur.i < checkPosition) : (cur.i >= checkPosition)
+        }
+
+        // Avoid array out of bounds:
+        if cur.i == numArray.count - 1 {
+            return isTrueSoFar
+        } else if shouldBeDecreasing {
+            // when entering a trough, volume of next block should be less than the current one
+            return isTrueSoFar && numArray[cur.i + 1] < cur.value
+        } else {
+            // coming out of the trough, volume should be increasing from here..
+            return isTrueSoFar && numArray[cur.i + 1] > cur.value
+        }
+    }
+}

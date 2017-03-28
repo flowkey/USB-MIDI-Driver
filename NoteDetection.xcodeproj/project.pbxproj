@@ -24,7 +24,6 @@
 		037E22C51E89160C00BBA993 /* MIDIMessageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22C41E89160C00BBA993 /* MIDIMessageTests.swift */; };
 		037E22C71E89161900BBA993 /* AudioHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22C61E89161900BBA993 /* AudioHelperTests.swift */; };
 		037E22C91E89161F00BBA993 /* ChromaVectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22C81E89161F00BBA993 /* ChromaVectorTests.swift */; };
-		037E22CC1E8917A700BBA993 /* LocalExtreme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22CB1E8917A700BBA993 /* LocalExtreme.swift */; };
 		037E22D01E89192300BBA993 /* MIDINumber+MusicalNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22CF1E89192300BBA993 /* MIDINumber+MusicalNote.swift */; };
 		037E22D21E8919B800BBA993 /* AudioHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22D11E8919B800BBA993 /* AudioHelper.swift */; };
 		037E22D41E8919F300BBA993 /* ChromaVector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22D31E8919F300BBA993 /* ChromaVector.swift */; };
@@ -85,7 +84,6 @@
 		037E22C41E89160C00BBA993 /* MIDIMessageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIMessageTests.swift; sourceTree = "<group>"; };
 		037E22C61E89161900BBA993 /* AudioHelperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioHelperTests.swift; sourceTree = "<group>"; };
 		037E22C81E89161F00BBA993 /* ChromaVectorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChromaVectorTests.swift; sourceTree = "<group>"; };
-		037E22CB1E8917A700BBA993 /* LocalExtreme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalExtreme.swift; sourceTree = "<group>"; };
 		037E22CF1E89192300BBA993 /* MIDINumber+MusicalNote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MIDINumber+MusicalNote.swift"; sourceTree = "<group>"; };
 		037E22D11E8919B800BBA993 /* AudioHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioHelper.swift; sourceTree = "<group>"; };
 		037E22D31E8919F300BBA993 /* ChromaVector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChromaVector.swift; sourceTree = "<group>"; };
@@ -189,7 +187,6 @@
 			children = (
 				037E22B81E89140500BBA993 /* OnsetDetection.swift */,
 				037E22B91E89140500BBA993 /* OnsetFeatures.swift */,
-				037E22CB1E8917A700BBA993 /* LocalExtreme.swift */,
 			);
 			name = OnsetDetection;
 			sourceTree = "<group>";
@@ -456,7 +453,6 @@
 				037E22DC1E89208900BBA993 /* NoteEvent.swift in Sources */,
 				03881DB21E89266C00D61E9B /* AudioNoteDetection.swift in Sources */,
 				037122121E8530DE009CC189 /* MIDIMessage.swift in Sources */,
-				037E22CC1E8917A700BBA993 /* LocalExtreme.swift in Sources */,
 				03881DB41E8926AC00D61E9B /* ProcessedAudio.swift in Sources */,
 				037E22DA1E891FAF00BBA993 /* PitchDetectionData.swift in Sources */,
 				039ECCA11E853BE3001FC194 /* UInt8+MIDI.swift in Sources */,

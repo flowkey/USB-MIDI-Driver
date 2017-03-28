@@ -9,7 +9,7 @@
 import Foundation
 import Accelerate
 import XCTest
-import NoteDetection
+@testable import NoteDetection
 
 class AudioHelperTests: XCTestCase {
     let midiNumberForA = MIDINumber(69)
