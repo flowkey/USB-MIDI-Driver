@@ -9,7 +9,7 @@
 public typealias OnMIDIMessageReceivedCallback = (MIDIMessage, MIDIDevice?) -> Void
 public typealias OnMIDIDeviceListChangedCallback = (Set<MIDIDevice>) -> Void
 
-public protocol MIDIManagerProtocol {
+protocol MIDIManagerProtocol {
     func connect()
     func disconnect()
 

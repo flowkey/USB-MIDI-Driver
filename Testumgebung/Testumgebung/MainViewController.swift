@@ -13,8 +13,8 @@ import FlowCommons
 public let audioNoteDetection = AudioNoteDetection()
 
 @objc class MainViewController: UITabBarController, UITabBarControllerDelegate {
-    
-    let midiManager = try! MIDIManager()
+
+    let midiNoteDetection = MIDINoteDetection()
     var graphViewController: GraphViewController?
     var midiViewController: MidiViewController?
 
@@ -33,8 +33,8 @@ public let audioNoteDetection = AudioNoteDetection()
             }
         }
     }
-    
-    
+
+
     // Set the graphController we want to update when switching tabs
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         graphViewController = viewController as? GraphViewController
@@ -43,22 +43,22 @@ public let audioNoteDetection = AudioNoteDetection()
     override func viewWillAppear(_ animated: Bool) {
         self.delegate = self // TabBarControllerDelegate
         graphViewController = self.viewControllers?[0] as? GraphViewController
-        
+
         audioNoteDetection.start()
-        midiManager.onMIDIDeviceListChanged = { (deviceList: Set<MIDIDevice>) in
+        midiNoteDetection.onMIDIDeviceListChanged = { (deviceList: Set<MIDIDevice>) in
             for device in deviceList { print(device.displayName) }
         }
-        midiManager.onMIDIMessageReceived = { (midiMessage: MIDIMessage, device: MIDIDevice?) in
-//            print(midiMessage)
+        midiNoteDetection.onMIDIMessageReceived = { (midiMessage: MIDIMessage, device: MIDIDevice?) in
+            print(midiMessage)
         }
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         audioNoteDetection.onAudioProcessed = { processedAudio in
             self.lastProcessedBlock = processedAudio
         }
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         audioNoteDetection.stop()
         self.delegate = nil
@@ -66,5 +66,5 @@ public let audioNoteDetection = AudioNoteDetection()
     }
 
 
-    
+
 }

@@ -14,7 +14,7 @@ public final class MIDIFollower: Follower {
 
     internal var currentMIDIKeys = Set<Int>()
 
-    public func on(_ midiMessage: MIDIMessage, from: MIDIDevice? = nil) {
+    public func onMIDIMessageReceived(_ midiMessage: MIDIMessage, from: MIDIDevice? = nil) {
         switch midiMessage {
         case .noteOn(let (key, _)) : currentMIDIKeys.insert(Int(key))
         case .noteOff(let (key, _)): currentMIDIKeys.remove(Int(key))

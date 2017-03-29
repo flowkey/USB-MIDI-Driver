@@ -4,7 +4,6 @@ public typealias OnAudioProcessedCallback = (ProcessedAudio) -> Void
 public typealias OnVolumeUpdatedCallback = (Float) -> Void
 
 final public class AudioNoteDetection: NoteDetectionProtocol {
-
     public let inputType: InputType = .audio
 
     let lowRange: CountableClosedRange<MIDINumber>
@@ -19,6 +18,7 @@ final public class AudioNoteDetection: NoteDetectionProtocol {
 
     public var onAudioProcessed: OnAudioProcessedCallback?
     public var onVolumeUpdated: OnVolumeUpdatedCallback?
+    public var onInputLevelRatioChanged: OnInputLevelRatioChangedCallback?
 
     public var onEventDetected: (() -> Void)? {
         didSet { follower.onFollow = onEventDetected }
@@ -68,6 +68,8 @@ final public class AudioNoteDetection: NoteDetectionProtocol {
         if volumeIteration > 11 { // this value is tuned to make the NativeInputManager look nice
             if volume.isFinite {
                 onVolumeUpdated?(volume)
+                let volumeRatio = 1 - (volume / -72)
+                onInputLevelRatioChanged?(volumeRatio)
             }
 
             volumeIteration = 0
@@ -113,12 +115,9 @@ final public class AudioNoteDetection: NoteDetectionProtocol {
         }
 
         switch detectionMode {
-        case .lowPitches:
-            return lowChroma
-        case .highPitches:
-            return highChroma
-        case .highAndLow:
-            return lowChroma + highChroma
+            case .lowPitches:  return lowChroma
+            case .highPitches: return highChroma
+            case .highAndLow:  return lowChroma + highChroma
         }
     }
 }

@@ -12,7 +12,7 @@
 import Foundation
 import CoreMIDI
 
-public class MIDIManager: MIDIManagerProtocol {
+class MIDIManager: MIDIManagerProtocol {
 
     public var onMIDIDeviceListChanged: OnMIDIDeviceListChangedCallback?
     public var onMIDIMessageReceived: OnMIDIMessageReceivedCallback?

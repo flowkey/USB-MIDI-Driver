@@ -16,24 +16,33 @@ public final class MIDINoteDetection: NoteDetectionProtocol {
 
     let follower = MIDIFollower()
 
-    public var onEventDetected: (() -> Void)? {
+    public var onInputLevelRatioChanged: OnInputLevelRatioChangedCallback?
+
+    public var onMIDIMessageReceived: OnMIDIMessageReceivedCallback? {
+        didSet {
+            midiManager?.onMIDIMessageReceived = { message, device in
+                self.follower.onMIDIMessageReceived(message)
+                self.onMIDIMessageReceived?(message, device)
+                switch message {
+                    case .noteOn(let (_, velocity)): self.onInputLevelRatioChanged?(Float(velocity) / 127.0)
+                    case .noteOff(let (_, velocity)): self.onInputLevelRatioChanged?(Float(velocity) / 127.0)
+                    default: break
+                }
+            }
+        }
+    }
+
+    public init() {}
+
+    public var onEventDetected: OnEventDetectedCallback? {
         didSet { follower.onFollow = onEventDetected }
     }
 
-    init() {
-        midiManager?.onMIDIMessageReceived = follower.on
-    }
-
-    public func start() {
-        midiManager?.connect()
-    }
-
-    public func stop() {
-        midiManager?.disconnect()
+    public var onMIDIDeviceListChanged: OnMIDIDeviceListChangedCallback? {
+        didSet { midiManager?.onMIDIDeviceListChanged = onMIDIDeviceListChanged }
     }
 
     public func setExpectedEvent(noteEvent: NoteEvent) {
         follower.currentNoteEvent = noteEvent
     }
-
 }

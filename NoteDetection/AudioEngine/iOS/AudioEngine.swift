@@ -9,7 +9,7 @@
 import Foundation
 import AVFoundation
 
-public class AudioEngine: AudioEngineProtocol {
+final class AudioEngine: AudioEngineProtocol {
     // Array to write audio data for onAudioData callback
     var audioData: [Float] = []
 

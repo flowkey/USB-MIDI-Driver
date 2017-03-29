@@ -8,7 +8,7 @@
 import FlowCommons
 import simd
 
-class FilterBank {
+final class FilterBank {
     private var bandpassFilters: [Filter]
     let noteRange: CountableClosedRange<MIDINumber>
     var magnitudes: [Float]
