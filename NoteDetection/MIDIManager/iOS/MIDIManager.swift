@@ -6,22 +6,13 @@
 //  Copyright © 2017 flowkey. All rights reserved.
 //
 
-// TODO: Clean up, then remove swiftlint:disable
+// TODO: Clean up this mess of a MIDIManager, then remove swiftlint:disable
 // swiftlint:disable file_length
 
 import Foundation
 import CoreMIDI
 
-public let MIDIManagerNotificationDeviceChange = "com.flowkey.midimanager.devicechange"
-
-fileprivate extension MIDIEndpointRef {
-    var isNetworkSession: Bool {
-        return uniqueID == MIDINetworkSession.default().sourceEndpoint().uniqueID
-    }
-}
-
 public class MIDIManager: MIDIManagerProtocol {
-    public static let sharedInstance = MIDIManager()
 
     public var onMIDIDeviceListChanged: OnMIDIDeviceListChangedCallback?
     public var onMIDIMessageReceived: OnMIDIMessageReceivedCallback?
@@ -31,36 +22,20 @@ public class MIDIManager: MIDIManagerProtocol {
 
     public fileprivate(set) var midiDeviceList: Set<MIDIDevice> = []
 
-    private init() {
-        // Create the midi client
-
-        var status: OSStatus = 0
-
+    public init() throws {
         let clientName = "flowkey" as CFString
+        let inputName = "flowkey input port" as CFString
+
+        // Create the midi client and an input port for our client to receive midi messages
         if #available(iOS 9.0, *) {
-            status = MIDIClientCreateWithBlock(clientName, &midiClient, notificationBlock)
+            try MIDIClientCreateWithBlock(clientName, &midiClient, onMIDIDeviceChanged).throwOnError()
+            try MIDIInputPortCreateWithBlock(midiClient, inputName, &clientInputPort, onMIDIPacketListReceived)
+                .throwOnError()
         } else {
-            status = MIDIClientCreate(clientName, notificationProc, nil, &midiClient)
-        }
-
-        if status != OSStatus(noErr) {
-            print("Error creating MIDI client. Status code: \(status)")
-        } else {
-            print("MIDI Client created successfully")
-        }
-
-        // Create an input port for our client to receive midi messages
-        var inputName = "flowkey input port" as CFString
-        if #available(iOS 9.0, *) {
-            status = MIDIInputPortCreateWithBlock(midiClient, inputName, &clientInputPort, midiReadBlock)
-        } else {
-            status = MIDIInputPortCreate(midiClient, inputName, midiReadProc, &inputName, &clientInputPort)
-        }
-
-        if status != OSStatus(noErr) {
-            print("Error creating input port. Status code: \(status)")
-        } else {
-            print("MIDI Input port created successfully")
+            let refCon = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
+            try MIDIClientCreate(clientName, midiNotificationProc, refCon, &midiClient).throwOnError()
+            try MIDIInputPortCreate(midiClient, inputName, onMIDIPacketListReceived, refCon, &clientInputPort)
+                .throwOnError()
         }
 
         connect()
@@ -91,19 +66,14 @@ public class MIDIManager: MIDIManagerProtocol {
             }
 
             let srcRefCon = UnsafeMutablePointer<UInt32>.allocate(capacity: 0)
-
-            // Connect source to our input port...
-            // Context is the MIDIDevice in the array:
-            // When we receive a MIDI message, we know which device it's coming from
-            let status = MIDIPortConnectSource(clientInputPort, source, srcRefCon)
-
-            guard status == OSStatus(noErr) else {
-                print("Failed to establish connection. Error code: \(status)")
-                break
+            do {
+                try MIDIPortConnectSource(clientInputPort, source, srcRefCon).throwOnError()
+            } catch {
+                print("Failed to establish connection. Error: ", error.localizedDescription)
+                continue
             }
 
             midiDeviceList.insert(MIDIDevice(source, srcRefCon: srcRefCon))
-            print("Successfully connected \(source.displayName) to \(clientInputPort.displayName)")
         }
     }
 
@@ -111,22 +81,20 @@ public class MIDIManager: MIDIManagerProtocol {
         for sourceIndex in 0 ..< MIDIGetNumberOfSources() {
             let source = MIDIGetSource(sourceIndex)
 
-            // only disconnect if there is a connectionUniqueID
             // according to core midi doc, connectionUniqueID is 0 if there is no connection
-            if source.connectionUniqueID != 0 {
-                let status = MIDIPortDisconnectSource(clientInputPort, source)
-
-                guard status == OSStatus(noErr) else {
-                    print("Failed to disconnect. Error code: \(status)")
-                    continue
-                }
-
-                print("Successfully disconnected \(source.displayName) from \(clientInputPort.displayName)")
-
-            } else {
+            guard source.connectionUniqueID != 0 else {
                 print("\(source.displayName) has no connectionUniqueID (not connected)")
+                continue
+            }
+
+            do {
+                try MIDIPortDisconnectSource(clientInputPort, source).throwOnError()
+            } catch {
+                print("Failed to disconnect. Error: \(error.localizedDescription)")
+                continue
             }
         }
+
         midiDeviceList = []
     }
 
@@ -134,21 +102,20 @@ public class MIDIManager: MIDIManagerProtocol {
     /*
      * MARK: MIDI Notification (Device added / removed)
      */
+    let midiNotificationProc: MIDINotifyProc = { (notificationPtr, refCon) in
+        let midiManagerSelf = unsafeBitCast(refCon, to: MIDIManager.self)
+        midiManagerSelf.onMIDIDeviceChanged(notification: notificationPtr)
+    }
 
-    func notificationBlock (_ notificationPtr: UnsafePointer<MIDINotification>) {
-        let msgId = notificationPtr.pointee.messageID
+    func onMIDIDeviceChanged(notification: UnsafePointer<MIDINotification>) {
+        let msgId = notification.pointee.messageID
         if msgId == .msgObjectAdded || msgId == .msgObjectRemoved || msgId == .msgPropertyChanged {
             connect()    // refresh sources when something changed
 
             DispatchQueue.main.async {
-                NotificationCenter.default
-                    .post(name: Notification.Name(rawValue: MIDIManagerNotificationDeviceChange), object: nil)
+                self.onMIDIDeviceListChanged?(self.midiDeviceList)
             }
         }
-    }
-
-    let notificationProc: MIDINotifyProc = { (notificationPtr: UnsafePointer<MIDINotification>, _) in
-        MIDIManager.sharedInstance.notificationBlock(notificationPtr)
     }
 
 
@@ -175,8 +142,8 @@ public class MIDIManager: MIDIManagerProtocol {
         }
     }
 
-    func midiReadBlock (_ packetList: UnsafePointer<MIDIPacketList>?, srcConnRefCon: UnsafeMutableRawPointer?) {
-
+    func onMIDIPacketListReceived(packetList: UnsafePointer<MIDIPacketList>?, srcConnRefCon: UnsafeMutableRawPointer?) {
+        print("number of packets: ", packetList?.pointee.numPackets ?? 0)
         let sourceDevice = findOnlineMIDIDeviceFromRefCon(srcConnRefCon)
         let packets = makePacketsFromPacketList(packetList)
 
@@ -190,20 +157,24 @@ public class MIDIManager: MIDIManagerProtocol {
 
     static func getMIDIMessageData(from packet: MIDIPacket) -> (command: UInt8, key: UInt8, velocity: UInt8) {
         let data = packet.data
-
         let isHighResVelocityMessage = (data.0 == .controlChange) && (data.1 == .highResVelocityPrefix)
-
         return isHighResVelocityMessage ? (command: data.3, key: data.4, velocity: data.5) // ignore high res data
                                         : (command: data.0, key: data.1, velocity: data.2) // assume normal noteOn/Off
     }
 
-    let midiReadProc: MIDIReadProc = {(
-        packetList: UnsafePointer<MIDIPacketList>,
-        readProcRefCon: UnsafeMutableRawPointer?,
-        srcConnRefCon: UnsafeMutableRawPointer?) in
-            MIDIManager.sharedInstance.midiReadBlock(packetList, srcConnRefCon: srcConnRefCon)
+    let onMIDIPacketListReceived: MIDIReadProc = { (packetList, readProcRefCon, srcConnRefCon) in
+        let midiManagerSelf = unsafeBitCast(readProcRefCon, to: MIDIManager.self)
+        midiManagerSelf.onMIDIPacketListReceived(packetList: packetList, srcConnRefCon: srcConnRefCon)
     }
 }
+
+
+fileprivate extension MIDIEndpointRef {
+    var isNetworkSession: Bool {
+        return uniqueID == MIDINetworkSession.default().sourceEndpoint().uniqueID
+    }
+}
+
 
 extension MIDIDevice {
     init(_ device: MIDIObjectRef, srcRefCon: UnsafeMutableRawPointer) {
