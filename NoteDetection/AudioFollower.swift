@@ -26,7 +26,7 @@ public final class AudioFollower: Follower {
         onInputReceived()
     }
 
-    public func onPitchDetected(timestamp: Timestamp, pitchDetectionData: PitchDetectionData? = nil) {
+    public func onPitchDetected(timestamp: Timestamp) {
         noteTimestamp = timestamp
         onInputReceived()
     }

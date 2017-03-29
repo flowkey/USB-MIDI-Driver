@@ -14,7 +14,7 @@ public typealias JSONDict = [String:AnyObject]
 // for the fifth of a key is calculated. determined through obervation of filterbank during testing
 fileprivate let lowKeyBoundary = 48
 
-public struct PitchDetectionData {
+struct PitchDetectionData {
     /// Contains 12 values between 0 and 1, but typically 0 or 1
     public let expectedChroma: ChromaVector
 
@@ -34,7 +34,7 @@ public struct PitchDetectionData {
 //    }
 //}
 
-public extension PitchDetectionData {
+extension PitchDetectionData {
     init(from: NoteEvent) {
         self.notes = from.notes
         self.tolerance = PitchDetectionData.calculateTolerance(for: notes)

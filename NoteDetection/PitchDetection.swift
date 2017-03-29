@@ -8,7 +8,7 @@
 
 import FlowCommons
 
-public typealias OnPitchDetectedCallback = (Timestamp, PitchDetectionData) -> Void
+public typealias OnPitchDetectedCallback = (Timestamp) -> Void
 
 public class PitchDetection {
 
@@ -33,20 +33,20 @@ public class PitchDetection {
         // If we have an event, compare its ChromaVector to the one we just received here
         // Call "onNotesDetected" for the expected event if our statusBuffers are true
 
-        if let noteDetectionData = self.expectedPitch {
+        if let pitchDetectionData = self.expectedPitchDetectionData {
 
             // remove oldest status
             statusBuffer.remove(at: 0)
 
-            let similarity = input.similarity(to: noteDetectionData.expectedChroma)
-            let requiredSimilarity = similarityThreshold - noteDetectionData.tolerance
+            let similarity = input.similarity(to: pitchDetectionData.expectedChroma)
+            let requiredSimilarity = similarityThreshold - pitchDetectionData.tolerance
             let currentBufferStatus = (similarity > requiredSimilarity)
 
             // insert new value
             statusBuffer.append(currentBufferStatus)
 
             if statusBufferIsAllTrue {
-                performOnMainThread { self.onPitchDetected?(getTimeInMillisecondsSince1970(), noteDetectionData) }
+                performOnMainThread { self.onPitchDetected?(getTimeInMillisecondsSince1970()) }
 
                 // Reset the status buffer to reduce the likelihood of repeated notes being detected immediately:
                 statusBuffer = [Bool](repeating: false, count: statusBuffer.count)
@@ -76,8 +76,8 @@ public class PitchDetection {
         }
     }
 
-    public var expectedPitch: PitchDetectionData? {
-        didSet {if let pitchDetectionData = expectedPitch {
+    var expectedPitchDetectionData: PitchDetectionData? {
+        didSet {if let pitchDetectionData = expectedPitchDetectionData {
             currentDetectionMode = getDetectionMode(from: pitchDetectionData)
         }}
     }

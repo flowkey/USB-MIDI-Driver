@@ -8,7 +8,7 @@
 
 public struct ProcessedAudio {
     public let audioData: [Float]
-    public let chromaVector: ChromaVector
+    public let chromaVector: [Float]
     public let filterBandAmplitudes: [Float]
     public let onsetFeatureValue: Float
     public let onsetThreshold: Float
@@ -17,7 +17,7 @@ public struct ProcessedAudio {
     // We need a public initializer for the Testumgebung, add default data while we're at it..
     public init(
         audioData: [Float] = [],
-        chromaVector: ChromaVector = ChromaVector(),
+        chromaVector: [Float] = [],
         filterBandAmplitudes: [Float] = [],
         onsetFeatureValue: Float = 0,
         onsetThreshold: Float = 0,

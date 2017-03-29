@@ -89,7 +89,7 @@ final public class AudioNoteDetection: NoteDetectionProtocol {
 
         performOnMainThread { self.onAudioProcessed?(ProcessedAudio(
             audioData: buffer,
-            chromaVector: chromaVector,
+            chromaVector: chromaVector.toRaw,
             filterBandAmplitudes: self.filterbank.magnitudes,
             onsetFeatureValue: onsetData.featureValue,
             onsetThreshold: onsetData.currentThreshold,
@@ -98,7 +98,7 @@ final public class AudioNoteDetection: NoteDetectionProtocol {
     }
 
     public func setExpectedNoteEvent(noteEvent: NoteEvent) {
-        pitchDetection.expectedPitch = PitchDetectionData(from: noteEvent)
+        pitchDetection.expectedPitchDetectionData = PitchDetectionData(from: noteEvent)
     }
 
     func chroma(_ detectionMode: PitchDetection.DetectionMode) -> ChromaVector {

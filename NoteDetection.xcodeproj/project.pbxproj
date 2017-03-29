@@ -175,6 +175,7 @@
 			children = (
 				03881DB11E89266C00D61E9B /* AudioNoteDetection.swift */,
 				03881DB31E8926AC00D61E9B /* ProcessedAudio.swift */,
+				037E22D31E8919F300BBA993 /* ChromaVector.swift */,
 				03881DB51E8927AF00D61E9B /* Filterbank */,
 				037E22CA1E89177200BBA993 /* OnsetDetection */,
 				037E22D61E891F0900BBA993 /* PitchDetection */,
@@ -195,7 +196,6 @@
 			isa = PBXGroup;
 			children = (
 				03F499841E8BAADB0042DB4E /* OSStatus+LocalizedError.swift */,
-				037E22D31E8919F300BBA993 /* ChromaVector.swift */,
 				037E22C21E8915A500BBA993 /* CrossPlatformHelper.swift */,
 				037E22BC1E89145400BBA993 /* FlowMath.swift */,
 				037E22BE1E89151B00BBA993 /* PlatformAndroid.swift */,

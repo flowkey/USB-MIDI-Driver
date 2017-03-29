@@ -12,7 +12,7 @@ import FlowCommons
 // for the fifth of a key is calculated. determined through obervation of filterbank during testing
 fileprivate let lowKeyBoundary = 48
 
-public struct ChromaVector: CustomStringConvertible, Equatable {
+struct ChromaVector: CustomStringConvertible, Equatable {
     static let size = 12 // a chroma vector always contains 12 values
     static let emptyVector = [Float](repeating: 0, count: ChromaVector.size)
 
@@ -20,15 +20,15 @@ public struct ChromaVector: CustomStringConvertible, Equatable {
     fileprivate var vector = ChromaVector.emptyVector
 
     // Provide read-only access to internal datastore:
-    public var toRaw: [Float] { return self.vector }
+    var toRaw: [Float] { return self.vector }
 
     // ---------------------------------------------------
     // Initialisers
 
-    public init () {}
+    init () {}
 
     // The first magnitude in our array needs to be at the 'start' MIDINumber for this to work
-    public init(from magnitudes: [Float], startingAt start: MIDINumber) {
+    init(from magnitudes: [Float], startingAt start: MIDINumber) {
         self.init()
         for i in 0 ..< magnitudes.count {
             let chromaPos = start + i
@@ -36,25 +36,25 @@ public struct ChromaVector: CustomStringConvertible, Equatable {
         }
     }
 
-    public init(from magnitudes: [Float], startingAt start: MIDINumber, range: CountableClosedRange<MIDINumber>) {
+    init(from magnitudes: [Float], startingAt start: MIDINumber, range: CountableClosedRange<MIDINumber>) {
         self.init()
         for i in range {
             self[i] += magnitudes[i - start]
         }
     }
 
-    public init(notes: [MusicalNote]) {
+    init(notes: [MusicalNote]) {
         notes.forEach { self.vector[$0.rawValue] = 1 }
     }
 
-    public init(from midiKeys: Set<MIDINumber>) {
+    init(from midiKeys: Set<MIDINumber>) {
         midiKeys.forEach { (key) in
             let chromaIndex = key % 12
             self.vector[chromaIndex] = 1
         }
     }
 
-    public init?(_ vector: [Float]) {
+    init?(_ vector: [Float]) {
         if vector.count == ChromaVector.size {
             self.vector = vector
         } else {
@@ -81,7 +81,7 @@ public struct ChromaVector: CustomStringConvertible, Equatable {
         set { vector[(index % ChromaVector.size)] = newValue }
     }
 
-    public var description: String {
+    var description: String {
         return vector.description
     }
 
@@ -89,7 +89,7 @@ public struct ChromaVector: CustomStringConvertible, Equatable {
     // Return the correlation cosine similarity (a.k.a. Pearson correlation) between two chroma vectors:
     // http://brenocon.com/blog/2012/03/cosine-similarity-pearson-correlation-and-ols-coefficients/
 
-    public func similarity(to other: ChromaVector) -> Float {
+    func similarity(to other: ChromaVector) -> Float {
 
         var x: Float = 0
         var y: Float = 0
@@ -140,7 +140,7 @@ public struct ChromaVector: CustomStringConvertible, Equatable {
 
 }
 
-public func + (lhs: ChromaVector, rhs: ChromaVector) -> ChromaVector {
+func + (lhs: ChromaVector, rhs: ChromaVector) -> ChromaVector {
     var combinedChroma = lhs
     for index in 0 ..< ChromaVector.size {
         combinedChroma[index] += rhs[index]
@@ -148,6 +148,6 @@ public func + (lhs: ChromaVector, rhs: ChromaVector) -> ChromaVector {
     return combinedChroma
 }
 
-public func == (lhs: ChromaVector, rhs: ChromaVector) -> Bool {
+func == (lhs: ChromaVector, rhs: ChromaVector) -> Bool {
     return lhs.toRaw == rhs.toRaw
 }

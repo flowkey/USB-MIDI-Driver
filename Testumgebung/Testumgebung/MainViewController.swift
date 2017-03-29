@@ -29,7 +29,7 @@ public let audioNoteDetection = AudioNoteDetection()
             case .some("Onset"):
                 graphViewController?.updateView(data.onsetFeatureValue, onsetThreshold: data.onsetThreshold, onsetDetected: data.onsetDetected)
             default:
-                graphViewController?.updateView(data.chromaVector.toRaw)
+                graphViewController?.updateView(data.chromaVector)
             }
         }
     }
