@@ -14,7 +14,7 @@ public let audioNoteDetection = AudioNoteDetection()
 
 @objc class MainViewController: UITabBarController, UITabBarControllerDelegate {
     
-    let midiManager = MIDIManager.sharedInstance
+    let midiManager = try! MIDIManager()
     var graphViewController: GraphViewController?
     var midiViewController: MidiViewController?
 
@@ -45,6 +45,12 @@ public let audioNoteDetection = AudioNoteDetection()
         graphViewController = self.viewControllers?[0] as? GraphViewController
         
         audioNoteDetection.start()
+        midiManager.onMIDIDeviceListChanged = { (deviceList: Set<MIDIDevice>) in
+            for device in deviceList { print(device.displayName) }
+        }
+        midiManager.onMIDIMessageReceived = { (midiMessage: MIDIMessage, device: MIDIDevice?) in
+//            print(midiMessage)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
