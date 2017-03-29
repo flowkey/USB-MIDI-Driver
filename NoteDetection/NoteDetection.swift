@@ -32,17 +32,14 @@ public class NoteDetection {
     }
 
     public func start() {
-        if noteDetection.inputType == .audio {
-            let audioNoteDetection = noteDetection as? AudioNoteDetection
-            audioNoteDetection?.start()
-        }
+        let audioNoteDetection = noteDetection as? AudioNoteDetection
+        audioNoteDetection?.start()
     }
 
     public func stop() {
-        if noteDetection.inputType == .audio {
-            let audioNoteDetection = noteDetection as? AudioNoteDetection
-            audioNoteDetection?.stop()
-        }
+        let audioNoteDetection = noteDetection as? AudioNoteDetection
+        audioNoteDetection?.stop()
+
     }
 
     public func setExpectedNoteEvent(event: NoteEvent) {
