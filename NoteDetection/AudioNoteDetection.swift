@@ -9,11 +9,11 @@ final public class AudioNoteDetection: NoteDetectionProtocol {
 
     let lowRange: CountableClosedRange<MIDINumber>
     let highRange: CountableClosedRange<MIDINumber>
-
-    var audioEngine: AudioEngine
-    var follower: AudioFollower
-
     let filterbank: FilterBank
+
+    var audioEngine = try! AudioEngine()
+    let follower = AudioFollower()
+
     public let pitchDetection: PitchDetection
     public let onsetDetection: OnsetDetection
 
@@ -30,12 +30,9 @@ final public class AudioNoteDetection: NoteDetectionProtocol {
         highRange = lowRange.last! ... MIDINumber(note: .d, octave: 7)
 
         let fullRange = lowRange.first! ... highRange.last!
-
-        audioEngine = try! AudioEngine()
-        follower = AudioFollower()
+        filterbank = FilterBank(noteRange: fullRange, sampleRate: audioEngine.sampleRate)
 
         // Setup processors
-        filterbank = FilterBank(noteRange: fullRange, sampleRate: audioEngine.sampleRate)
         pitchDetection = PitchDetection(lowNoteBoundary: lowRange.last!)
         onsetDetection = OnsetDetection(feature: SpectralFlux())
 
@@ -84,21 +81,18 @@ final public class AudioNoteDetection: NoteDetectionProtocol {
 
         // Do Pitch / Onset Detection
         filterbank.calculateMagnitudes(buffer)
-
         let onsetData = onsetDetection.run(buffer, filterbankMagnitudes: filterbank.magnitudes)
         let chromaVector = chroma(pitchDetection.currentDetectionMode)
         pitchDetection.run(chromaVector)
 
-        performOnMainThread {
-            self.onAudioProcessed?(ProcessedAudio(
-                audioData: buffer,
-                chromaVector: chromaVector,
-                filterBandAmplitudes: self.filterbank.magnitudes,
-                onsetFeatureValue: onsetData.featureValue,
-                onsetThreshold: onsetData.currentThreshold,
-                onsetDetected: onsetData.onsetDetected
-            ))
-        }
+        performOnMainThread { self.onAudioProcessed?(ProcessedAudio(
+            audioData: buffer,
+            chromaVector: chromaVector,
+            filterBandAmplitudes: self.filterbank.magnitudes,
+            onsetFeatureValue: onsetData.featureValue,
+            onsetThreshold: onsetData.currentThreshold,
+            onsetDetected: onsetData.onsetDetected
+        ))}
     }
 
     public func setExpectedEvent(noteEvent: NoteEvent) {

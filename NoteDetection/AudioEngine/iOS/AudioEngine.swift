@@ -18,7 +18,7 @@ public class AudioEngine: AudioEngineProtocol {
     }
 
     public var sampleRate: Double {
-        get { return AVAudioSession.sharedInstance().sampleRate }
+        return AVAudioSession.sharedInstance().sampleRate
     }
 
     public var onSamplerateChanged: OnSamplerateChanged?
