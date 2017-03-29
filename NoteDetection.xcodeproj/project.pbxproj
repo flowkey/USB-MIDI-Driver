@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		037121CF1E85241B009CC189 /* AudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037121CC1E85241B009CC189 /* AudioEngine.swift */; };
 		037121D01E85241B009CC189 /* AudioUnitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037121CD1E85241B009CC189 /* AudioUnitExtensions.swift */; };
-		037121D11E85241B009CC189 /* OSStatus+LocalizedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037121CE1E85241B009CC189 /* OSStatus+LocalizedError.swift */; };
 		037122061E852BA6009CC189 /* NoteDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037122051E852BA6009CC189 /* NoteDetection.swift */; };
 		0371220C1E852D8D009CC189 /* MIDIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0371220B1E852D8D009CC189 /* MIDIManager.swift */; };
 		0371220E1E852F23009CC189 /* MIDIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0371220D1E852F23009CC189 /* MIDIDevice.swift */; };
@@ -51,6 +50,8 @@
 		03A7F7411E850D5300849AE2 /* NoteDetection.h in Headers */ = {isa = PBXBuildFile; fileRef = 03A7F7331E850D5300849AE2 /* NoteDetection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03A7F74D1E850E0600849AE2 /* AudioEngineProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A7F74C1E850E0600849AE2 /* AudioEngineProtocol.swift */; };
 		03B2A5421E8AC1D40051FF2A /* FlowCommons.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03B2A53D1E8AB9F70051FF2A /* FlowCommons.framework */; };
+		03B2A5771E8AD1A00051FF2A /* MIDINoteDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B2A5761E8AD1A00051FF2A /* MIDINoteDetection.swift */; };
+		03F499851E8BAADB0042DB4E /* OSStatus+LocalizedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F499841E8BAADB0042DB4E /* OSStatus+LocalizedError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,7 +67,6 @@
 /* Begin PBXFileReference section */
 		037121CC1E85241B009CC189 /* AudioEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioEngine.swift; sourceTree = "<group>"; };
 		037121CD1E85241B009CC189 /* AudioUnitExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioUnitExtensions.swift; sourceTree = "<group>"; };
-		037121CE1E85241B009CC189 /* OSStatus+LocalizedError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OSStatus+LocalizedError.swift"; sourceTree = "<group>"; };
 		037122051E852BA6009CC189 /* NoteDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteDetection.swift; sourceTree = "<group>"; };
 		0371220B1E852D8D009CC189 /* MIDIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIManager.swift; sourceTree = "<group>"; };
 		0371220D1E852F23009CC189 /* MIDIDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIDevice.swift; sourceTree = "<group>"; };
@@ -112,6 +112,8 @@
 		03A7F7401E850D5300849AE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		03A7F74C1E850E0600849AE2 /* AudioEngineProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioEngineProtocol.swift; sourceTree = "<group>"; };
 		03B2A53D1E8AB9F70051FF2A /* FlowCommons.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FlowCommons.framework; path = "../../../Library/Developer/Xcode/DerivedData/NoteDetection-dsvijhmzhgbyhdduaqrmlgwiudbw/Build/Products/Debug-iphoneos/FlowCommons.framework"; sourceTree = "<group>"; };
+		03B2A5761E8AD1A00051FF2A /* MIDINoteDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDINoteDetection.swift; sourceTree = "<group>"; };
+		03F499841E8BAADB0042DB4E /* OSStatus+LocalizedError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OSStatus+LocalizedError.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,7 +141,6 @@
 			children = (
 				037121CC1E85241B009CC189 /* AudioEngine.swift */,
 				037121CD1E85241B009CC189 /* AudioUnitExtensions.swift */,
-				037121CE1E85241B009CC189 /* OSStatus+LocalizedError.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -191,6 +192,7 @@
 		037E22D51E891CBD00BBA993 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				03F499841E8BAADB0042DB4E /* OSStatus+LocalizedError.swift */,
 				037E22D31E8919F300BBA993 /* ChromaVector.swift */,
 				037E22C21E8915A500BBA993 /* CrossPlatformHelper.swift */,
 				037E22BC1E89145400BBA993 /* FlowMath.swift */,
@@ -271,6 +273,7 @@
 		03A7F7321E850D5300849AE2 /* NoteDetection */ = {
 			isa = PBXGroup;
 			children = (
+				03B2A5751E8AD18A0051FF2A /* MIDINoteDetection */,
 				03A7F7331E850D5300849AE2 /* NoteDetection.h */,
 				03A7F7341E850D5300849AE2 /* Info.plist */,
 				037122051E852BA6009CC189 /* NoteDetection.swift */,
@@ -316,6 +319,14 @@
 				03B2A53D1E8AB9F70051FF2A /* FlowCommons.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		03B2A5751E8AD18A0051FF2A /* MIDINoteDetection */ = {
+			isa = PBXGroup;
+			children = (
+				03B2A5761E8AD1A00051FF2A /* MIDINoteDetection.swift */,
+			);
+			name = MIDINoteDetection;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -456,13 +467,14 @@
 				037122121E8530DE009CC189 /* MIDIMessage.swift in Sources */,
 				03881DB41E8926AC00D61E9B /* ProcessedAudio.swift in Sources */,
 				037E22DA1E891FAF00BBA993 /* PitchDetectionData.swift in Sources */,
+				03F499851E8BAADB0042DB4E /* OSStatus+LocalizedError.swift in Sources */,
+				03B2A5771E8AD1A00051FF2A /* MIDINoteDetection.swift in Sources */,
 				039ECCA11E853BE3001FC194 /* UInt8+MIDI.swift in Sources */,
 				037E22C31E8915A500BBA993 /* CrossPlatformHelper.swift in Sources */,
 				037121CF1E85241B009CC189 /* AudioEngine.swift in Sources */,
 				03881DCE1E8946E300D61E9B /* AudioFollower.swift in Sources */,
 				037E22BD1E89145400BBA993 /* FlowMath.swift in Sources */,
 				03A7F74D1E850E0600849AE2 /* AudioEngineProtocol.swift in Sources */,
-				037121D11E85241B009CC189 /* OSStatus+LocalizedError.swift in Sources */,
 				037122061E852BA6009CC189 /* NoteDetection.swift in Sources */,
 				0371220E1E852F23009CC189 /* MIDIDevice.swift in Sources */,
 				037121D01E85241B009CC189 /* AudioUnitExtensions.swift in Sources */,
