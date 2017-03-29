@@ -8,7 +8,7 @@
 
 import FlowCommons
 
-public typealias OnPitchDetectedCallback = (_ timestamp: Double, PitchDetectionData) -> Void
+public typealias OnPitchDetectedCallback = (Timestamp, PitchDetectionData) -> Void
 
 public class PitchDetection {
 

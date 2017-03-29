@@ -75,11 +75,11 @@ class PitchDetectionListener: OnsetDetectionDelegate, NoteDetectionDelegate, Vol
         jni.DeleteGlobalRef(globalPluginInstance)
     }
 
-    func onsetDetected (timestamp: Double) {
+    func onsetDetected (timestamp: Timestamp) {
         onsetDetectedCallback.call(timestamp.toJValue())
     }
 
-    func notePlayedCorrectly(noteEvent: NoteEvent, timestamp: Double) {
+    func notePlayedCorrectly(noteEvent: NoteEvent, timestamp: Timestamp) {
 
 
         guard

@@ -9,55 +9,51 @@
 import FlowCommons
 
 public typealias OnInputLevelRatioChangedCallback = (Float) -> Void
-public typealias OnEventDetectedCallback = () -> Void
-
-public protocol NoteDetectionProtocol {
-    var inputType: InputType { get }
-    func setExpectedEvent(noteEvent: NoteEvent)
-    var onEventDetected: OnEventDetectedCallback? { get set }
-    var onInputLevelRatioChanged: OnInputLevelRatioChangedCallback? { get set }
-}
-
-public enum InputType {
-    case audio
-    case midi
-
-    func createNoteDetection() -> NoteDetectionProtocol {
-        switch self {
-        case .audio: return AudioNoteDetection()
-        case .midi: return MIDINoteDetection()
-        }
-    }
-}
-
+public typealias OnNoteEventDetectedCallback = () -> Void
 
 public class NoteDetection {
-
     var noteDetection: NoteDetectionProtocol
-    var onInputLevelRatioChanged: OnInputLevelRatioChangedCallback? {
+
+    public init(type: InputType) {
+        noteDetection = type.createNoteDetection()
+    }
+
+    public var onInputLevelRatioChanged: OnInputLevelRatioChangedCallback? {
         didSet { noteDetection.onInputLevelRatioChanged = onInputLevelRatioChanged }
     }
 
-    var inputType: InputType {
+    public var onNoteEventDetected: OnNoteEventDetectedCallback? {
+        didSet { noteDetection.onNoteEventDetected = onNoteEventDetected }
+    }
+
+    public var inputType: InputType {
         get { return noteDetection.inputType }
         set { noteDetection = newValue.createNoteDetection() }
     }
 
-    init(type: InputType) {
-        noteDetection = type.createNoteDetection()
-    }
-
-    func start() {
+    public func start() {
         if noteDetection.inputType == .audio {
             let audioNoteDetection = noteDetection as? AudioNoteDetection
             audioNoteDetection?.start()
         }
     }
 
-    func stop() {
+    public func stop() {
         if noteDetection.inputType == .audio {
             let audioNoteDetection = noteDetection as? AudioNoteDetection
             audioNoteDetection?.stop()
         }
     }
+
+    public func setExpectedNoteEvent(event: NoteEvent) {
+        noteDetection.setExpectedNoteEvent(noteEvent: event)
+    }
+}
+
+protocol NoteDetectionProtocol {
+    var inputType: InputType { get }
+    var onInputLevelRatioChanged: OnInputLevelRatioChangedCallback? { get set }
+
+    var onNoteEventDetected: OnNoteEventDetectedCallback? { get set }
+    func setExpectedNoteEvent(noteEvent: NoteEvent)
 }

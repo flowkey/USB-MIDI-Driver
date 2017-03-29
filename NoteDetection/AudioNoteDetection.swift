@@ -17,11 +17,11 @@ final public class AudioNoteDetection: NoteDetectionProtocol {
     public let onsetDetection: OnsetDetection
 
     public var onAudioProcessed: OnAudioProcessedCallback?
-    public var onVolumeUpdated: OnVolumeUpdatedCallback?
-    public var onInputLevelRatioChanged: OnInputLevelRatioChangedCallback?
+    public var onVolumeUpdated: OnVolumeUpdatedCallback? // in decibel (-72...0) TODO: maybe move to AudioEngine
+    public var onInputLevelRatioChanged: OnInputLevelRatioChangedCallback? // as ratio between 0...1
 
-    public var onEventDetected: (() -> Void)? {
-        didSet { follower.onFollow = onEventDetected }
+    public var onNoteEventDetected: (() -> Void)? {
+        didSet { follower.onFollow = onNoteEventDetected }
     }
 
     public init () {
@@ -39,7 +39,7 @@ final public class AudioNoteDetection: NoteDetectionProtocol {
         // Setup follower
         onsetDetection.onOnsetDetected = follower.onOnsetDetected
         pitchDetection.onPitchDetected = follower.onPitchDetected
-        follower.onFollow = onEventDetected
+        follower.onFollow = onNoteEventDetected
     }
 
     public func start() {
@@ -97,7 +97,7 @@ final public class AudioNoteDetection: NoteDetectionProtocol {
         ))}
     }
 
-    public func setExpectedEvent(noteEvent: NoteEvent) {
+    public func setExpectedNoteEvent(noteEvent: NoteEvent) {
         pitchDetection.expectedPitch = PitchDetectionData(from: noteEvent)
     }
 

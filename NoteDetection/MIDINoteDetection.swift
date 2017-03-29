@@ -34,15 +34,15 @@ public final class MIDINoteDetection: NoteDetectionProtocol {
 
     public init() {}
 
-    public var onEventDetected: OnEventDetectedCallback? {
-        didSet { follower.onFollow = onEventDetected }
+    public var onNoteEventDetected: OnNoteEventDetectedCallback? {
+        didSet { follower.onFollow = onNoteEventDetected }
     }
 
     public var onMIDIDeviceListChanged: OnMIDIDeviceListChangedCallback? {
         didSet { midiManager?.onMIDIDeviceListChanged = onMIDIDeviceListChanged }
     }
 
-    public func setExpectedEvent(noteEvent: NoteEvent) {
+    public func setExpectedNoteEvent(noteEvent: NoteEvent) {
         follower.currentNoteEvent = noteEvent
     }
 }

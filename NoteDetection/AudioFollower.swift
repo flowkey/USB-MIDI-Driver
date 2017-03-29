@@ -11,10 +11,6 @@ import FlowCommons
 public final class AudioFollower: Follower {
     public init() {}
 
-    /// A Double signifying the time an event arrived, in milliseconds
-    // TODO: use timestamp in Onset and NoteDetection 
-    public typealias Timestamp = Double
-
     private let timeToNextToleranceFactor = 0.5
     private let maxTimestampDiff = Timestamp(200)
     private var onsetTimestamp: Timestamp?

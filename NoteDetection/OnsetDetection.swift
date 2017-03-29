@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Geordie Jay. All rights reserved.
 //
 
-public typealias OnOnsetDetectedCallback = (Double) -> Void
+public typealias OnOnsetDetectedCallback = (Timestamp) -> Void
 
 public class OnsetDetection {
 
