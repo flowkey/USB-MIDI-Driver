@@ -35,8 +35,11 @@ struct PitchDetectionData {
 //}
 
 extension PitchDetectionData {
-    init(from: NoteEvent) {
-        self.notes = from.notes
+    init?(from event: NoteEvent?) {
+        guard let noteEvent = event else {
+            return nil
+        }
+        self.notes = noteEvent.notes
         self.tolerance = PitchDetectionData.calculateTolerance(for: notes)
         self.expectedChroma = ChromaVector.composeExpected(from: notes)
     }

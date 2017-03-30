@@ -10,11 +10,10 @@ import UIKit
 import NoteDetection
 import FlowCommons
 
-public let audioNoteDetection = AudioNoteDetection()
+public let noteDetection = NoteDetection(type: .audio)
 
 @objc class MainViewController: UITabBarController, UITabBarControllerDelegate {
 
-    let midiNoteDetection = MIDINoteDetection()
     var graphViewController: GraphViewController?
     var midiViewController: MidiViewController?
 
@@ -44,27 +43,24 @@ public let audioNoteDetection = AudioNoteDetection()
         self.delegate = self // TabBarControllerDelegate
         graphViewController = self.viewControllers?[0] as? GraphViewController
 
-        audioNoteDetection.start()
-        midiNoteDetection.onMIDIDeviceListChanged = { (deviceList: Set<MIDIDevice>) in
+        noteDetection.start()
+        noteDetection.onMIDIDeviceListChanged = { (deviceList: Set<MIDIDevice>) in
             for device in deviceList { print(device.displayName) }
         }
-        midiNoteDetection.onMIDIMessageReceived = { (midiMessage: MIDIMessage, device: MIDIDevice?) in
+        noteDetection.onMIDIMessageReceived = { (midiMessage: MIDIMessage, device: MIDIDevice?) in
             print(midiMessage)
         }
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        audioNoteDetection.onAudioProcessed = { processedAudio in
+        noteDetection.onAudioProcessed = { processedAudio in
             self.lastProcessedBlock = processedAudio
         }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        audioNoteDetection.stop()
+        noteDetection.stop()
         self.delegate = nil
         NotificationCenter.default.removeObserver(self)
     }
-
-
-
 }

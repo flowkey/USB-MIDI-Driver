@@ -13,12 +13,10 @@ import FlowCommons
 public typealias Timestamp = Double
 
 public protocol Follower: class {
-    typealias EventListener = () -> Void
-
     init()
     func didFollow()
     func shouldFollow() -> Bool
-    var onFollow: EventListener? { get set }
+    var onFollow: OnNoteEventDetectedCallback? { get set }
     var currentNoteEvent: NoteEvent? { get set }
 }
 
@@ -32,6 +30,6 @@ extension Follower {
 
     func follow() {
         currentNoteEvent = nil
-        onFollow?()
+        onFollow?(getTimeInMillisecondsSince1970())
     }
 }

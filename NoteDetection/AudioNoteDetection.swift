@@ -2,8 +2,9 @@ import FlowCommons
 
 public typealias OnAudioProcessedCallback = (ProcessedAudio) -> Void
 public typealias OnVolumeUpdatedCallback = (Float) -> Void
+public typealias OnNoteEventDetectedCallback = (Timestamp) -> Void
 
-final public class AudioNoteDetection: NoteDetectionProtocol {
+final class AudioNoteDetection: NoteDetectionProtocol {
     public let inputType: InputType = .audio
 
     let lowRange: CountableClosedRange<MIDINumber>
@@ -20,9 +21,11 @@ final public class AudioNoteDetection: NoteDetectionProtocol {
     public var onVolumeUpdated: OnVolumeUpdatedCallback? // in decibel (-72...0) TODO: maybe move to AudioEngine
     public var onInputLevelRatioChanged: OnInputLevelRatioChangedCallback? // as ratio between 0...1
 
-    public var onNoteEventDetected: (() -> Void)? {
+    public var onNoteEventDetected: OnNoteEventDetectedCallback? {
         didSet { follower.onFollow = onNoteEventDetected }
     }
+
+    public var onOnsetDetected: OnOnsetDetectedCallback?
 
     public init () {
         // Chroma extractors for our different ranges:
@@ -37,7 +40,10 @@ final public class AudioNoteDetection: NoteDetectionProtocol {
         onsetDetection = OnsetDetection(feature: SpectralFlux())
 
         // Setup follower
-        onsetDetection.onOnsetDetected = follower.onOnsetDetected
+        onsetDetection.onOnsetDetected = { timestamp in
+            self.follower.onOnsetDetected(timestamp: timestamp)
+            self.onOnsetDetected?(timestamp)
+        }
         pitchDetection.onPitchDetected = follower.onPitchDetected
         follower.onFollow = onNoteEventDetected
     }
@@ -97,7 +103,7 @@ final public class AudioNoteDetection: NoteDetectionProtocol {
         ))}
     }
 
-    public func setExpectedNoteEvent(noteEvent: NoteEvent) {
+    public func setExpectedNoteEvent(noteEvent: NoteEvent?) {
         pitchDetection.expectedPitchDetectionData = PitchDetectionData(from: noteEvent)
     }
 

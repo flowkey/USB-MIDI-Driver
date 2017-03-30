@@ -18,7 +18,7 @@ public final class AudioFollower: Follower {
     private var lastFollowEventTime: Timestamp?
 
     public var currentNoteEvent: NoteEvent?
-    public var onFollow: Follower.EventListener?
+    public var onFollow: OnNoteEventDetectedCallback?
 
     public func onOnsetDetected(timestamp: Timestamp) {
         guard currentlyAcceptingOnsets() else { return }

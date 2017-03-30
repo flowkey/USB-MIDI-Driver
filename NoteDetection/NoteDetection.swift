@@ -9,41 +9,61 @@
 import FlowCommons
 
 public typealias OnInputLevelRatioChangedCallback = (Float) -> Void
-public typealias OnNoteEventDetectedCallback = () -> Void
 
 public class NoteDetection {
-    var noteDetection: NoteDetectionProtocol
+    let audioNoteDetection = AudioNoteDetection()
+    let midiNoteDetection = MIDINoteDetection()
 
     public init(type: InputType) {
-        noteDetection = type.createNoteDetection()
-    }
-
-    public var onInputLevelRatioChanged: OnInputLevelRatioChangedCallback? {
-        didSet { noteDetection.onInputLevelRatioChanged = onInputLevelRatioChanged }
+        inputType = type
     }
 
     public var onNoteEventDetected: OnNoteEventDetectedCallback? {
-        didSet { noteDetection.onNoteEventDetected = onNoteEventDetected }
+        didSet {
+            audioNoteDetection.onNoteEventDetected = onNoteEventDetected
+            midiNoteDetection.onNoteEventDetected = onNoteEventDetected
+        }
+    }
+
+    public var onAudioProcessed: OnAudioProcessedCallback? {
+        didSet { audioNoteDetection.onAudioProcessed = onAudioProcessed }
+    }
+
+    public var onMIDIMessageReceived: OnMIDIMessageReceivedCallback? {
+        didSet { midiNoteDetection.onMIDIMessageReceived = onMIDIMessageReceived }
+    }
+
+    public var onMIDIDeviceListChanged: OnMIDIDeviceListChangedCallback? {
+        didSet { midiNoteDetection.onMIDIDeviceListChanged = onMIDIDeviceListChanged }
+    }
+
+    public var onVolumeUpdated: OnVolumeUpdatedCallback? {
+        didSet { audioNoteDetection.onVolumeUpdated = onVolumeUpdated }
+    }
+
+    public var onOnsetDetected: OnOnsetDetectedCallback? {
+        didSet { audioNoteDetection.onOnsetDetected = onOnsetDetected }
     }
 
     public var inputType: InputType {
-        get { return noteDetection.inputType }
-        set { noteDetection = newValue.createNoteDetection() }
+        willSet {
+            if inputType == .audio && newValue == .midi {
+                self.stop()
+            }
+        }
     }
 
     public func start() {
-        let audioNoteDetection = noteDetection as? AudioNoteDetection
-        audioNoteDetection?.start()
+        if inputType == .audio { audioNoteDetection.start() }
     }
 
     public func stop() {
-        let audioNoteDetection = noteDetection as? AudioNoteDetection
-        audioNoteDetection?.stop()
-
+        if inputType == .audio { audioNoteDetection.stop() }
     }
 
-    public func setExpectedNoteEvent(event: NoteEvent) {
-        noteDetection.setExpectedNoteEvent(noteEvent: event)
+    public func setExpectedNoteEvent(event: NoteEvent?) {
+        audioNoteDetection.setExpectedNoteEvent(noteEvent: event)
+        midiNoteDetection.setExpectedNoteEvent(noteEvent: event)
     }
 }
 
@@ -52,5 +72,5 @@ protocol NoteDetectionProtocol {
     var onInputLevelRatioChanged: OnInputLevelRatioChangedCallback? { get set }
 
     var onNoteEventDetected: OnNoteEventDetectedCallback? { get set }
-    func setExpectedNoteEvent(noteEvent: NoteEvent)
+    func setExpectedNoteEvent(noteEvent: NoteEvent?)
 }

@@ -8,7 +8,7 @@
 
 import FlowCommons
 
-public final class MIDINoteDetection: NoteDetectionProtocol {
+final class MIDINoteDetection: NoteDetectionProtocol {
 
     public let inputType: InputType = .midi
 
@@ -42,7 +42,7 @@ public final class MIDINoteDetection: NoteDetectionProtocol {
         didSet { midiManager?.onMIDIDeviceListChanged = onMIDIDeviceListChanged }
     }
 
-    public func setExpectedNoteEvent(noteEvent: NoteEvent) {
+    public func setExpectedNoteEvent(noteEvent: NoteEvent?) {
         follower.currentNoteEvent = noteEvent
     }
 }
