@@ -9,6 +9,9 @@
 import Foundation
 import AVFoundation
 
+/// RemoteIOAudioUnit, from which we capture audio data and execute `onAudioData`
+private var audioIOUnit: AudioUnit?
+
 final class AudioEngine: AudioEngineProtocol {
     // Array to write audio data for onAudioData callback
     var audioData: [Float] = []
@@ -40,7 +43,7 @@ final class AudioEngine: AudioEngineProtocol {
 
         // Create and initialize audio unit for microphone input with actual settings from audioSession
         audioIOUnit = try AudioUnit.createInputUnit(sampleRate: actualSampleRate, numberOfChannels: 1)
-        try audioIOUnit.initialize()
+        try audioIOUnit?.initialize()
 
         NotificationCenter.default.addObserver(
             self,
@@ -68,21 +71,22 @@ final class AudioEngine: AudioEngineProtocol {
     }
 
     private func updateSampleRateIfNeeded(_ newSampleRate: Double) throws {
-        if audioIOUnit.sampleRate == newSampleRate { return }
-        let wasRunning = audioIOUnit.isRunning
+        guard let audioUnit = audioIOUnit else { return }
+        if audioUnit.sampleRate == newSampleRate { return }
+        let wasRunning = audioUnit.isRunning
 
         // We have to uninitialize the unit before adjusting its sampleRate
         try stop()
-        try audioIOUnit.uninitialize()
+        try audioUnit.uninitialize()
 
         do {
             // Doesn't really matter if this fails, just print the error and move on
-            try audioIOUnit.setSampleRate(newSampleRate)
+            try audioUnit.setSampleRate(newSampleRate)
         } catch {
             print(error.localizedDescription)
         }
 
-        try audioIOUnit.initialize()
+        try audioUnit.initialize()
         if wasRunning { try start() }
 
         onSamplerateChanged?(newSampleRate)
@@ -110,17 +114,16 @@ extension AudioEngine {
     }
 }
 
-
-/// RemoteIOAudioUnit, from which we capture audio data and execute `onAudioData`
-private var audioIOUnit: AudioUnit!
-
 // MARK: Set onAudioData callback to input unit
 extension AudioEngine {
     func setInputUnitCallback() throws {
 
         let callback: AURenderCallback = { (inRefCon, actionFlags, timestamp, busNumber, frameCount, _) -> OSStatus in
             let audioEngine = unsafeBitCast(inRefCon, to: AudioEngine.self)
-            guard let onAudioDataCallback = audioEngine.onAudioData else { return noErr } // abort if no callback set
+            guard
+                let audioUnit = audioIOUnit,
+                let onAudioDataCallback = audioEngine.onAudioData
+            else { return noErr } // abort if no callback set
 
             do { // Update the size of the audioData array if needed
                 let frameCount = Int(frameCount)
@@ -135,7 +138,7 @@ extension AudioEngine {
                 mData: &audioEngine.audioData
             ))
 
-            let osStatus = AudioUnitRender(audioIOUnit, actionFlags, timestamp, busNumber, frameCount, &audioBufferList)
+            let osStatus = AudioUnitRender(audioUnit, actionFlags, timestamp, busNumber, frameCount, &audioBufferList)
             if osStatus != noErr {
                 print(osStatus.localizedDescription)
                 return osStatus // abort and don't call onAudioData
