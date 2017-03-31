@@ -71,10 +71,9 @@ final class AudioNoteDetection: NoteDetectionProtocol {
 
         volumeIteration += 1
         if volumeIteration > 11 { // this value is tuned to make the NativeInputManager look nice
-            if volume.isFinite {
-                onVolumeUpdated?(volume)
+            if let callback = onVolumeUpdated, volume.isFinite {
+               performOnMainThread { callback(volume) }
             }
-
             volumeIteration = 0
         }
 
