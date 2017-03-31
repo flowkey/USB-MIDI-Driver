@@ -16,18 +16,11 @@ final class MIDINoteDetection: NoteDetectionProtocol {
 
     let follower = MIDIFollower()
 
-    public var onInputLevelRatioChanged: OnInputLevelRatioChangedCallback?
-
     public var onMIDIMessageReceived: OnMIDIMessageReceivedCallback? {
         didSet {
             midiManager?.onMIDIMessageReceived = { message, device in
                 self.follower.onMIDIMessageReceived(message)
                 self.onMIDIMessageReceived?(message, device)
-                switch message {
-                    case .noteOn(let (_, velocity)): self.onInputLevelRatioChanged?(Float(velocity) / 127.0)
-                    case .noteOff(let (_, velocity)): self.onInputLevelRatioChanged?(Float(velocity) / 127.0)
-                    default: break
-                }
             }
         }
     }

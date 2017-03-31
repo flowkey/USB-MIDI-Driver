@@ -19,7 +19,6 @@ final class AudioNoteDetection: NoteDetectionProtocol {
 
     public var onAudioProcessed: OnAudioProcessedCallback?
     public var onVolumeUpdated: OnVolumeUpdatedCallback? // in decibel (-72...0) TODO: maybe move to AudioEngine
-    public var onInputLevelRatioChanged: OnInputLevelRatioChangedCallback? // as ratio between 0...1
 
     public var onNoteEventDetected: OnNoteEventDetectedCallback? {
         didSet { follower.onFollow = onNoteEventDetected }
@@ -74,8 +73,6 @@ final class AudioNoteDetection: NoteDetectionProtocol {
         if volumeIteration > 11 { // this value is tuned to make the NativeInputManager look nice
             if volume.isFinite {
                 onVolumeUpdated?(volume)
-                let volumeRatio = 1 - (volume / -72)
-                onInputLevelRatioChanged?(volumeRatio)
             }
 
             volumeIteration = 0

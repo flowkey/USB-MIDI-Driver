@@ -8,8 +8,6 @@
 
 import FlowCommons
 
-public typealias OnInputLevelRatioChangedCallback = (Float) -> Void
-
 public class NoteDetection {
     let audioNoteDetection = AudioNoteDetection()
     let midiNoteDetection = MIDINoteDetection()
@@ -69,7 +67,6 @@ public class NoteDetection {
 
 protocol NoteDetectionProtocol {
     var inputType: InputType { get }
-    var onInputLevelRatioChanged: OnInputLevelRatioChangedCallback? { get set }
 
     var onNoteEventDetected: OnNoteEventDetectedCallback? { get set }
     func setExpectedNoteEvent(noteEvent: NoteEvent?)
