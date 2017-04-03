@@ -21,7 +21,6 @@
 		037E22C11E89151B00BBA993 /* PlatformApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22BF1E89151B00BBA993 /* PlatformApple.swift */; };
 		037E22C31E8915A500BBA993 /* CrossPlatformHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22C21E8915A500BBA993 /* CrossPlatformHelper.swift */; };
 		037E22C51E89160C00BBA993 /* MIDIMessageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22C41E89160C00BBA993 /* MIDIMessageTests.swift */; };
-		037E22C71E89161900BBA993 /* AudioHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22C61E89161900BBA993 /* AudioHelperTests.swift */; };
 		037E22C91E89161F00BBA993 /* ChromaVectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22C81E89161F00BBA993 /* ChromaVectorTests.swift */; };
 		037E22D41E8919F300BBA993 /* ChromaVector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22D31E8919F300BBA993 /* ChromaVector.swift */; };
 		037E22D81E891F2000BBA993 /* PitchDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22D71E891F2000BBA993 /* PitchDetection.swift */; };
@@ -81,7 +80,6 @@
 		037E22BF1E89151B00BBA993 /* PlatformApple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlatformApple.swift; sourceTree = "<group>"; };
 		037E22C21E8915A500BBA993 /* CrossPlatformHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrossPlatformHelper.swift; sourceTree = "<group>"; };
 		037E22C41E89160C00BBA993 /* MIDIMessageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIMessageTests.swift; sourceTree = "<group>"; };
-		037E22C61E89161900BBA993 /* AudioHelperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioHelperTests.swift; sourceTree = "<group>"; };
 		037E22C81E89161F00BBA993 /* ChromaVectorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChromaVectorTests.swift; sourceTree = "<group>"; };
 		037E22D31E8919F300BBA993 /* ChromaVector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChromaVector.swift; sourceTree = "<group>"; };
 		037E22D71E891F2000BBA993 /* PitchDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchDetection.swift; sourceTree = "<group>"; };
@@ -299,7 +297,6 @@
 				03881DBC1E892E0C00D61E9B /* FilterBankTests.swift */,
 				03881DBD1E892E0C00D61E9B /* AppleFilterBank.swift */,
 				037E22C81E89161F00BBA993 /* ChromaVectorTests.swift */,
-				037E22C61E89161900BBA993 /* AudioHelperTests.swift */,
 				037E22C41E89160C00BBA993 /* MIDIMessageTests.swift */,
 				03A7F73E1E850D5300849AE2 /* NoteDetectionTests.swift */,
 				03A7F7401E850D5300849AE2 /* Info.plist */,
@@ -502,7 +499,6 @@
 			files = (
 				03881DD81E89475C00D61E9B /* NoteEventsFixture.swift in Sources */,
 				037E22C51E89160C00BBA993 /* MIDIMessageTests.swift in Sources */,
-				037E22C71E89161900BBA993 /* AudioHelperTests.swift in Sources */,
 				03881DBE1E892E0C00D61E9B /* NativePitchDetectionTests.swift in Sources */,
 				037E22C91E89161F00BBA993 /* ChromaVectorTests.swift in Sources */,
 				03881DD61E89475C00D61E9B /* FollowerTest.swift in Sources */,

@@ -8,7 +8,6 @@
 
 import UIKit
 import NoteDetection
-import FlowCommons
 
 public let noteDetection = NoteDetection(type: .audio)
 

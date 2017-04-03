@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../native-commons/FlowCommons.xcodeproj">
+      location = "group:../FlowCommons/FlowCommons.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Testumgebung/Testumgebung.xcodeproj">
