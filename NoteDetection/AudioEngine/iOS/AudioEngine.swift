@@ -93,6 +93,7 @@ final class AudioEngine: AudioEngineProtocol {
     }
 
     deinit {
+        print("deiniting AudioEngine")
         NotificationCenter.default.removeObserver(self)
         try? stop()
         try? audioIOUnit?.uninitialize()

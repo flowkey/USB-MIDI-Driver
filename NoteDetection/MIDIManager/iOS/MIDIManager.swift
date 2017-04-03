@@ -41,6 +41,10 @@ class MIDIManager: MIDIManagerProtocol {
         connect()
     }
 
+    deinit {
+        print("deiniting MIDIManager")
+    }
+
     /// ios9 bug - keep ref to prevent bad_exec error on removal of the device
     /// details: http://stackoverflow.com/questions/32686214/removeconnection-results-in-exc-bad-access
     private var defaultNetworkSession: MIDINetworkSession = MIDINetworkSession.default()

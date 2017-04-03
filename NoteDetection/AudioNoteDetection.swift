@@ -47,6 +47,10 @@ final class AudioNoteDetection: NoteDetectionProtocol {
         follower.onFollow = onNoteEventDetected
     }
 
+    deinit {
+        print("deiniting AudioNoteDetection")
+    }
+
     public func start() {
         audioEngine.onAudioData = self.process
         try! audioEngine.start()
