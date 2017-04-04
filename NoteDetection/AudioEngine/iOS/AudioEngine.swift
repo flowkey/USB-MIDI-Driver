@@ -124,7 +124,10 @@ extension AudioEngine {
             guard
                 let audioUnit = audioIOUnit,
                 let onAudioDataCallback = audioEngine.onAudioData
-            else { return noErr } // abort if no callback set
+            else {
+                // ToDo: handle or throw error
+                return noErr
+            } // abort if no callback set
 
             do { // Update the size of the audioData array if needed
                 let frameCount = Int(frameCount)

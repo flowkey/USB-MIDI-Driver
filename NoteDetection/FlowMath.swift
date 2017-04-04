@@ -72,14 +72,14 @@ func min(_ x: [Double]) -> Double {
 
 func sum(_ x: [Float]) -> Float {
     // NOT the same as v​DSP_sve, since it calculates the sum of absolute values in x
-    return cblas_sasum(Int32(x.count), x, 1)
-//    return x.reduce(0, { $0 + $1 })
+//    return cblas_sasum(Int32(x.count), x, 1)
+    return x.reduce(0, { $0 + $1 })
 }
 
 func sum(_ x: [Double]) -> Double {
     // NOT the same as v​DSP_sve, since it calculates the sum of absolute values in x
-    return cblas_dasum(Int32(x.count), x, 1)
-//    return x.reduce(0, { $0 + $1 })
+//    return cblas_dasum(Int32(x.count), x, 1)
+    return x.reduce(0, { $0 + $1 })
 }
 
 func sqrt(_ x: [Float]) -> [Float] {

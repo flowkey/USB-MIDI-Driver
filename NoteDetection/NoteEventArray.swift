@@ -6,8 +6,6 @@
 //  Copyright © 2017 flowkey. All rights reserved.
 //
 
-import Foundation
-
 extension Array where Element == NoteEvent {
     public mutating func updateTimeToNextValues() {
         for index in self.indices {
