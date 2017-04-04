@@ -1,6 +1,5 @@
 //
 //  NoteEvent.swift
-
 //
 //  Created by Geordie Jay on 20.10.16.
 //  Copyright © 2016 flowkey. All rights reserved.

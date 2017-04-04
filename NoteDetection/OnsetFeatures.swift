@@ -25,7 +25,7 @@ protocol OnsetFeature {
 
 // MARK: Spectral Flux
 
-public class SpectralFlux: OnsetFeature {
+class SpectralFlux: OnsetFeature {
 
     var previousData: [Float] = [Float]()
 

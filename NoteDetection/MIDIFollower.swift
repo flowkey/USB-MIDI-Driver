@@ -7,7 +7,7 @@
 //
 
 
-public final class MIDIFollower: Follower {
+final class MIDIFollower: Follower {
     public init() {}
     public var currentNoteEvent: NoteEvent?
     public var onFollow: OnNoteEventDetectedCallback?

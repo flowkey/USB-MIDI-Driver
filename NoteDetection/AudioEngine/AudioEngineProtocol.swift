@@ -9,7 +9,7 @@
 public typealias OnAudioDataCallback = (([Float32]) -> Void)
 public typealias OnSamplerateChanged = ((_ sampleRate: Double) -> Void)
 
-public protocol AudioEngineProtocol {
+protocol AudioEngineProtocol {
     var onAudioData: OnAudioDataCallback? { get set }
     var onSamplerateChanged: OnSamplerateChanged? { get set }
 

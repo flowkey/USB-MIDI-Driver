@@ -7,12 +7,10 @@
 //
 
 
-
-
 /// A Double signifying the time an event arrived, in milliseconds
 public typealias Timestamp = Double
 
-public protocol Follower: class {
+protocol Follower: class {
     init()
     func didFollow()
     func shouldFollow() -> Bool

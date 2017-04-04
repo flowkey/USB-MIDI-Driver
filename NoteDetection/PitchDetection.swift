@@ -7,10 +7,9 @@
 //
 
 
+typealias OnPitchDetectedCallback = (Timestamp) -> Void
 
-public typealias OnPitchDetectedCallback = (Timestamp) -> Void
-
-public class PitchDetection {
+class PitchDetection {
 
     init (lowNoteBoundary: MIDINumber) {
         self.lowNoteBoundary = lowNoteBoundary

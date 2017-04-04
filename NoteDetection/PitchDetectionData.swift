@@ -1,14 +1,12 @@
 //
 //  NoteDetectionData.swift
-
 //
 //  Created by flowing erik on 05.10.16.
 //  Copyright © 2016 flowkey. All rights reserved.
 //
 
 
-
-public typealias JSONDict = [String:AnyObject]
+typealias JSONDict = [String:AnyObject]
 
 // maximum key, until which additional tolerance for low keys as well as an expected chroma value
 // for the fifth of a key is calculated. determined through obervation of filterbank during testing

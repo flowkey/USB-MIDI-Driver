@@ -7,7 +7,7 @@
 //
 
 
-public final class AudioFollower: Follower {
+final class AudioFollower: Follower {
     public init() {}
 
     private let timeToNextToleranceFactor = 0.5
