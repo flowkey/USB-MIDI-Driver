@@ -10,7 +10,7 @@
 
 import Accelerate
 import NoteDetection
-import FlowCommons
+
 
 class AppleFilter {
     init(sampleRate: Double, centreFrequency: Double, Q: Double) {
@@ -18,7 +18,7 @@ class AppleFilter {
             fatalError("filter frequency and Q must be > 0")
         }
 
-        let omega = 2 * M_PI * centreFrequency / sampleRate
+        let omega = 2 * Double.pi * centreFrequency / sampleRate
         let omegaS = sin(omega)
         let omegaC = cos(omega)
         let alpha = omegaS / (2*Q)

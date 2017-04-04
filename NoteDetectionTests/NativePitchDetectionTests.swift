@@ -7,9 +7,6 @@
 //
 
 import XCTest
-import FlowCommons
-import Accelerate
-
 @testable import NoteDetection
 
 class NativePitchDetectionTests: XCTestCase {
@@ -37,7 +34,7 @@ class NativePitchDetectionTests: XCTestCase {
 
 
     func testFilterbankMapping() {
-        let sineWave = createSineWave(bufferLength, f: midiNumberForA.inHz, fs: Double(sampleRate))
+        let sineWave = createSineWave(bufferLength, freq: midiNumberForA.inHz, sampleRate: Double(sampleRate))
         let audioNoteDetection = AudioNoteDetection()
 
         for _ in 0...100 {
@@ -55,7 +52,7 @@ class NativePitchDetectionTests: XCTestCase {
     }
 
     func testChromaMapping() {
-        let sineWave = createSineWave(bufferLength, f: midiNumberForA.inHz, fs: Double(sampleRate))
+        let sineWave = createSineWave(bufferLength, freq: midiNumberForA.inHz, sampleRate: Double(sampleRate))
         let audioProcessor = AudioNoteDetection()
 
         for _ in 0...100 {
@@ -72,18 +69,18 @@ class NativePitchDetectionTests: XCTestCase {
     // MARK: helper functions
 
     // creates an audio frame in the form of an sine wave
-    func createSineWave(_ n: Int, f: Double, fs: Double, amp: Double = 1) -> [Float] {
-        var wave: [Float] = [Float](repeating: 0, count: n)
+    func createSineWave(_ count: Int, freq: Double, sampleRate: Double, amp: Double = 1) -> [Float] {
+        var wave: [Float] = [Float](repeating: 0, count: count)
 
         for index in 0 ..< wave.count {
-            wave[index] = Float(applySine(Double(index), f: f, fs: fs, amp: amp))
+            wave[index] = Float(applySine(Double(index), freq: freq, sampleRate: sampleRate, amp: amp))
         }
 
         return wave
     }
 
     // returns an amplitude value for x for a given frequency f and samplerate fs, amplitude always 1
-    func applySine(_ x: Double, f: Double, fs: Double, amp: Double = 1) -> Double {
-        return amp * NoteDetection.sin(2 * NoteDetection.M_PI * f/fs * x)
+    func applySine(_ value: Double, freq: Double, sampleRate: Double, amp: Double = 1) -> Double {
+        return amp * Foundation.sin(2 * Double.pi * freq/sampleRate * value)
     }
 }

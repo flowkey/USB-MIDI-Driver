@@ -6,7 +6,7 @@
 //  Copyright © 2016 flowkey GmbH. All rights reserved.
 //
 
-import FlowCommons
+
 
 
 /// A Double signifying the time an event arrived, in milliseconds

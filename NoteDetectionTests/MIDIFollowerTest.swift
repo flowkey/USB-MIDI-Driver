@@ -7,7 +7,6 @@
 //
 
 import XCTest
-import FlowCommons
 @testable import NoteDetection
 
 class MIDIFollowerTest: XCTestCase {
@@ -30,8 +29,14 @@ class MIDIFollowerTest: XCTestCase {
 
         midiFollower.currentNoteEvent = noteEvents[randomEventIndex]
 
-        for note in midiFollower.currentNoteEvent!.notes {
-            midiFollower.on(MIDIMessage.noteOn(key: UInt8(note), velocity: 10))
+        guard let noteEvent = midiFollower.currentNoteEvent else {
+            XCTFail()
+            return
+        }
+
+        for note in noteEvent.notes {
+            let message = MIDIMessage.noteOn(key: UInt8(note), velocity: 10)
+            midiFollower.onMIDIMessageReceived(message)
         }
 
         XCTAssertNil(midiFollower.currentNoteEvent)
@@ -44,7 +49,7 @@ class MIDIFollowerTest: XCTestCase {
         midiFollower.currentNoteEvent = noteEvents[eventIndex]
 
         for note in midiFollower.currentNoteEvent!.notes {
-            midiFollower.on(MIDIMessage.noteOn(key: UInt8(note), velocity: 10))
+            midiFollower.onMIDIMessageReceived(MIDIMessage.noteOn(key: UInt8(note), velocity: 10))
         }
 
         XCTAssertTrue(midiFollower.currentMIDIKeys.isEmpty)
@@ -54,13 +59,13 @@ class MIDIFollowerTest: XCTestCase {
 
 
         // add some keys
-        midiFollower.on(MIDIMessage.noteOn(key: 69, velocity: 10))
-        midiFollower.on(MIDIMessage.noteOn(key: 69+12, velocity: 10))
+        midiFollower.onMIDIMessageReceived(MIDIMessage.noteOn(key: 69, velocity: 10))
+        midiFollower.onMIDIMessageReceived(MIDIMessage.noteOn(key: 69+12, velocity: 10))
 
 
         // remove keys again
-        midiFollower.on(MIDIMessage.noteOff(key: 69, velocity: 10))
-        midiFollower.on(MIDIMessage.noteOff(key: 69+12, velocity: 10))
+        midiFollower.onMIDIMessageReceived(MIDIMessage.noteOff(key: 69, velocity: 10))
+        midiFollower.onMIDIMessageReceived(MIDIMessage.noteOff(key: 69+12, velocity: 10))
 
 
         XCTAssertTrue(midiFollower.currentMIDIKeys.isEmpty)
@@ -73,11 +78,16 @@ class MIDIFollowerTest: XCTestCase {
         midiFollower.currentNoteEvent = noteEvents[randomEventIndex]
 
         // add not expected key
-        midiFollower.on(MIDIMessage.noteOn(key: 0, velocity: 10))
+        midiFollower.onMIDIMessageReceived(MIDIMessage.noteOn(key: 0, velocity: 10))
+
+        guard let noteEvent = midiFollower.currentNoteEvent else {
+            XCTFail()
+            return
+        }
 
         // add expected keys
-        for note in midiFollower.currentNoteEvent!.notes {
-            midiFollower.on(MIDIMessage.noteOn(key: UInt8(note), velocity: 10))
+        for note in noteEvent.notes {
+            midiFollower.onMIDIMessageReceived(MIDIMessage.noteOn(key: UInt8(note), velocity: 10))
         }
 
         XCTAssertNil(midiFollower.currentNoteEvent, "currentNoteEvent nil because it was detected previously")

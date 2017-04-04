@@ -5,7 +5,7 @@
 //  Created by Geordie Jay on 18.03.15.
 //  Copyright (c) 2015 flowkey. All rights reserved.
 //
-import FlowCommons
+
 import simd
 
 final class FilterBank {

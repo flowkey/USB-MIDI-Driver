@@ -1,13 +1,12 @@
 //
-//  FlowCommonsTests.swift
-//  FlowCommonsTests
+//  ChromaVectorTests.swift
 //
 //  Created by flowing erik on 30.09.16.
 //  Copyright © 2016 flowkey. All rights reserved.
 //
 
 import XCTest
-import FlowCommons
+
 @testable import NoteDetection
 
 class ChromaTests: XCTestCase {

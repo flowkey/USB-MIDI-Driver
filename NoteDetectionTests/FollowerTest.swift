@@ -7,11 +7,12 @@
 //
 
 import XCTest
-import FlowCommons
+import NoteDetection
+
 @testable import NoteDetection
 
 final class DummyFollower: Follower {
-    public var onFollow: Follower.EventListener?
+    public var onFollow: OnNoteEventDetectedCallback?
 
     public var currentNoteEvent: NoteEvent?
 
@@ -27,7 +28,7 @@ final class DummyFollower: Follower {
 class FollowerTest: XCTestCase {
 
     var follower: DummyFollower?
-    let marioEvents = anotherDayInParadiseNoteEvents
+    let noteEvents = anotherDayInParadiseNoteEvents
 
     override func setUp() {
         super.setUp()

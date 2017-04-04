@@ -1,6 +1,6 @@
 //
 //  MIDIMessage.swift
-//  FlowCommons
+
 //
 //  Created by flowing erik on 30.09.16.
 //  Copyright © 2016 flowkey. All rights reserved.

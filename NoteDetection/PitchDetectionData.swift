@@ -1,12 +1,12 @@
 //
 //  NoteDetectionData.swift
-//  FlowCommons
+
 //
 //  Created by flowing erik on 05.10.16.
 //  Copyright © 2016 flowkey. All rights reserved.
 //
 
-import FlowCommons
+
 
 public typealias JSONDict = [String:AnyObject]
 

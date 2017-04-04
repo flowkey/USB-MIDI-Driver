@@ -32,7 +32,7 @@ class AudioFollowerTests: XCTestCase {
 
         let expectation = self.expectation(description: "listener executed because timestamps are close enough")
 
-        audioFollower.onFollow = {
+        audioFollower.onFollow = { timestamp in
             expectation.fulfill()
         }
 
@@ -51,7 +51,7 @@ class AudioFollowerTests: XCTestCase {
 
         let expectation = self.expectation(description: "listener not executed because timestamps are NOT close enough")
 
-        audioFollower.onFollow = {
+        audioFollower.onFollow = { timestamp in
             XCTAssert(true)
         }
 

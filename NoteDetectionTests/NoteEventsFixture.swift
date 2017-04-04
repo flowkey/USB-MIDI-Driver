@@ -1,6 +1,6 @@
 //
 //  NoteEventsFixture.swift
-//  FlowCommons
+
 //
 //  Created by Geordie Jay on 31.10.16.
 //  Copyright © 2016 flowkey. All rights reserved.
@@ -8,7 +8,7 @@
 
 // swiftlint:disable file_length
 
-import FlowCommons
+import NoteDetection
 
 let anotherDayInParadiseNoteEvents = [
     NoteEvent(x: 147, t: 1200, notesL: [57, 60, 64], notesR: [72]),

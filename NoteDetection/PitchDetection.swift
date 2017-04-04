@@ -6,7 +6,7 @@
 //  Copyright © 2017 flowkey. All rights reserved.
 //
 
-import FlowCommons
+
 
 public typealias OnPitchDetectedCallback = (Timestamp) -> Void
 
