@@ -16,6 +16,10 @@ public class NoteDetection {
         inputType = type
     }
 
+    deinit {
+        print("deiniting NoteDetection")
+    }
+
     public var onNoteEventDetected: OnNoteEventDetectedCallback? {
         didSet {
             audioNoteDetection.onNoteEventDetected = onNoteEventDetected
