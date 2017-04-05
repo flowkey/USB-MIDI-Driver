@@ -6,13 +6,12 @@
 //  Copyright © 2017 flowkey. All rights reserved.
 //
 
-let maxVelocity: Float = 127.0
+private let maxVelocity: Float = 127.0
 
 final class MIDINoteDetector: NoteDetector {
-
     var onInputLevelChanged: OnInputLevelChangedCallback?
     var onNoteEventDetected: OnNoteEventDetectedCallback?
-    var expectedNoteEvent: NoteEvent?
+    var expectedNoteEvent: DetectableNoteEvent?
     var currentMIDIKeys = Set<Int>()
 
     public func process(midiMessage: MIDIMessage, from: MIDIDevice? = nil) {
@@ -33,13 +32,18 @@ final class MIDINoteDetector: NoteDetector {
         }
     }
 
-    func update(_ velocity: UInt8) {
+    private var currentVelocity: Float {
+        didSet {} // update inputLevel to ratio
+    }
+
+    private func update(_ velocity: UInt8) {
         let ratio = Float(velocity) / maxVelocity
         onInputLevelChanged?(ratio)
     }
 
-    func allExpectedNotesAreOn() -> Bool {
+    private func allExpectedNotesAreOn() -> Bool {
         guard let expectedKeys = expectedNoteEvent?.notes else { return false }
         return currentMIDIKeys.isSuperset(of: expectedKeys) // allows not expected keys
     }
 }
+

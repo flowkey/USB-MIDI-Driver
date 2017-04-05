@@ -9,7 +9,6 @@
 public typealias OnOnsetDetectedCallback = (Timestamp) -> Void
 
 public class OnsetDetection {
-
     let onsetFeature: OnsetFeature
     var onsetFeatureBuffer: [Float]
     var currentThreshold: Float
@@ -23,7 +22,7 @@ public class OnsetDetection {
     }
 
     // incoming audioData is in time or frequency domain, depending on onsetFeature
-    func run(_ audioData: [Float], filterbankMagnitudes: [Float]) -> (featureValue: Float, currentThreshold: Float, onsetDetected: Bool) {
+    func run(_ audioData: [Float], filterbankMagnitudes: [Float]) -> (featureValue: Float, threshold: Float, wasDetected: Bool) {
         var onsetDetected = false
 
         var currentFeatureValue: Float = 0.0
@@ -52,29 +51,20 @@ public class OnsetDetection {
 
     // MARK: Peak Picking functions
 
-
     // calls all the functions which help to find a peak
     fileprivate var currentBufferIsAPeak: Bool {
         return atLocalMaximum && isAboveThreshold(atNegativeIndex: 2)
     }
 
-
     // simple check for local maximum within the last 3 elements of onsetFeatureBuffer
     fileprivate var atLocalMaximum: Bool {
-
-        let bufferSlice = [Float](self.onsetFeatureBuffer[onsetFeatureBuffer.count - 3 ... onsetFeatureBuffer.count - 1])
+        let bufferSlice = [Float](onsetFeatureBuffer[onsetFeatureBuffer.count - 3 ..< onsetFeatureBuffer.count])
         return isLocalMaximum(amplitudes: bufferSlice, centreIndex: 1)
-
     }
-
 
     // check if element at position [bufferlength - reverseIndex] is bigger than current threshold
     fileprivate func isAboveThreshold(atNegativeIndex reverseIndex: Int) -> Bool {
-        if self.onsetFeatureBuffer[self.onsetFeatureBuffer.count - reverseIndex] > self.currentThreshold {
-            return true
-        }
-
-        return false
+        return onsetFeatureBuffer[onsetFeatureBuffer.count - reverseIndex] > self.currentThreshold
     }
 }
 

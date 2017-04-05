@@ -2,32 +2,20 @@
 //  ProcessedAudio.swift
 //  NoteDetection
 //
-//  Created by flowing erik on 27.03.17.
+//  Created by Geordie Jay on 05.04.17.
 //  Copyright © 2017 flowkey. All rights reserved.
 //
 
-public struct ProcessedAudio {
-    public let audioData: [Float]
-    public let chromaVector: [Float]
-    public let filterBandAmplitudes: [Float]
-    public let onsetFeatureValue: Float
-    public let onsetThreshold: Float
-    public let onsetDetected: Bool
 
-    // We need a public initializer for the Testumgebung, add default data while we're at it..
-    public init(
-        audioData: [Float] = [],
-        chromaVector: [Float] = [],
-        filterBandAmplitudes: [Float] = [],
-        onsetFeatureValue: Float = 0,
-        onsetThreshold: Float = 0,
-        onsetDetected: Bool = false
-    ) {
-        self.audioData = audioData
-        self.chromaVector = chromaVector
-        self.filterBandAmplitudes = filterBandAmplitudes
-        self.onsetFeatureValue = onsetFeatureValue
-        self.onsetThreshold = onsetThreshold
-        self.onsetDetected = onsetDetected
-    }
-}
+// These types are deliberately NOT public, because we don't want them accessible outside of flowkey
+// To use them in the Testumgebung, import NoteDetection as @testable
+typealias OnAudioProcessedCallback = (ProcessedAudio) -> Void
+
+typealias ProcessedAudio = (
+    audioData: [Float],
+    chromaVector: ChromaVector,
+    filterbankMagnitudes: [Float],
+    onsetFeatureValue: Float,
+    onsetThreshold: Float,
+    onsetDetected: Bool
+)

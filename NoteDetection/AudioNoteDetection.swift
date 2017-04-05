@@ -1,7 +1,6 @@
 private let timeToNextToleranceFactor = 0.5
 private let maxTimestampDiff = Timestamp(200)
 
-public typealias OnAudioProcessedCallback = (ProcessedAudio) -> Void
 public typealias OnVolumeUpdatedCallback = (Float) -> Void
 public typealias OnNoteEventDetectedCallback = (Timestamp) -> Void
 
@@ -19,40 +18,46 @@ final class AudioNoteDetector: NoteDetector {
     public var onVolumeUpdated: OnVolumeUpdatedCallback? // in decibel (-72...0)
     public var onOnsetDetected: OnOnsetDetectedCallback?
 
-    public init (sampleRate: Double) {
+    public init(audioEngine: AudioEngine) {
         // Chroma extractors for our different ranges:
         lowRange = MIDINumber(note: .g, octave: 1) ... MIDINumber(note: .d, octave: 5)
         highRange = lowRange.last! ... MIDINumber(note: .d, octave: 7)
 
         let fullRange = lowRange.first! ... highRange.last!
-        filterbank = FilterBank(noteRange: fullRange, sampleRate: sampleRate)
+        filterbank = FilterBank(noteRange: fullRange, sampleRate: audioEngine.sampleRate)
 
         // Setup processors
         pitchDetection = PitchDetection(lowNoteBoundary: lowRange.last!, onPitchDetected: self.onPitchDetected)
         onsetDetection = OnsetDetection(feature: SpectralFlux(), onOnset: self.onOnsetDetected)
+        audioEngine.onAudioData = self.process
     }
 
     /// Creates a new AudioNoteDetection preserving existing delegates, but with a different sampleRate.
-    func cloned(newSampleRate: Double) -> AudioNoteDetector {
-        let copy = AudioNoteDetector(sampleRate: newSampleRate)
-        copy.onAudioProcessed = self.onAudioProcessed
-        copy.onVolumeUpdated = self.onVolumeUpdated
-        return copy
-    }
+//    func cloned(newSampleRate: Double) -> AudioNoteDetector {
+//        let copy = AudioNoteDetector(sampleRate: newSampleRate)
+//        copy.onAudioProcessed = self.onAudioProcessed
+//        copy.onVolumeUpdated = self.onVolumeUpdated
+//        return copy
+//    }
 
     var volumeIteration = 0
-
-    func process(audio buffer: [Float]) {
+    private func calculateVolume(from buffer: [Float]) -> Float {
         let volume = linearToDecibel(rootMeanSquare(buffer))
 
         volumeIteration += 1
         if volumeIteration > 11 { // this value is tuned to make the NativeInputManager look nice
-            if let callback = onInputLevelChanged, volume.isFinite {
+            if let onVolumeUpdated = onVolumeUpdated, volume.isFinite {
                 let ratio = 1 - (volume / -72)
-                performOnMainThread { callback(ratio) }
+                performOnMainThread { onVolumeUpdated(ratio) }
             }
             volumeIteration = 0
         }
+
+        return volume
+    }
+
+    func process(audio buffer: [Float]) {
+        let volume = calculateVolume(from: buffer)
 
         // Volume drops a lot more quickly than the filterbank magnitudes
         // So check we either have enough volume, OR the filterbank is still "ringing out":
@@ -62,26 +67,23 @@ final class AudioNoteDetector: NoteDetector {
 
         // Do Pitch / Onset Detection
         filterbank.calculateMagnitudes(buffer)
-        let onsetData = onsetDetection.run(buffer, filterbankMagnitudes: filterbank.magnitudes)
+        let onset = onsetDetection.run(buffer, filterbankMagnitudes: filterbank.magnitudes)
         let chromaVector = chroma(pitchDetection.currentDetectionMode)
         pitchDetection.run(chromaVector)
 
-        performOnMainThread {
-            self.onAudioProcessed?(
-                ProcessedAudio(
-                    audioData: buffer,
-                    chromaVector: chromaVector.toRaw,
-                    filterBandAmplitudes: self.filterbank.magnitudes,
-                    onsetFeatureValue: onsetData.featureValue,
-                    onsetThreshold: onsetData.currentThreshold,
-                    onsetDetected: onsetData.onsetDetected
+        // Don't make unnecessary calls to the main thread if there is no callback set:
+        if let onAudioProcessed = onAudioProcessed {
+            performOnMainThread {
+                let filterbankMagnitudes = self.filterbank.magnitudes
+                onAudioProcessed(
+                    (buffer, chromaVector, filterbankMagnitudes, onset.featureValue, onset.threshold, onset.wasDetected)
                 )
-            )
+            }
         }
     }
 
-    public var expectedNoteEvent: NoteEvent? {
-        didSet { pitchDetection.expectedPitchDetectionData = PitchDetectionData(from: expectedNoteEvent) }
+    public func setExpectedNoteEvent(noteEvent: DetectableNoteEvent?) {
+        pitchDetection.setExpectedEvent(noteEvent)
     }
 
     func chroma(_ detectionMode: PitchDetection.DetectionMode) -> ChromaVector {
@@ -121,13 +123,11 @@ final class AudioNoteDetector: NoteDetector {
     }
 
     func currentlyAcceptingOnsets() -> Bool {
-        guard
-            let lastFollowEventTime = lastFollowEventTime,
-            let timeToNextEvent = expectedNoteEvent?.timeToNext
-            else {
-                return true
+        if let lastFollowEventTime = lastFollowEventTime, let timeToNextEvent = currentNoteEvent?.timeToNext {
+            return .now - lastFollowEventTime >= (timeToNextEvent * timeToNextToleranceFactor)
+        } else {
+            return true
         }
-        return .now - lastFollowEventTime >= (timeToNextEvent * timeToNextToleranceFactor)
     }
 
     func onInputReceived() {

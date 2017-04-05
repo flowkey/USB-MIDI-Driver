@@ -1,30 +1,20 @@
-//
-//  AudioEngine.swift
-//  NoteDetection
-//
-//  Created by flowing erik on 24.03.17.
-//  Copyright © 2017 flowkey. All rights reserved.
-//
-
-import Foundation
 import AVFoundation
 
-/// RemoteIOAudioUnit, from which we capture audio data and execute `onAudioData`
-private var audioIOUnit: AudioUnit?
+public typealias OnAudioDataCallback = (([Float]) -> Void)
+public typealias OnSampleRateChanged = ((_ sampleRate: Double) -> Void)
 
-final class AudioEngine: AudioEngineProtocol {
-    // Array to write audio data for onAudioData callback
-    var audioData: [Float] = []
+final class AudioEngine {
+    fileprivate var audioData: [Float] = []
 
-    public var onAudioData: OnAudioDataCallback? {
-        didSet { do { try setInputUnitCallback() } catch { print(error.localizedDescription) } }
-    }
+    /// RemoteIOAudioUnit, from which we capture audio data and execute `onAudioData`
+    fileprivate let audioIOUnit: AudioUnit
+    public var onAudioData: OnAudioDataCallback?
 
     public var sampleRate: Double {
         return AVAudioSession.sharedInstance().sampleRate
     }
 
-    public var onSamplerateChanged: OnSamplerateChanged?
+    public var onSampleRateChanged: OnSampleRateChanged?
 
     // AudioEngine has no public initialisers and is only accessible via `sharedInstance`:
     init() throws {
@@ -43,7 +33,8 @@ final class AudioEngine: AudioEngineProtocol {
 
         // Create and initialize audio unit for microphone input with actual settings from audioSession
         audioIOUnit = try AudioUnit.createInputUnit(sampleRate: actualSampleRate, numberOfChannels: 1)
-        try audioIOUnit?.initialize()
+        try audioIOUnit.initialize()
+        try setInputUnitCallback()
 
         NotificationCenter.default.addObserver(
             self,
@@ -53,6 +44,27 @@ final class AudioEngine: AudioEngineProtocol {
         )
     }
 
+    deinit {
+        print("deiniting AudioEngine")
+        NotificationCenter.default.removeObserver(self)
+        try? stop()
+        try? audioIOUnit.uninitialize()
+        try? audioIOUnit.dispose()
+    }
+}
+
+// MARK: Public controls.
+extension AudioEngine {
+    public func start() throws {
+        try audioIOUnit.start()
+    }
+
+    public func stop() throws {
+        try audioIOUnit.stop()
+    }
+}
+
+extension AudioEngine {
     @objc func handleRouteChange(routeChangeNotification: NSNotification) {
         let audioSession = AVAudioSession.sharedInstance()
 
@@ -62,105 +74,56 @@ final class AudioEngine: AudioEngineProtocol {
             try? audioSession.overrideOutputAudioPort(.speaker)
         }
 
-        do {
-            // It's very unlikely this will throw, but life goes on if it does:
-            try updateSampleRateIfNeeded(audioSession.sampleRate)
-        } catch {
-            print(error.localizedDescription)
-        }
+        // It's very unlikely this will throw, life goes on if it does:
+        printOnErrorAndContinue { try updateSampleRateIfNeeded(audioSession.sampleRate) }
     }
 
     private func updateSampleRateIfNeeded(_ newSampleRate: Double) throws {
-        guard let audioUnit = audioIOUnit else { return }
-        if audioUnit.sampleRate == newSampleRate { return }
-        let wasRunning = audioUnit.isRunning
+        if audioIOUnit.sampleRate == newSampleRate { return }
+        let wasRunning = audioIOUnit.isRunning
 
         // We have to uninitialize the unit before adjusting its sampleRate
         try stop()
-        try audioUnit.uninitialize()
+        try audioIOUnit.uninitialize()
 
-        do {
-            // Doesn't really matter if this fails, just print the error and move on
-            try audioUnit.setSampleRate(newSampleRate)
-        } catch {
-            print(error.localizedDescription)
-        }
+        printOnErrorAndContinue { try audioIOUnit.setSampleRate(newSampleRate) }
 
-        try audioUnit.initialize()
+        try audioIOUnit.initialize()
         if wasRunning { try start() }
 
-        onSamplerateChanged?(newSampleRate)
-    }
-
-    deinit {
-        print("deiniting AudioEngine")
-        NotificationCenter.default.removeObserver(self)
-        try? stop()
-        try? audioIOUnit?.uninitialize()
-        try? audioIOUnit?.dispose()
-        audioIOUnit = nil // `dispose` invalidates but doesn't null the pointer
-        audioData = []
-        onAudioData = nil
-    }
-}
-
-// MARK: Public controls.
-extension AudioEngine {
-    public func start() throws {
-        try audioIOUnit?.start()
-    }
-
-    public func stop() throws {
-        try audioIOUnit?.stop()
+        onSampleRateChanged?(newSampleRate)
     }
 }
 
 // MARK: Set onAudioData callback to input unit
 extension AudioEngine {
     func setInputUnitCallback() throws {
-
-        let callback: AURenderCallback = { (inRefCon, actionFlags, timestamp, busNumber, frameCount, _) -> OSStatus in
-            let audioEngine = unsafeBitCast(inRefCon, to: AudioEngine.self)
-            guard
-                let audioUnit = audioIOUnit,
-                let onAudioDataCallback = audioEngine.onAudioData
-            else {
-                // ToDo: handle or throw error
-                return noErr
-            } // abort if no callback set
+        try audioIOUnit.setCallback(callbackContext: self) { (ctx, actionFlags, timestamp, busNumber, frameCount, _) in
+            let `self` = unsafeBitCast(ctx, to: AudioEngine.self) // override "self" with our hacked C context
+            guard let onAudioData = self.onAudioData else { return 1 } // generic error, pauses audio
 
             do { // Update the size of the audioData array if needed
                 let frameCount = Int(frameCount)
-                if frameCount != audioEngine.audioData.count {
-                   audioEngine.audioData = [Float](repeating: 0, count: frameCount)
+                if frameCount != self.audioData.count {
+                    self.audioData = [Float](repeating: 0, count: frameCount)
                 }
             }
 
-            var audioBufferList = AudioBufferList(mNumberBuffers: 1, mBuffers: AudioBuffer(
+            var bufferList = AudioBufferList(mNumberBuffers: 1, mBuffers: AudioBuffer(
                 mNumberChannels: 1,
                 mDataByteSize: frameCount * UInt32(MemoryLayout<Float32>.size),
-                mData: &audioEngine.audioData
+                mData: &self.audioData // could theoretically cause BAD_ACCESS if `onAudioData` takes a long time
             ))
 
-            let osStatus = AudioUnitRender(audioUnit, actionFlags, timestamp, busNumber, frameCount, &audioBufferList)
-            if osStatus != noErr {
-                print(osStatus.localizedDescription)
-                return osStatus // abort and don't call onAudioData
+            let status = AudioUnitRender(self.audioIOUnit, actionFlags, timestamp, busNumber, frameCount, &bufferList)
+            if status != noErr {
+                print(status.localizedDescription)
+                return status // abort and don't call onAudioData
             }
 
-            onAudioDataCallback(audioEngine.audioData)
+            onAudioData(self.audioData)
             return noErr
         }
-
-        try audioIOUnit?.setProperty(
-            kAudioOutputUnitProperty_SetInputCallback,
-            kAudioUnitScope_Global,
-            .outputBus,
-            AURenderCallbackStruct(
-                inputProc: callback,
-                inputProcRefCon: UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
-            )
-        )
     }
 }
 
@@ -174,8 +137,23 @@ private extension AudioUnit {
         return getProperty(kAudioUnitProperty_SampleRate, kAudioUnitScope_Output, .inputBus)
     }
 
+    func setCallback(callbackContext context: AnyObject, callback: @escaping AURenderCallback) throws {
+        try setProperty(
+            kAudioOutputUnitProperty_SetInputCallback,
+            kAudioUnitScope_Global,
+            .outputBus,
+            AURenderCallbackStruct(inputProc: callback, inputProcRefCon: Unmanaged.passUnretained(context).toOpaque())
+        )
+    }
+
     func setSampleRate(_ newSampleRate: Double) throws {
         try self.setProperty(kAudioUnitProperty_SampleRate, kAudioUnitScope_Output, .inputBus, newSampleRate)
         try self.setProperty(kAudioUnitProperty_SampleRate, kAudioUnitScope_Input, .outputBus, newSampleRate)
     }
+}
+
+/// Call a function that can throw and just print the error if one occurs. Used for functions where we
+/// want to know that they failed in debug, but don't want to interrupt program flow.
+private func printOnErrorAndContinue(_ function: () throws -> Void) {
+    do { try function() } catch { print(error.localizedDescription) }
 }

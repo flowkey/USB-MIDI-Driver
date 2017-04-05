@@ -73,7 +73,7 @@ extension AudioUnit {
     func start() throws { try AudioOutputUnitStart(self).throwOnError() }
     func stop() throws { try AudioOutputUnitStop(self).throwOnError() }
 
-    /// Allocates memory. Once inited, internal state can not be changed.
+    /// Allocates memory. Once inited, internal state cannot be changed.
     func initialize() throws { try AudioUnitInitialize(self).throwOnError() }
 
     /// Deallocate memory and allow internal state to be changed without destroying the instance entirely

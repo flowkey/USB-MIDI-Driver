@@ -1,14 +1,5 @@
-//
-//  NoteDetection.swift
-//  NoteDetection
-//
-//  Created by flowing erik on 24.03.17.
-//  Copyright © 2017 flowkey. All rights reserved.
-//
-
-public typealias OnInputLevelChangedCallback = ((Float) -> Void)
-
 public class NoteDetection {
+    public typealias InputLevelChangedCallback = ((Float) -> Void)
 
     var inputType: InputType {
         get { return noteDetector is AudioNoteDetector ? .audio : .midi }
@@ -22,36 +13,30 @@ public class NoteDetection {
         }
     }
 
-    // explicitly unwrapped to be able to use createNoteDetector() in init, which needs self.audioEngine
+    // implicitly unwrapped to be able to use createNoteDetector() in init, which needs self.audioEngine
     var noteDetector: NoteDetector!
 
     let midiEngine = try! MIDIEngine()
     let audioEngine = try! AudioEngine()
 
-    public var onInputLevelChanged: OnInputLevelChangedCallback?
+    public var onInputLevelChanged: InputLevelChangedCallback?
 
     public init(type: InputType) {
         noteDetector = createNoteDetector(type: .audio)
 
-        audioEngine.onSamplerateChanged = { sampleRate in
+        audioEngine.onSampleRateChanged = { sampleRate in
             if self.inputType == .audio {
                 self.noteDetector = self.createNoteDetector(type: .audio, copy: self.noteDetector)
             }
         }
     }
-
-    deinit {
-        print("deiniting NoteDetection")
-    }
-
 }
 
 
 // MARK: Public Interface
 
 extension NoteDetection {
-
-    public func set(expectedNoteEvent: NoteEvent?) {
+    public func set(expectedNoteEvent: DetectableNoteEvent?) {
         noteDetector.expectedNoteEvent = expectedNoteEvent
     }
 
@@ -63,18 +48,34 @@ extension NoteDetection {
         midiEngine.onMIDIDeviceListChanged = onMIDIDeviceListChanged
     }
 
-    public func startAudioEngine() {
-        try? audioEngine.start()
+    var noteDetector: NoteDetector
+    let audioEngine: AudioEngine
+    let midiEngine: MIDIEngine
+
+    public init(type: InputType) throws {
+        audioEngine = try AudioEngine() // TODO connect onSampleRateChanged to AudioNoteDetector
+        midiEngine = try MIDIEngine()
+
+        //noteDetector = type.createNoteDetector()
+        noteDetector = AudioNoteDetector(audioEngine: audioEngine)
     }
 
-    public func stopAudioEngine() {
-        try? audioEngine.stop()
+    public func startMicrophone() throws {
+        try audioEngine.start()
+    }
+
+    public func stopMicrophone() throws {
+        try audioEngine.stop()
+    }
+
+    public func setExpectedNoteEvent(event: DetectableNoteEvent?) {
+        noteDetector.setExpectedNoteEvent(noteEvent: event)
     }
 }
 
 protocol NoteDetector {
     var onNoteEventDetected: OnNoteEventDetectedCallback? { get set }
-    var expectedNoteEvent: NoteEvent? { get set }
+    var expectedNoteEvent: DetectableNoteEvent? { get set }
     var onInputLevelChanged: OnInputLevelChangedCallback? { get set }
 }
 
@@ -91,3 +92,4 @@ extension NoteDetection {
         return newNoteDetector
     }
 }
+

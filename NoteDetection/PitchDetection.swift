@@ -10,7 +10,6 @@
 typealias OnPitchDetectedCallback = (Timestamp) -> Void
 
 class PitchDetection {
-
     init (lowNoteBoundary: MIDINumber, onPitchDetected: @escaping OnPitchDetectedCallback) {
         self.onPitchDetected = onPitchDetected
         self.lowNoteBoundary = lowNoteBoundary
@@ -21,57 +20,58 @@ class PitchDetection {
     let onPitchDetected: OnPitchDetectedCallback
 
     fileprivate let lowNoteBoundary: MIDINumber
-    fileprivate var statusBuffer: [Bool]       // Store the previous runs' status booleans
-    let similarityThreshold: Float = 0.7   // If similarity is higher than this, event status is true
+    fileprivate var statusBuffer: [Bool]    // Store the previous runs' status booleans
+    let similarityThreshold: Float = 0.7    // If similarity is higher than this, event status is true
     var currentDetectionMode: DetectionMode = .highAndLow
 
 
     // MARK: Main processing functions:
 
+    /// If we have a note to detect, compare the current ChromaVector's similarity with the one we expect
+    /// Call "onNotesDetected" for the expected event if our statusBuffers are true
     func run(_ input: ChromaVector) {
+        guard
+            let expectedChroma = expectedChroma,
+            let currentTolerance = currentTolerance
+        else { return }
 
-        // If we have an event, compare its ChromaVector to the one we just received here
-        // Call "onNotesDetected" for the expected event if our statusBuffers are true
+        // remove oldest status
+        statusBuffer.remove(at: 0)
 
-        if let pitchDetectionData = self.expectedPitchDetectionData {
+        let similarity = input.similarity(to: expectedChroma)
+        let requiredSimilarity = similarityThreshold - currentTolerance
+        let currentBufferStatus = (similarity > requiredSimilarity)
 
-            // remove oldest status
-            statusBuffer.remove(at: 0)
+        // insert new value
+        statusBuffer.append(currentBufferStatus)
 
-            let similarity = input.similarity(to: pitchDetectionData.expectedChroma)
-            let requiredSimilarity = similarityThreshold - pitchDetectionData.tolerance
-            let currentBufferStatus = (similarity > requiredSimilarity)
+        if statusBufferIsAllTrue {
+            performOnMainThread { self.onPitchDetected(.now) }
 
-            // insert new value
-            statusBuffer.append(currentBufferStatus)
-
-            if statusBufferIsAllTrue {
-                performOnMainThread { self.onPitchDetected(.now) }
-
-                // Reset the status buffer to reduce the likelihood of repeated notes being detected immediately:
-                statusBuffer = [Bool](repeating: false, count: statusBuffer.count)
-            }
+            // Reset the status buffer to reduce the likelihood of repeated notes being detected immediately:
+            statusBuffer = [Bool](repeating: false, count: statusBuffer.count)
         }
-
     }
 
     var statusBufferIsAllTrue: Bool {
-        return statusBuffer.reduce(true) { $0 && $1 }
+        return statusBuffer.reduce(true, { $0 && $1 })
     }
-
 
     // MARK: Detection modes and expected events
     enum DetectionMode {
         case lowPitches, highPitches, highAndLow
     }
 
-    var expectedPitchDetectionData: PitchDetectionData? {
-        didSet {if let pitchDetectionData = expectedPitchDetectionData {
-            currentDetectionMode = getDetectionMode(from: pitchDetectionData)
-        }}
+    var expectedChroma: ChromaVector?
+    var currentTolerance: Float? = 0.1
+
+    func setExpectedEvent(_ event: DetectableNoteEvent?) {
+        expectedChroma = ChromaVector(composeFrom: event?.notes) // result could be nil
+        currentTolerance = event?.notes.calculateTolerance()
+        if let event = event { currentDetectionMode = detectionMode(from: event) }
     }
 
-    fileprivate func getDetectionMode(from data: PitchDetectionData) -> DetectionMode {
+    fileprivate func detectionMode(from data: DetectableNoteEvent) -> DetectionMode {
         // Check how many low notes are expected in the event
         let lowNotesExpected: Int = data.notes.reduce(0) { (total, note) in
             return note < self.lowNoteBoundary ? (total + 1) : total
@@ -79,7 +79,7 @@ class PitchDetection {
 
         switch lowNotesExpected {
         case 0: return .highPitches                   // no low notes expected
-        case data.notes.count: return .lowPitches    // no high notes expected
+        case data.notes.count: return .lowPitches     // no high notes expected
         default: return .highAndLow                   // check it all
         }
     }

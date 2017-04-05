@@ -43,10 +43,6 @@ struct ChromaVector: CustomStringConvertible, Equatable {
         }
     }
 
-    init(notes: [MusicalNote]) {
-        notes.forEach { self.vector[$0.rawValue] = 1 }
-    }
-
     init(from midiKeys: Set<MIDINumber>) {
         midiKeys.forEach { (key) in
             let chromaIndex = key % 12
@@ -113,7 +109,10 @@ struct ChromaVector: CustomStringConvertible, Equatable {
         return result
     }
 
-    static func composeExpected(from midiKeys: Set<MIDINumber>) -> ChromaVector {
+    /// Takes a set of MIDINumbers and composes the ChromaVector we expect to see given those notes.
+    /// This includes adding values to the fifth harmonic of lower notes.
+    init?(composeFrom midiKeys: Set<MIDINumber>?) {
+        guard let midiKeys = midiKeys else { return nil }
         var vector = ChromaVector()
 
         for key in midiKeys {
@@ -122,22 +121,19 @@ struct ChromaVector: CustomStringConvertible, Equatable {
 
             if key <= lowKeyBoundary {
                 valueToAdd = 0.5
-                valueToAddToFifth = computeExpectedValueForFith(of: key)
+                valueToAddToFifth = ChromaVector.computeExpectedValueForFifth(of: key)
             }
 
             vector[key] += valueToAdd
             vector[key+7] += valueToAddToFifth // for a low key: add something to it's fifth ('Quinte', which is 7 semitones up)
         }
-
-        return vector
+        
+        self = vector
     }
 
-    static func computeExpectedValueForFith(of key: MIDINumber) -> Float {
-//        return pow(1.0 - (Float(key) / Float(lowKeyBoundary)), 2)
-//        return sqrt(1.0 - (Float(key) / Float(lowKeyBoundary)))
+    private static func computeExpectedValueForFifth(of key: MIDINumber) -> Float {
         return 1.0 - (Float(key) / Float(lowKeyBoundary))
     }
-
 }
 
 func + (lhs: ChromaVector, rhs: ChromaVector) -> ChromaVector {
