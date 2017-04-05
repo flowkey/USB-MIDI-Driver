@@ -38,15 +38,6 @@ public class NoteDetection {
                 self.noteDetector = self.createNoteDetector(type: .audio, copy: self.noteDetector)
             }
         }
-
-//        midiEngine.onVelocityChanged = { (vel: UInt8) in
-//            self.onInputLevelChanged?(Float(vel) / 127.0)
-//        }
-//
-//        audioEngine.onVolumeChanged = { (vol: Float) in
-//            // TODO: check for < 0
-//            self.onInputLevelChanged?(1 - (vol / -72))
-//        }
     }
 
     deinit {
@@ -84,6 +75,7 @@ extension NoteDetection {
 protocol NoteDetector {
     var onNoteEventDetected: OnNoteEventDetectedCallback? { get set }
     var expectedNoteEvent: NoteEvent? { get set }
+    var onInputLevelChanged: OnInputLevelChangedCallback? { get set }
 }
 
 extension NoteDetection {
@@ -95,6 +87,7 @@ extension NoteDetection {
         }
         newNoteDetector.expectedNoteEvent = previousDetector?.expectedNoteEvent
         newNoteDetector.onNoteEventDetected = previousDetector?.onNoteEventDetected
+        newNoteDetector.onInputLevelChanged = self.onInputLevelChanged
         return newNoteDetector
     }
 }

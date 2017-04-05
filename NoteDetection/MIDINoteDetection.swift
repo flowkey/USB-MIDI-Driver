@@ -6,19 +6,23 @@
 //  Copyright © 2017 flowkey. All rights reserved.
 //
 
-
+let maxVelocity: Float = 127.0
 
 final class MIDINoteDetector: NoteDetector {
-    public var expectedNoteEvent: NoteEvent?
 
-    public var onNoteEventDetected: OnNoteEventDetectedCallback?
-
+    var onInputLevelChanged: OnInputLevelChangedCallback?
+    var onNoteEventDetected: OnNoteEventDetectedCallback?
+    var expectedNoteEvent: NoteEvent?
     var currentMIDIKeys = Set<Int>()
 
     public func process(midiMessage: MIDIMessage, from: MIDIDevice? = nil) {
         switch midiMessage {
-        case .noteOn(let (key, _)) : currentMIDIKeys.insert(Int(key))
-        case .noteOff(let (key, _)): currentMIDIKeys.remove(Int(key))
+        case .noteOn(let (key, velocity)):
+            currentMIDIKeys.insert(Int(key))
+            update(velocity)
+        case .noteOff(let (key, velocity)):
+            currentMIDIKeys.remove(Int(key))
+            update(velocity)
         default: return
         }
 
@@ -29,7 +33,12 @@ final class MIDINoteDetector: NoteDetector {
         }
     }
 
-    public func allExpectedNotesAreOn() -> Bool {
+    func update(_ velocity: UInt8) {
+        let ratio = Float(velocity) / maxVelocity
+        onInputLevelChanged?(ratio)
+    }
+
+    func allExpectedNotesAreOn() -> Bool {
         guard let expectedKeys = expectedNoteEvent?.notes else { return false }
         return currentMIDIKeys.isSuperset(of: expectedKeys) // allows not expected keys
     }

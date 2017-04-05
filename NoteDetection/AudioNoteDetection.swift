@@ -6,6 +6,8 @@ public typealias OnVolumeUpdatedCallback = (Float) -> Void
 public typealias OnNoteEventDetectedCallback = (Timestamp) -> Void
 
 final class AudioNoteDetector: NoteDetector {
+    var onInputLevelChanged: OnInputLevelChangedCallback?
+
     let lowRange: CountableClosedRange<MIDINumber>
     let highRange: CountableClosedRange<MIDINumber>
     let filterbank: FilterBank
@@ -45,8 +47,9 @@ final class AudioNoteDetector: NoteDetector {
 
         volumeIteration += 1
         if volumeIteration > 11 { // this value is tuned to make the NativeInputManager look nice
-            if let callback = onVolumeUpdated, volume.isFinite {
-               performOnMainThread { callback(volume) }
+            if let callback = onInputLevelChanged, volume.isFinite {
+                let ratio = 1 - (volume / -72)
+                performOnMainThread { callback(ratio) }
             }
             volumeIteration = 0
         }
