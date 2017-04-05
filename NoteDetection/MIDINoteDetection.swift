@@ -9,31 +9,28 @@
 
 
 final class MIDINoteDetector: NoteDetector {
-    let midiEngine = try? MIDIEngine()
-    let follower = MIDIFollower()
+    public var expectedNoteEvent: NoteEvent?
 
-    public var onMIDIMessageReceived: OnMIDIMessageReceivedCallback? {
-        didSet {
-            midiEngine?.onMIDIMessageReceived = { message, device in
-                self.follower.onMIDIMessageReceived(message)
-                self.onMIDIMessageReceived?(message, device)
-            }
+    public var onNoteEventDetected: OnNoteEventDetectedCallback?
+
+    var currentMIDIKeys = Set<Int>()
+
+    public func process(midiMessage: MIDIMessage, from: MIDIDevice? = nil) {
+        switch midiMessage {
+        case .noteOn(let (key, _)) : currentMIDIKeys.insert(Int(key))
+        case .noteOff(let (key, _)): currentMIDIKeys.remove(Int(key))
+        default: return
+        }
+
+        if allExpectedNotesAreOn() {
+            onNoteEventDetected?(.now)
+            currentMIDIKeys.removeAll()
+            expectedNoteEvent = nil
         }
     }
 
-    func process(midi: MIDIMessage, device: MIDIDevice?) {
-        self.follower.onMIDIMessageReceived(midi)
-    }
-
-    public var onNoteEventDetected: OnNoteEventDetectedCallback? {
-        didSet { follower.onNoteEventDetected = onNoteEventDetected }
-    }
-
-    public var onMIDIDeviceListChanged: OnMIDIDeviceListChangedCallback? {
-        didSet { midiEngine?.onMIDIDeviceListChanged = onMIDIDeviceListChanged }
-    }
-
-    public var expectedNoteEvent: NoteEvent? {
-        didSet { follower.currentNoteEvent = expectedNoteEvent }
+    public func allExpectedNotesAreOn() -> Bool {
+        guard let expectedKeys = expectedNoteEvent?.notes else { return false }
+        return currentMIDIKeys.isSuperset(of: expectedKeys) // allows not expected keys
     }
 }

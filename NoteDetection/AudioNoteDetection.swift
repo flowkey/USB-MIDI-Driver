@@ -5,7 +5,7 @@ public typealias OnAudioProcessedCallback = (ProcessedAudio) -> Void
 public typealias OnVolumeUpdatedCallback = (Float) -> Void
 public typealias OnNoteEventDetectedCallback = (Timestamp) -> Void
 
-final class AudioNoteDetector: NoteDetector, Follower {
+final class AudioNoteDetector: NoteDetector {
     let lowRange: CountableClosedRange<MIDINumber>
     let highRange: CountableClosedRange<MIDINumber>
     let filterbank: FilterBank
@@ -104,7 +104,6 @@ final class AudioNoteDetector: NoteDetector, Follower {
     private var lastNoteTimestamp: Timestamp?
     private var lastFollowEventTime: Timestamp?
 
-    public var currentNoteEvent: NoteEvent?
     public var onNoteEventDetected: OnNoteEventDetectedCallback?
 
     public func onOnsetDetected(timestamp: Timestamp) {
@@ -121,16 +120,21 @@ final class AudioNoteDetector: NoteDetector, Follower {
     func currentlyAcceptingOnsets() -> Bool {
         guard
             let lastFollowEventTime = lastFollowEventTime,
-            let timeToNextEvent = currentNoteEvent?.timeToNext
+            let timeToNextEvent = expectedNoteEvent?.timeToNext
             else {
                 return true
         }
         return .now - lastFollowEventTime >= (timeToNextEvent * timeToNextToleranceFactor)
     }
 
-
-    func shouldFollow() -> Bool {
-        return timestampsAreCloseEnough()
+    func onInputReceived() {
+        if timestampsAreCloseEnough() {
+            onNoteEventDetected?(.now)
+            expectedNoteEvent = nil
+            self.lastFollowEventTime = .now
+            self.lastOnsetTimestamp = nil
+            self.lastNoteTimestamp = nil
+        }
     }
 
     private func timestampsAreCloseEnough() -> Bool {
@@ -141,11 +145,5 @@ final class AudioNoteDetector: NoteDetector, Follower {
 
         let timestampDiff = abs(onsetTimestamp - noteTimestamp)
         return timestampDiff < maxTimestampDiff
-    }
-
-    func didFollow() {
-        self.lastFollowEventTime = .now
-        self.lastOnsetTimestamp = nil
-        self.lastNoteTimestamp = nil
     }
 }

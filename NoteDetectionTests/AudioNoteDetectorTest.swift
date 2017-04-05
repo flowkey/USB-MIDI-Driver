@@ -1,26 +1,20 @@
-//
-//  FollowerTests.swift
-//  FollowerTests
-//
-//  Created by Geordie Jay on 26.09.16.
-//  Copyright © 2016 flowkey GmbH. All rights reserved.
-//
-
 import XCTest
 @testable import NoteDetection
 
+
+let arbitrarySampleRate: Double = 1000
 
 func afterTimeout(ms timeout: Double, callback: @escaping () -> Void) {
     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + timeout / 1000, execute: callback)
 }
 
-class AudioFollowerTests: XCTestCase {
+class AudioNoteDetectorTests: XCTestCase {
 
-    var audioFollower: AudioFollower = AudioFollower()
+    var audioNoteDetector = AudioNoteDetector(sampleRate: arbitrarySampleRate)
 
     override func setUp() {
         super.setUp()
-        audioFollower = AudioFollower()
+        audioNoteDetector = AudioNoteDetector(sampleRate: arbitrarySampleRate)
     }
 
     override func tearDown() {
@@ -32,12 +26,12 @@ class AudioFollowerTests: XCTestCase {
 
         let expectation = self.expectation(description: "listener executed because timestamps are close enough")
 
-        audioFollower.onFollow = { timestamp in
+        audioNoteDetector.onNoteEventDetected = { timestamp in
             expectation.fulfill()
         }
 
-        afterTimeout(ms: 0, callback: { self.audioFollower.onOnsetDetected(timestamp: .now) })
-        afterTimeout(ms: 100, callback: { self.audioFollower.onPitchDetected(timestamp: .now) })
+        afterTimeout(ms: 0, callback: { self.audioNoteDetector.onOnsetDetected(timestamp: .now) })
+        afterTimeout(ms: 100, callback: { self.audioNoteDetector.onPitchDetected(timestamp: .now) })
 
 
         self.waitForExpectations(timeout: 0.5) { error in
@@ -51,13 +45,13 @@ class AudioFollowerTests: XCTestCase {
 
         let expectation = self.expectation(description: "listener not executed because timestamps are NOT close enough")
 
-        audioFollower.onFollow = { timestamp in
+        audioNoteDetector.onNoteEventDetected = { timestamp in
             XCTAssert(true)
         }
 
 
-        afterTimeout(ms: 0, callback: { self.audioFollower.onOnsetDetected(timestamp: .now) })
-        afterTimeout(ms: 300, callback: { self.audioFollower.onPitchDetected(timestamp: .now) })
+        afterTimeout(ms: 0, callback: { self.audioNoteDetector.onOnsetDetected(timestamp: .now) })
+        afterTimeout(ms: 300, callback: { self.audioNoteDetector.onPitchDetected(timestamp: .now) })
 
         afterTimeout(ms: 500, callback: { expectation.fulfill() })
 
