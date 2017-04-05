@@ -7,71 +7,38 @@
 //
 
 
-
 public class NoteDetection {
-    let audioNoteDetection = AudioNoteDetection()
-    let midiNoteDetection = MIDINoteDetection()
+    var noteDetector: NoteDetector
+    let audioEngine = try! AudioEngine()
+    let midiEngine = try! MIDIEngine()
 
     public init(type: InputType) {
-        inputType = type
+        //noteDetector = type.createNoteDetector()
+        noteDetector = AudioNoteDetector(sampleRate: audioEngine.sampleRate)
+    }
+
+    public func setInputType(to type: InputType) {
+        stop()
+    }
+
+    public func start() { // start audio engine only
+        try? audioEngine.start()
+    }
+
+    public func stop() {
+        try? audioEngine.stop()
+    }
+
+    public func setExpectedNoteEvent(event: NoteEvent?) {
+        noteDetector.setExpectedNoteEvent(noteEvent: event)
     }
 
     deinit {
         print("deiniting NoteDetection")
     }
-
-    public var onNoteEventDetected: OnNoteEventDetectedCallback? {
-        didSet {
-            audioNoteDetection.onNoteEventDetected = onNoteEventDetected
-            midiNoteDetection.onNoteEventDetected = onNoteEventDetected
-        }
-    }
-
-    public var onAudioProcessed: OnAudioProcessedCallback? {
-        didSet { audioNoteDetection.onAudioProcessed = onAudioProcessed }
-    }
-
-    public var onMIDIMessageReceived: OnMIDIMessageReceivedCallback? {
-        didSet { midiNoteDetection.onMIDIMessageReceived = onMIDIMessageReceived }
-    }
-
-    public var onMIDIDeviceListChanged: OnMIDIDeviceListChangedCallback? {
-        didSet { midiNoteDetection.onMIDIDeviceListChanged = onMIDIDeviceListChanged }
-    }
-
-    public var onVolumeUpdated: OnVolumeUpdatedCallback? {
-        didSet { audioNoteDetection.onVolumeUpdated = onVolumeUpdated }
-    }
-
-    public var onOnsetDetected: OnOnsetDetectedCallback? {
-        didSet { audioNoteDetection.onOnsetDetected = onOnsetDetected }
-    }
-
-    public var inputType: InputType {
-        willSet {
-            if inputType == .audio && newValue == .midi {
-                self.stop()
-            }
-        }
-    }
-
-    public func start() {
-        if inputType == .audio { audioNoteDetection.start() }
-    }
-
-    public func stop() {
-        if inputType == .audio { audioNoteDetection.stop() }
-    }
-
-    public func setExpectedNoteEvent(event: NoteEvent?) {
-        audioNoteDetection.setExpectedNoteEvent(noteEvent: event)
-        midiNoteDetection.setExpectedNoteEvent(noteEvent: event)
-    }
 }
 
-protocol NoteDetectionProtocol {
-    var inputType: InputType { get }
-
+protocol NoteDetector {
     var onNoteEventDetected: OnNoteEventDetectedCallback? { get set }
     func setExpectedNoteEvent(noteEvent: NoteEvent?)
 }

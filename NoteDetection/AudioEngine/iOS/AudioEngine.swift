@@ -34,10 +34,10 @@ final class AudioEngine: AudioEngineProtocol {
 
         // It's not fatal if these settings fail:
         let preferredSampleRate = 44100.0
-        let preferredFrameSliceCount = 1024.0
         try? audioSession.setPreferredSampleRate(preferredSampleRate)
 
         // The actual settings can differ from our preferred ones:
+        let preferredFrameSliceCount = 1024.0
         let actualSampleRate = audioSession.sampleRate
         try? audioSession.setPreferredIOBufferDuration(preferredFrameSliceCount / actualSampleRate)
 

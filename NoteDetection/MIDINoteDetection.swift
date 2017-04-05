@@ -8,31 +8,28 @@
 
 
 
-final class MIDINoteDetection: NoteDetectionProtocol {
-
-    public let inputType: InputType = .midi
-
-    let midiManager = try? MIDIManager()
-
+final class MIDINoteDetector: NoteDetector {
+    let midiEngine = try? MIDIEngine()
     let follower = MIDIFollower()
 
     public var onMIDIMessageReceived: OnMIDIMessageReceivedCallback? {
         didSet {
-            midiManager?.onMIDIMessageReceived = { message, device in
+            midiEngine?.onMIDIMessageReceived = { message, device in
                 self.follower.onMIDIMessageReceived(message)
                 self.onMIDIMessageReceived?(message, device)
             }
         }
     }
 
-    public init() {}
+    func start() {}
+    func stop() {}
 
     public var onNoteEventDetected: OnNoteEventDetectedCallback? {
-        didSet { follower.onFollow = onNoteEventDetected }
+        didSet { follower.onNoteEventDetected = onNoteEventDetected }
     }
 
     public var onMIDIDeviceListChanged: OnMIDIDeviceListChangedCallback? {
-        didSet { midiManager?.onMIDIDeviceListChanged = onMIDIDeviceListChanged }
+        didSet { midiEngine?.onMIDIDeviceListChanged = onMIDIDeviceListChanged }
     }
 
     public func setExpectedNoteEvent(noteEvent: NoteEvent?) {

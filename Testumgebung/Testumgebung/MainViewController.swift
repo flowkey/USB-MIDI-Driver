@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import NoteDetection
+@testable import NoteDetection
 
 public let noteDetection = NoteDetection(type: .audio)
 
@@ -39,27 +39,29 @@ public let noteDetection = NoteDetection(type: .audio)
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        self.delegate = self // TabBarControllerDelegate
+        delegate = self // TabBarControllerDelegate
         graphViewController = self.viewControllers?[0] as? GraphViewController
-
-        noteDetection.start()
-        noteDetection.onMIDIDeviceListChanged = { (deviceList: Set<MIDIDevice>) in
-            for device in deviceList { print(device.displayName) }
-        }
-        noteDetection.onMIDIMessageReceived = { (midiMessage: MIDIMessage, device: MIDIDevice?) in
-            print(midiMessage)
-        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        noteDetection.onAudioProcessed = { processedAudio in
-            self.lastProcessedBlock = processedAudio
-        }
+        noteDetection.start()
+
+//        noteDetection.onMIDIDeviceListChanged = { (deviceList: Set<MIDIDevice>) in
+//            for device in deviceList { print(device.displayName) }
+//        }
+//
+//        noteDetection.onMIDIMessageReceived = { (midiMessage: MIDIMessage, device: MIDIDevice?) in
+//            print(midiMessage)
+//        }
+//
+//        noteDetection.onAudioProcessed = { processedAudio in
+//            self.lastProcessedBlock = processedAudio
+//        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         noteDetection.stop()
-        self.delegate = nil
+        delegate = nil
         NotificationCenter.default.removeObserver(self)
     }
 }

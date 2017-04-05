@@ -11,24 +11,19 @@ public typealias OnOnsetDetectedCallback = (Timestamp) -> Void
 public class OnsetDetection {
 
     let onsetFeature: OnsetFeature
-
     var onsetFeatureBuffer: [Float]
-
     var currentThreshold: Float
+    let onOnsetDetected: OnOnsetDetectedCallback
 
-    var onOnsetDetected: OnOnsetDetectedCallback?
-
-    init(feature: OnsetFeature) {
-
+    init(feature: OnsetFeature, onOnset: @escaping OnOnsetDetectedCallback) {
         self.onsetFeature = feature
         self.onsetFeatureBuffer = [Float](repeating: 0.0, count: onsetFeature.defaultFeatureBufferSize)
         self.currentThreshold = onsetFeature.defaultThreshold
-
+        self.onOnsetDetected = onOnset
     }
 
     // incoming audioData is in time or frequency domain, depending on onsetFeature
     func run(_ audioData: [Float], filterbankMagnitudes: [Float]) -> (featureValue: Float, currentThreshold: Float, onsetDetected: Bool) {
-
         var onsetDetected = false
 
         var currentFeatureValue: Float = 0.0
@@ -49,7 +44,7 @@ public class OnsetDetection {
 
         if currentBufferIsAPeak {
             onsetDetected = true
-            performOnMainThread { self.onOnsetDetected?(getTimeInMillisecondsSince1970()) }
+            performOnMainThread { self.onOnsetDetected(.now) }
         }
 
         return (currentFeatureValue, currentThreshold, onsetDetected)

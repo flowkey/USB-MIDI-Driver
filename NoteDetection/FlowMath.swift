@@ -43,17 +43,13 @@ func sqrt(_ num: Double) -> Double {
 }
 
 func max(_ x: [Float]) -> Float {
-    var result: Float = 0.0
-    vDSP_maxv(x, 1, &result, vDSP_Length(x.count))
-
-    return result
+    if x.count == 0 { return .nan }
+    return x.reduce(-.infinity) { ($1 > $0) ? $1 : $0 }
 }
 
 func max(_ x: [Double]) -> Double {
-    var result: Double = 0.0
-    vDSP_maxvD(x, 1, &result, vDSP_Length(x.count))
-
-    return result
+    if x.count == 0 { return .nan }
+    return x.reduce(-.infinity) { ($1 > $0) ? $1 : $0 }
 }
 
 func min(_ x: [Float]) -> Float {
@@ -71,14 +67,10 @@ func min(_ x: [Double]) -> Double {
 }
 
 func sum(_ x: [Float]) -> Float {
-    // NOT the same as v​DSP_sve, since it calculates the sum of absolute values in x
-//    return cblas_sasum(Int32(x.count), x, 1)
     return x.reduce(0, { $0 + $1 })
 }
 
 func sum(_ x: [Double]) -> Double {
-    // NOT the same as v​DSP_sve, since it calculates the sum of absolute values in x
-//    return cblas_dasum(Int32(x.count), x, 1)
     return x.reduce(0, { $0 + $1 })
 }
 
@@ -91,7 +83,8 @@ func sqrt(_ x: [Float]) -> [Float] {
 
 func sqrt(_ x: [Double]) -> [Double] {
     var results = [Double](repeating: 0.0, count: x.count)
-    vvsqrt(&results, x, [Int32(x.count)])
+    var count = Int32(x.count)
+    vvsqrt(&results, x, &count)
 
     return results
 }

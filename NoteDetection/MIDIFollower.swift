@@ -10,7 +10,7 @@
 final class MIDIFollower: Follower {
     public init() {}
     public var currentNoteEvent: NoteEvent?
-    public var onFollow: OnNoteEventDetectedCallback?
+    public var onNoteEventDetected: OnNoteEventDetectedCallback?
 
     internal var currentMIDIKeys = Set<Int>()
 

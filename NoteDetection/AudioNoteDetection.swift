@@ -1,68 +1,38 @@
-
+private let timeToNextToleranceFactor = 0.5
+private let maxTimestampDiff = Timestamp(200)
 
 public typealias OnAudioProcessedCallback = (ProcessedAudio) -> Void
 public typealias OnVolumeUpdatedCallback = (Float) -> Void
 public typealias OnNoteEventDetectedCallback = (Timestamp) -> Void
 
-final class AudioNoteDetection: NoteDetectionProtocol {
-    public let inputType: InputType = .audio
-
+final class AudioNoteDetector: NoteDetector, Follower {
     let lowRange: CountableClosedRange<MIDINumber>
     let highRange: CountableClosedRange<MIDINumber>
     let filterbank: FilterBank
 
-    var audioEngine = try! AudioEngine()
-    let follower = AudioFollower()
-
-    public let pitchDetection: PitchDetection
-    public let onsetDetection: OnsetDetection
+    var pitchDetection: PitchDetection!
+    var onsetDetection: OnsetDetection!
 
     public var onAudioProcessed: OnAudioProcessedCallback?
-    public var onVolumeUpdated: OnVolumeUpdatedCallback? // in decibel (-72...0) TODO: maybe move to AudioEngine
-
-    public var onNoteEventDetected: OnNoteEventDetectedCallback? {
-        didSet { follower.onFollow = onNoteEventDetected }
-    }
-
+    public var onVolumeUpdated: OnVolumeUpdatedCallback? // in decibel (-72...0)
     public var onOnsetDetected: OnOnsetDetectedCallback?
 
-    public init () {
+    public init (sampleRate: Double) {
         // Chroma extractors for our different ranges:
         lowRange = MIDINumber(note: .g, octave: 1) ... MIDINumber(note: .d, octave: 5)
         highRange = lowRange.last! ... MIDINumber(note: .d, octave: 7)
 
         let fullRange = lowRange.first! ... highRange.last!
-        filterbank = FilterBank(noteRange: fullRange, sampleRate: audioEngine.sampleRate)
+        filterbank = FilterBank(noteRange: fullRange, sampleRate: sampleRate)
 
         // Setup processors
-        pitchDetection = PitchDetection(lowNoteBoundary: lowRange.last!)
-        onsetDetection = OnsetDetection(feature: SpectralFlux())
-
-        // Setup follower
-        onsetDetection.onOnsetDetected = { timestamp in
-            self.follower.onOnsetDetected(timestamp: timestamp)
-            self.onOnsetDetected?(timestamp)
-        }
-        pitchDetection.onPitchDetected = follower.onPitchDetected
-        follower.onFollow = onNoteEventDetected
-    }
-
-    deinit {
-        print("deiniting AudioNoteDetection")
-    }
-
-    public func start() {
-        audioEngine.onAudioData = self.process
-        try! audioEngine.start()
-    }
-
-    public func stop() {
-        try! audioEngine.stop()
+        pitchDetection = PitchDetection(lowNoteBoundary: lowRange.last!, onPitchDetected: self.onPitchDetected)
+        onsetDetection = OnsetDetection(feature: SpectralFlux(), onOnset: self.onOnsetDetected)
     }
 
     /// Creates a new AudioNoteDetection preserving existing delegates, but with a different sampleRate.
-    func cloned(newSampleRate sampleRate: Double) -> AudioNoteDetection {
-        let copy = AudioNoteDetection()
+    func cloned(newSampleRate: Double) -> AudioNoteDetector {
+        let copy = AudioNoteDetector(sampleRate: newSampleRate)
         copy.onAudioProcessed = self.onAudioProcessed
         copy.onVolumeUpdated = self.onVolumeUpdated
         return copy
@@ -93,14 +63,18 @@ final class AudioNoteDetection: NoteDetectionProtocol {
         let chromaVector = chroma(pitchDetection.currentDetectionMode)
         pitchDetection.run(chromaVector)
 
-        performOnMainThread { self.onAudioProcessed?(ProcessedAudio(
-            audioData: buffer,
-            chromaVector: chromaVector.toRaw,
-            filterBandAmplitudes: self.filterbank.magnitudes,
-            onsetFeatureValue: onsetData.featureValue,
-            onsetThreshold: onsetData.currentThreshold,
-            onsetDetected: onsetData.onsetDetected
-        ))}
+        performOnMainThread {
+            self.onAudioProcessed?(
+                ProcessedAudio(
+                    audioData: buffer,
+                    chromaVector: chromaVector.toRaw,
+                    filterBandAmplitudes: self.filterbank.magnitudes,
+                    onsetFeatureValue: onsetData.featureValue,
+                    onsetThreshold: onsetData.currentThreshold,
+                    onsetDetected: onsetData.onsetDetected
+                )
+            )
+        }
     }
 
     public func setExpectedNoteEvent(noteEvent: NoteEvent?) {
@@ -108,7 +82,6 @@ final class AudioNoteDetection: NoteDetectionProtocol {
     }
 
     func chroma(_ detectionMode: PitchDetection.DetectionMode) -> ChromaVector {
-
         // These only get calculated if you actually access them:
         /// Extracted from filterbank magnitudes within __LOW__ range
         var lowChroma: ChromaVector {
@@ -125,5 +98,54 @@ final class AudioNoteDetection: NoteDetectionProtocol {
             case .highPitches: return highChroma
             case .highAndLow:  return lowChroma + highChroma
         }
+    }
+
+    private var lastOnsetTimestamp: Timestamp?
+    private var lastNoteTimestamp: Timestamp?
+    private var lastFollowEventTime: Timestamp?
+
+    public var currentNoteEvent: NoteEvent?
+    public var onNoteEventDetected: OnNoteEventDetectedCallback?
+
+    public func onOnsetDetected(timestamp: Timestamp) {
+        guard currentlyAcceptingOnsets() else { return }
+        lastOnsetTimestamp = timestamp
+        onInputReceived()
+    }
+
+    public func onPitchDetected(timestamp: Timestamp) {
+        lastNoteTimestamp = timestamp
+        onInputReceived()
+    }
+
+    func currentlyAcceptingOnsets() -> Bool {
+        guard
+            let lastFollowEventTime = lastFollowEventTime,
+            let timeToNextEvent = currentNoteEvent?.timeToNext
+            else {
+                return true
+        }
+        return .now - lastFollowEventTime >= (timeToNextEvent * timeToNextToleranceFactor)
+    }
+
+
+    func shouldFollow() -> Bool {
+        return timestampsAreCloseEnough()
+    }
+
+    private func timestampsAreCloseEnough() -> Bool {
+        guard
+            let onsetTimestamp = lastOnsetTimestamp,
+            let noteTimestamp = lastNoteTimestamp
+            else { return false }
+
+        let timestampDiff = abs(onsetTimestamp - noteTimestamp)
+        return timestampDiff < maxTimestampDiff
+    }
+
+    func didFollow() {
+        self.lastFollowEventTime = .now
+        self.lastOnsetTimestamp = nil
+        self.lastNoteTimestamp = nil
     }
 }

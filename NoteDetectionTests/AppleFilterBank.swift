@@ -11,7 +11,6 @@
 import Accelerate
 import NoteDetection
 
-
 class AppleFilter {
     init(sampleRate: Double, centreFrequency: Double, Q: Double) {
         guard centreFrequency > 0 && Q > 0 else {
@@ -56,21 +55,23 @@ class AppleFilter {
     func filter(_ inputArray: [Float]) -> Float {
         let count = inputArray.count
 
-        if initedBufferLength != count + 2 {
+        if initedBufferLength != count {
             outputBuffer?.deallocate(capacity: initedBufferLength)
-            outputBuffer = UnsafeMutablePointer<Float>.allocate(capacity: count + 2)
-            initedBufferLength = count + 2
+            outputBuffer = UnsafeMutablePointer<Float>.allocate(capacity: count)
+            initedBufferLength = count
         }
 
-        var meanMagnitude = Float(0)
         outputBuffer[0] = y2
         outputBuffer[1] = y1
 
-        vDSP_deq22(inputArray, 1, coefficients, outputBuffer, 1, vDSP_Length(count))
-        vDSP_meamgv(outputBuffer, 1, &meanMagnitude, vDSP_Length(count))
+        vDSP_deq22(inputArray, 1, coefficients, outputBuffer, 1, vDSP_Length(count - 2))
 
         y2 = outputBuffer[count - 2]
         y1 = outputBuffer[count - 1]
+
+
+        var meanMagnitude = Float(0)
+        vDSP_meamgv(outputBuffer.advanced(by: 2), 1, &meanMagnitude, vDSP_Length(count - 2))
 
         return meanMagnitude
     }

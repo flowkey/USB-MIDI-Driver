@@ -6,15 +6,10 @@
 //  Copyright © 2016 flowkey GmbH. All rights reserved.
 //
 
-
-/// A Double signifying the time an event arrived, in milliseconds
-public typealias Timestamp = Double
-
 protocol Follower: class {
-    init()
     func didFollow()
     func shouldFollow() -> Bool
-    var onFollow: OnNoteEventDetectedCallback? { get set }
+    var onNoteEventDetected: OnNoteEventDetectedCallback? { get set }
     var currentNoteEvent: NoteEvent? { get set }
 }
 
@@ -28,6 +23,6 @@ extension Follower {
 
     func follow() {
         currentNoteEvent = nil
-        onFollow?(getTimeInMillisecondsSince1970())
+        onNoteEventDetected?(.now)
     }
 }

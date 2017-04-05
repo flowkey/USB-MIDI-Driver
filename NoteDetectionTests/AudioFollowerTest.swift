@@ -36,8 +36,8 @@ class AudioFollowerTests: XCTestCase {
             expectation.fulfill()
         }
 
-        afterTimeout(ms: 0, callback: { self.audioFollower.onOnsetDetected(timestamp: getTimeInMillisecondsSince1970()) })
-        afterTimeout(ms: 100, callback: { self.audioFollower.onPitchDetected(timestamp: getTimeInMillisecondsSince1970()) })
+        afterTimeout(ms: 0, callback: { self.audioFollower.onOnsetDetected(timestamp: .now) })
+        afterTimeout(ms: 100, callback: { self.audioFollower.onPitchDetected(timestamp: .now) })
 
 
         self.waitForExpectations(timeout: 0.5) { error in
@@ -56,8 +56,8 @@ class AudioFollowerTests: XCTestCase {
         }
 
 
-        afterTimeout(ms: 0, callback: { self.audioFollower.onOnsetDetected(timestamp: getTimeInMillisecondsSince1970()) })
-        afterTimeout(ms: 300, callback: { self.audioFollower.onPitchDetected(timestamp: getTimeInMillisecondsSince1970()) })
+        afterTimeout(ms: 0, callback: { self.audioFollower.onOnsetDetected(timestamp: .now) })
+        afterTimeout(ms: 300, callback: { self.audioFollower.onPitchDetected(timestamp: .now) })
 
         afterTimeout(ms: 500, callback: { expectation.fulfill() })
 

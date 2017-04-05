@@ -9,11 +9,4 @@
 public enum InputType {
     case audio
     case midi
-
-    func createNoteDetection() -> NoteDetectionProtocol {
-        switch self {
-        case .audio: return AudioNoteDetection()
-        case .midi: return MIDINoteDetection()
-        }
-    }
 }

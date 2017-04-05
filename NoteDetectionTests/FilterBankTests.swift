@@ -31,25 +31,18 @@ class FilterBankTests: XCTestCase {
     }
 
     func testAppleFilterbankPerformance() {
-        self.measure {
-            let maxElement = self.runFilterbankTest(
-                filterbank: AppleFilterBank(
-                    noteRange: self.noteRange,
-                    sampleRate: 44100
-                )
-            )
+        measure {
+            let filterbank = AppleFilterBank(noteRange: self.noteRange, sampleRate: 44100)
+            let maxElement = self.runFilterbankTest(filterbank: filterbank)
             XCTAssertEqualWithAccuracy(maxElement, self.largestMeanMagnitudeInSampleAudioFrame, accuracy: 1e-06)
         }
     }
 
     func testFlowkeyFilterbankPerformance() {
-        self.measure {
-            let maxElement = self.runFilterbankTest(
-                filterbank: FilterBank(
-                    noteRange: self.noteRange,
-                    sampleRate: 44100
-                )
-            )
+        measure {
+            let filterbank = FilterBank(noteRange: self.noteRange, sampleRate: 44100)
+            let maxElement = self.runFilterbankTest(filterbank: filterbank)
+
             XCTAssertEqualWithAccuracy(maxElement, self.largestMeanMagnitudeInSampleAudioFrame, accuracy: 1e-06)
         }
     }
