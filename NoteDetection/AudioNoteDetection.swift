@@ -77,8 +77,8 @@ final class AudioNoteDetector: NoteDetector, Follower {
         }
     }
 
-    public func setExpectedNoteEvent(noteEvent: NoteEvent?) {
-        pitchDetection.expectedPitchDetectionData = PitchDetectionData(from: noteEvent)
+    public var expectedNoteEvent: NoteEvent? {
+        didSet { pitchDetection.expectedPitchDetectionData = PitchDetectionData(from: expectedNoteEvent) }
     }
 
     func chroma(_ detectionMode: PitchDetection.DetectionMode) -> ChromaVector {

@@ -21,8 +21,9 @@ final class MIDINoteDetector: NoteDetector {
         }
     }
 
-    func start() {}
-    func stop() {}
+    func process(midi: MIDIMessage, device: MIDIDevice?) {
+        self.follower.onMIDIMessageReceived(midi)
+    }
 
     public var onNoteEventDetected: OnNoteEventDetectedCallback? {
         didSet { follower.onNoteEventDetected = onNoteEventDetected }
@@ -32,7 +33,7 @@ final class MIDINoteDetector: NoteDetector {
         didSet { midiEngine?.onMIDIDeviceListChanged = onMIDIDeviceListChanged }
     }
 
-    public func setExpectedNoteEvent(noteEvent: NoteEvent?) {
-        follower.currentNoteEvent = noteEvent
+    public var expectedNoteEvent: NoteEvent? {
+        didSet { follower.currentNoteEvent = expectedNoteEvent }
     }
 }
