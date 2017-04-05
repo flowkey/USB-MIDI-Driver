@@ -1,10 +1,11 @@
 private let timeToNextToleranceFactor = 0.5
-private let maxTimestampDiff = Timestamp(200)
 
 public typealias VolumeUpdatedCallback = (Float) -> Void
 public typealias NoteEventDetectedCallback = (Timestamp) -> Void
 
 final class AudioNoteDetector: NoteDetector {
+    static let maxTimestampDiff = Timestamp(200)
+
     var onInputLevelChanged: InputLevelChangedCallback?
     var expectedNoteEvent: DetectableNoteEvent?
 
@@ -16,15 +17,19 @@ final class AudioNoteDetector: NoteDetector {
     var onVolumeUpdated: VolumeUpdatedCallback? // in decibel (-72...0)
     var onOnsetDetected: OnsetDetectedCallback?
 
-    init(engine: AudioEngine) {
+    init(sampleRate: Double) {
         // Chroma extractors for our different ranges:
         let lowRange = MIDINumber(note: .g, octave: 1) ... MIDINumber(note: .d, octave: 5)
         let highRange = lowRange.last! ... MIDINumber(note: .d, octave: 7)
 
         // Setup processors
-        filterbank = FilterBank(lowRange: lowRange, highRange: highRange, sampleRate: engine.sampleRate)
+        filterbank = FilterBank(lowRange: lowRange, highRange: highRange, sampleRate: sampleRate)
         pitchDetection = PitchDetection(lowNoteBoundary: lowRange.last!, onPitchDetected: self.onPitchDetected)
         onsetDetection = OnsetDetection(feature: SpectralFlux(), onOnset: self.onOnsetDetected)
+    }
+
+    convenience init(engine: AudioEngine) {
+        self.init(sampleRate: engine.sampleRate)
         engine.onAudioData = self.process
     }
 
@@ -116,6 +121,6 @@ final class AudioNoteDetector: NoteDetector {
             else { return false }
 
         let timestampDiff = abs(onsetTimestamp - noteTimestamp)
-        return timestampDiff < maxTimestampDiff
+        return timestampDiff < AudioNoteDetector.maxTimestampDiff
     }
 }

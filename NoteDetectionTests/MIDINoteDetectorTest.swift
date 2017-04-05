@@ -3,12 +3,12 @@ import XCTest
 
 class MIDINoteDetectorTests: XCTestCase {
 
-    var midiNoteDetector = MIDINoteDetector()
+    var midiNoteDetector = MIDINoteDetector(engine: try! MIDIEngine())
     let noteEvents: [NoteEvent] = anotherDayInParadiseNoteEvents
 
     override func setUp() {
         super.setUp()
-        midiNoteDetector = MIDINoteDetector()
+        midiNoteDetector = MIDINoteDetector(engine: try! MIDIEngine())
     }
 
     override func tearDown() {
@@ -27,7 +27,7 @@ class MIDINoteDetectorTests: XCTestCase {
         }
 
         for note in noteEvent.notes {
-            let message = MIDIMessage.noteOn(key: UInt8(note), velocity: 10)
+            let message = MIDIMessage.noteOn(key: note, velocity: 10)
             midiNoteDetector.process(midiMessage: message)
         }
 
@@ -41,7 +41,7 @@ class MIDINoteDetectorTests: XCTestCase {
         midiNoteDetector.expectedNoteEvent = noteEvents[eventIndex]
 
         for note in midiNoteDetector.expectedNoteEvent!.notes {
-            midiNoteDetector.process(midiMessage: MIDIMessage.noteOn(key: UInt8(note), velocity: 10))
+            midiNoteDetector.process(midiMessage: MIDIMessage.noteOn(key: note, velocity: 10))
         }
 
         XCTAssertTrue(midiNoteDetector.currentMIDIKeys.isEmpty)
@@ -70,7 +70,7 @@ class MIDINoteDetectorTests: XCTestCase {
         midiNoteDetector.expectedNoteEvent = noteEvents[randomEventIndex]
 
         // add not expected key
-        midiNoteDetector.process(midiMessage: MIDIMessage.noteOn(key: 0, velocity: 10))
+        midiNoteDetector.process(midiMessage: .noteOn(key: 0, velocity: 10))
 
         guard let noteEvent = midiNoteDetector.expectedNoteEvent else {
             XCTFail()
@@ -79,7 +79,7 @@ class MIDINoteDetectorTests: XCTestCase {
 
         // add expected keys
         for note in noteEvent.notes {
-            midiNoteDetector.process(midiMessage: MIDIMessage.noteOn(key: UInt8(note), velocity: 10))
+            midiNoteDetector.process(midiMessage: .noteOn(key: note, velocity: 10))
         }
 
         XCTAssertNil(midiNoteDetector.expectedNoteEvent, "expectedNoteEvent nil because it was detected previously")

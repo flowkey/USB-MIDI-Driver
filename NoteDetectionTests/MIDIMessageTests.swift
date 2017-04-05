@@ -11,26 +11,27 @@ import NoteDetection
 
 class MIDIMessageTests: XCTestCase {
 
-    let arbitraryVelocity: UInt8 = 100
-    let arbitraryKey: UInt8 = 69
+    let arbitraryVelocity: Int = 100
+    let arbitraryKey: Int = 69
 
     let noteOnStatus: UInt8 = 0b10010000
     let noteOffStatus: UInt8 = 0b10000000
 
 
     func testNoteOn() {
-        let midiMessage = MIDIMessage.from(status: noteOnStatus, data1: arbitraryKey, data2: arbitraryVelocity)
+        let midiMessage = MIDIMessage(status: noteOnStatus, data1: UInt8(arbitraryKey), data2: UInt8(arbitraryVelocity))
 
         var isNoteOn: Bool?
-        var messageKey: UInt8?
-        var messageVelocity: UInt8?
+        var messageKey: Int?
+        var messageVelocity: Int?
 
         switch midiMessage! {
-        case .noteOn(let (key, velocity)):
+        case let .noteOn(key, velocity):
             isNoteOn = true
             messageKey = key
             messageVelocity = velocity
-        default: break
+        default:
+            break
         }
 
         XCTAssertTrue(isNoteOn!)
@@ -39,11 +40,11 @@ class MIDIMessageTests: XCTestCase {
     }
 
     func testNoteOff() {
-        let midiMessage = MIDIMessage.from(status: noteOffStatus, data1: arbitraryKey, data2: arbitraryVelocity)
+        let midiMessage = MIDIMessage(status: noteOffStatus, data1: UInt8(arbitraryKey), data2: UInt8(arbitraryVelocity))
 
         var isNoteOff: Bool?
-        var messageKey: UInt8?
-        var messageVelocity: UInt8?
+        var messageKey: Int?
+        var messageVelocity: Int?
 
         switch midiMessage! {
         case .noteOff(let (key, velocity)):

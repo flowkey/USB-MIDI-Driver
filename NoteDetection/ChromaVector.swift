@@ -121,7 +121,7 @@ struct ChromaVector: CustomStringConvertible, Equatable {
         self = vector
     }
 
-    private static func computeExpectedValueForFifth(of key: MIDINumber) -> Float {
+    static func computeExpectedValueForFifth(of key: MIDINumber) -> Float {
         return 1.0 - (Float(key) / Float(lowKeyBoundary))
     }
 }
