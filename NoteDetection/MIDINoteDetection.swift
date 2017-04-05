@@ -6,23 +6,26 @@
 //  Copyright © 2017 flowkey. All rights reserved.
 //
 
-private let maxVelocity: Float = 127.0
-
 final class MIDINoteDetector: NoteDetector {
-    var onInputLevelChanged: OnInputLevelChangedCallback?
-    var onNoteEventDetected: OnNoteEventDetectedCallback?
+    var onInputLevelChanged: InputLevelChangedCallback?
+    var onNoteEventDetected: NoteEventDetectedCallback?
     var expectedNoteEvent: DetectableNoteEvent?
     var currentMIDIKeys = Set<Int>()
 
-    public func process(midiMessage: MIDIMessage, from: MIDIDevice? = nil) {
+    init(engine: MIDIEngine) {
+        engine.onMIDIMessageReceived = process
+    }
+
+    public func process(midiMessage: MIDIMessage, from device: MIDIDevice? = nil) {
         switch midiMessage {
-        case .noteOn(let (key, velocity)):
+        case let .noteOn(key, velocity):
             currentMIDIKeys.insert(Int(key))
-            update(velocity)
-        case .noteOff(let (key, velocity)):
+            currentVelocity = Float(velocity)
+        case let .noteOff(key, velocity):
             currentMIDIKeys.remove(Int(key))
-            update(velocity)
-        default: return
+            currentVelocity = Float(velocity)
+        default:
+            return
         }
 
         if allExpectedNotesAreOn() {
@@ -32,13 +35,8 @@ final class MIDINoteDetector: NoteDetector {
         }
     }
 
-    private var currentVelocity: Float {
-        didSet {} // update inputLevel to ratio
-    }
-
-    private func update(_ velocity: UInt8) {
-        let ratio = Float(velocity) / maxVelocity
-        onInputLevelChanged?(ratio)
+    private var currentVelocity: Float = 0 {
+        didSet { onInputLevelChanged?(currentVelocity / 127) }
     }
 
     private func allExpectedNotesAreOn() -> Bool {
@@ -46,4 +44,3 @@ final class MIDINoteDetector: NoteDetector {
         return currentMIDIKeys.isSuperset(of: expectedKeys) // allows not expected keys
     }
 }
-

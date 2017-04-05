@@ -6,15 +6,15 @@
 //  Copyright (c) 2015 Geordie Jay. All rights reserved.
 //
 
-public typealias OnOnsetDetectedCallback = (Timestamp) -> Void
+public typealias OnsetDetectedCallback = (Timestamp) -> Void
 
 public class OnsetDetection {
     let onsetFeature: OnsetFeature
     var onsetFeatureBuffer: [Float]
     var currentThreshold: Float
-    let onOnsetDetected: OnOnsetDetectedCallback
+    let onOnsetDetected: OnsetDetectedCallback
 
-    init(feature: OnsetFeature, onOnset: @escaping OnOnsetDetectedCallback) {
+    init(feature: OnsetFeature, onOnset: @escaping OnsetDetectedCallback) {
         self.onsetFeature = feature
         self.onsetFeatureBuffer = [Float](repeating: 0.0, count: onsetFeature.defaultFeatureBufferSize)
         self.currentThreshold = onsetFeature.defaultThreshold

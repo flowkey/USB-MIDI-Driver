@@ -1,34 +1,44 @@
-public class NoteDetection {
-    public typealias InputLevelChangedCallback = ((Float) -> Void)
+public typealias InputLevelChangedCallback = ((Float) -> Void)
 
-    var inputType: InputType {
-        get { return noteDetector is AudioNoteDetector ? .audio : .midi }
-        set {
-            noteDetector = createNoteDetector(type: newValue, copy: noteDetector)
-            switch noteDetector {
-            case let noteDetector as AudioNoteDetector: audioEngine.onAudioData = noteDetector.process
-            case let noteDetector as MIDINoteDetector: midiEngine.onMIDIMessageReceived = noteDetector.process
-            default: return
-            }
+public class NoteDetection {
+    public var onInputLevelChanged: InputLevelChangedCallback?
+
+    var noteDetector: NoteDetector! // implicitly unwrapped to so we can use self.createNoteDetector() on init
+    let audioEngine: AudioEngine
+    let midiEngine: MIDIEngine
+
+    public init(type: InputType) throws {
+        midiEngine = try MIDIEngine()
+        audioEngine = try AudioEngine()
+        noteDetector = createNoteDetector(type: type)
+
+        audioEngine.onSampleRateChanged = onSampleRateChanged
+    }
+
+    private func onSampleRateChanged(sampleRate: Double) {
+        if noteDetector is AudioNoteDetector { // don't switch away from midi just because the sampleRate changed
+            noteDetector = createNoteDetector(type: .audio)
         }
     }
 
-    // implicitly unwrapped to be able to use createNoteDetector() in init, which needs self.audioEngine
-    var noteDetector: NoteDetector!
+    var inputType: InputType {
+        get { return noteDetector is AudioNoteDetector ? .audio : .midi }
+        set { noteDetector = createNoteDetector(type: newValue) }
+    }
 
-    let midiEngine = try! MIDIEngine()
-    let audioEngine = try! AudioEngine()
-
-    public var onInputLevelChanged: InputLevelChangedCallback?
-
-    public init(type: InputType) {
-        noteDetector = createNoteDetector(type: .audio)
-
-        audioEngine.onSampleRateChanged = { sampleRate in
-            if self.inputType == .audio {
-                self.noteDetector = self.createNoteDetector(type: .audio, copy: self.noteDetector)
-            }
+    func createNoteDetector(type: InputType) -> NoteDetector {
+        var newNoteDetector: NoteDetector
+        switch type {
+        case .audio: newNoteDetector = AudioNoteDetector(engine: audioEngine)
+        case .midi: newNoteDetector = MIDINoteDetector(engine: midiEngine)
         }
+
+        // Transfer all callbacks from the previous detector over to the new one:
+        newNoteDetector.expectedNoteEvent = noteDetector?.expectedNoteEvent
+        newNoteDetector.onNoteEventDetected = noteDetector?.onNoteEventDetected
+        newNoteDetector.onInputLevelChanged = self.onInputLevelChanged
+
+        return newNoteDetector
     }
 }
 
@@ -40,24 +50,12 @@ extension NoteDetection {
         noteDetector.expectedNoteEvent = expectedNoteEvent
     }
 
-    public func set(onNoteEventDetected: OnNoteEventDetectedCallback?) {
+    public func set(onNoteEventDetected: NoteEventDetectedCallback?) {
         noteDetector.onNoteEventDetected = onNoteEventDetected
     }
 
-    public func set(onMIDIDeviceListChanged: OnMIDIDeviceListChangedCallback?) {
+    public func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?) {
         midiEngine.onMIDIDeviceListChanged = onMIDIDeviceListChanged
-    }
-
-    var noteDetector: NoteDetector
-    let audioEngine: AudioEngine
-    let midiEngine: MIDIEngine
-
-    public init(type: InputType) throws {
-        audioEngine = try AudioEngine() // TODO connect onSampleRateChanged to AudioNoteDetector
-        midiEngine = try MIDIEngine()
-
-        //noteDetector = type.createNoteDetector()
-        noteDetector = AudioNoteDetector(audioEngine: audioEngine)
     }
 
     public func startMicrophone() throws {
@@ -67,29 +65,10 @@ extension NoteDetection {
     public func stopMicrophone() throws {
         try audioEngine.stop()
     }
-
-    public func setExpectedNoteEvent(event: DetectableNoteEvent?) {
-        noteDetector.setExpectedNoteEvent(noteEvent: event)
-    }
 }
 
 protocol NoteDetector {
-    var onNoteEventDetected: OnNoteEventDetectedCallback? { get set }
+    var onNoteEventDetected: NoteEventDetectedCallback? { get set }
     var expectedNoteEvent: DetectableNoteEvent? { get set }
-    var onInputLevelChanged: OnInputLevelChangedCallback? { get set }
+    var onInputLevelChanged: InputLevelChangedCallback? { get set }
 }
-
-extension NoteDetection {
-    func createNoteDetector(type: InputType, copy previousDetector: NoteDetector? = nil) -> NoteDetector {
-        var newNoteDetector: NoteDetector
-        switch type {
-            case .audio: newNoteDetector = AudioNoteDetector(sampleRate: audioEngine.sampleRate)
-            case .midi: newNoteDetector = MIDINoteDetector()
-        }
-        newNoteDetector.expectedNoteEvent = previousDetector?.expectedNoteEvent
-        newNoteDetector.onNoteEventDetected = previousDetector?.onNoteEventDetected
-        newNoteDetector.onInputLevelChanged = self.onInputLevelChanged
-        return newNoteDetector
-    }
-}
-

@@ -51,6 +51,7 @@
 		03F499871E8BF7EF0042DB4E /* InputType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F499861E8BF7EF0042DB4E /* InputType.swift */; };
 		5C1CF4681E9405DF00C1D80B /* MIDIMessage+MIDIPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1CF4671E9405DF00C1D80B /* MIDIMessage+MIDIPacket.swift */; };
 		5C1CF46A1E9517CC00C1D80B /* ProcessedAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1CF4691E9517CC00C1D80B /* ProcessedAudio.swift */; };
+		5C1CF46C1E95535700C1D80B /* Filterbank+ChromaVector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1CF46B1E95535700C1D80B /* Filterbank+ChromaVector.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +113,7 @@
 		03F499861E8BF7EF0042DB4E /* InputType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputType.swift; sourceTree = "<group>"; };
 		5C1CF4671E9405DF00C1D80B /* MIDIMessage+MIDIPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MIDIMessage+MIDIPacket.swift"; sourceTree = "<group>"; };
 		5C1CF4691E9517CC00C1D80B /* ProcessedAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProcessedAudio.swift; sourceTree = "<group>"; };
+		5C1CF46B1E95535700C1D80B /* Filterbank+ChromaVector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Filterbank+ChromaVector.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,6 +229,7 @@
 			children = (
 				03881DB61E8927BB00D61E9B /* Filter.swift */,
 				03881DB71E8927BB00D61E9B /* FilterBank.swift */,
+				5C1CF46B1E95535700C1D80B /* Filterbank+ChromaVector.swift */,
 			);
 			name = Filterbank;
 			sourceTree = "<group>";
@@ -458,6 +461,7 @@
 				0339265A1E9297BB00E787E2 /* MusicalNote.swift in Sources */,
 				039ECC9F1E853A85001FC194 /* MIDIObjectRef.swift in Sources */,
 				03881DB91E8927BB00D61E9B /* FilterBank.swift in Sources */,
+				5C1CF46C1E95535700C1D80B /* Filterbank+ChromaVector.swift in Sources */,
 				033926531E92975100E787E2 /* NoteEventArray.swift in Sources */,
 				5C1CF46A1E9517CC00C1D80B /* ProcessedAudio.swift in Sources */,
 				037E22D41E8919F300BBA993 /* ChromaVector.swift in Sources */,

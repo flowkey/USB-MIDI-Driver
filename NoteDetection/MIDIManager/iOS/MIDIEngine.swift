@@ -10,8 +10,8 @@ import Foundation
 import CoreMIDI
 
 class MIDIEngine {
-    public var onMIDIDeviceListChanged: OnMIDIDeviceListChangedCallback?
-    public var onMIDIMessageReceived: OnMIDIMessageReceivedCallback?
+    public var onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?
+    public var onMIDIMessageReceived: MIDIMessageReceivedCallback?
 
     var midiClient = MIDIClientRef()
     var inputPort = MIDIPortRef()

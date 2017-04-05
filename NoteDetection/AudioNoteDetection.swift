@@ -1,44 +1,32 @@
 private let timeToNextToleranceFactor = 0.5
 private let maxTimestampDiff = Timestamp(200)
 
-public typealias OnVolumeUpdatedCallback = (Float) -> Void
-public typealias OnNoteEventDetectedCallback = (Timestamp) -> Void
+public typealias VolumeUpdatedCallback = (Float) -> Void
+public typealias NoteEventDetectedCallback = (Timestamp) -> Void
 
 final class AudioNoteDetector: NoteDetector {
-    var onInputLevelChanged: OnInputLevelChangedCallback?
+    var onInputLevelChanged: InputLevelChangedCallback?
+    var expectedNoteEvent: DetectableNoteEvent?
 
-    let lowRange: CountableClosedRange<MIDINumber>
-    let highRange: CountableClosedRange<MIDINumber>
     let filterbank: FilterBank
-
     var pitchDetection: PitchDetection!
     var onsetDetection: OnsetDetection!
 
-    public var onAudioProcessed: OnAudioProcessedCallback?
-    public var onVolumeUpdated: OnVolumeUpdatedCallback? // in decibel (-72...0)
-    public var onOnsetDetected: OnOnsetDetectedCallback?
+    var onAudioProcessed: AudioProcessedCallback?
+    var onVolumeUpdated: VolumeUpdatedCallback? // in decibel (-72...0)
+    var onOnsetDetected: OnsetDetectedCallback?
 
-    public init(audioEngine: AudioEngine) {
+    init(engine: AudioEngine) {
         // Chroma extractors for our different ranges:
-        lowRange = MIDINumber(note: .g, octave: 1) ... MIDINumber(note: .d, octave: 5)
-        highRange = lowRange.last! ... MIDINumber(note: .d, octave: 7)
-
-        let fullRange = lowRange.first! ... highRange.last!
-        filterbank = FilterBank(noteRange: fullRange, sampleRate: audioEngine.sampleRate)
+        let lowRange = MIDINumber(note: .g, octave: 1) ... MIDINumber(note: .d, octave: 5)
+        let highRange = lowRange.last! ... MIDINumber(note: .d, octave: 7)
 
         // Setup processors
+        filterbank = FilterBank(lowRange: lowRange, highRange: highRange, sampleRate: engine.sampleRate)
         pitchDetection = PitchDetection(lowNoteBoundary: lowRange.last!, onPitchDetected: self.onPitchDetected)
         onsetDetection = OnsetDetection(feature: SpectralFlux(), onOnset: self.onOnsetDetected)
-        audioEngine.onAudioData = self.process
+        engine.onAudioData = self.process
     }
-
-    /// Creates a new AudioNoteDetection preserving existing delegates, but with a different sampleRate.
-//    func cloned(newSampleRate: Double) -> AudioNoteDetector {
-//        let copy = AudioNoteDetector(sampleRate: newSampleRate)
-//        copy.onAudioProcessed = self.onAudioProcessed
-//        copy.onVolumeUpdated = self.onVolumeUpdated
-//        return copy
-//    }
 
     var volumeIteration = 0
     private func calculateVolume(from buffer: [Float]) -> Float {
@@ -68,7 +56,7 @@ final class AudioNoteDetector: NoteDetector {
         // Do Pitch / Onset Detection
         filterbank.calculateMagnitudes(buffer)
         let onset = onsetDetection.run(buffer, filterbankMagnitudes: filterbank.magnitudes)
-        let chromaVector = chroma(pitchDetection.currentDetectionMode)
+        let chromaVector = filterbank.getChroma(for: pitchDetection.currentDetectionMode)
         pitchDetection.run(chromaVector)
 
         // Don't make unnecessary calls to the main thread if there is no callback set:
@@ -86,30 +74,11 @@ final class AudioNoteDetector: NoteDetector {
         pitchDetection.setExpectedEvent(noteEvent)
     }
 
-    func chroma(_ detectionMode: PitchDetection.DetectionMode) -> ChromaVector {
-        // These only get calculated if you actually access them:
-        /// Extracted from filterbank magnitudes within __LOW__ range
-        var lowChroma: ChromaVector {
-            return ChromaVector(from: filterbank.magnitudes, startingAt: lowRange.first!, range: lowRange)
-        }
-
-        /// Extracted from filterbank magnitudes within __HIGH__ range
-        var highChroma: ChromaVector {
-             return ChromaVector(from: filterbank.magnitudes, startingAt: lowRange.first!, range: highRange)
-        }
-
-        switch detectionMode {
-            case .lowPitches:  return lowChroma
-            case .highPitches: return highChroma
-            case .highAndLow:  return lowChroma + highChroma
-        }
-    }
-
     private var lastOnsetTimestamp: Timestamp?
     private var lastNoteTimestamp: Timestamp?
     private var lastFollowEventTime: Timestamp?
 
-    public var onNoteEventDetected: OnNoteEventDetectedCallback?
+    public var onNoteEventDetected: NoteEventDetectedCallback?
 
     public func onOnsetDetected(timestamp: Timestamp) {
         guard currentlyAcceptingOnsets() else { return }
@@ -123,7 +92,7 @@ final class AudioNoteDetector: NoteDetector {
     }
 
     func currentlyAcceptingOnsets() -> Bool {
-        if let lastFollowEventTime = lastFollowEventTime, let timeToNextEvent = currentNoteEvent?.timeToNext {
+        if let lastFollowEventTime = lastFollowEventTime, let timeToNextEvent = expectedNoteEvent?.timeToNext {
             return .now - lastFollowEventTime >= (timeToNextEvent * timeToNextToleranceFactor)
         } else {
             return true
