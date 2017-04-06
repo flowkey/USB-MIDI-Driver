@@ -1,20 +1,20 @@
 private let timeToNextToleranceFactor = 0.5
 
-public typealias VolumeUpdatedCallback = (Float) -> Void
 public typealias NoteEventDetectedCallback = (Timestamp) -> Void
 
 final class AudioNoteDetector: NoteDetector {
     static let maxTimestampDiff = Timestamp(200)
 
-    var onInputLevelChanged: InputLevelChangedCallback?
-    var expectedNoteEvent: DetectableNoteEvent?
+    var expectedNoteEvent: DetectableNoteEvent? {
+        didSet { pitchDetection.setExpectedEvent(expectedNoteEvent) }
+    }
 
     let filterbank: FilterBank
     var pitchDetection: PitchDetection!
     var onsetDetection: OnsetDetection!
 
+    var onInputLevelChanged: InputLevelChangedCallback?
     var onAudioProcessed: AudioProcessedCallback?
-    var onVolumeUpdated: VolumeUpdatedCallback? // in decibel (-72...0)
     var onOnsetDetected: OnsetDetectedCallback?
 
     init(sampleRate: Double) {
@@ -39,9 +39,10 @@ final class AudioNoteDetector: NoteDetector {
 
         volumeIteration += 1
         if volumeIteration > 11 { // this value is tuned to make the NativeInputManager look nice
-            if let onVolumeUpdated = onVolumeUpdated, volume.isFinite {
-                let ratio = 1 - (volume / -72)
-                performOnMainThread { onVolumeUpdated(ratio) }
+            if let onInputLevelChanged = onInputLevelChanged, volume.isFinite {
+                // wanna calculate dBFS reference value? this could be helpful https://goo.gl/rzCeAW
+                let ratio = 1 - (volume / -96)
+                performOnMainThread { onInputLevelChanged(ratio) }
             }
             volumeIteration = 0
         }
@@ -75,10 +76,6 @@ final class AudioNoteDetector: NoteDetector {
         }
     }
 
-    public func setExpectedNoteEvent(noteEvent: DetectableNoteEvent?) {
-        pitchDetection.setExpectedEvent(noteEvent)
-    }
-
     private var lastOnsetTimestamp: Timestamp?
     private var lastNoteTimestamp: Timestamp?
     private var lastFollowEventTime: Timestamp?
@@ -106,11 +103,12 @@ final class AudioNoteDetector: NoteDetector {
 
     func onInputReceived() {
         if timestampsAreCloseEnough() {
-            onNoteEventDetected?(.now)
-            expectedNoteEvent = nil
+            expectedNoteEvent = nil // onNoteEventDetected sets new event, so setting it to nil must happen before
             self.lastFollowEventTime = .now
             self.lastOnsetTimestamp = nil
             self.lastNoteTimestamp = nil
+
+            onNoteEventDetected?(.now)
         }
     }
 

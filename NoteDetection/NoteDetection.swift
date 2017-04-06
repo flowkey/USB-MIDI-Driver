@@ -65,6 +65,10 @@ extension NoteDetection {
     public func stopMicrophone() throws {
         try audioEngine.stop()
     }
+
+    public func overrideInputType(to type: InputType) {
+        noteDetector = createNoteDetector(type: type)
+    }
 }
 
 protocol NoteDetector {
