@@ -29,9 +29,10 @@ final class MIDINoteDetector: NoteDetector {
         }
 
         if allExpectedNotesAreOn() {
-            onNoteEventDetected?(.now)
-            currentMIDIKeys.removeAll()
             expectedNoteEvent = nil
+            currentMIDIKeys.removeAll()
+
+            onNoteEventDetected?(.now)
         }
     }
 
