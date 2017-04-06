@@ -34,11 +34,11 @@ class GraphViewController: UIViewController, GraphViewDataSource {
     }
 
     @IBAction func Start(_ sender: UIButton) {
-        noteDetection.start()
+        try! noteDetection.startMicrophone()
     }
 
     @IBAction func Stop(_ sender: UIButton) {
-        noteDetection.stop()
+        try! noteDetection.stopMicrophone()
     }
 
     override func viewWillDisappear(_ animated: Bool) {

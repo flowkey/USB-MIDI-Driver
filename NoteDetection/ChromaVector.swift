@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Geordie Jay. All rights reserved.
 //
 
-
-
 // maximum key, until which additional tolerance for low keys as well as an expected chroma value
 // for the fifth of a key is calculated. determined through obervation of filterbank during testing
 fileprivate let lowKeyBoundary = 48
@@ -17,10 +15,10 @@ struct ChromaVector: CustomStringConvertible, Equatable {
     static let emptyVector = [Float](repeating: 0, count: ChromaVector.size)
 
     // Internal datastore, not publicly writable
-    fileprivate var vector = ChromaVector.emptyVector
+    fileprivate var backingStore = ChromaVector.emptyVector
 
     // Provide read-only access to internal datastore:
-    var toRaw: [Float] { return self.vector }
+    var toRaw: [Float] { return self.backingStore }
 
     // ---------------------------------------------------
     // Initialisers
@@ -43,20 +41,9 @@ struct ChromaVector: CustomStringConvertible, Equatable {
         }
     }
 
-    init(notes: [MusicalNote]) {
-        notes.forEach { self.vector[$0.rawValue] = 1 }
-    }
-
-    init(from midiKeys: Set<MIDINumber>) {
-        midiKeys.forEach { (key) in
-            let chromaIndex = key % 12
-            self.vector[chromaIndex] = 1
-        }
-    }
-
     init?(_ vector: [Float]) {
         if vector.count == ChromaVector.size {
-            self.vector = vector
+            self.backingStore = vector
         } else {
             return nil
         }
@@ -66,23 +53,23 @@ struct ChromaVector: CustomStringConvertible, Equatable {
     // Instance methods
 
     var count: Int {
-        return self.vector.count
+        return self.backingStore.count
     }
 
     subscript (index: MusicalNote) -> Float {
-        get { return vector[index.rawValue] }
-        set { vector[index.rawValue] = newValue }
+        get { return backingStore[index.rawValue] }
+        set { backingStore[index.rawValue] = newValue }
     }
 
     subscript (index: Int) -> Float {
         // If someone puts an index out of bounds, wrap it
         // i.e. chroma[12] === chroma[0]
-        get { return vector[index % ChromaVector.size]}
-        set { vector[(index % ChromaVector.size)] = newValue }
+        get { return backingStore[index % ChromaVector.size]}
+        set { backingStore[(index % ChromaVector.size)] = newValue }
     }
 
     var description: String {
-        return vector.description
+        return backingStore.description
     }
 
 
@@ -90,7 +77,6 @@ struct ChromaVector: CustomStringConvertible, Equatable {
     // http://brenocon.com/blog/2012/03/cosine-similarity-pearson-correlation-and-ols-coefficients/
 
     func similarity(to other: ChromaVector) -> Float {
-
         var x: Float = 0
         var y: Float = 0
         var z: Float = 0
@@ -113,7 +99,10 @@ struct ChromaVector: CustomStringConvertible, Equatable {
         return result
     }
 
-    static func composeExpected(from midiKeys: Set<MIDINumber>) -> ChromaVector {
+    /// Takes a set of MIDINumbers and composes the ChromaVector we expect to see given those notes.
+    /// This includes adding values to the fifth harmonic of lower notes.
+    init?(composeFrom midiKeys: Set<MIDINumber>?) {
+        guard let midiKeys = midiKeys else { return nil }
         var vector = ChromaVector()
 
         for key in midiKeys {
@@ -122,22 +111,19 @@ struct ChromaVector: CustomStringConvertible, Equatable {
 
             if key <= lowKeyBoundary {
                 valueToAdd = 0.5
-                valueToAddToFifth = computeExpectedValueForFith(of: key)
+                valueToAddToFifth = ChromaVector.computeExpectedValueForFifth(of: key)
             }
 
             vector[key] += valueToAdd
-            vector[key+7] += valueToAddToFifth // for a low key: add something to it's fifth ('Quinte', which is 7 semitones up)
+            vector[key+7] += valueToAddToFifth // for low keys: add something to its fifth ('Quinte', 7 semitones up)
         }
 
-        return vector
+        self = vector
     }
 
-    static func computeExpectedValueForFith(of key: MIDINumber) -> Float {
-//        return pow(1.0 - (Float(key) / Float(lowKeyBoundary)), 2)
-//        return sqrt(1.0 - (Float(key) / Float(lowKeyBoundary)))
+    static func computeExpectedValueForFifth(of key: MIDINumber) -> Float {
         return 1.0 - (Float(key) / Float(lowKeyBoundary))
     }
-
 }
 
 func + (lhs: ChromaVector, rhs: ChromaVector) -> ChromaVector {

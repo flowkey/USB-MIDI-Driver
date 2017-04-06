@@ -7,27 +7,28 @@
 //
 
 import UIKit
-import NoteDetection
+@testable import NoteDetection
 
-public let noteDetection = NoteDetection(type: .audio)
+public let noteDetection = try! NoteDetection(type: .audio)
 
 @objc class MainViewController: UITabBarController, UITabBarControllerDelegate {
 
     var graphViewController: GraphViewController?
     var midiViewController: MidiViewController?
 
-    var lastProcessedBlock = ProcessedAudio() {
-        didSet {
-            let data = lastProcessedBlock
+    var lastProcessedBlock: ProcessedAudio {
+        get { return ProcessedAudio([], ChromaVector(), [], 0, 0, false) } // dummy data. we shouldn't ever have to "get" these data
+        set {
+            let data = newValue
             switch graphViewController?.title {
             case .some("Filter Bank"):
-                graphViewController?.updateView(data.filterBandAmplitudes)
+                graphViewController?.updateView(data.filterbankMagnitudes)
             case .some("Waveform"):
                 graphViewController?.updateView(data.audioData)
             case .some("Onset"):
                 graphViewController?.updateView(data.onsetFeatureValue, onsetThreshold: data.onsetThreshold, onsetDetected: data.onsetDetected)
             default:
-                graphViewController?.updateView(data.chromaVector)
+                graphViewController?.updateView(data.chromaVector.toRaw)
             }
         }
     }
@@ -39,27 +40,29 @@ public let noteDetection = NoteDetection(type: .audio)
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        self.delegate = self // TabBarControllerDelegate
+        delegate = self // TabBarControllerDelegate
         graphViewController = self.viewControllers?[0] as? GraphViewController
-
-        noteDetection.start()
-        noteDetection.onMIDIDeviceListChanged = { (deviceList: Set<MIDIDevice>) in
-            for device in deviceList { print(device.displayName) }
-        }
-        noteDetection.onMIDIMessageReceived = { (midiMessage: MIDIMessage, device: MIDIDevice?) in
-            print(midiMessage)
-        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        noteDetection.onAudioProcessed = { processedAudio in
+        try! noteDetection.startMicrophone()
+
+        noteDetection.set(onMIDIDeviceListChanged: { (deviceList: Set<MIDIDevice>) in
+            for device in deviceList { print(device.displayName) }
+        })
+
+        noteDetection.midiEngine.onMIDIMessageReceived = { (midiMessage: MIDIMessage, device: MIDIDevice?) in
+            print(midiMessage)
+        }
+
+        (noteDetection.noteDetector as? AudioNoteDetector)?.onAudioProcessed = { processedAudio in
             self.lastProcessedBlock = processedAudio
         }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        noteDetection.stop()
-        self.delegate = nil
+        try? noteDetection.stopMicrophone()
+        delegate = nil
         NotificationCenter.default.removeObserver(self)
     }
 }

@@ -11,22 +11,27 @@
 
 #if os(Android)
 import Glibc
-let USEC_PER_SEC = 1000000
 #else
 import Darwin
 #endif
 
 let MSEC_PER_SEC = 1000
 
-// MARK: Timestamp
+/// A Double signifying the time an event arrived, in milliseconds
+public typealias Timestamp = Double
 
-public func getTimeInSecondsSince1970() -> Double {
-    var now: timeval = timeval()
-    gettimeofday(&now, nil)
-    return Double(now.tv_sec) + (Double(now.tv_usec) / Double(USEC_PER_SEC))
+extension Timestamp {
+    static var now: Timestamp { return getTimeInMillisecondsSince1970() }
 }
 
-public func getTimeInMillisecondsSince1970() -> Double {
+
+//private func getTimeInSecondsSince1970() -> Double {
+//    var now: timeval = timeval()
+//    gettimeofday(&now, nil)
+//    return Double(now.tv_sec) + (Double(now.tv_usec) / Double(USEC_PER_SEC))
+//}
+
+private func getTimeInMillisecondsSince1970() -> Double {
     var now: timeval = timeval()
     gettimeofday(&now, nil)
     return (Double(now.tv_sec) * Double(MSEC_PER_SEC)) + (Double(now.tv_usec) / Double(MSEC_PER_SEC))

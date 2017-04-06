@@ -17,8 +17,12 @@ private protocol TestableFilterBank {
 extension FilterBank: TestableFilterBank {}
 extension AppleFilterBank: TestableFilterBank {}
 
+private let lowNote = MIDINumber(note: .c, octave: 1)
+private let crossoverNote = MIDINumber(note: .c, octave: 4)
+private let highNote = MIDINumber(note: .b, octave: 7)
+
 class FilterBankTests: XCTestCase {
-    let noteRange = MIDINumber(note: MusicalNote.c, octave: 1) ... MIDINumber(note: .b, octave: 7)
+    let noteRange = lowNote ... highNote
     let largestMeanMagnitudeInSampleAudioFrame: Float = 7.47748e-05 // found by manually testing the sample data
 
     // Test any filterbank we have in the same way:
@@ -31,25 +35,23 @@ class FilterBankTests: XCTestCase {
     }
 
     func testAppleFilterbankPerformance() {
-        self.measure {
-            let maxElement = self.runFilterbankTest(
-                filterbank: AppleFilterBank(
-                    noteRange: self.noteRange,
-                    sampleRate: 44100
-                )
-            )
+        measure {
+            let filterbank = AppleFilterBank(noteRange: self.noteRange, sampleRate: 44100)
+            let maxElement = self.runFilterbankTest(filterbank: filterbank)
             XCTAssertEqualWithAccuracy(maxElement, self.largestMeanMagnitudeInSampleAudioFrame, accuracy: 1e-06)
         }
     }
 
     func testFlowkeyFilterbankPerformance() {
-        self.measure {
-            let maxElement = self.runFilterbankTest(
-                filterbank: FilterBank(
-                    noteRange: self.noteRange,
-                    sampleRate: 44100
-                )
+        measure {
+            let filterbank = FilterBank(
+                lowRange: lowNote ... crossoverNote,
+                highRange: crossoverNote + 1 ... highNote,
+                sampleRate: 44100
             )
+
+            let maxElement = self.runFilterbankTest(filterbank: filterbank)
+
             XCTAssertEqualWithAccuracy(maxElement, self.largestMeanMagnitudeInSampleAudioFrame, accuracy: 1e-06)
         }
     }

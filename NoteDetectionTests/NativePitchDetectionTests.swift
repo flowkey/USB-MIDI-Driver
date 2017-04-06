@@ -23,7 +23,7 @@ class NativePitchDetectionTests: XCTestCase {
         XCTAssert((ChromaVector([Float](repeating: 0, count: 12))! == ChromaVector()),
             "An empty Chroma Vector inited with () should equal one created from a [Float]")
 
-        let chromaVectorWithG = ChromaVector(notes: [.g])
+        let chromaVectorWithG = ChromaVector([0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0])! // G
         XCTAssertEqualWithAccuracy(chromaVectorWithG.similarity(to: chromaVectorWithG), 1.0, accuracy: 0.000001,
             "Equal chroma vectors should have a 1.0 similarity with one another")
     }
@@ -35,7 +35,7 @@ class NativePitchDetectionTests: XCTestCase {
 
     func testFilterbankMapping() {
         let sineWave = createSineWave(bufferLength, freq: midiNumberForA.inHz, sampleRate: Double(sampleRate))
-        let audioNoteDetection = AudioNoteDetection()
+        let audioNoteDetection = AudioNoteDetector(sampleRate: Double(sampleRate))
 
         for _ in 0...100 {
             audioNoteDetection.process(audio: sineWave)
@@ -45,7 +45,7 @@ class NativePitchDetectionTests: XCTestCase {
 
         let actualMaxMagnitudeIndex = magnitudes.index(of: max(magnitudes))
 
-        let desiredMaxMagnitudeIndex = midiNumberForA - audioNoteDetection.filterbank.noteRange.lowerBound
+        let desiredMaxMagnitudeIndex = midiNumberForA - audioNoteDetection.filterbank.lowRange.lowerBound
 
         XCTAssertEqual(actualMaxMagnitudeIndex, desiredMaxMagnitudeIndex)
 
@@ -53,13 +53,13 @@ class NativePitchDetectionTests: XCTestCase {
 
     func testChromaMapping() {
         let sineWave = createSineWave(bufferLength, freq: midiNumberForA.inHz, sampleRate: Double(sampleRate))
-        let audioProcessor = AudioNoteDetection()
+        let noteDetector = AudioNoteDetector(sampleRate: Double(sampleRate))
 
         for _ in 0...100 {
-            audioProcessor.process(audio: sineWave)
+            noteDetector.process(audio: sineWave)
         }
 
-        let chromaVector = audioProcessor.chroma(.highAndLow)
+        let chromaVector = noteDetector.filterbank.getChroma(for: .highAndLow)
         let actualMaxElementIndex = chromaVector.toRaw.index(of: max(chromaVector.toRaw))
         let desiredMaxElementIndex = midiNumberForA % 12
         XCTAssertEqual(actualMaxElementIndex, desiredMaxElementIndex)

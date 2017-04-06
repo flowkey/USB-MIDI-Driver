@@ -10,11 +10,15 @@ import simd
 
 final class FilterBank {
     private var bandpassFilters: [Filter]
-    let noteRange: CountableClosedRange<MIDINumber>
+    let lowRange: CountableClosedRange<MIDINumber>
+    let highRange: CountableClosedRange<MIDINumber>
     var magnitudes: [Float]
 
-    init (noteRange: CountableClosedRange<MIDINumber>, sampleRate: Double) {
-        self.noteRange = noteRange
+    init (lowRange: CountableClosedRange<MIDINumber>, highRange: CountableClosedRange<MIDINumber>, sampleRate: Double) {
+        self.lowRange = lowRange
+        self.highRange = highRange
+
+        let noteRange = lowRange.first! ... highRange.last!
         let frequencies = noteRange.map { midiNum in midiNum.inHz }
 
         precondition(

@@ -1,5 +1,5 @@
 //
-//  MIDIManager+debug.swift
+//  MIDIEngine+debug.swift
 //  NoteDetection
 //
 //  Created by flowing erik on 24.03.17.
@@ -13,7 +13,7 @@ import CoreMIDI
  * MARK: For debug purposes only
  */
 
-extension MIDIManager {
+extension MIDIEngine {
 
     fileprivate func printSourcesDestinations() {
         let destCount = MIDIGetNumberOfDestinations()

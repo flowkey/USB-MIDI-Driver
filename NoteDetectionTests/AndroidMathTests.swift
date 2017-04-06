@@ -41,9 +41,9 @@ class MathTest: XCTestCase {
 
 
         var maxValue: Float = 0
-        vDSP_maxv(sampleSpectrum, 1, &maxValue, vDSP_Length(sampleSpectrum.count))
+        vDSP_maxv(sampleAudioFrame, 1, &maxValue, vDSP_Length(sampleAudioFrame.count))
 
-        XCTAssertEqual(max(sampleSpectrum), maxValue)
+        XCTAssertEqual(max(sampleAudioFrame), maxValue)
 
     }
 
@@ -59,9 +59,9 @@ class MathTest: XCTestCase {
 
 
         var minValue: Float = 0
-        vDSP_minv(sampleSpectrum, 1, &minValue, vDSP_Length(sampleSpectrum.count))
+        vDSP_minv(sampleAudioFrame, 1, &minValue, vDSP_Length(sampleAudioFrame.count))
 
-        XCTAssertEqual(min(sampleSpectrum), minValue)
+        XCTAssertEqual(min(sampleAudioFrame), minValue)
     }
 
     func testSum() {
@@ -75,7 +75,6 @@ class MathTest: XCTestCase {
     }
 
     func testSqrt() {
-
         XCTAssertEqual([Float(3.0)], sqrt([9.0]))
     }
 

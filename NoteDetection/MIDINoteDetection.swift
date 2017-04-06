@@ -6,36 +6,42 @@
 //  Copyright © 2017 flowkey. All rights reserved.
 //
 
+final class MIDINoteDetector: NoteDetector {
+    var onInputLevelChanged: InputLevelChangedCallback?
+    var onNoteEventDetected: NoteEventDetectedCallback?
+    var expectedNoteEvent: DetectableNoteEvent?
+    var currentMIDIKeys = Set<Int>()
 
+    init(engine: MIDIEngine) {
+        engine.onMIDIMessageReceived = process
+    }
 
-final class MIDINoteDetection: NoteDetectionProtocol {
+    public func process(midiMessage: MIDIMessage, from device: MIDIDevice? = nil) {
+        switch midiMessage {
+        case let .noteOn(key, velocity):
+            currentMIDIKeys.insert(Int(key))
+            currentVelocity = Float(velocity)
+        case let .noteOff(key, velocity):
+            currentMIDIKeys.remove(Int(key))
+            currentVelocity = Float(velocity)
+        default:
+            return
+        }
 
-    public let inputType: InputType = .midi
+        if allExpectedNotesAreOn() {
+            expectedNoteEvent = nil
+            currentMIDIKeys.removeAll()
 
-    let midiManager = try? MIDIManager()
-
-    let follower = MIDIFollower()
-
-    public var onMIDIMessageReceived: OnMIDIMessageReceivedCallback? {
-        didSet {
-            midiManager?.onMIDIMessageReceived = { message, device in
-                self.follower.onMIDIMessageReceived(message)
-                self.onMIDIMessageReceived?(message, device)
-            }
+            onNoteEventDetected?(.now)
         }
     }
 
-    public init() {}
-
-    public var onNoteEventDetected: OnNoteEventDetectedCallback? {
-        didSet { follower.onFollow = onNoteEventDetected }
+    private var currentVelocity: Float = 0 {
+        didSet { onInputLevelChanged?(currentVelocity / 127) }
     }
 
-    public var onMIDIDeviceListChanged: OnMIDIDeviceListChangedCallback? {
-        didSet { midiManager?.onMIDIDeviceListChanged = onMIDIDeviceListChanged }
-    }
-
-    public func setExpectedNoteEvent(noteEvent: NoteEvent?) {
-        follower.currentNoteEvent = noteEvent
+    private func allExpectedNotesAreOn() -> Bool {
+        guard let expectedKeys = expectedNoteEvent?.notes else { return false }
+        return currentMIDIKeys.isSuperset(of: expectedKeys) // allows not expected keys
     }
 }

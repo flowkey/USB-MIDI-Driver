@@ -10,6 +10,15 @@
 
 import NoteDetection
 
+struct NoteEvent: DetectableNoteEvent {
+    var notes: Set<MIDINumber>
+    var timeToNext: Timestamp
+    init(x: Int, t: Int, notesL: Set<MIDINumber>, notesR: Set<MIDINumber>) {
+        notes = notesL.union(notesR)
+        timeToNext = 0
+    }
+}
+
 let anotherDayInParadiseNoteEvents = [
     NoteEvent(x: 147, t: 1200, notesL: [57, 60, 64], notesR: [72]),
     NoteEvent(x: 210, t: 2021, notesL: [], notesR: [72]),
