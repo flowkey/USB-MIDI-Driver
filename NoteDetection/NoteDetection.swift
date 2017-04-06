@@ -3,7 +3,7 @@ public typealias InputLevelChangedCallback = ((Float) -> Void)
 public class NoteDetection {
     public var onInputLevelChanged: InputLevelChangedCallback?
 
-    var noteDetector: NoteDetector! // implicitly unwrapped to so we can use self.createNoteDetector() on init
+    var noteDetector: NoteDetector! // implicitly unwrapped so we can use self.createNoteDetector() on init
     let audioEngine: AudioEngine
     let midiEngine: MIDIEngine
 
@@ -21,7 +21,7 @@ public class NoteDetection {
         }
     }
 
-    var inputType: InputType {
+    public var inputType: InputType {
         get { return noteDetector is AudioNoteDetector ? .audio : .midi }
         set { noteDetector = createNoteDetector(type: newValue) }
     }
