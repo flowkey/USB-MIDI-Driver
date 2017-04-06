@@ -47,14 +47,14 @@ public let noteDetection = try! NoteDetection(type: .audio)
     override func viewDidAppear(_ animated: Bool) {
         try! noteDetection.startMicrophone()
 
-//        noteDetection.onMIDIDeviceListChanged = { (deviceList: Set<MIDIDevice>) in
-//            for device in deviceList { print(device.displayName) }
-//        }
-//
-//        noteDetection.onMIDIMessageReceived = { (midiMessage: MIDIMessage, device: MIDIDevice?) in
-//            print(midiMessage)
-//        }
-//  
+        noteDetection.set(onMIDIDeviceListChanged: { (deviceList: Set<MIDIDevice>) in
+            for device in deviceList { print(device.displayName) }
+        })
+
+        noteDetection.midiEngine.onMIDIMessageReceived = { (midiMessage: MIDIMessage, device: MIDIDevice?) in
+            print(midiMessage)
+        }
+
         (noteDetection.noteDetector as? AudioNoteDetector)?.onAudioProcessed = { processedAudio in
             self.lastProcessedBlock = processedAudio
         }
