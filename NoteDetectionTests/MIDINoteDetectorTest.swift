@@ -4,21 +4,15 @@ import XCTest
 class MIDINoteDetectorTests: XCTestCase {
 
     var midiNoteDetector = MIDINoteDetector(engine: try! MIDIEngine())
-    let noteEvents: [NoteEvent] = anotherDayInParadiseNoteEvents
+    let noteEvents = anotherDayInParadiseNoteEvents
 
     override func setUp() {
         super.setUp()
         midiNoteDetector = MIDINoteDetector(engine: try! MIDIEngine())
     }
 
-    override func tearDown() {
-        super.tearDown()
-    }
-
     func testIfFollowsOnRandomEvent() {
-
         let randomEventIndex = getRandomEventIndexFrom(noteEvents: noteEvents)
-
         midiNoteDetector.expectedNoteEvent = noteEvents[randomEventIndex]
 
         guard let noteEvent = midiNoteDetector.expectedNoteEvent else {

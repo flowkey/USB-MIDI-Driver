@@ -15,7 +15,7 @@ struct NoteEvent: DetectableNoteEvent {
     var timeToNext: Timestamp
     init(x: Int, t: Int, notesL: Set<MIDINumber>, notesR: Set<MIDINumber>) {
         notes = notesL.union(notesR)
-        timeToNext = 0
+        timeToNext = 200
     }
 }
 
