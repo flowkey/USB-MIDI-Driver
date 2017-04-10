@@ -1,20 +1,18 @@
 import AVFoundation
 
-public typealias OnAudioDataCallback = (([Float]) -> Void)
-public typealias OnSampleRateChanged = ((_ sampleRate: Double) -> Void)
+final class AudioEngine: AudioInput {
 
-final class AudioEngine {
     fileprivate var audioData: [Float] = []
 
     /// RemoteIOAudioUnit, from which we capture audio data and execute `onAudioData`
     fileprivate let audioIOUnit: AudioUnit
-    public var onAudioData: OnAudioDataCallback?
+    fileprivate var onAudioData: AudioDataCallback?
 
     public var sampleRate: Double {
         return AVAudioSession.sharedInstance().sampleRate
     }
 
-    public var onSampleRateChanged: OnSampleRateChanged?
+    public var onSampleRateChanged: SampleRateChangedCallback?
 
     // AudioEngine has no public initialisers and is only accessible via `sharedInstance`:
     init() throws {
@@ -42,6 +40,10 @@ final class AudioEngine {
             name: .AVAudioSessionRouteChange,
             object: nil
         )
+    }
+
+    func set(onAudioData: AudioDataCallback?) {
+        self.onAudioData = onAudioData
     }
 
     deinit {

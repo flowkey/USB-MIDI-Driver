@@ -1,14 +1,19 @@
 import XCTest
 @testable import NoteDetection
 
+class MIDIDInputMock: MIDIInput {
+    func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?) {}
+    func set(onMIDIMessageReceived: MIDIMessageReceivedCallback?) {}
+}
+
 class MIDINoteDetectorTests: XCTestCase {
 
-    var midiNoteDetector = MIDINoteDetector(engine: try! MIDIEngine())
+    var midiNoteDetector = MIDINoteDetector(input: MIDIDInputMock())
     let noteEvents = anotherDayInParadiseNoteEvents
 
     override func setUp() {
         super.setUp()
-        midiNoteDetector = MIDINoteDetector(engine: try! MIDIEngine())
+        midiNoteDetector = MIDINoteDetector(input: MIDIDInputMock())
     }
 
     func testIfFollowsOnRandomEvent() {

@@ -1,5 +1,5 @@
 //
-//  MIDIEngineProtocol.swift
+//  MIDIInput.swift
 //  NoteDetection
 //
 //  Created by flowing erik on 24.03.17.
@@ -8,3 +8,8 @@
 
 public typealias MIDIMessageReceivedCallback = (MIDIMessage, MIDIDevice?) -> Void
 public typealias MIDIDeviceListChangedCallback = (Set<MIDIDevice>) -> Void
+
+protocol MIDIInput {
+    func set(onMIDIMessageReceived: MIDIMessageReceivedCallback?)
+    func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?)
+}

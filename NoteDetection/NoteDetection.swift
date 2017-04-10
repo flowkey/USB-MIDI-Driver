@@ -1,7 +1,8 @@
 public typealias InputLevelChangedCallback = ((Float) -> Void)
+public typealias SampleRateChangedCallback = ((_ sampleRate: Double) -> Void)
 
 public class NoteDetection {
-    public var onInputLevelChanged: InputLevelChangedCallback?
+    var onInputLevelChanged: InputLevelChangedCallback?
 
     var noteDetector: NoteDetector! // implicitly unwrapped so we can use self.createNoteDetector() on init
     let audioEngine: AudioEngine
@@ -21,16 +22,11 @@ public class NoteDetection {
         }
     }
 
-    public var inputType: InputType {
-        get { return noteDetector is AudioNoteDetector ? .audio : .midi }
-        set { noteDetector = createNoteDetector(type: newValue) }
-    }
-
     func createNoteDetector(type: InputType) -> NoteDetector {
         var newNoteDetector: NoteDetector
         switch type {
-        case .audio: newNoteDetector = AudioNoteDetector(engine: audioEngine)
-        case .midi: newNoteDetector = MIDINoteDetector(engine: midiEngine)
+        case .audio: newNoteDetector = AudioNoteDetector(input: audioEngine)
+        case .midi: newNoteDetector = MIDINoteDetector(input: midiEngine)
         }
 
         // Transfer all callbacks from the previous detector over to the new one:
@@ -46,6 +42,16 @@ public class NoteDetection {
 // MARK: Public Interface
 
 extension NoteDetection {
+
+    public var inputType: InputType { // noteDetection.input = .audio
+        get { return noteDetector is AudioNoteDetector ? .audio : .midi }
+        set { noteDetector = createNoteDetector(type: newValue) }
+    }
+
+    public func set(onInputLevelChanged: InputLevelChangedCallback?) {
+        self.onInputLevelChanged = onInputLevelChanged
+    }
+
     public func set(expectedNoteEvent: DetectableNoteEvent?) {
         noteDetector.expectedNoteEvent = expectedNoteEvent
     }
@@ -55,7 +61,7 @@ extension NoteDetection {
     }
 
     public func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?) {
-        midiEngine.onMIDIDeviceListChanged = onMIDIDeviceListChanged
+        midiEngine.set(onMIDIDeviceListChanged: onMIDIDeviceListChanged)
     }
 
     public func startMicrophone() throws {

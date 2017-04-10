@@ -28,9 +28,9 @@ final class AudioNoteDetector: NoteDetector {
         onsetDetection = OnsetDetection(feature: SpectralFlux(), onOnset: self.onOnsetDetected)
     }
 
-    convenience init(engine: AudioEngine) {
-        self.init(sampleRate: engine.sampleRate)
-        engine.onAudioData = self.process
+    convenience init(input: AudioInput) {
+        self.init(sampleRate: input.sampleRate)
+        input.set(onAudioData: self.process)
     }
 
     var volumeIteration = 0

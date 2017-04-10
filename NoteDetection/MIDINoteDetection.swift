@@ -12,8 +12,8 @@ final class MIDINoteDetector: NoteDetector {
     var expectedNoteEvent: DetectableNoteEvent?
     var currentMIDIKeys = Set<Int>()
 
-    init(engine: MIDIEngine) {
-        engine.onMIDIMessageReceived = process
+    init(input: MIDIInput) {
+        input.set(onMIDIMessageReceived: process)
     }
 
     public func process(midiMessage: MIDIMessage, from device: MIDIDevice? = nil) {

@@ -9,9 +9,9 @@
 import Foundation
 import CoreMIDI
 
-class MIDIEngine {
-    public var onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?
-    public var onMIDIMessageReceived: MIDIMessageReceivedCallback?
+class MIDIEngine: MIDIInput {
+    private var onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?
+    private var onMIDIMessageReceived: MIDIMessageReceivedCallback?
 
     var midiClient = MIDIClientRef()
     var inputPort = MIDIPortRef()
@@ -32,6 +32,14 @@ class MIDIEngine {
 
     deinit {
         print("deiniting MIDIEngine")
+    }
+
+    func set(onMIDIMessageReceived: MIDIMessageReceivedCallback?) {
+        self.onMIDIMessageReceived = onMIDIMessageReceived
+    }
+
+    func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?) {
+        self.onMIDIDeviceListChanged = onMIDIDeviceListChanged
     }
 
     // ios9 bug - keep ref to prevent bad_exec error on removal of the device

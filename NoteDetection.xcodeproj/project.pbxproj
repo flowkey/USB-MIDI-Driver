@@ -16,9 +16,10 @@
 		037122061E852BA6009CC189 /* NoteDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037122051E852BA6009CC189 /* NoteDetection.swift */; };
 		0371220C1E852D8D009CC189 /* MIDIEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0371220B1E852D8D009CC189 /* MIDIEngine.swift */; };
 		0371220E1E852F23009CC189 /* MIDIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0371220D1E852F23009CC189 /* MIDIDevice.swift */; };
-		037122101E852F3A009CC189 /* MIDIManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0371220F1E852F3A009CC189 /* MIDIManagerProtocol.swift */; };
+		037122101E852F3A009CC189 /* MIDIInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0371220F1E852F3A009CC189 /* MIDIInput.swift */; };
 		037122121E8530DE009CC189 /* MIDIMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037122111E8530DE009CC189 /* MIDIMessage.swift */; };
 		037122141E8532A0009CC189 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 037122131E8532A0009CC189 /* .swiftlint.yml */; };
+		037C2E941E9B86DC00F8C288 /* AudioInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037C2E931E9B86DC00F8C288 /* AudioInput.swift */; };
 		037E22BA1E89140500BBA993 /* OnsetDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22B81E89140500BBA993 /* OnsetDetection.swift */; };
 		037E22BB1E89140500BBA993 /* OnsetFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22B91E89140500BBA993 /* OnsetFeatures.swift */; };
 		037E22BD1E89145400BBA993 /* FlowMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037E22BC1E89145400BBA993 /* FlowMath.swift */; };
@@ -72,9 +73,10 @@
 		037122051E852BA6009CC189 /* NoteDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteDetection.swift; sourceTree = "<group>"; };
 		0371220B1E852D8D009CC189 /* MIDIEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIEngine.swift; sourceTree = "<group>"; };
 		0371220D1E852F23009CC189 /* MIDIDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIDevice.swift; sourceTree = "<group>"; };
-		0371220F1E852F3A009CC189 /* MIDIManagerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIManagerProtocol.swift; sourceTree = "<group>"; };
+		0371220F1E852F3A009CC189 /* MIDIInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIInput.swift; sourceTree = "<group>"; };
 		037122111E8530DE009CC189 /* MIDIMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIMessage.swift; sourceTree = "<group>"; };
 		037122131E8532A0009CC189 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
+		037C2E931E9B86DC00F8C288 /* AudioInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioInput.swift; sourceTree = "<group>"; };
 		037E22B81E89140500BBA993 /* OnsetDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnsetDetection.swift; sourceTree = "<group>"; };
 		037E22B91E89140500BBA993 /* OnsetFeatures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnsetFeatures.swift; sourceTree = "<group>"; };
 		037E22BC1E89145400BBA993 /* FlowMath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowMath.swift; sourceTree = "<group>"; };
@@ -145,7 +147,7 @@
 			children = (
 				0371220A1E852D75009CC189 /* iOS */,
 				0371220D1E852F23009CC189 /* MIDIDevice.swift */,
-				0371220F1E852F3A009CC189 /* MIDIManagerProtocol.swift */,
+				0371220F1E852F3A009CC189 /* MIDIInput.swift */,
 				037122111E8530DE009CC189 /* MIDIMessage.swift */,
 				039ECCA01E853BE3001FC194 /* UInt8+MIDI.swift */,
 			);
@@ -285,6 +287,7 @@
 			isa = PBXGroup;
 			children = (
 				037121CB1E85241B009CC189 /* iOS */,
+				037C2E931E9B86DC00F8C288 /* AudioInput.swift */,
 			);
 			path = AudioEngine;
 			sourceTree = "<group>";
@@ -457,8 +460,9 @@
 				5C1CF4681E9405DF00C1D80B /* MIDIMessage+MIDIPacket.swift in Sources */,
 				039ECC9D1E8537E2001FC194 /* MIDIEngine+Debug.swift in Sources */,
 				037E22BA1E89140500BBA993 /* OnsetDetection.swift in Sources */,
-				037122101E852F3A009CC189 /* MIDIManagerProtocol.swift in Sources */,
+				037122101E852F3A009CC189 /* MIDIInput.swift in Sources */,
 				03F499871E8BF7EF0042DB4E /* InputType.swift in Sources */,
+				037C2E941E9B86DC00F8C288 /* AudioInput.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -636,6 +640,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEVELOPMENT_TEAM = FTSYMMN5B5;
 				INFOPLIST_FILE = NoteDetectionTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -649,6 +654,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEVELOPMENT_TEAM = FTSYMMN5B5;
 				INFOPLIST_FILE = NoteDetectionTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
