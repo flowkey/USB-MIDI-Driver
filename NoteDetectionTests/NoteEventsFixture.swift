@@ -17,6 +17,10 @@ struct NoteEvent: DetectableNoteEvent {
         notes = notesL.union(notesR)
         timeToNext = 200
     }
+    init(notes: Set<MIDINumber>, timeToNext: Timestamp) {
+        self.notes = notes
+        self.timeToNext = timeToNext
+    }
 }
 
 let anotherDayInParadiseNoteEvents = [

@@ -43,6 +43,7 @@
 		039ECC9D1E8537E2001FC194 /* MIDIEngine+Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039ECC9C1E8537E2001FC194 /* MIDIEngine+Debug.swift */; };
 		039ECC9F1E853A85001FC194 /* MIDIObjectRef.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039ECC9E1E853A84001FC194 /* MIDIObjectRef.swift */; };
 		039ECCA11E853BE3001FC194 /* UInt8+MIDI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039ECCA01E853BE3001FC194 /* UInt8+MIDI.swift */; };
+		03A08B2E1E9E6072003C2664 /* NoteDetectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A08B2D1E9E6072003C2664 /* NoteDetectionTests.swift */; };
 		03A7F73A1E850D5300849AE2 /* NoteDetection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03A7F7301E850D5300849AE2 /* NoteDetection.framework */; };
 		03A7F7411E850D5300849AE2 /* NoteDetection.h in Headers */ = {isa = PBXBuildFile; fileRef = 03A7F7331E850D5300849AE2 /* NoteDetection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03B2A5771E8AD1A00051FF2A /* MIDINoteDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B2A5761E8AD1A00051FF2A /* MIDINoteDetection.swift */; };
@@ -101,6 +102,7 @@
 		039ECC9C1E8537E2001FC194 /* MIDIEngine+Debug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MIDIEngine+Debug.swift"; sourceTree = "<group>"; };
 		039ECC9E1E853A84001FC194 /* MIDIObjectRef.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIObjectRef.swift; sourceTree = "<group>"; };
 		039ECCA01E853BE3001FC194 /* UInt8+MIDI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UInt8+MIDI.swift"; sourceTree = "<group>"; };
+		03A08B2D1E9E6072003C2664 /* NoteDetectionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteDetectionTests.swift; sourceTree = "<group>"; };
 		03A7F7301E850D5300849AE2 /* NoteDetection.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NoteDetection.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		03A7F7331E850D5300849AE2 /* NoteDetection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NoteDetection.h; sourceTree = "<group>"; };
 		03A7F7341E850D5300849AE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 		03A7F73D1E850D5300849AE2 /* NoteDetectionTests */ = {
 			isa = PBXGroup;
 			children = (
+				03A08B2D1E9E6072003C2664 /* NoteDetectionTests.swift */,
 				03895FDD1E95356400F66FD2 /* NoteDetectorTests */,
 				03881DBA1E892E0C00D61E9B /* NativePitchDetectionTests.swift */,
 				03881DBB1E892E0C00D61E9B /* AndroidMathTests.swift */,
@@ -474,6 +477,7 @@
 				03881DD81E89475C00D61E9B /* NoteEventsFixture.swift in Sources */,
 				037E22C51E89160C00BBA993 /* MIDIMessageTests.swift in Sources */,
 				03881DBE1E892E0C00D61E9B /* NativePitchDetectionTests.swift in Sources */,
+				03A08B2E1E9E6072003C2664 /* NoteDetectionTests.swift in Sources */,
 				037E22C91E89161F00BBA993 /* ChromaVectorTests.swift in Sources */,
 				03881DC11E892E0C00D61E9B /* AppleFilterBank.swift in Sources */,
 				033926651E929C9E00E787E2 /* SampleData.swift in Sources */,
