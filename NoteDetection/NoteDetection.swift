@@ -8,10 +8,12 @@ public class NoteDetection {
     let audioEngine: AudioEngine
     let midiEngine: MIDIEngine
 
-    public init(type: InputType) throws {
+    public init() throws {
         midiEngine = try MIDIEngine()
         audioEngine = try AudioEngine()
-        noteDetector = createNoteDetector(type: type)
+
+        let initialInputType: InputType = midiEngine.isReadyToReceiveMessages ? .midi : .audio
+        noteDetector = createNoteDetector(type: initialInputType)
 
         audioEngine.onSampleRateChanged = onSampleRateChanged
     }
@@ -61,7 +63,10 @@ extension NoteDetection {
     }
 
     public func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?) {
-        midiEngine.set(onMIDIDeviceListChanged: onMIDIDeviceListChanged)
+        midiEngine.set(onMIDIDeviceListChanged: { midiDeviceList in
+            self.inputType = midiDeviceList.count < 1 ? .audio : .midi
+            onMIDIDeviceListChanged?(midiDeviceList)
+        })
     }
 
     public func startMicrophone() throws {
@@ -81,4 +86,8 @@ protocol NoteDetector {
     var onNoteEventDetected: NoteEventDetectedCallback? { get set }
     var expectedNoteEvent: DetectableNoteEvent? { get set }
     var onInputLevelChanged: InputLevelChangedCallback? { get set }
+}
+
+extension MIDIEngine {
+    var isReadyToReceiveMessages: Bool { return self.midiDeviceList.count > 0 }
 }
