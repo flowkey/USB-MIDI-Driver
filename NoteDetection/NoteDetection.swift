@@ -16,6 +16,7 @@ public class NoteDetection {
         noteDetector = createNoteDetector(type: initialInputType)
 
         audioEngine.onSampleRateChanged = onSampleRateChanged
+        self.set(onMIDIDeviceListChanged: nil)
     }
 
     private func onSampleRateChanged(sampleRate: Double) {

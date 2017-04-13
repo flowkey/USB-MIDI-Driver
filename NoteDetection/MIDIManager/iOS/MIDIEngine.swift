@@ -100,7 +100,9 @@ class MIDIEngine: MIDIInput {
         switch notification.pointee.messageID {
         case .msgObjectAdded, .msgObjectRemoved, .msgPropertyChanged:
             connect() // refresh sources when something changed
-            DispatchQueue.main.async { self.onMIDIDeviceListChanged?(self.midiDeviceList) }
+            DispatchQueue.main.async {
+                self.onMIDIDeviceListChanged?(self.midiDeviceList)
+            }
         default: break
         }
     }
@@ -125,6 +127,7 @@ class MIDIEngine: MIDIInput {
         for packet in packets {
 			if packet.data.0 == .activeSensing { continue } // Discard MIDI Heartbeat messages
             guard let midiMessage = MIDIMessage(from: packet) else { return }
+            print(midiMessage)
             onMIDIMessageReceived?(midiMessage, sourceDevice)
         }
     }
