@@ -16,7 +16,10 @@ public class NoteDetection {
         noteDetector = createNoteDetector(type: initialInputType)
 
         audioEngine.onSampleRateChanged = onSampleRateChanged
-        self.set(onMIDIDeviceListChanged: nil)
+
+        midiEngine.onMIDIDeviceListChanged = { _ in
+            self.inputType = self.midiEngine.isReadyToReceiveMessages ? .midi : .audio
+        }
     }
 
     private func onSampleRateChanged(sampleRate: Double) {
@@ -65,7 +68,7 @@ extension NoteDetection {
 
     public func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?) {
         midiEngine.set(onMIDIDeviceListChanged: { midiDeviceList in
-            self.inputType = midiDeviceList.count < 1 ? .audio : .midi
+            self.inputType = self.midiEngine.isReadyToReceiveMessages ? .midi : .audio
             onMIDIDeviceListChanged?(midiDeviceList)
         })
     }
