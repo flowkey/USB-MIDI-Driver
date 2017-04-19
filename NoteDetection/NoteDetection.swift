@@ -8,18 +8,12 @@ public class NoteDetection {
     let audioEngine: AudioEngine
     let midiEngine: MIDIEngine
 
-    public init() throws {
+    public init(input: InputType) throws {
         midiEngine = try MIDIEngine()
         audioEngine = try AudioEngine()
 
-        let initialInputType: InputType = midiEngine.isReadyToReceiveMessages ? .midi : .audio
-        noteDetector = createNoteDetector(type: initialInputType)
-
+        noteDetector = createNoteDetector(type: input)
         audioEngine.onSampleRateChanged = onSampleRateChanged
-
-        midiEngine.onMIDIDeviceListChanged = { _ in
-            self.inputType = self.midiEngine.isReadyToReceiveMessages ? .midi : .audio
-        }
     }
 
     private func onSampleRateChanged(sampleRate: Double) {
@@ -49,7 +43,7 @@ public class NoteDetection {
 
 extension NoteDetection {
 
-    public var inputType: InputType { // noteDetection.input = .audio
+    public var inputType: InputType {
         get { return noteDetector is AudioNoteDetector ? .audio : .midi }
         set { noteDetector = createNoteDetector(type: newValue) }
     }
@@ -67,10 +61,7 @@ extension NoteDetection {
     }
 
     public func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?) {
-        midiEngine.set(onMIDIDeviceListChanged: { midiDeviceList in
-            self.inputType = self.midiEngine.isReadyToReceiveMessages ? .midi : .audio
-            onMIDIDeviceListChanged?(midiDeviceList)
-        })
+        midiEngine.set(onMIDIDeviceListChanged: onMIDIDeviceListChanged)
     }
 
     public func startMicrophone() throws {
@@ -80,18 +71,10 @@ extension NoteDetection {
     public func stopMicrophone() throws {
         try audioEngine.stop()
     }
-
-    public func overrideInputType(to type: InputType) {
-        noteDetector = createNoteDetector(type: type)
-    }
 }
 
 protocol NoteDetector {
     var onNoteEventDetected: NoteEventDetectedCallback? { get set }
     var expectedNoteEvent: DetectableNoteEvent? { get set }
     var onInputLevelChanged: InputLevelChangedCallback? { get set }
-}
-
-extension MIDIEngine {
-    var isReadyToReceiveMessages: Bool { return self.midiDeviceList.count > 0 }
 }
