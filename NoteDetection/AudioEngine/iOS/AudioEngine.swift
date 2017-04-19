@@ -58,6 +58,7 @@ final class AudioEngine: AudioInput {
 // MARK: Public controls.
 extension AudioEngine {
     public func start() throws {
+        try updateSampleRateIfNeeded(self.sampleRate)
         try audioIOUnit.start()
     }
 
@@ -80,7 +81,7 @@ extension AudioEngine {
         printOnErrorAndContinue { try updateSampleRateIfNeeded(audioSession.sampleRate) }
     }
 
-    private func updateSampleRateIfNeeded(_ newSampleRate: Double) throws {
+    fileprivate func updateSampleRateIfNeeded(_ newSampleRate: Double) throws {
         if audioIOUnit.sampleRate == newSampleRate { return }
         let wasRunning = audioIOUnit.isRunning
 
