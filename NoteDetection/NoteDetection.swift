@@ -48,6 +48,10 @@ extension NoteDetection {
         set { noteDetector = createNoteDetector(type: newValue) }
     }
 
+    public var midiDeviceList: Set<MIDIDevice> {
+        return midiEngine.midiDeviceList
+    }
+
     public func set(onInputLevelChanged: InputLevelChangedCallback?) {
         self.onInputLevelChanged = onInputLevelChanged
     }
