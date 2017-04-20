@@ -9,7 +9,7 @@
 import UIKit
 @testable import NoteDetection
 
-public let noteDetection = try! NoteDetection(type: .audio)
+public let noteDetection = try! NoteDetection(input: .audio)
 
 @objc class MainViewController: UITabBarController, UITabBarControllerDelegate {
 

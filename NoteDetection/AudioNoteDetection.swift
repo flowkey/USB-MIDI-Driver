@@ -1,9 +1,8 @@
-private let timeToNextToleranceFactor = 0.5
-
 public typealias NoteEventDetectedCallback = (Timestamp) -> Void
 
 final class AudioNoteDetector: NoteDetector {
     static let maxTimestampDiff = Timestamp(200)
+    static let timeToNextToleranceFactor = 0.5
 
     var expectedNoteEvent: DetectableNoteEvent? {
         didSet { pitchDetection.setExpectedEvent(expectedNoteEvent) }
@@ -15,7 +14,6 @@ final class AudioNoteDetector: NoteDetector {
 
     var onInputLevelChanged: InputLevelChangedCallback?
     var onAudioProcessed: AudioProcessedCallback?
-    var onOnsetDetected: OnsetDetectedCallback?
 
     init(sampleRate: Double) {
         // Chroma extractors for our different ranges:
@@ -82,20 +80,20 @@ final class AudioNoteDetector: NoteDetector {
 
     public var onNoteEventDetected: NoteEventDetectedCallback?
 
-    public func onOnsetDetected(timestamp: Timestamp) {
+    func onOnsetDetected(timestamp: Timestamp) {
         guard currentlyAcceptingOnsets() else { return }
         lastOnsetTimestamp = timestamp
         onInputReceived()
     }
 
-    public func onPitchDetected(timestamp: Timestamp) {
+    func onPitchDetected(timestamp: Timestamp) {
         lastNoteTimestamp = timestamp
         onInputReceived()
     }
 
     func currentlyAcceptingOnsets() -> Bool {
         if let lastFollowEventTime = lastFollowEventTime, let timeToNextEvent = expectedNoteEvent?.timeToNext {
-            return .now - lastFollowEventTime >= (timeToNextEvent * timeToNextToleranceFactor)
+            return .now - lastFollowEventTime >= (timeToNextEvent * AudioNoteDetector.timeToNextToleranceFactor)
         } else {
             return true
         }

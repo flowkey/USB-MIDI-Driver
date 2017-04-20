@@ -11,10 +11,10 @@ import XCTest
 
 class NoteDetectionTests: XCTestCase {
 
-    var noteDetection = try! NoteDetection()
+    var noteDetection = try! NoteDetection(input: .audio)
 
     override func setUp() {
-        do { try noteDetection = NoteDetection() } catch { preconditionFailure() }
+        do { try noteDetection = NoteDetection(input: .audio) } catch { preconditionFailure() }
     }
 
     func testInputOverride() {
@@ -22,13 +22,14 @@ class NoteDetectionTests: XCTestCase {
         let newInputType = inititalInputType.toggle()
 
         // override to new input type
-        noteDetection.overrideInputType(to: newInputType)
+        noteDetection.inputType = newInputType
 
         XCTAssertNotEqual(inititalInputType, noteDetection.inputType)
     }
 
-    func testInputChangeOnNewMIDIDevice() {
-        noteDetection.overrideInputType(to: .audio)
+    // input should __NOT__ change automatically when midi device is connected
+    func testInputDoesNotChangeOnNewMIDIDevice() {
+        noteDetection.inputType = .audio
         XCTAssertEqual(noteDetection.inputType, .audio)
         noteDetection.set(onMIDIDeviceListChanged: nil)
 
@@ -42,7 +43,7 @@ class NoteDetectionTests: XCTestCase {
             refCon: &arbitraryReferenceContext
         )])
 
-        XCTAssertEqual(noteDetection.inputType, .midi)
+        XCTAssertNotEqual(noteDetection.inputType, .midi)
     }
 
     func testIfCallbacksExistAfterSwitch() {
@@ -59,7 +60,7 @@ class NoteDetectionTests: XCTestCase {
         XCTAssertTrue(allCallbacksInitiallyExist)
 
         // switch input type
-        noteDetection.overrideInputType(to: noteDetection.inputType.toggle())
+        noteDetection.inputType = noteDetection.inputType.toggle()
 
         // check if callback still exist after switching input type
         let allCallbacksExistAfterSwitch = noteDetection.noteDetector!.allCallbackExist()

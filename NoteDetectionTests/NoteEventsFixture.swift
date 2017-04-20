@@ -11,11 +11,14 @@
 import NoteDetection
 
 struct NoteEvent: DetectableNoteEvent {
+
+    static var timeToNextMock: Timestamp = 200
+
     var notes: Set<MIDINumber>
     var timeToNext: Timestamp
     init(x: Int, t: Int, notesL: Set<MIDINumber>, notesR: Set<MIDINumber>) {
         notes = notesL.union(notesR)
-        timeToNext = 200
+        timeToNext = NoteEvent.timeToNextMock
     }
     init(notes: Set<MIDINumber>, timeToNext: Timestamp) {
         self.notes = notes
