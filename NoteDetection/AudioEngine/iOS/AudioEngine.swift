@@ -17,8 +17,7 @@ final class AudioEngine: AudioInput {
     // AudioEngine has no public initialisers and is only accessible via `sharedInstance`:
     init() throws {
         let audioSession = AVAudioSession.sharedInstance()
-        try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
-        try audioSession.overrideOutputAudioPort(.speaker)
+        try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, with: .defaultToSpeaker)
 
         // It's not fatal if these settings fail:
         let preferredSampleRate = 44100.0
@@ -71,7 +70,8 @@ extension AudioEngine {
     @objc func handleRouteChange(routeChangeNotification: NSNotification) {
         let audioSession = AVAudioSession.sharedInstance()
 
-        // Sometimes iOS will set the output port to the phone receiver, force it to speaker if we can
+        // Sometimes iOS will set the output port to the phone receiver (even when using .defaultToSpeaker),
+        // override it to speaker if it's set to receiver
         let audioOutputPortType = audioSession.currentRoute.outputs.first?.portType
         if audioOutputPortType == AVAudioSessionPortBuiltInReceiver {
             try? audioSession.overrideOutputAudioPort(.speaker)
