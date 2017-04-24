@@ -127,7 +127,6 @@ class MIDIEngine: MIDIInput {
         for packet in packets {
 			if packet.data.0 == .activeSensing { continue } // Discard MIDI Heartbeat messages
             guard let midiMessage = MIDIMessage(from: packet) else { return }
-            print(midiMessage)
             onMIDIMessageReceived?(midiMessage, sourceDevice)
         }
     }
