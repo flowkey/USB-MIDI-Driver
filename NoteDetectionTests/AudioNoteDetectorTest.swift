@@ -24,7 +24,9 @@ class AudioNoteDetectorTests: XCTestCase {
         }
 
         afterTimeout(ms: 0, callback: { self.audioNoteDetector.onOnsetDetected(timestamp: .now) })
-        afterTimeout(ms: 100, callback: { self.audioNoteDetector.onPitchDetected(timestamp: .now) })
+        afterTimeout(ms: AudioNoteDetector.maxTimestampDiff / 2, callback: {
+            self.audioNoteDetector.onPitchDetected(timestamp: .now)
+        })
 
         self.waitForExpectations(timeout: 0.5) { error in
             if let error = error {
@@ -41,7 +43,7 @@ class AudioNoteDetectorTests: XCTestCase {
         }
 
         let firstEventTime = 0.0
-        let secondEventTime = AudioNoteDetector.maxTimestampDiff + 1 // duration to second event longer than maxTimeStampDiff
+        let secondEventTime = AudioNoteDetector.maxTimestampDiff + 1 // longer than maxTimeStampDiff
 
         afterTimeout(ms: firstEventTime, callback: { self.audioNoteDetector.onOnsetDetected(timestamp: .now) })
         afterTimeout(ms: secondEventTime, callback: { self.audioNoteDetector.onPitchDetected(timestamp: .now) })
@@ -76,7 +78,7 @@ class AudioNoteDetectorTests: XCTestCase {
         self.audioNoteDetector.onPitchDetected(timestamp: .now)
 
         // detector should not accept onsets right after note event detected
-        let timeWithinBlockingPeriod = event1.timeToNext * AudioNoteDetector.timeToNextToleranceFactor - 10
+        let timeWithinBlockingPeriod = event1.timeToNext * AudioNoteDetector.timeToNextToleranceFactor - 25
         afterTimeout(ms: timeWithinBlockingPeriod, callback: {
             if self.audioNoteDetector.currentlyAcceptingOnsets() == false {
                 isNotAcceptingOnsets.fulfill()
@@ -84,7 +86,7 @@ class AudioNoteDetectorTests: XCTestCase {
         })
 
         // after onset blocking period, detector should accepts onsets again
-        let timeAfterBlockingPeriod = event1.timeToNext * AudioNoteDetector.timeToNextToleranceFactor + 10
+        let timeAfterBlockingPeriod = event1.timeToNext * AudioNoteDetector.timeToNextToleranceFactor + 25
         afterTimeout(ms: timeAfterBlockingPeriod, callback: {
             if self.audioNoteDetector.currentlyAcceptingOnsets() == true {
                 isAcceptingOnsets.fulfill()

@@ -93,8 +93,9 @@ final class AudioNoteDetector: NoteDetector {
 
     func currentlyAcceptingOnsets() -> Bool {
         if let lastFollowEventTime = lastFollowEventTime, let timeToNextEvent = expectedNoteEvent?.timeToNext {
-            let result = .now - lastFollowEventTime >= (timeToNextEvent * AudioNoteDetector.timeToNextToleranceFactor)
-            return result
+            let timeSinceLastFollowEvent = .now - lastFollowEventTime
+            let onsetBlockingDuration = timeToNextEvent * AudioNoteDetector.timeToNextToleranceFactor
+            return (timeSinceLastFollowEvent > onsetBlockingDuration)
         } else {
             return true
         }
