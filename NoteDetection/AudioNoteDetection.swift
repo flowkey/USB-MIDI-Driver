@@ -31,18 +31,24 @@ final class AudioNoteDetector: NoteDetector {
         input.set(onAudioData: self.process)
     }
 
+    /// The volume level above which the pitch detection is activated and reported volume increases above 0.
+    /// In reality our noise floor is closer to -96dB, but this value seems to work well not only save power
+    /// but also to show a reasonable range of volume for our application.
+    let volumeLowerThreshold: Float = -48
+
     var volumeIteration = 0
     private func calculateVolume(from buffer: [Float]) -> Float {
         let volume = linearToDecibel(rootMeanSquare(buffer))
 
         volumeIteration += 1
-        if volumeIteration > 11 { // this value is tuned to make the NativeInputManager look nice
+        if volumeIteration >= 3 { // avoid overloading the main thread unnecessarily
             if let onInputLevelChanged = onInputLevelChanged, volume.isFinite {
                 // wanna calculate dBFS reference value? this could be helpful https://goo.gl/rzCeAW
-                let ratio = 1 - (volume / -96)
-                performOnMainThread { onInputLevelChanged(ratio) }
+                let ratio = 1 - (volume / volumeLowerThreshold)
+                let ratioBetween0and1 = min(max(0, ratio), 1)
+                performOnMainThread { onInputLevelChanged(ratioBetween0and1) }
             }
-            volumeIteration = 0
+          volumeIteration = 0
         }
 
         return volume
@@ -53,7 +59,7 @@ final class AudioNoteDetector: NoteDetector {
 
         // Volume drops a lot more quickly than the filterbank magnitudes
         // So check we either have enough volume, OR the filterbank is still "ringing out":
-        guard volume > -48 || filterbank.magnitudes.contains(where: { $0 > 0.0003 }) else {
+        guard volume > volumeLowerThreshold || filterbank.magnitudes.contains(where: { $0 > 0.0003 }) else {
             return // print("Too quiet, not detecting")
         }
 

@@ -124,16 +124,16 @@ struct ChromaVector: CustomStringConvertible, Equatable {
     static func computeExpectedValueForFifth(of key: MIDINumber) -> Float {
         return 1.0 - (Float(key) / Float(lowKeyBoundary))
     }
-}
 
-func + (lhs: ChromaVector, rhs: ChromaVector) -> ChromaVector {
-    var combinedChroma = lhs
-    for index in 0 ..< ChromaVector.size {
-        combinedChroma[index] += rhs[index]
+    static func + (lhs: ChromaVector, rhs: ChromaVector) -> ChromaVector {
+        var combinedChroma = lhs
+        for index in 0 ..< ChromaVector.size {
+            combinedChroma[index] += rhs[index]
+        }
+        return combinedChroma
     }
-    return combinedChroma
-}
 
-func == (lhs: ChromaVector, rhs: ChromaVector) -> Bool {
-    return lhs.toRaw == rhs.toRaw
+    static func == (lhs: ChromaVector, rhs: ChromaVector) -> Bool {
+        return lhs.toRaw == rhs.toRaw
+    }
 }
