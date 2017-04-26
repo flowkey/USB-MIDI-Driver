@@ -9,29 +9,32 @@
 final class MIDINoteDetector: NoteDetector {
     var onInputLevelChanged: InputLevelChangedCallback?
     var onNoteEventDetected: NoteEventDetectedCallback?
-    var expectedNoteEvent: DetectableNoteEvent?
+
     var currentMIDIKeys = Set<Int>()
+    var expectedNoteEvent: DetectableNoteEvent? {
+        didSet { currentMIDIKeys.removeAll() }
+    }
 
     init(input: MIDIInput) {
         input.set(onMIDIMessageReceived: process)
     }
 
-    public func process(midiMessage: MIDIMessage, from device: MIDIDevice? = nil) {
+    func process(midiMessage: MIDIMessage, from device: MIDIDevice? = nil) {
         switch midiMessage {
         case let .noteOn(key, velocity):
             currentMIDIKeys.insert(Int(key))
             currentVelocity = Float(velocity)
-        case let .noteOff(key, velocity):
+        case let .noteOff(key, _):
             currentMIDIKeys.remove(Int(key))
-            currentVelocity = Float(velocity)
+            if currentMIDIKeys.isEmpty {
+                currentVelocity = Float(0)
+            }
         default:
             return
         }
 
         if allExpectedNotesAreOn() {
             expectedNoteEvent = nil
-            currentMIDIKeys.removeAll()
-
             onNoteEventDetected?(.now)
         }
     }

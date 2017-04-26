@@ -125,9 +125,13 @@ class MIDIEngine: MIDIInput {
         let packets = makePacketsFromPacketList(packetList)
 
         for packet in packets {
-			if packet.data.0 == .activeSensing { continue } // Discard MIDI Heartbeat messages
-            guard let midiMessage = MIDIMessage(from: packet) else { return }
-            onMIDIMessageReceived?(midiMessage, sourceDevice)
+            let midiMessages = packet.toMIDIMessages()
+
+            DispatchQueue.main.async {
+                midiMessages.forEach { midiMessage in
+                    self.onMIDIMessageReceived?(midiMessage, sourceDevice)
+                }
+            }
         }
     }
 }
@@ -137,7 +141,6 @@ fileprivate extension MIDIEndpointRef {
         return uniqueID == MIDINetworkSession.default().sourceEndpoint().uniqueID
     }
 }
-
 
 extension MIDIDevice {
     init(_ device: MIDIObjectRef, srcRefCon: UnsafeMutableRawPointer) {
