@@ -47,7 +47,7 @@ class NoteDetectionTests: XCTestCase {
     }
 
     func testIfCallbacksExistAfterSwitch() {
-        let mockNoteEvent = NoteEvent(notes:[1], timeToNext: 1)
+        let mockNoteEvent = NoteEvent(notes:[1])
 
         // initially set callbacks
         noteDetection.set(onNoteEventDetected: { print($0) })

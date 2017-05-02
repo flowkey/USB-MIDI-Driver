@@ -55,48 +55,4 @@ class AudioNoteDetectorTests: XCTestCase {
             }
         }
     }
-
-    func testAcceptingOnsets() {
-
-        let isNotAcceptingOnsets = self.expectation(description: "currently _not_ accepting onsets")
-        let isAcceptingOnsets = self.expectation(description: "currently accepting onsets")
-
-        let event1 = anotherDayInParadiseNoteEvents[0]
-        let event2 = anotherDayInParadiseNoteEvents[0]
-
-        XCTAssertEqual(event1.timeToNext, NoteEvent.timeToNextMock)
-        XCTAssertEqual(event2.timeToNext, NoteEvent.timeToNextMock)
-
-        audioNoteDetector.onNoteEventDetected = { timestamp in
-            self.audioNoteDetector.expectedNoteEvent = event2
-        }
-
-
-        // detect note event with pitch and onset
-        audioNoteDetector.expectedNoteEvent = event1
-        self.audioNoteDetector.onOnsetDetected(timestamp: .now)
-        self.audioNoteDetector.onPitchDetected(timestamp: .now)
-
-        // detector should not accept onsets right after note event detected
-        let timeWithinBlockingPeriod = event1.timeToNext * AudioNoteDetector.timeToNextToleranceFactor - 25
-        afterTimeout(ms: timeWithinBlockingPeriod, callback: {
-            if self.audioNoteDetector.currentlyAcceptingOnsets() == false {
-                isNotAcceptingOnsets.fulfill()
-            }
-        })
-
-        // after onset blocking period, detector should accepts onsets again
-        let timeAfterBlockingPeriod = event1.timeToNext * AudioNoteDetector.timeToNextToleranceFactor + 25
-        afterTimeout(ms: timeAfterBlockingPeriod, callback: {
-            if self.audioNoteDetector.currentlyAcceptingOnsets() == true {
-                isAcceptingOnsets.fulfill()
-            }
-        })
-
-        waitForExpectations(timeout: 0.5) { error in
-            if let error = error {
-                XCTFail(error.localizedDescription)
-            }
-        }
-    }
 }
