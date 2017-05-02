@@ -1,3 +1,5 @@
+import Dispatch
+
 public typealias InputLevelChangedCallback = ((Float) -> Void)
 public typealias SampleRateChangedCallback = ((_ sampleRate: Double) -> Void)
 
@@ -7,6 +9,8 @@ public class NoteDetection {
     var noteDetector: NoteDetector! // implicitly unwrapped so we can use self.createNoteDetector() on init
     let audioEngine: AudioEngine
     let midiEngine: MIDIEngine
+
+    var isIgnoring: Bool = false
 
     public init(input: InputType) throws {
         midiEngine = try MIDIEngine()
@@ -61,7 +65,17 @@ extension NoteDetection {
     }
 
     public func set(onNoteEventDetected: NoteEventDetectedCallback?) {
-        noteDetector.onNoteEventDetected = onNoteEventDetected
+        noteDetector.onNoteEventDetected = { timestamp in
+            if self.isIgnoring { return }
+            onNoteEventDetected?(timestamp)
+        }
+    }
+
+    public func ignoreFor(durationInS: TimeInterval) {
+        self.isIgnoring = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + durationInS, execute: { _ in
+            self.isIgnoring = false
+        })
     }
 
     public func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?) {
