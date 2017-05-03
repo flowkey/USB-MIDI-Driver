@@ -67,6 +67,37 @@ class NoteDetectionTests: XCTestCase {
         XCTAssertTrue(allCallbacksExistAfterSwitch)
     }
 
+    func testIfNoteDetectionIgnores() {
+        let expectation = self.expectation(description: "callback not exectued because noteDetection ignores")
+
+        noteDetection.set(onNoteEventDetected: { _ in
+            XCTFail("We shouldn't have detected a note because it should have been ignored")
+        })
+
+        let mockEvent = NoteEvent(notes: [1])
+        noteDetection.set(expectedNoteEvent: mockEvent)
+
+        noteDetection.inputType = .midi
+        let midiNoteDetector = noteDetection.noteDetector as! MIDINoteDetector
+
+        noteDetection.ignoreFor(durationInS: 0.1)
+
+        afterTimeout(ms: 0.05, callback: {
+            let message = MIDIMessage(status: .rawNoteOn, data1: 1, data2: 100)!
+            midiNoteDetector.process(midiMessage: message)
+        })
+
+        afterTimeout(ms: 0.2, callback: {
+            expectation.fulfill()
+        })
+
+        waitForExpectations(timeout: 0.3) { error in
+            if let error = error {
+                XCTFail(error.localizedDescription)
+            }
+        }
+    }
+
 }
 
 extension NoteDetector {
