@@ -72,11 +72,9 @@ extension NoteDetection {
     }
 
     public func ignoreFor(durationInS: TimeInterval) {
-        print("ignoring note detection for \(durationInS) seconds")
         self.isIgnoring = true
         DispatchQueue.main.asyncAfter(deadline: .now() + durationInS, execute: { _ in
             self.isIgnoring = false
-            print("done ignoring")
         })
     }
 
