@@ -34,7 +34,6 @@ final class MIDINoteDetector: NoteDetector {
         }
 
         if allExpectedNotesAreOn() {
-            expectedNoteEvent = nil
             onNoteEventDetected?(.now)
         }
     }
