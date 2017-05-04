@@ -17,6 +17,11 @@ class MIDINoteDetectorTests: XCTestCase {
     }
 
     func testIfFollowsOnRandomEvent() {
+        var notesWereDetected = false
+        midiNoteDetector.onNoteEventDetected = { timestamp in
+            notesWereDetected  = true
+        }
+
         let randomEventIndex = getRandomEventIndexFrom(noteEvents: noteEvents)
         midiNoteDetector.expectedNoteEvent = noteEvents[randomEventIndex]
 
@@ -30,20 +35,7 @@ class MIDINoteDetectorTests: XCTestCase {
             midiNoteDetector.process(midiMessage: message)
         }
 
-        XCTAssertNil(midiNoteDetector.expectedNoteEvent)
-    }
-
-    func testIfMIDIArrayIsEmptyAfterOnFollow() {
-
-        let eventIndex = 0
-
-        midiNoteDetector.expectedNoteEvent = noteEvents[eventIndex]
-
-        for note in midiNoteDetector.expectedNoteEvent!.notes {
-            midiNoteDetector.process(midiMessage: MIDIMessage.noteOn(key: note, velocity: 10))
-        }
-
-        XCTAssertTrue(midiNoteDetector.currentMIDIKeys.isEmpty)
+        XCTAssertTrue(notesWereDetected)
     }
 
     func testIfMIDIArrayIsEmptyAfterNoteOff() {
@@ -64,8 +56,13 @@ class MIDINoteDetectorTests: XCTestCase {
     }
 
     func testIfItFollowsWhenSetContainsNotExpectedKeys() {
-        let randomEventIndex = getRandomEventIndexFrom(noteEvents: noteEvents)
+        var notesWereDetected = false
+        midiNoteDetector.onNoteEventDetected = { timestamp in
+            notesWereDetected  = true
+        }
 
+
+        let randomEventIndex = getRandomEventIndexFrom(noteEvents: noteEvents)
         midiNoteDetector.expectedNoteEvent = noteEvents[randomEventIndex]
 
         // add not expected key
@@ -81,8 +78,7 @@ class MIDINoteDetectorTests: XCTestCase {
             midiNoteDetector.process(midiMessage: .noteOn(key: note, velocity: 10))
         }
 
-        XCTAssertNil(midiNoteDetector.expectedNoteEvent, "expectedNoteEvent nil because it was detected previously")
-
+        XCTAssertTrue(notesWereDetected)
     }
 
 }
