@@ -10,7 +10,7 @@ public class NoteDetection {
     let audioEngine: AudioEngine
     let midiEngine: MIDIEngine
 
-    public var isIgnoring: Bool = false
+    public var isEnabled: Bool = true
 
     public init(input: InputType) throws {
         midiEngine = try MIDIEngine()
@@ -66,17 +66,15 @@ extension NoteDetection {
 
     public func set(onNoteEventDetected: NoteEventDetectedCallback?) {
         noteDetector.onNoteEventDetected = { timestamp in
-            if self.isIgnoring { return }
+            guard self.isEnabled else { return }
             onNoteEventDetected?(timestamp)
         }
     }
 
     public func ignoreFor(durationInS: TimeInterval) {
-        print("---ignoring note detection")
-        self.isIgnoring = true
+        self.isEnabled = false
         DispatchQueue.main.asyncAfter(deadline: .now() + durationInS, execute: { _ in
-            self.isIgnoring = false
-            print("stopped ignoring---")
+            self.isEnabled = true
         })
     }
 
