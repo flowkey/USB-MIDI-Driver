@@ -10,7 +10,7 @@ public class NoteDetection {
     let audioEngine: AudioEngine
     let midiEngine: MIDIEngine
 
-    var isIgnoring: Bool = false
+    public var isIgnoring: Bool = false
 
     public init(input: InputType) throws {
         midiEngine = try MIDIEngine()
