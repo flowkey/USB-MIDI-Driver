@@ -10,6 +10,12 @@ public class NoteDetection {
     let audioEngine: AudioEngine
     let midiEngine: MIDIEngine
 
+    var ignoreUntil: Timestamp?
+    var isCurrentlyIgnoring: Bool {
+        guard let deadline = self.ignoreUntil else { return false }
+        return (.now - deadline) < 0
+    }
+
     public var isEnabled: Bool = true
 
     public init(input: InputType) throws {
@@ -42,7 +48,6 @@ public class NoteDetection {
     }
 }
 
-
 // MARK: Public Interface
 
 extension NoteDetection {
@@ -66,16 +71,15 @@ extension NoteDetection {
 
     public func set(onNoteEventDetected: NoteEventDetectedCallback?) {
         noteDetector.onNoteEventDetected = { timestamp in
-            guard self.isEnabled else { return }
+            guard self.isEnabled, !self.isCurrentlyIgnoring else { return }
             onNoteEventDetected?(timestamp)
         }
     }
 
-    public func ignoreFor(durationInS: TimeInterval) {
-        self.isEnabled = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + durationInS, execute: { _ in
-            self.isEnabled = true
-        })
+    public typealias Milliseconds = Double
+
+    public func ignore(for duration: Milliseconds) {
+        ignoreUntil = .now + duration
     }
 
     public func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?) {

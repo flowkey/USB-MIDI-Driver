@@ -80,24 +80,23 @@ class NoteDetectionTests: XCTestCase {
         noteDetection.inputType = .midi
         let midiNoteDetector = noteDetection.noteDetector as! MIDINoteDetector
 
-        noteDetection.ignoreFor(durationInS: 0.1)
+        noteDetection.ignore(for: 200)
 
-        afterTimeout(ms: 0.05, callback: {
+        afterTimeout(ms: 100, callback: {
             let message = MIDIMessage(status: .rawNoteOn, data1: 1, data2: 100)!
             midiNoteDetector.process(midiMessage: message)
         })
 
-        afterTimeout(ms: 0.2, callback: {
+        afterTimeout(ms: 500, callback: {
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: 0.3) { error in
+        waitForExpectations(timeout: 1.0) { error in
             if let error = error {
                 XCTFail(error.localizedDescription)
             }
         }
     }
-
 }
 
 extension NoteDetector {
