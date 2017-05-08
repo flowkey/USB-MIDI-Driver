@@ -11,6 +11,7 @@ import XCTest
 
 private let initialInputType = InputType.audio
 private let alternativeInputType = InputType.midi
+
 class NoteDetectionTests: XCTestCase {
     var noteDetection = try! NoteDetection(input: initialInputType)
 
@@ -20,8 +21,9 @@ class NoteDetectionTests: XCTestCase {
 
     func testInputOverride() {
         let inititalInputType = noteDetection.inputType
-        noteDetection.inputType = alternativeInputType
+        XCTAssertNotEqual(inititalInputType, alternativeInputType)
 
+        noteDetection.inputType = alternativeInputType
         XCTAssertNotEqual(inititalInputType, noteDetection.inputType)
     }
 
@@ -62,31 +64,30 @@ class NoteDetectionTests: XCTestCase {
     }
 
     func testIfNoteDetectionIgnores() {
-        var noteWasDetected = false
-        noteDetection.set(onNoteEventDetected: { _ in
-            noteWasDetected = true
-        })
-
         noteDetection.inputType = .midi
         guard let midiNoteDetector = noteDetection.noteDetector as? MIDINoteDetector else {
             XCTFail("NoteDetector should have been set to MIDINoteDetector!")
             return
         }
 
+        var noteWasDetected = false
+        noteDetection.set(onNoteEventDetected: { _ in
+            noteWasDetected = true
+        })
+
         let arbitraryMidiNumber = MIDINumber(1)
         noteDetection.set(expectedNoteEvent: NoteEvent(notes: [arbitraryMidiNumber]))
 
         let arbitaryIgnoreTime = 200.0
         noteDetection.ignoreFor(ms: arbitaryIgnoreTime)
+
         let correctNoteOn = MIDIMessage.noteOn(key: arbitraryMidiNumber, velocity: 100)
-        let correctNoteOff = MIDIMessage.noteOff(key: arbitraryMidiNumber)
 
-        midiNoteDetector.process(midiMessage: correctNoteOn, timestamp: .now)
+        midiNoteDetector.process(midiMessage: correctNoteOn)
         XCTAssert(noteWasDetected == false, "We shouldn't report notes detected within the ignore time")
-        midiNoteDetector.process(midiMessage: correctNoteOff, timestamp: .now)
 
-        midiNoteDetector.process(midiMessage: correctNoteOn, timestamp: .now + arbitaryIgnoreTime * 2)
-        XCTAssert(noteWasDetected, "We should be able to detect again after the ignored time")
+        midiNoteDetector.process(midiMessage: correctNoteOn, timestamp: .now + arbitaryIgnoreTime + 1)
+        XCTAssert(noteWasDetected == true, "We should be able to detect again after the ignored time")
     }
 }
 
