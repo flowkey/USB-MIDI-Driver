@@ -113,8 +113,5 @@ final class AudioNoteDetector: NoteDetector {
 
         let timestampDiff = abs(onsetTimestamp - noteTimestamp)
         return timestampDiff < AudioNoteDetector.maxTimestampDiff
-        // let result = timestampDiff < AudioNoteDetector.maxTimestampDiff
-        // if result == false { print("timestamps are NOT clouse enough") }
-        // return result
     }
 }
