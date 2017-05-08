@@ -9,20 +9,18 @@
 import XCTest
 @testable import NoteDetection
 
+private let initialInputType = InputType.audio
+private let alternativeInputType = InputType.midi
 class NoteDetectionTests: XCTestCase {
-
-    var noteDetection = try! NoteDetection(input: .audio)
+    var noteDetection = try! NoteDetection(input: initialInputType)
 
     override func setUp() {
-        do { try noteDetection = NoteDetection(input: .audio) } catch { preconditionFailure() }
+        noteDetection = try! NoteDetection(input: initialInputType)
     }
 
     func testInputOverride() {
         let inititalInputType = noteDetection.inputType
-        let newInputType = inititalInputType.toggle()
-
-        // override to new input type
-        noteDetection.inputType = newInputType
+        noteDetection.inputType = alternativeInputType
 
         XCTAssertNotEqual(inititalInputType, noteDetection.inputType)
     }
@@ -47,69 +45,55 @@ class NoteDetectionTests: XCTestCase {
     }
 
     func testIfCallbacksExistAfterSwitch() {
-        let mockNoteEvent = NoteEvent(notes:[1])
-
-        // initially set callbacks
+        // set callbacks
         noteDetection.set(onNoteEventDetected: { print($0) })
         noteDetection.set(onInputLevelChanged: { print($0) }) // FIXME: doesn't seem to have any effect
         noteDetection.noteDetector.onInputLevelChanged = { print($0) }
-        noteDetection.set(expectedNoteEvent: mockNoteEvent)
+        noteDetection.set(expectedNoteEvent: NoteEvent(notes:[1]))
 
-        // precondition: all callbacks are initially set
-        let allCallbacksInitiallyExist = noteDetection.noteDetector!.allCallbackExist()
-        XCTAssertTrue(allCallbacksInitiallyExist)
+        // ensure all callbacks are set to begin with
+        XCTAssert(noteDetection.noteDetector!.allCallbacksExist())
 
         // switch input type
-        noteDetection.inputType = noteDetection.inputType.toggle()
+        noteDetection.inputType = alternativeInputType
 
-        // check if callback still exist after switching input type
-        let allCallbacksExistAfterSwitch = noteDetection.noteDetector!.allCallbackExist()
-        XCTAssertTrue(allCallbacksExistAfterSwitch)
+        // ensure callbacks still exist
+        XCTAssert(noteDetection.noteDetector!.allCallbacksExist())
     }
 
     func testIfNoteDetectionIgnores() {
-        let expectation = self.expectation(description: "callback not exectued because noteDetection ignores")
-
+        var noteWasDetected = false
         noteDetection.set(onNoteEventDetected: { _ in
-            XCTFail("We shouldn't have detected a note because it should have been ignored")
+            noteWasDetected = true
         })
 
-        let mockEvent = NoteEvent(notes: [1])
-        noteDetection.set(expectedNoteEvent: mockEvent)
-
         noteDetection.inputType = .midi
-        let midiNoteDetector = noteDetection.noteDetector as! MIDINoteDetector
-
-        noteDetection.ignoreFor(ms: 200)
-
-        afterTimeout(ms: 100) {
-            let message = MIDIMessage(status: .rawNoteOn, data1: 1, data2: 100)!
-            midiNoteDetector.process(midiMessage: message)
+        guard let midiNoteDetector = noteDetection.noteDetector as? MIDINoteDetector else {
+            XCTFail("NoteDetector should have been set to MIDINoteDetector!")
+            return
         }
 
-        afterTimeout(ms: 500, callback: expectation.fulfill)
+        let arbitraryMidiNumber = MIDINumber(1)
+        noteDetection.set(expectedNoteEvent: NoteEvent(notes: [arbitraryMidiNumber]))
 
-        waitForExpectations(timeout: 1.0) { error in
-            if let error = error {
-                XCTFail(error.localizedDescription)
-            }
-        }
+        let arbitaryIgnoreTime = 200.0
+        noteDetection.ignoreFor(ms: arbitaryIgnoreTime)
+        let correctNoteOn = MIDIMessage.noteOn(key: arbitraryMidiNumber, velocity: 100)
+        let correctNoteOff = MIDIMessage.noteOff(key: arbitraryMidiNumber)
+
+        midiNoteDetector.process(midiMessage: correctNoteOn, timestamp: .now)
+        XCTAssert(noteWasDetected == false, "We shouldn't report notes detected within the ignore time")
+        midiNoteDetector.process(midiMessage: correctNoteOff, timestamp: .now)
+
+        midiNoteDetector.process(midiMessage: correctNoteOn, timestamp: .now + arbitaryIgnoreTime * 2)
+        XCTAssert(noteWasDetected, "We should be able to detect again after the ignored time")
     }
 }
 
 extension NoteDetector {
-    func allCallbackExist() -> Bool {
+    func allCallbacksExist() -> Bool {
         return onInputLevelChanged != nil &&
                expectedNoteEvent   != nil &&
                onNoteEventDetected != nil
-    }
-}
-
-extension InputType {
-    func toggle() -> InputType {
-        switch self {
-            case .audio: return .midi
-            case .midi: return .audio
-        }
     }
 }

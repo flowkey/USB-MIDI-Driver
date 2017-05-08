@@ -19,12 +19,12 @@ final class MIDINoteDetector: NoteDetector {
         input.set(onMIDIMessageReceived: process)
     }
 
-    func process(midiMessage: MIDIMessage, from device: MIDIDevice? = nil) {
+    func process(midiMessage: MIDIMessage, from device: MIDIDevice? = nil, timestamp: Timestamp = .now) {
         switch midiMessage {
         case let .noteOn(key, velocity):
             currentMIDIKeys.insert(Int(key))
             currentVelocity = Float(velocity)
-        case let .noteOff(key, _):
+        case let .noteOff(key):
             currentMIDIKeys.remove(Int(key))
             if currentMIDIKeys.isEmpty {
                 currentVelocity = Float(0)
@@ -33,8 +33,12 @@ final class MIDINoteDetector: NoteDetector {
             return
         }
 
-        if allExpectedNotesAreOn() {
-            onNoteEventDetected?(.now)
+        if allExpectedNotesAreOn {
+            // Clear the keys whenever user plays correctly, even if we were ignoring
+            // Otherwise it would feel strange - you could hold the correct keys down
+            // then press a random key and onNoteEventDetected would be triggered...
+            currentMIDIKeys.removeAll()
+            onNoteEventDetected?(timestamp)
         }
     }
 
@@ -42,7 +46,7 @@ final class MIDINoteDetector: NoteDetector {
         didSet { onInputLevelChanged?(currentVelocity / 127) }
     }
 
-    private func allExpectedNotesAreOn() -> Bool {
+    var allExpectedNotesAreOn: Bool {
         guard let expectedKeys = expectedNoteEvent?.notes else { return false }
         return currentMIDIKeys.isSuperset(of: expectedKeys) // allows not expected keys
     }

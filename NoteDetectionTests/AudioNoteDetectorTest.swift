@@ -1,10 +1,6 @@
 import XCTest
 @testable import NoteDetection
 
-func afterTimeout(ms timeout: Double, callback: @escaping () -> Void) {
-    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + timeout / 1000, execute: callback)
-}
-
 private let sampleRate = 44100.0
 
 class AudioNoteDetectorTests: XCTestCase {
@@ -16,43 +12,26 @@ class AudioNoteDetectorTests: XCTestCase {
     }
 
     func testTimestampsAreCloseEnough() {
-
-        let expectation = self.expectation(description: "listener executed because timestamps are close enough")
-
+        var noteWasDetected = false
         audioNoteDetector.onNoteEventDetected = { timestamp in
-            expectation.fulfill()
+            noteWasDetected = true
         }
 
-        afterTimeout(ms: 0, callback: { self.audioNoteDetector.onOnsetDetected(timestamp: .now) })
-        afterTimeout(ms: AudioNoteDetector.maxTimestampDiff / 2, callback: {
-            self.audioNoteDetector.onPitchDetected(timestamp: .now)
-        })
+        audioNoteDetector.onOnsetDetected(timestamp: .now)
+        audioNoteDetector.onPitchDetected(timestamp: .now + AudioNoteDetector.maxNoteToOnsetTimeDelta / 2)
 
-        self.waitForExpectations(timeout: 0.5) { error in
-            if let error = error {
-                XCTFail(error.localizedDescription)
-            }
-        }
+        XCTAssert(noteWasDetected)
     }
 
     func testTimestampsAreNotCloseEnough() {
-        let expectation = self.expectation(description: "listener not executed because timestamps are NOT close enough")
-
+        var noteWasDetected = false
         audioNoteDetector.onNoteEventDetected = { timestamp in
-            XCTFail("We shouldn't have detected a note because the timestamps are note close enough")
+            noteWasDetected = true
         }
 
-        let firstEventTime = 0.0
-        let secondEventTime = AudioNoteDetector.maxTimestampDiff + 1 // longer than maxTimeStampDiff
+        audioNoteDetector.onOnsetDetected(timestamp: .now)
+        audioNoteDetector.onPitchDetected(timestamp: .now + AudioNoteDetector.maxNoteToOnsetTimeDelta + 1)
 
-        afterTimeout(ms: firstEventTime, callback: { self.audioNoteDetector.onOnsetDetected(timestamp: .now) })
-        afterTimeout(ms: secondEventTime, callback: { self.audioNoteDetector.onPitchDetected(timestamp: .now) })
-        afterTimeout(ms: secondEventTime * 2, callback: { expectation.fulfill() })
-
-        waitForExpectations(timeout: 0.5) { error in
-            if let error = error {
-                XCTFail(error.localizedDescription)
-            }
-        }
+        XCTAssert(noteWasDetected == false)
     }
 }

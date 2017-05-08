@@ -1,7 +1,7 @@
 public typealias NoteEventDetectedCallback = (Timestamp) -> Void
 
 final class AudioNoteDetector: NoteDetector {
-    static let maxTimestampDiff = Timestamp(150)
+    static let maxNoteToOnsetTimeDelta = Timestamp(100)
 
     var expectedNoteEvent: DetectableNoteEvent? {
         didSet { pitchDetection.setExpectedEvent(expectedNoteEvent) }
@@ -83,14 +83,14 @@ final class AudioNoteDetector: NoteDetector {
     private var lastNoteTimestamp: Timestamp?
     private var lastFollowEventTime: Timestamp?
 
-    public var onNoteEventDetected: NoteEventDetectedCallback?
+    var onNoteEventDetected: NoteEventDetectedCallback?
 
-    func onOnsetDetected(timestamp: Timestamp) {
+    func onOnsetDetected(timestamp: Timestamp = .now) {
         lastOnsetTimestamp = timestamp
         onInputReceived()
     }
 
-    func onPitchDetected(timestamp: Timestamp) {
+    func onPitchDetected(timestamp: Timestamp = .now) {
         lastNoteTimestamp = timestamp
         onInputReceived()
     }
@@ -112,6 +112,6 @@ final class AudioNoteDetector: NoteDetector {
             else { return false }
 
         let timestampDiff = abs(onsetTimestamp - noteTimestamp)
-        return timestampDiff < AudioNoteDetector.maxTimestampDiff
+        return timestampDiff < AudioNoteDetector.maxNoteToOnsetTimeDelta
     }
 }

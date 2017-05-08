@@ -7,7 +7,6 @@ class MIDIDInputMock: MIDIInput {
 }
 
 class MIDINoteDetectorTests: XCTestCase {
-
     var midiNoteDetector = MIDINoteDetector(input: MIDIDInputMock())
     let noteEvents = anotherDayInParadiseNoteEvents
 
@@ -39,20 +38,15 @@ class MIDINoteDetectorTests: XCTestCase {
     }
 
     func testIfMIDIArrayIsEmptyAfterNoteOff() {
-
-
         // add some keys
-        midiNoteDetector.process(midiMessage: MIDIMessage.noteOn(key: 69, velocity: 10))
-        midiNoteDetector.process(midiMessage: MIDIMessage.noteOn(key: 69+12, velocity: 10))
+        midiNoteDetector.process(midiMessage: .noteOn(key: 69, velocity: 10))
+        midiNoteDetector.process(midiMessage: .noteOn(key: 69 + 12, velocity: 10))
 
-
-        // remove keys again
-        midiNoteDetector.process(midiMessage: MIDIMessage.noteOff(key: 69, velocity: 10))
-        midiNoteDetector.process(midiMessage: MIDIMessage.noteOff(key: 69+12, velocity: 10))
-
+        // remove them again
+        midiNoteDetector.process(midiMessage: .noteOff(key: 69))
+        midiNoteDetector.process(midiMessage: .noteOff(key: 69 + 12))
 
         XCTAssertTrue(midiNoteDetector.currentMIDIKeys.isEmpty)
-
     }
 
     func testIfItFollowsWhenSetContainsNotExpectedKeys() {
@@ -84,12 +78,10 @@ class MIDINoteDetectorTests: XCTestCase {
 }
 
 
-func getRandomEventIndexFrom(noteEvents: [NoteEvent]) -> Int {
-    let randomEventIndex: Int = randomIntFromRange(lower: 0, upper: noteEvents.count - 1)
-    return randomEventIndex
+private func getRandomEventIndexFrom(noteEvents: [NoteEvent]) -> Int {
+    return randomIntFromRange(lower: 0, upper: noteEvents.count - 1)
 }
 
-
-func randomIntFromRange (lower: Int, upper: Int) -> Int {
+private func randomIntFromRange (lower: Int, upper: Int) -> Int {
     return lower + Int(arc4random_uniform(UInt32(upper - lower + 1)))
 }

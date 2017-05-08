@@ -6,7 +6,7 @@
 //  Copyright © 2017 flowkey. All rights reserved.
 //
 
-public typealias MIDIMessageReceivedCallback = (MIDIMessage, MIDIDevice?) -> Void
+public typealias MIDIMessageReceivedCallback = (MIDIMessage, MIDIDevice?, Timestamp) -> Void
 public typealias MIDIDeviceListChangedCallback = (Set<MIDIDevice>) -> Void
 
 protocol MIDIInput {
