@@ -80,16 +80,14 @@ class NoteDetectionTests: XCTestCase {
         noteDetection.inputType = .midi
         let midiNoteDetector = noteDetection.noteDetector as! MIDINoteDetector
 
-        noteDetection.ignore(for: 200)
+        noteDetection.ignoreFor(ms: 200)
 
-        afterTimeout(ms: 100, callback: {
+        afterTimeout(ms: 100) {
             let message = MIDIMessage(status: .rawNoteOn, data1: 1, data2: 100)!
             midiNoteDetector.process(midiMessage: message)
-        })
+        }
 
-        afterTimeout(ms: 500, callback: {
-            expectation.fulfill()
-        })
+        afterTimeout(ms: 500, callback: expectation.fulfill)
 
         waitForExpectations(timeout: 1.0) { error in
             if let error = error {

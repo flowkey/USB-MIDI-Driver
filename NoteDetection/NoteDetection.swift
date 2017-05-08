@@ -1,5 +1,3 @@
-import Dispatch
-
 public typealias InputLevelChangedCallback = ((Float) -> Void)
 public typealias SampleRateChangedCallback = ((_ sampleRate: Double) -> Void)
 
@@ -70,15 +68,15 @@ extension NoteDetection {
     }
 
     public func set(onNoteEventDetected: NoteEventDetectedCallback?) {
-        noteDetector.onNoteEventDetected = { timestamp in
-            guard self.isEnabled, !self.isCurrentlyIgnoring else { return }
-            onNoteEventDetected?(timestamp)
+        noteDetector.onNoteEventDetected = { [unowned self] timestamp in
+            // unowned self, otherwise noteDetector 'owns' self and vice-versa (ref cycle)
+            if self.isEnabled, !self.isCurrentlyIgnoring {
+                onNoteEventDetected?(timestamp)
+            }
         }
     }
 
-    public typealias Milliseconds = Double
-
-    public func ignore(for duration: Milliseconds) {
+    public func ignoreFor(ms duration: Double) {
         ignoreUntil = .now + duration
     }
 
