@@ -74,6 +74,9 @@ extension NoteDetection {
         noteDetector.onNoteEventDetected = { [unowned self] timestamp in
             // unowned self, otherwise noteDetector 'owns' self and vice-versa (ref cycle)
             if self.isEnabled, !self.isIgnoring(at: timestamp) {
+                // onDetected sets the next event in most cases (except at end of song),
+                // so we need to nil the event before running it to avoid overwriting the new event
+                self.noteDetector.expectedNoteEvent = nil
                 onNoteEventDetected?(timestamp)
             }
         }

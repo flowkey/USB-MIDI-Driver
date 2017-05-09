@@ -1,7 +1,7 @@
 public typealias NoteEventDetectedCallback = (Timestamp) -> Void
 
 final class AudioNoteDetector: NoteDetector {
-    static let maxNoteToOnsetTimeDelta = Timestamp(100)
+    static let maxNoteToOnsetTimeDelta = Timestamp(150)
 
     var expectedNoteEvent: DetectableNoteEvent? {
         didSet { pitchDetection.setExpectedEvent(expectedNoteEvent) }
@@ -17,7 +17,7 @@ final class AudioNoteDetector: NoteDetector {
     init(sampleRate: Double) {
         // Chroma extractors for our different ranges:
         let lowRange = MIDINumber(note: .g, octave: 1) ... MIDINumber(note: .d, octave: 5)
-        let highRange = lowRange.last! ... MIDINumber(note: .d, octave: 7)
+        let highRange = lowRange.last! ... MIDINumber(note: .d, octave: 8)
 
         // Setup processors
         filterbank = FilterBank(lowRange: lowRange, highRange: highRange, sampleRate: sampleRate)

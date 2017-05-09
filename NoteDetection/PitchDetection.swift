@@ -30,10 +30,7 @@ class PitchDetection {
     /// If we have a note to detect, compare the current ChromaVector's similarity with the one we expect
     /// Call "onNotesDetected" for the expected event if our statusBuffers are true
     func run(_ input: ChromaVector) {
-        guard
-            let expectedChroma = expectedChroma,
-            let currentTolerance = currentTolerance
-        else { return }
+        guard let expectedChroma = expectedChroma else { return }
 
         // remove oldest status
         statusBuffer.remove(at: 0)
@@ -46,7 +43,8 @@ class PitchDetection {
         statusBuffer.append(currentBufferStatus)
 
         if statusBufferIsAllTrue {
-            performOnMainThread { self.onPitchDetected(.now) }
+            let now = Timestamp.now
+            performOnMainThread { self.onPitchDetected(now) }
 
             // Reset the status buffer to reduce the likelihood of repeated notes being detected immediately:
             statusBuffer = [Bool](repeating: false, count: statusBuffer.count)
@@ -63,11 +61,11 @@ class PitchDetection {
     }
 
     var expectedChroma: ChromaVector?
-    var currentTolerance: Float? = 0.1
+    var currentTolerance: Float = 0
 
     func setExpectedEvent(_ event: DetectableNoteEvent?) {
         expectedChroma = ChromaVector(composeFrom: event?.notes) // result could be nil
-        currentTolerance = event?.notes.calculateTolerance()
+        currentTolerance = event?.notes.calculateTolerance() ?? 0
         if let event = event { currentDetectionMode = detectionMode(from: event) }
     }
 
