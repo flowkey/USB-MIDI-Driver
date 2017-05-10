@@ -129,7 +129,7 @@ class MIDIEngine: MIDIInput {
 
             DispatchQueue.main.async {
                 midiMessages.forEach { midiMessage in
-                    self.onMIDIMessageReceived?(midiMessage, sourceDevice)
+                    self.onMIDIMessageReceived?(midiMessage, sourceDevice, .now)
                 }
             }
         }

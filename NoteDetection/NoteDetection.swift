@@ -2,11 +2,23 @@ public typealias InputLevelChangedCallback = ((Float) -> Void)
 public typealias SampleRateChangedCallback = ((_ sampleRate: Double) -> Void)
 
 public class NoteDetection {
+    public var isEnabled = true
+
     var onInputLevelChanged: InputLevelChangedCallback?
 
     var noteDetector: NoteDetector! // implicitly unwrapped so we can use self.createNoteDetector() on init
     let audioEngine: AudioEngine
     let midiEngine: MIDIEngine
+
+    fileprivate var ignoreUntilDeadline: Timestamp?
+
+    /// This used to have an implicit `at timestamp` of `.now`. That was incorrect. We
+    /// want to compare with the timestamp of the potential notesDetected event, which
+    /// could either be slightly before .now because of async code, or mocked in tests:
+    fileprivate func isIgnoring(at timestamp: Timestamp) -> Bool {
+        guard let deadline = ignoreUntilDeadline else { return false }
+        return (timestamp - deadline) < 0
+    }
 
     public init(input: InputType) throws {
         midiEngine = try MIDIEngine()
@@ -38,11 +50,9 @@ public class NoteDetection {
     }
 }
 
-
 // MARK: Public Interface
 
 extension NoteDetection {
-
     public var inputType: InputType {
         get { return noteDetector is AudioNoteDetector ? .audio : .midi }
         set { noteDetector = createNoteDetector(type: newValue) }
@@ -61,7 +71,19 @@ extension NoteDetection {
     }
 
     public func set(onNoteEventDetected: NoteEventDetectedCallback?) {
-        noteDetector.onNoteEventDetected = onNoteEventDetected
+        noteDetector.onNoteEventDetected = { [unowned self] timestamp in
+            // unowned self, otherwise noteDetector 'owns' self and vice-versa (ref cycle)
+            if self.isEnabled, !self.isIgnoring(at: timestamp) {
+                // onDetected sets the next event in most cases (except at end of song),
+                // so we need to nil the event before running it to avoid overwriting the new event
+                self.noteDetector.expectedNoteEvent = nil
+                onNoteEventDetected?(timestamp)
+            }
+        }
+    }
+
+    public func ignoreFor(ms duration: Double) {
+        ignoreUntilDeadline = .now + duration
     }
 
     public func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?) {

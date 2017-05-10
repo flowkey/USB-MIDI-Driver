@@ -1,8 +1,7 @@
 public typealias NoteEventDetectedCallback = (Timestamp) -> Void
 
 final class AudioNoteDetector: NoteDetector {
-    static let maxTimestampDiff = Timestamp(100)
-    static let timeToNextToleranceFactor = 0.75
+    static let maxNoteToOnsetTimeDelta = Timestamp(150)
 
     var expectedNoteEvent: DetectableNoteEvent? {
         didSet { pitchDetection.setExpectedEvent(expectedNoteEvent) }
@@ -18,7 +17,7 @@ final class AudioNoteDetector: NoteDetector {
     init(sampleRate: Double) {
         // Chroma extractors for our different ranges:
         let lowRange = MIDINumber(note: .g, octave: 1) ... MIDINumber(note: .d, octave: 5)
-        let highRange = lowRange.last! ... MIDINumber(note: .d, octave: 7)
+        let highRange = lowRange.last! ... MIDINumber(note: .d, octave: 8)
 
         // Setup processors
         filterbank = FilterBank(lowRange: lowRange, highRange: highRange, sampleRate: sampleRate)
@@ -84,32 +83,20 @@ final class AudioNoteDetector: NoteDetector {
     private var lastNoteTimestamp: Timestamp?
     private var lastFollowEventTime: Timestamp?
 
-    public var onNoteEventDetected: NoteEventDetectedCallback?
+    var onNoteEventDetected: NoteEventDetectedCallback?
 
-    func onOnsetDetected(timestamp: Timestamp) {
-        guard currentlyAcceptingOnsets() else { return }
+    func onOnsetDetected(timestamp: Timestamp = .now) {
         lastOnsetTimestamp = timestamp
         onInputReceived()
     }
 
-    func onPitchDetected(timestamp: Timestamp) {
+    func onPitchDetected(timestamp: Timestamp = .now) {
         lastNoteTimestamp = timestamp
         onInputReceived()
     }
 
-    func currentlyAcceptingOnsets() -> Bool {
-        if let lastFollowEventTime = lastFollowEventTime, let timeToNextEvent = expectedNoteEvent?.timeToNext {
-            let timeSinceLastFollowEvent = .now - lastFollowEventTime
-            let onsetBlockingDuration = timeToNextEvent * AudioNoteDetector.timeToNextToleranceFactor
-            return (timeSinceLastFollowEvent > onsetBlockingDuration)
-        } else {
-            return true
-        }
-    }
-
     func onInputReceived() {
         if timestampsAreCloseEnough() {
-            expectedNoteEvent = nil // onNoteEventDetected sets new event, so setting it to nil must happen before
             self.lastFollowEventTime = .now
             self.lastOnsetTimestamp = nil
             self.lastNoteTimestamp = nil
@@ -125,6 +112,6 @@ final class AudioNoteDetector: NoteDetector {
             else { return false }
 
         let timestampDiff = abs(onsetTimestamp - noteTimestamp)
-        return timestampDiff < AudioNoteDetector.maxTimestampDiff
+        return timestampDiff < AudioNoteDetector.maxNoteToOnsetTimeDelta
     }
 }

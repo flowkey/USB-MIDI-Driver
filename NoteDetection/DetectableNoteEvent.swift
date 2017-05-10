@@ -14,7 +14,6 @@ fileprivate let lowKeyBoundary = 48
 public protocol DetectableNoteEvent {
     /// Stores the midi number of every expected note
     var notes: Set<MIDINumber> { get }
-    var timeToNext: Timestamp { get }
 }
 
 private let maxAllowedTolerance = Float(0.10)
