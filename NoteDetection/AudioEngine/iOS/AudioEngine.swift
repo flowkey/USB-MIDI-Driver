@@ -45,6 +45,12 @@ final class AudioEngine: AudioInput {
         self.onAudioData = onAudioData
     }
 
+    func enableInput() throws {
+        try audioIOUnit.uninitialize()
+        try audioIOUnit.setProperty(kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Input, .inputBus, UInt32(true))
+        try audioIOUnit.initialize()
+    }
+
     deinit {
         print("deiniting AudioEngine")
         NotificationCenter.default.removeObserver(self)
@@ -57,8 +63,17 @@ final class AudioEngine: AudioInput {
 // MARK: Public controls.
 extension AudioEngine {
     public func start() throws {
+        if !inputIsEnabled { try? enableInput() }
         try updateSampleRateIfNeeded(self.sampleRate)
         try audioIOUnit.start()
+    }
+
+    var inputIsEnabled: Bool {
+        // check, default to false
+        let result: UInt32? =
+            audioIOUnit.getProperty(kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Input, .inputBus) ?? 0
+
+        return result == 1
     }
 
     public func stop() throws {
