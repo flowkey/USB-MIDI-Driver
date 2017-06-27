@@ -43,7 +43,6 @@
 		03215F9A1F02A87000C9AE3E /* AudioNoteDetectorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F8E1F02A87000C9AE3E /* AudioNoteDetectorTest.swift */; };
 		03215F9B1F02A87000C9AE3E /* ChromaVectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F8F1F02A87000C9AE3E /* ChromaVectorTests.swift */; };
 		03215F9C1F02A87000C9AE3E /* FilterBankTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F901F02A87000C9AE3E /* FilterBankTests.swift */; };
-		03215F9D1F02A87000C9AE3E /* LinuxMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F911F02A87000C9AE3E /* LinuxMain.swift */; };
 		03215F9E1F02A87000C9AE3E /* MIDIMessageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F921F02A87000C9AE3E /* MIDIMessageTests.swift */; };
 		03215F9F1F02A87000C9AE3E /* MIDINoteDetectorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F931F02A87000C9AE3E /* MIDINoteDetectorTest.swift */; };
 		03215FA01F02A87000C9AE3E /* NativePitchDetectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F941F02A87000C9AE3E /* NativePitchDetectionTests.swift */; };
@@ -95,7 +94,6 @@
 		03215F631F02A85700C9AE3E /* OnsetDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnsetDetection.swift; path = Sources/OnsetDetection.swift; sourceTree = SOURCE_ROOT; };
 		03215F641F02A85700C9AE3E /* OnsetFeatures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnsetFeatures.swift; path = Sources/OnsetFeatures.swift; sourceTree = SOURCE_ROOT; };
 		03215F661F02A85700C9AE3E /* PitchDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PitchDetection.swift; path = Sources/PitchDetection.swift; sourceTree = SOURCE_ROOT; };
-		03215F671F02A85700C9AE3E /* PlatformAndroid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlatformAndroid.swift; path = Sources/PlatformAndroid.swift; sourceTree = SOURCE_ROOT; };
 		03215F681F02A85700C9AE3E /* PlatformApple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlatformApple.swift; path = Sources/PlatformApple.swift; sourceTree = SOURCE_ROOT; };
 		03215F691F02A85700C9AE3E /* ProcessedAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProcessedAudio.swift; path = Sources/ProcessedAudio.swift; sourceTree = SOURCE_ROOT; };
 		03215F8C1F02A87000C9AE3E /* AndroidMathTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AndroidMathTests.swift; path = Tests/NoteDetectionTests/AndroidMathTests.swift; sourceTree = SOURCE_ROOT; };
@@ -103,13 +101,13 @@
 		03215F8E1F02A87000C9AE3E /* AudioNoteDetectorTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioNoteDetectorTest.swift; path = Tests/NoteDetectionTests/AudioNoteDetectorTest.swift; sourceTree = SOURCE_ROOT; };
 		03215F8F1F02A87000C9AE3E /* ChromaVectorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChromaVectorTests.swift; path = Tests/NoteDetectionTests/ChromaVectorTests.swift; sourceTree = SOURCE_ROOT; };
 		03215F901F02A87000C9AE3E /* FilterBankTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterBankTests.swift; path = Tests/NoteDetectionTests/FilterBankTests.swift; sourceTree = SOURCE_ROOT; };
-		03215F911F02A87000C9AE3E /* LinuxMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LinuxMain.swift; path = Tests/NoteDetectionTests/LinuxMain.swift; sourceTree = SOURCE_ROOT; };
 		03215F921F02A87000C9AE3E /* MIDIMessageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIMessageTests.swift; path = Tests/NoteDetectionTests/MIDIMessageTests.swift; sourceTree = SOURCE_ROOT; };
 		03215F931F02A87000C9AE3E /* MIDINoteDetectorTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDINoteDetectorTest.swift; path = Tests/NoteDetectionTests/MIDINoteDetectorTest.swift; sourceTree = SOURCE_ROOT; };
 		03215F941F02A87000C9AE3E /* NativePitchDetectionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NativePitchDetectionTests.swift; path = Tests/NoteDetectionTests/NativePitchDetectionTests.swift; sourceTree = SOURCE_ROOT; };
 		03215F951F02A87000C9AE3E /* NoteDetectionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NoteDetectionTests.swift; path = Tests/NoteDetectionTests/NoteDetectionTests.swift; sourceTree = SOURCE_ROOT; };
 		03215F961F02A87000C9AE3E /* NoteEventsFixture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NoteEventsFixture.swift; path = Tests/NoteDetectionTests/NoteEventsFixture.swift; sourceTree = SOURCE_ROOT; };
 		03215F971F02A87000C9AE3E /* SampleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SampleData.swift; path = Tests/NoteDetectionTests/SampleData.swift; sourceTree = SOURCE_ROOT; };
+		03215FA41F02AB3600C9AE3E /* NoteDetectionTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NoteDetectionTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		037122131E8532A0009CC189 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		03A7F7301E850D5300849AE2 /* NoteDetection.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NoteDetection.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		03A7F7331E850D5300849AE2 /* NoteDetection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NoteDetection.h; sourceTree = "<group>"; };
@@ -203,6 +201,7 @@
 		03A7F7321E850D5300849AE2 /* NoteDetection */ = {
 			isa = PBXGroup;
 			children = (
+				03215F551F02A85700C9AE3E /* MIDIManager */,
 				03215F451F02A85700C9AE3E /* AudioEngine */,
 				03215F4B1F02A85700C9AE3E /* AudioHelper.swift */,
 				03215F4C1F02A85700C9AE3E /* AudioNoteDetection.swift */,
@@ -214,7 +213,6 @@
 				03215F521F02A85700C9AE3E /* Filterbank+ChromaVector.swift */,
 				03215F531F02A85700C9AE3E /* FlowMath.swift */,
 				03215F541F02A85700C9AE3E /* InputType.swift */,
-				03215F551F02A85700C9AE3E /* MIDIManager */,
 				03215F5F1F02A85700C9AE3E /* MIDINoteDetection.swift */,
 				03215F601F02A85700C9AE3E /* MIDINumber.swift */,
 				03215F611F02A85700C9AE3E /* MusicalNote.swift */,
@@ -222,7 +220,6 @@
 				03215F631F02A85700C9AE3E /* OnsetDetection.swift */,
 				03215F641F02A85700C9AE3E /* OnsetFeatures.swift */,
 				03215F661F02A85700C9AE3E /* PitchDetection.swift */,
-				03215F671F02A85700C9AE3E /* PlatformAndroid.swift */,
 				03215F681F02A85700C9AE3E /* PlatformApple.swift */,
 				03215F691F02A85700C9AE3E /* ProcessedAudio.swift */,
 				03A7F7331E850D5300849AE2 /* NoteDetection.h */,
@@ -239,7 +236,6 @@
 				03215F8E1F02A87000C9AE3E /* AudioNoteDetectorTest.swift */,
 				03215F8F1F02A87000C9AE3E /* ChromaVectorTests.swift */,
 				03215F901F02A87000C9AE3E /* FilterBankTests.swift */,
-				03215F911F02A87000C9AE3E /* LinuxMain.swift */,
 				03215F921F02A87000C9AE3E /* MIDIMessageTests.swift */,
 				03215F931F02A87000C9AE3E /* MIDINoteDetectorTest.swift */,
 				03215F941F02A87000C9AE3E /* NativePitchDetectionTests.swift */,
@@ -247,6 +243,7 @@
 				03215F961F02A87000C9AE3E /* NoteEventsFixture.swift */,
 				03215F971F02A87000C9AE3E /* SampleData.swift */,
 				03A7F7401E850D5300849AE2 /* Info.plist */,
+				03215FA41F02AB3600C9AE3E /* NoteDetectionTests-Bridging-Header.h */,
 			);
 			path = NoteDetectionTests;
 			sourceTree = "<group>";
@@ -426,7 +423,6 @@
 				03215F9A1F02A87000C9AE3E /* AudioNoteDetectorTest.swift in Sources */,
 				03215F991F02A87000C9AE3E /* AppleFilterBank.swift in Sources */,
 				03215F9B1F02A87000C9AE3E /* ChromaVectorTests.swift in Sources */,
-				03215F9D1F02A87000C9AE3E /* LinuxMain.swift in Sources */,
 				03215F9E1F02A87000C9AE3E /* MIDIMessageTests.swift in Sources */,
 				03215FA21F02A87000C9AE3E /* NoteEventsFixture.swift in Sources */,
 				03215FA31F02A87000C9AE3E /* SampleData.swift in Sources */,

@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		03B2A5401E8AC1320051FF2A /* NoteDetection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03B2A53F1E8AC1320051FF2A /* NoteDetection.framework */; };
-		03B2A5411E8AC1320051FF2A /* NoteDetection.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 03B2A53F1E8AC1320051FF2A /* NoteDetection.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		03B86D041B53CD45003DC61C /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B86D031B53CD45003DC61C /* WaveformView.swift */; };
 		03B86D061B53CD4F003DC61C /* OnsetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B86D051B53CD4F003DC61C /* OnsetView.swift */; };
 		03FB3F031B7CD866003E85B5 /* MidiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FB3F021B7CD866003E85B5 /* MidiView.swift */; };
@@ -45,7 +43,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				03B2A5411E8AC1320051FF2A /* NoteDetection.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -53,7 +50,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		03B2A53F1E8AC1320051FF2A /* NoteDetection.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NoteDetection.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		03B86D031B53CD45003DC61C /* WaveformView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveformView.swift; sourceTree = "<group>"; };
 		03B86D051B53CD4F003DC61C /* OnsetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnsetView.swift; sourceTree = "<group>"; };
 		03FB3F021B7CD866003E85B5 /* MidiView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MidiView.swift; sourceTree = "<group>"; };
@@ -81,7 +77,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				03B2A5401E8AC1320051FF2A /* NoteDetection.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,7 +93,6 @@
 		5C43689A1B38690000C748C3 = {
 			isa = PBXGroup;
 			children = (
-				03B2A53F1E8AC1320051FF2A /* NoteDetection.framework */,
 				5C4368A51B38690000C748C3 /* Testumgebung */,
 				5C4368A41B38690000C748C3 /* Products */,
 			);
