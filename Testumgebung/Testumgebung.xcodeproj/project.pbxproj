@@ -69,7 +69,6 @@
 		5CFA600F1B386D6400A50DA6 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		5CFA60101B386D6400A50DA6 /* mario.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mario.json; sourceTree = "<group>"; };
 		5CFA60111B386D6400A50DA6 /* pictures.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pictures.json; sourceTree = "<group>"; };
-		5CFA60121B386D6400A50DA6 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		5CFA601A1B386D6C00A50DA6 /* GraphBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphBackground.swift; sourceTree = "<group>"; };
 		5CFA601B1B386D6C00A50DA6 /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 		5CFA601C1B386D6C00A50DA6 /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
@@ -142,7 +141,6 @@
 				5CFA600F1B386D6400A50DA6 /* LaunchScreen.xib */,
 				5CFA60101B386D6400A50DA6 /* mario.json */,
 				5CFA60111B386D6400A50DA6 /* pictures.json */,
-				5CFA60121B386D6400A50DA6 /* SwiftyJSON.swift */,
 				5C4368A71B38690000C748C3 /* Info.plist */,
 			);
 			name = "Supporting Files";
