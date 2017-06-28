@@ -6,7 +6,11 @@
 //  Copyright (c) 2015 flowkey. All rights reserved.
 //
 
+#if os(Android)
+import Glibc
+#else
 import simd
+#endif
 
 final class FilterBank {
     private var bandpassFilters: [Filter]
