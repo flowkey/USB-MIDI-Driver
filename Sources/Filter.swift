@@ -8,6 +8,10 @@
 
 // swiftlint:disable variable_name
 
+#if os(Android)
+import Glibc
+#endif
+
 struct Filter {
     let b0: Float
     let a1: Float
@@ -47,14 +51,13 @@ struct Filter {
         self.a2 = Float(a2)
     }
 
-
-    // Currently not used because we're using SIMD across multiple filters in FilterBank
+    /// only used for Android, where we have no SIMD instructions yet
     /// inputDiff is the value of (inputFrame[n] - inputFrame[n-2])
-//    mutating func calculateOutputFrame(_ inputDiff: Float) -> Float {
-//        let y = b0 * inputDiff - a1 * y1 - a2 * y2
-//        y2 = y1
-//        y1 = y
-//
-//        return y
-//    }
+    mutating func calculateOutputFrame(_ inputDiff: Float) -> Float {
+        let y = b0 * inputDiff - a1 * y1 - a2 * y2
+        y2 = y1
+        y1 = y
+
+        return y
+    }
 }

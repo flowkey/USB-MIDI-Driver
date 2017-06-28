@@ -1,5 +1,5 @@
 //
-//  FlowMath.swift
+//  FlowMathApple.swift
 //  NativePitchDetection
 //
 //  Created by flowing erik on 28.09.15.
