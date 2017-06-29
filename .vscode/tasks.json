@@ -2,11 +2,28 @@
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
     "version": "0.1.0",
-    "command": "sr",
-    "args": [
-        "build",
-        "--verbose"
-    ],
-    "isShellCommand": true,
-    "showOutput": "always"
+    "tasks": [
+        {
+            "taskName": "sr build",
+            "command": "sr",
+            "args": [
+                "build",
+                "--verbose"
+            ],
+            "isBuildCommand": true,
+            "isShellCommand": true,
+            "showOutput": "always"
+        },
+        {
+            "taskName": "ndk build",
+            "command": "ndk-build",
+            "args": [
+                "APP_ABI=armeabi-v7a",
+                "NDK_PROJECT_PATH=$(pwd)",
+                "APP_BUILD_SCRIPT=$(pwd)/Android.mk"
+            ],
+            "isShellCommand": true,
+            "showOutput": "always"
+        }
+    ]
 }

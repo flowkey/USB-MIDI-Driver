@@ -18,8 +18,11 @@ extern "C" {
 static SuperpoweredAndroidAudioIO *audioIO;
 float *monoBufferFloat;
 float *inputBufferFloat;
+
 void (*onAudioData)(float *, int, void *);
-void *onAudioDataContext;
+void (*onSamplerateChanged)(int, void *);
+void *audioEngineContext;
+
 int samplerate = 0;
 
 static bool audioProcessing(void *clientdata, short int *audioInputOutput, int numberOfSamples, int currentSamplerate)
@@ -39,19 +42,25 @@ static bool audioProcessing(void *clientdata, short int *audioInputOutput, int n
 
     if (samplerate != currentSamplerate)
     {
-        // onSamplerateChanged(currentSamplerate);
+        onSamplerateChanged(currentSamplerate, audioEngineContext);
         samplerate = currentSamplerate;
     }
 
-    onAudioData(monoBufferFloat, numberOfSamples, onAudioDataContext);
+    onAudioData(monoBufferFloat, numberOfSamples, audioEngineContext);
 
     return true;
 }
 
-void setOnAudioData(void (*funcpntr)(float *, int, void *), void *context)
+void CAndroidAudioEngine_setOnAudioData(void (*funcpntr)(float *, int, void *), void *context)
 {
     onAudioData = funcpntr;
-    onAudioDataContext = context;
+    audioEngineContext = context;
+}
+
+void CAndroidAudioEngine_setOnSamplerateChange(void (*funcpntr)(int, void *), void *context)
+{
+    onSamplerateChanged = funcpntr;
+    audioEngineContext = context;
 }
 
 void CAndroidAudioEngine_initialize(int desiredSamplerate, int desiredBufferSize)
