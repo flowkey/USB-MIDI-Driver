@@ -2,5 +2,8 @@
 {
     "search.exclude": {
         ".build": true
+    },
+    "files.associations": {
+        "androidaudioengine.c": "cpp"
     }
 }

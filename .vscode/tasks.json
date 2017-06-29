@@ -3,7 +3,10 @@
     // for the documentation about the tasks.json format
     "version": "0.1.0",
     "command": "sr",
-    "args": ["build"],
+    "args": [
+        "build",
+        "--verbose"
+    ],
     "isShellCommand": true,
     "showOutput": "always"
 }

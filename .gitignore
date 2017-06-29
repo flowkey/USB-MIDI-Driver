@@ -2,3 +2,7 @@
 NoteDetection.xcodeproj/xcuserdata
 NoteDetection.xcworkspace/xcuserdata
 Testumgebung/Testumgebung.xcodeproj/xcuserdata/*.xcuserdatad/
+
+.DS_Store
+Tests/.DS_Store
+Testumgebung/.DS_Store

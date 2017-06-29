@@ -7,25 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		03215F6E1F02A85700C9AE3E /* AudioHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F4B1F02A85700C9AE3E /* AudioHelper.swift */; };
-		03215F6F1F02A85700C9AE3E /* AudioNoteDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F4C1F02A85700C9AE3E /* AudioNoteDetection.swift */; };
-		03215F701F02A85700C9AE3E /* ChromaVector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F4D1F02A85700C9AE3E /* ChromaVector.swift */; };
-		03215F711F02A85700C9AE3E /* CrossPlatformHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F4E1F02A85700C9AE3E /* CrossPlatformHelper.swift */; };
-		03215F721F02A85700C9AE3E /* DetectableNoteEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F4F1F02A85700C9AE3E /* DetectableNoteEvent.swift */; };
-		03215F731F02A85700C9AE3E /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F501F02A85700C9AE3E /* Filter.swift */; };
-		03215F741F02A85700C9AE3E /* FilterBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F511F02A85700C9AE3E /* FilterBank.swift */; };
-		03215F751F02A85700C9AE3E /* Filterbank+ChromaVector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F521F02A85700C9AE3E /* Filterbank+ChromaVector.swift */; };
-		03215F761F02A85700C9AE3E /* FlowMathApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F531F02A85700C9AE3E /* FlowMathApple.swift */; };
-		03215F771F02A85700C9AE3E /* InputType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F541F02A85700C9AE3E /* InputType.swift */; };
-		03215F801F02A85800C9AE3E /* MIDINoteDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F5F1F02A85700C9AE3E /* MIDINoteDetection.swift */; };
-		03215F811F02A85800C9AE3E /* MIDINumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F601F02A85700C9AE3E /* MIDINumber.swift */; };
-		03215F821F02A85800C9AE3E /* MusicalNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F611F02A85700C9AE3E /* MusicalNote.swift */; };
-		03215F831F02A85800C9AE3E /* NoteDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F621F02A85700C9AE3E /* NoteDetection.swift */; };
-		03215F841F02A85800C9AE3E /* OnsetDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F631F02A85700C9AE3E /* OnsetDetection.swift */; };
-		03215F851F02A85800C9AE3E /* OnsetFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F641F02A85700C9AE3E /* OnsetFeatures.swift */; };
-		03215F871F02A85800C9AE3E /* PitchDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F661F02A85700C9AE3E /* PitchDetection.swift */; };
-		03215F891F02A85800C9AE3E /* PlatformApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F681F02A85700C9AE3E /* PlatformApple.swift */; };
-		03215F8A1F02A85800C9AE3E /* ProcessedAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F691F02A85700C9AE3E /* ProcessedAudio.swift */; };
 		03215F981F02A87000C9AE3E /* AndroidMathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F8C1F02A87000C9AE3E /* AndroidMathTests.swift */; };
 		03215F991F02A87000C9AE3E /* AppleFilterBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F8D1F02A87000C9AE3E /* AppleFilterBank.swift */; };
 		03215F9A1F02A87000C9AE3E /* AudioNoteDetectorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F8E1F02A87000C9AE3E /* AudioNoteDetectorTest.swift */; };
@@ -37,18 +18,37 @@
 		03215FA11F02A87000C9AE3E /* NoteDetectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F951F02A87000C9AE3E /* NoteDetectionTests.swift */; };
 		03215FA21F02A87000C9AE3E /* NoteEventsFixture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F961F02A87000C9AE3E /* NoteEventsFixture.swift */; };
 		03215FA31F02A87000C9AE3E /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03215F971F02A87000C9AE3E /* SampleData.swift */; };
-		032160511F03E46100C9AE3E /* AudioEngineIOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0321604E1F03E46100C9AE3E /* AudioEngineIOS.swift */; };
-		032160521F03E46100C9AE3E /* AudioUnitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0321604F1F03E46100C9AE3E /* AudioUnitExtensions.swift */; };
-		032160531F03E46100C9AE3E /* OSStatus+LocalizedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160501F03E46100C9AE3E /* OSStatus+LocalizedError.swift */; };
-		032160551F03E47600C9AE3E /* AudioInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160541F03E47600C9AE3E /* AudioInput.swift */; };
-		0321605A1F03E4BB00C9AE3E /* MIDIEngineIOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160561F03E4BB00C9AE3E /* MIDIEngineIOS.swift */; };
-		0321605B1F03E4BB00C9AE3E /* MIDIEngine+Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160571F03E4BB00C9AE3E /* MIDIEngine+Debug.swift */; };
-		0321605C1F03E4BB00C9AE3E /* MIDIMessage+MIDIPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160581F03E4BB00C9AE3E /* MIDIMessage+MIDIPacket.swift */; };
-		0321605D1F03E4BB00C9AE3E /* MIDIObjectRef.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160591F03E4BB00C9AE3E /* MIDIObjectRef.swift */; };
-		0321605F1F03E50F00C9AE3E /* MIDIInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0321605E1F03E50F00C9AE3E /* MIDIInput.swift */; };
-		032160611F03E51C00C9AE3E /* MIDIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160601F03E51C00C9AE3E /* MIDIDevice.swift */; };
-		032160631F03E53D00C9AE3E /* MIDIMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160621F03E53D00C9AE3E /* MIDIMessage.swift */; };
-		032160651F03E55400C9AE3E /* UInt8+MIDI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160641F03E55400C9AE3E /* UInt8+MIDI.swift */; };
+		032160D21F04EE7100C9AE3E /* AudioEngineIOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160B31F04EE7100C9AE3E /* AudioEngineIOS.swift */; };
+		032160D31F04EE7100C9AE3E /* AudioHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160B41F04EE7100C9AE3E /* AudioHelper.swift */; };
+		032160D41F04EE7100C9AE3E /* AudioInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160B51F04EE7100C9AE3E /* AudioInput.swift */; };
+		032160D51F04EE7100C9AE3E /* AudioNoteDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160B61F04EE7100C9AE3E /* AudioNoteDetection.swift */; };
+		032160D61F04EE7100C9AE3E /* AudioUnitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160B71F04EE7100C9AE3E /* AudioUnitExtensions.swift */; };
+		032160D71F04EE7100C9AE3E /* ChromaVector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160B81F04EE7100C9AE3E /* ChromaVector.swift */; };
+		032160D81F04EE7100C9AE3E /* CrossPlatformHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160B91F04EE7100C9AE3E /* CrossPlatformHelper.swift */; };
+		032160D91F04EE7100C9AE3E /* DetectableNoteEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160BA1F04EE7100C9AE3E /* DetectableNoteEvent.swift */; };
+		032160DA1F04EE7100C9AE3E /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160BB1F04EE7100C9AE3E /* Filter.swift */; };
+		032160DB1F04EE7100C9AE3E /* FilterBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160BC1F04EE7100C9AE3E /* FilterBank.swift */; };
+		032160DC1F04EE7100C9AE3E /* Filterbank+ChromaVector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160BD1F04EE7100C9AE3E /* Filterbank+ChromaVector.swift */; };
+		032160DD1F04EE7100C9AE3E /* FlowMathApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160BE1F04EE7100C9AE3E /* FlowMathApple.swift */; };
+		032160DE1F04EE7100C9AE3E /* InputType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160BF1F04EE7100C9AE3E /* InputType.swift */; };
+		032160DF1F04EE7100C9AE3E /* MIDIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C01F04EE7100C9AE3E /* MIDIDevice.swift */; };
+		032160E01F04EE7100C9AE3E /* MIDIEngine+Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C11F04EE7100C9AE3E /* MIDIEngine+Debug.swift */; };
+		032160E11F04EE7100C9AE3E /* MIDIEngineIOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C21F04EE7100C9AE3E /* MIDIEngineIOS.swift */; };
+		032160E21F04EE7100C9AE3E /* MIDIInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C31F04EE7100C9AE3E /* MIDIInput.swift */; };
+		032160E31F04EE7100C9AE3E /* MIDIMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C41F04EE7100C9AE3E /* MIDIMessage.swift */; };
+		032160E41F04EE7100C9AE3E /* MIDIMessage+MIDIPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C51F04EE7100C9AE3E /* MIDIMessage+MIDIPacket.swift */; };
+		032160E51F04EE7100C9AE3E /* MIDINoteDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C61F04EE7100C9AE3E /* MIDINoteDetection.swift */; };
+		032160E61F04EE7100C9AE3E /* MIDINumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C71F04EE7100C9AE3E /* MIDINumber.swift */; };
+		032160E71F04EE7100C9AE3E /* MIDIObjectRef.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C81F04EE7100C9AE3E /* MIDIObjectRef.swift */; };
+		032160E81F04EE7100C9AE3E /* MusicalNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C91F04EE7100C9AE3E /* MusicalNote.swift */; };
+		032160E91F04EE7100C9AE3E /* NoteDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160CA1F04EE7100C9AE3E /* NoteDetection.swift */; };
+		032160EA1F04EE7100C9AE3E /* OnsetDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160CB1F04EE7100C9AE3E /* OnsetDetection.swift */; };
+		032160EB1F04EE7100C9AE3E /* OnsetFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160CC1F04EE7100C9AE3E /* OnsetFeatures.swift */; };
+		032160EC1F04EE7100C9AE3E /* OSStatus+LocalizedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160CD1F04EE7100C9AE3E /* OSStatus+LocalizedError.swift */; };
+		032160ED1F04EE7100C9AE3E /* PitchDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160CE1F04EE7100C9AE3E /* PitchDetection.swift */; };
+		032160EE1F04EE7100C9AE3E /* PlatformApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160CF1F04EE7100C9AE3E /* PlatformApple.swift */; };
+		032160EF1F04EE7100C9AE3E /* ProcessedAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160D01F04EE7100C9AE3E /* ProcessedAudio.swift */; };
+		032160F01F04EE7100C9AE3E /* UInt8+MIDI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160D11F04EE7100C9AE3E /* UInt8+MIDI.swift */; };
 		037122141E8532A0009CC189 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 037122131E8532A0009CC189 /* .swiftlint.yml */; };
 		03A7F73A1E850D5300849AE2 /* NoteDetection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03A7F7301E850D5300849AE2 /* NoteDetection.framework */; };
 		03A7F7411E850D5300849AE2 /* NoteDetection.h in Headers */ = {isa = PBXBuildFile; fileRef = 03A7F7331E850D5300849AE2 /* NoteDetection.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -65,25 +65,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		03215F4B1F02A85700C9AE3E /* AudioHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioHelper.swift; path = Sources/AudioHelper.swift; sourceTree = SOURCE_ROOT; };
-		03215F4C1F02A85700C9AE3E /* AudioNoteDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioNoteDetection.swift; path = Sources/AudioNoteDetection.swift; sourceTree = SOURCE_ROOT; };
-		03215F4D1F02A85700C9AE3E /* ChromaVector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChromaVector.swift; path = Sources/ChromaVector.swift; sourceTree = SOURCE_ROOT; };
-		03215F4E1F02A85700C9AE3E /* CrossPlatformHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CrossPlatformHelper.swift; path = Sources/CrossPlatformHelper.swift; sourceTree = SOURCE_ROOT; };
-		03215F4F1F02A85700C9AE3E /* DetectableNoteEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetectableNoteEvent.swift; path = Sources/DetectableNoteEvent.swift; sourceTree = SOURCE_ROOT; };
-		03215F501F02A85700C9AE3E /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Filter.swift; path = Sources/Filter.swift; sourceTree = SOURCE_ROOT; };
-		03215F511F02A85700C9AE3E /* FilterBank.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterBank.swift; path = Sources/FilterBank.swift; sourceTree = SOURCE_ROOT; };
-		03215F521F02A85700C9AE3E /* Filterbank+ChromaVector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Filterbank+ChromaVector.swift"; path = "Sources/Filterbank+ChromaVector.swift"; sourceTree = SOURCE_ROOT; };
-		03215F531F02A85700C9AE3E /* FlowMathApple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FlowMathApple.swift; path = Sources/FlowMathApple.swift; sourceTree = SOURCE_ROOT; };
-		03215F541F02A85700C9AE3E /* InputType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputType.swift; path = Sources/InputType.swift; sourceTree = SOURCE_ROOT; };
-		03215F5F1F02A85700C9AE3E /* MIDINoteDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDINoteDetection.swift; path = Sources/MIDINoteDetection.swift; sourceTree = SOURCE_ROOT; };
-		03215F601F02A85700C9AE3E /* MIDINumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDINumber.swift; path = Sources/MIDINumber.swift; sourceTree = SOURCE_ROOT; };
-		03215F611F02A85700C9AE3E /* MusicalNote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MusicalNote.swift; path = Sources/MusicalNote.swift; sourceTree = SOURCE_ROOT; };
-		03215F621F02A85700C9AE3E /* NoteDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NoteDetection.swift; path = Sources/NoteDetection.swift; sourceTree = SOURCE_ROOT; };
-		03215F631F02A85700C9AE3E /* OnsetDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnsetDetection.swift; path = Sources/OnsetDetection.swift; sourceTree = SOURCE_ROOT; };
-		03215F641F02A85700C9AE3E /* OnsetFeatures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnsetFeatures.swift; path = Sources/OnsetFeatures.swift; sourceTree = SOURCE_ROOT; };
-		03215F661F02A85700C9AE3E /* PitchDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PitchDetection.swift; path = Sources/PitchDetection.swift; sourceTree = SOURCE_ROOT; };
-		03215F681F02A85700C9AE3E /* PlatformApple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlatformApple.swift; path = Sources/PlatformApple.swift; sourceTree = SOURCE_ROOT; };
-		03215F691F02A85700C9AE3E /* ProcessedAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProcessedAudio.swift; path = Sources/ProcessedAudio.swift; sourceTree = SOURCE_ROOT; };
 		03215F8C1F02A87000C9AE3E /* AndroidMathTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AndroidMathTests.swift; path = Tests/NoteDetectionTests/AndroidMathTests.swift; sourceTree = SOURCE_ROOT; };
 		03215F8D1F02A87000C9AE3E /* AppleFilterBank.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppleFilterBank.swift; path = Tests/NoteDetectionTests/AppleFilterBank.swift; sourceTree = SOURCE_ROOT; };
 		03215F8E1F02A87000C9AE3E /* AudioNoteDetectorTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioNoteDetectorTest.swift; path = Tests/NoteDetectionTests/AudioNoteDetectorTest.swift; sourceTree = SOURCE_ROOT; };
@@ -96,18 +77,37 @@
 		03215F961F02A87000C9AE3E /* NoteEventsFixture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NoteEventsFixture.swift; path = Tests/NoteDetectionTests/NoteEventsFixture.swift; sourceTree = SOURCE_ROOT; };
 		03215F971F02A87000C9AE3E /* SampleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SampleData.swift; path = Tests/NoteDetectionTests/SampleData.swift; sourceTree = SOURCE_ROOT; };
 		03215FA41F02AB3600C9AE3E /* NoteDetectionTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NoteDetectionTests-Bridging-Header.h"; sourceTree = "<group>"; };
-		0321604E1F03E46100C9AE3E /* AudioEngineIOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioEngineIOS.swift; path = Sources/AudioEngineIOS.swift; sourceTree = SOURCE_ROOT; };
-		0321604F1F03E46100C9AE3E /* AudioUnitExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioUnitExtensions.swift; path = Sources/AudioUnitExtensions.swift; sourceTree = SOURCE_ROOT; };
-		032160501F03E46100C9AE3E /* OSStatus+LocalizedError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "OSStatus+LocalizedError.swift"; path = "Sources/OSStatus+LocalizedError.swift"; sourceTree = SOURCE_ROOT; };
-		032160541F03E47600C9AE3E /* AudioInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioInput.swift; path = Sources/AudioInput.swift; sourceTree = SOURCE_ROOT; };
-		032160561F03E4BB00C9AE3E /* MIDIEngineIOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIEngineIOS.swift; path = Sources/MIDIEngineIOS.swift; sourceTree = SOURCE_ROOT; };
-		032160571F03E4BB00C9AE3E /* MIDIEngine+Debug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MIDIEngine+Debug.swift"; path = "Sources/MIDIEngine+Debug.swift"; sourceTree = SOURCE_ROOT; };
-		032160581F03E4BB00C9AE3E /* MIDIMessage+MIDIPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MIDIMessage+MIDIPacket.swift"; path = "Sources/MIDIMessage+MIDIPacket.swift"; sourceTree = SOURCE_ROOT; };
-		032160591F03E4BB00C9AE3E /* MIDIObjectRef.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIObjectRef.swift; path = Sources/MIDIObjectRef.swift; sourceTree = SOURCE_ROOT; };
-		0321605E1F03E50F00C9AE3E /* MIDIInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIInput.swift; path = Sources/MIDIInput.swift; sourceTree = SOURCE_ROOT; };
-		032160601F03E51C00C9AE3E /* MIDIDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIDevice.swift; path = Sources/MIDIDevice.swift; sourceTree = SOURCE_ROOT; };
-		032160621F03E53D00C9AE3E /* MIDIMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIMessage.swift; path = Sources/MIDIMessage.swift; sourceTree = SOURCE_ROOT; };
-		032160641F03E55400C9AE3E /* UInt8+MIDI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt8+MIDI.swift"; path = "Sources/UInt8+MIDI.swift"; sourceTree = SOURCE_ROOT; };
+		032160B31F04EE7100C9AE3E /* AudioEngineIOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioEngineIOS.swift; path = Sources/NoteDetection/AudioEngineIOS.swift; sourceTree = SOURCE_ROOT; };
+		032160B41F04EE7100C9AE3E /* AudioHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioHelper.swift; path = Sources/NoteDetection/AudioHelper.swift; sourceTree = SOURCE_ROOT; };
+		032160B51F04EE7100C9AE3E /* AudioInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioInput.swift; path = Sources/NoteDetection/AudioInput.swift; sourceTree = SOURCE_ROOT; };
+		032160B61F04EE7100C9AE3E /* AudioNoteDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioNoteDetection.swift; path = Sources/NoteDetection/AudioNoteDetection.swift; sourceTree = SOURCE_ROOT; };
+		032160B71F04EE7100C9AE3E /* AudioUnitExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioUnitExtensions.swift; path = Sources/NoteDetection/AudioUnitExtensions.swift; sourceTree = SOURCE_ROOT; };
+		032160B81F04EE7100C9AE3E /* ChromaVector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChromaVector.swift; path = Sources/NoteDetection/ChromaVector.swift; sourceTree = SOURCE_ROOT; };
+		032160B91F04EE7100C9AE3E /* CrossPlatformHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CrossPlatformHelper.swift; path = Sources/NoteDetection/CrossPlatformHelper.swift; sourceTree = SOURCE_ROOT; };
+		032160BA1F04EE7100C9AE3E /* DetectableNoteEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetectableNoteEvent.swift; path = Sources/NoteDetection/DetectableNoteEvent.swift; sourceTree = SOURCE_ROOT; };
+		032160BB1F04EE7100C9AE3E /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Filter.swift; path = Sources/NoteDetection/Filter.swift; sourceTree = SOURCE_ROOT; };
+		032160BC1F04EE7100C9AE3E /* FilterBank.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterBank.swift; path = Sources/NoteDetection/FilterBank.swift; sourceTree = SOURCE_ROOT; };
+		032160BD1F04EE7100C9AE3E /* Filterbank+ChromaVector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Filterbank+ChromaVector.swift"; path = "Sources/NoteDetection/Filterbank+ChromaVector.swift"; sourceTree = SOURCE_ROOT; };
+		032160BE1F04EE7100C9AE3E /* FlowMathApple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FlowMathApple.swift; path = Sources/NoteDetection/FlowMathApple.swift; sourceTree = SOURCE_ROOT; };
+		032160BF1F04EE7100C9AE3E /* InputType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputType.swift; path = Sources/NoteDetection/InputType.swift; sourceTree = SOURCE_ROOT; };
+		032160C01F04EE7100C9AE3E /* MIDIDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIDevice.swift; path = Sources/NoteDetection/MIDIDevice.swift; sourceTree = SOURCE_ROOT; };
+		032160C11F04EE7100C9AE3E /* MIDIEngine+Debug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MIDIEngine+Debug.swift"; path = "Sources/NoteDetection/MIDIEngine+Debug.swift"; sourceTree = SOURCE_ROOT; };
+		032160C21F04EE7100C9AE3E /* MIDIEngineIOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIEngineIOS.swift; path = Sources/NoteDetection/MIDIEngineIOS.swift; sourceTree = SOURCE_ROOT; };
+		032160C31F04EE7100C9AE3E /* MIDIInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIInput.swift; path = Sources/NoteDetection/MIDIInput.swift; sourceTree = SOURCE_ROOT; };
+		032160C41F04EE7100C9AE3E /* MIDIMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIMessage.swift; path = Sources/NoteDetection/MIDIMessage.swift; sourceTree = SOURCE_ROOT; };
+		032160C51F04EE7100C9AE3E /* MIDIMessage+MIDIPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MIDIMessage+MIDIPacket.swift"; path = "Sources/NoteDetection/MIDIMessage+MIDIPacket.swift"; sourceTree = SOURCE_ROOT; };
+		032160C61F04EE7100C9AE3E /* MIDINoteDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDINoteDetection.swift; path = Sources/NoteDetection/MIDINoteDetection.swift; sourceTree = SOURCE_ROOT; };
+		032160C71F04EE7100C9AE3E /* MIDINumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDINumber.swift; path = Sources/NoteDetection/MIDINumber.swift; sourceTree = SOURCE_ROOT; };
+		032160C81F04EE7100C9AE3E /* MIDIObjectRef.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIObjectRef.swift; path = Sources/NoteDetection/MIDIObjectRef.swift; sourceTree = SOURCE_ROOT; };
+		032160C91F04EE7100C9AE3E /* MusicalNote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MusicalNote.swift; path = Sources/NoteDetection/MusicalNote.swift; sourceTree = SOURCE_ROOT; };
+		032160CA1F04EE7100C9AE3E /* NoteDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NoteDetection.swift; path = Sources/NoteDetection/NoteDetection.swift; sourceTree = SOURCE_ROOT; };
+		032160CB1F04EE7100C9AE3E /* OnsetDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnsetDetection.swift; path = Sources/NoteDetection/OnsetDetection.swift; sourceTree = SOURCE_ROOT; };
+		032160CC1F04EE7100C9AE3E /* OnsetFeatures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnsetFeatures.swift; path = Sources/NoteDetection/OnsetFeatures.swift; sourceTree = SOURCE_ROOT; };
+		032160CD1F04EE7100C9AE3E /* OSStatus+LocalizedError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "OSStatus+LocalizedError.swift"; path = "Sources/NoteDetection/OSStatus+LocalizedError.swift"; sourceTree = SOURCE_ROOT; };
+		032160CE1F04EE7100C9AE3E /* PitchDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PitchDetection.swift; path = Sources/NoteDetection/PitchDetection.swift; sourceTree = SOURCE_ROOT; };
+		032160CF1F04EE7100C9AE3E /* PlatformApple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlatformApple.swift; path = Sources/NoteDetection/PlatformApple.swift; sourceTree = SOURCE_ROOT; };
+		032160D01F04EE7100C9AE3E /* ProcessedAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProcessedAudio.swift; path = Sources/NoteDetection/ProcessedAudio.swift; sourceTree = SOURCE_ROOT; };
+		032160D11F04EE7100C9AE3E /* UInt8+MIDI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt8+MIDI.swift"; path = "Sources/NoteDetection/UInt8+MIDI.swift"; sourceTree = SOURCE_ROOT; };
 		037122131E8532A0009CC189 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		03A7F7301E850D5300849AE2 /* NoteDetection.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NoteDetection.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		03A7F7331E850D5300849AE2 /* NoteDetection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NoteDetection.h; sourceTree = "<group>"; };
@@ -135,33 +135,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		032160661F03E57400C9AE3E /* MIDIEngine */ = {
-			isa = PBXGroup;
-			children = (
-				032160601F03E51C00C9AE3E /* MIDIDevice.swift */,
-				032160571F03E4BB00C9AE3E /* MIDIEngine+Debug.swift */,
-				032160561F03E4BB00C9AE3E /* MIDIEngineIOS.swift */,
-				0321605E1F03E50F00C9AE3E /* MIDIInput.swift */,
-				032160621F03E53D00C9AE3E /* MIDIMessage.swift */,
-				032160581F03E4BB00C9AE3E /* MIDIMessage+MIDIPacket.swift */,
-				03215F5F1F02A85700C9AE3E /* MIDINoteDetection.swift */,
-				03215F601F02A85700C9AE3E /* MIDINumber.swift */,
-				032160591F03E4BB00C9AE3E /* MIDIObjectRef.swift */,
-				032160641F03E55400C9AE3E /* UInt8+MIDI.swift */,
-			);
-			name = MIDIEngine;
-			sourceTree = "<group>";
-		};
-		032160671F03E59A00C9AE3E /* AudioEngine */ = {
-			isa = PBXGroup;
-			children = (
-				0321604E1F03E46100C9AE3E /* AudioEngineIOS.swift */,
-				032160541F03E47600C9AE3E /* AudioInput.swift */,
-				0321604F1F03E46100C9AE3E /* AudioUnitExtensions.swift */,
-			);
-			name = AudioEngine;
-			sourceTree = "<group>";
-		};
 		03A7F7261E850D5300849AE2 = {
 			isa = PBXGroup;
 			children = (
@@ -184,28 +157,39 @@
 		03A7F7321E850D5300849AE2 /* NoteDetection */ = {
 			isa = PBXGroup;
 			children = (
+				032160B31F04EE7100C9AE3E /* AudioEngineIOS.swift */,
+				032160B41F04EE7100C9AE3E /* AudioHelper.swift */,
+				032160B51F04EE7100C9AE3E /* AudioInput.swift */,
+				032160B61F04EE7100C9AE3E /* AudioNoteDetection.swift */,
+				032160B71F04EE7100C9AE3E /* AudioUnitExtensions.swift */,
+				032160B81F04EE7100C9AE3E /* ChromaVector.swift */,
+				032160B91F04EE7100C9AE3E /* CrossPlatformHelper.swift */,
+				032160BA1F04EE7100C9AE3E /* DetectableNoteEvent.swift */,
+				032160BB1F04EE7100C9AE3E /* Filter.swift */,
+				032160BC1F04EE7100C9AE3E /* FilterBank.swift */,
+				032160BD1F04EE7100C9AE3E /* Filterbank+ChromaVector.swift */,
+				032160BE1F04EE7100C9AE3E /* FlowMathApple.swift */,
+				032160BF1F04EE7100C9AE3E /* InputType.swift */,
+				032160C01F04EE7100C9AE3E /* MIDIDevice.swift */,
+				032160C11F04EE7100C9AE3E /* MIDIEngine+Debug.swift */,
+				032160C21F04EE7100C9AE3E /* MIDIEngineIOS.swift */,
+				032160C31F04EE7100C9AE3E /* MIDIInput.swift */,
+				032160C41F04EE7100C9AE3E /* MIDIMessage.swift */,
+				032160C51F04EE7100C9AE3E /* MIDIMessage+MIDIPacket.swift */,
+				032160C61F04EE7100C9AE3E /* MIDINoteDetection.swift */,
+				032160C71F04EE7100C9AE3E /* MIDINumber.swift */,
+				032160C81F04EE7100C9AE3E /* MIDIObjectRef.swift */,
+				032160C91F04EE7100C9AE3E /* MusicalNote.swift */,
+				032160CA1F04EE7100C9AE3E /* NoteDetection.swift */,
+				032160CB1F04EE7100C9AE3E /* OnsetDetection.swift */,
+				032160CC1F04EE7100C9AE3E /* OnsetFeatures.swift */,
+				032160CD1F04EE7100C9AE3E /* OSStatus+LocalizedError.swift */,
+				032160CE1F04EE7100C9AE3E /* PitchDetection.swift */,
+				032160CF1F04EE7100C9AE3E /* PlatformApple.swift */,
+				032160D01F04EE7100C9AE3E /* ProcessedAudio.swift */,
+				032160D11F04EE7100C9AE3E /* UInt8+MIDI.swift */,
 				03A7F7331E850D5300849AE2 /* NoteDetection.h */,
 				03A7F7341E850D5300849AE2 /* Info.plist */,
-				03215F4B1F02A85700C9AE3E /* AudioHelper.swift */,
-				03215F4C1F02A85700C9AE3E /* AudioNoteDetection.swift */,
-				03215F4D1F02A85700C9AE3E /* ChromaVector.swift */,
-				03215F4E1F02A85700C9AE3E /* CrossPlatformHelper.swift */,
-				03215F4F1F02A85700C9AE3E /* DetectableNoteEvent.swift */,
-				03215F501F02A85700C9AE3E /* Filter.swift */,
-				03215F511F02A85700C9AE3E /* FilterBank.swift */,
-				03215F521F02A85700C9AE3E /* Filterbank+ChromaVector.swift */,
-				03215F531F02A85700C9AE3E /* FlowMathApple.swift */,
-				03215F541F02A85700C9AE3E /* InputType.swift */,
-				03215F611F02A85700C9AE3E /* MusicalNote.swift */,
-				03215F621F02A85700C9AE3E /* NoteDetection.swift */,
-				03215F631F02A85700C9AE3E /* OnsetDetection.swift */,
-				03215F641F02A85700C9AE3E /* OnsetFeatures.swift */,
-				032160501F03E46100C9AE3E /* OSStatus+LocalizedError.swift */,
-				03215F661F02A85700C9AE3E /* PitchDetection.swift */,
-				03215F681F02A85700C9AE3E /* PlatformApple.swift */,
-				03215F691F02A85700C9AE3E /* ProcessedAudio.swift */,
-				032160671F03E59A00C9AE3E /* AudioEngine */,
-				032160661F03E57400C9AE3E /* MIDIEngine */,
 			);
 			path = NoteDetection;
 			sourceTree = "<group>";
@@ -363,37 +347,37 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				03215F821F02A85800C9AE3E /* MusicalNote.swift in Sources */,
-				03215F6F1F02A85700C9AE3E /* AudioNoteDetection.swift in Sources */,
-				032160631F03E53D00C9AE3E /* MIDIMessage.swift in Sources */,
-				03215F731F02A85700C9AE3E /* Filter.swift in Sources */,
-				03215F871F02A85800C9AE3E /* PitchDetection.swift in Sources */,
-				03215F891F02A85800C9AE3E /* PlatformApple.swift in Sources */,
-				03215F721F02A85700C9AE3E /* DetectableNoteEvent.swift in Sources */,
-				03215F801F02A85800C9AE3E /* MIDINoteDetection.swift in Sources */,
-				03215F851F02A85800C9AE3E /* OnsetFeatures.swift in Sources */,
-				032160521F03E46100C9AE3E /* AudioUnitExtensions.swift in Sources */,
-				0321605C1F03E4BB00C9AE3E /* MIDIMessage+MIDIPacket.swift in Sources */,
-				03215F761F02A85700C9AE3E /* FlowMathApple.swift in Sources */,
-				03215F831F02A85800C9AE3E /* NoteDetection.swift in Sources */,
-				03215F711F02A85700C9AE3E /* CrossPlatformHelper.swift in Sources */,
-				03215F841F02A85800C9AE3E /* OnsetDetection.swift in Sources */,
-				032160511F03E46100C9AE3E /* AudioEngineIOS.swift in Sources */,
-				03215F811F02A85800C9AE3E /* MIDINumber.swift in Sources */,
-				03215F6E1F02A85700C9AE3E /* AudioHelper.swift in Sources */,
-				032160651F03E55400C9AE3E /* UInt8+MIDI.swift in Sources */,
-				03215F701F02A85700C9AE3E /* ChromaVector.swift in Sources */,
-				032160551F03E47600C9AE3E /* AudioInput.swift in Sources */,
-				03215F8A1F02A85800C9AE3E /* ProcessedAudio.swift in Sources */,
-				0321605B1F03E4BB00C9AE3E /* MIDIEngine+Debug.swift in Sources */,
-				0321605F1F03E50F00C9AE3E /* MIDIInput.swift in Sources */,
-				032160531F03E46100C9AE3E /* OSStatus+LocalizedError.swift in Sources */,
-				0321605A1F03E4BB00C9AE3E /* MIDIEngineIOS.swift in Sources */,
-				032160611F03E51C00C9AE3E /* MIDIDevice.swift in Sources */,
-				03215F751F02A85700C9AE3E /* Filterbank+ChromaVector.swift in Sources */,
-				0321605D1F03E4BB00C9AE3E /* MIDIObjectRef.swift in Sources */,
-				03215F771F02A85700C9AE3E /* InputType.swift in Sources */,
-				03215F741F02A85700C9AE3E /* FilterBank.swift in Sources */,
+				032160E81F04EE7100C9AE3E /* MusicalNote.swift in Sources */,
+				032160E61F04EE7100C9AE3E /* MIDINumber.swift in Sources */,
+				032160D81F04EE7100C9AE3E /* CrossPlatformHelper.swift in Sources */,
+				032160EA1F04EE7100C9AE3E /* OnsetDetection.swift in Sources */,
+				032160DB1F04EE7100C9AE3E /* FilterBank.swift in Sources */,
+				032160E11F04EE7100C9AE3E /* MIDIEngineIOS.swift in Sources */,
+				032160EC1F04EE7100C9AE3E /* OSStatus+LocalizedError.swift in Sources */,
+				032160D91F04EE7100C9AE3E /* DetectableNoteEvent.swift in Sources */,
+				032160DE1F04EE7100C9AE3E /* InputType.swift in Sources */,
+				032160EB1F04EE7100C9AE3E /* OnsetFeatures.swift in Sources */,
+				032160E21F04EE7100C9AE3E /* MIDIInput.swift in Sources */,
+				032160E51F04EE7100C9AE3E /* MIDINoteDetection.swift in Sources */,
+				032160E01F04EE7100C9AE3E /* MIDIEngine+Debug.swift in Sources */,
+				032160D41F04EE7100C9AE3E /* AudioInput.swift in Sources */,
+				032160D31F04EE7100C9AE3E /* AudioHelper.swift in Sources */,
+				032160EF1F04EE7100C9AE3E /* ProcessedAudio.swift in Sources */,
+				032160DF1F04EE7100C9AE3E /* MIDIDevice.swift in Sources */,
+				032160D71F04EE7100C9AE3E /* ChromaVector.swift in Sources */,
+				032160F01F04EE7100C9AE3E /* UInt8+MIDI.swift in Sources */,
+				032160EE1F04EE7100C9AE3E /* PlatformApple.swift in Sources */,
+				032160E41F04EE7100C9AE3E /* MIDIMessage+MIDIPacket.swift in Sources */,
+				032160ED1F04EE7100C9AE3E /* PitchDetection.swift in Sources */,
+				032160DD1F04EE7100C9AE3E /* FlowMathApple.swift in Sources */,
+				032160D61F04EE7100C9AE3E /* AudioUnitExtensions.swift in Sources */,
+				032160D51F04EE7100C9AE3E /* AudioNoteDetection.swift in Sources */,
+				032160E31F04EE7100C9AE3E /* MIDIMessage.swift in Sources */,
+				032160E91F04EE7100C9AE3E /* NoteDetection.swift in Sources */,
+				032160DA1F04EE7100C9AE3E /* Filter.swift in Sources */,
+				032160D21F04EE7100C9AE3E /* AudioEngineIOS.swift in Sources */,
+				032160DC1F04EE7100C9AE3E /* Filterbank+ChromaVector.swift in Sources */,
+				032160E71F04EE7100C9AE3E /* MIDIObjectRef.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

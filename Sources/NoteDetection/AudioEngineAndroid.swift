@@ -1,10 +1,11 @@
+import CAndroidAudioEngine
+
 final class AudioEngine: AudioInput {
 
     public var onSampleRateChanged: SampleRateChangedCallback?
 
     public var sampleRate: Double {
-        print("hardcoded samplerate")
-        return 44100
+        return Double(getSampleRateFromAudioEngine())
     }
 
     func set(onAudioData: AudioDataCallback?) {
