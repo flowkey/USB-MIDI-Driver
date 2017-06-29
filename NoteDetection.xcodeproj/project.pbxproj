@@ -108,7 +108,6 @@
 		032160CF1F04EE7100C9AE3E /* PlatformApple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlatformApple.swift; path = Sources/NoteDetection/PlatformApple.swift; sourceTree = SOURCE_ROOT; };
 		032160D01F04EE7100C9AE3E /* ProcessedAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProcessedAudio.swift; path = Sources/NoteDetection/ProcessedAudio.swift; sourceTree = SOURCE_ROOT; };
 		032160D11F04EE7100C9AE3E /* UInt8+MIDI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt8+MIDI.swift"; path = "Sources/NoteDetection/UInt8+MIDI.swift"; sourceTree = SOURCE_ROOT; };
-		032160F11F05458700C9AE3E /* AudioEngineAndroid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioEngineAndroid.swift; path = Sources/NoteDetection/AudioEngineAndroid.swift; sourceTree = SOURCE_ROOT; };
 		037122131E8532A0009CC189 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		03A7F7301E850D5300849AE2 /* NoteDetection.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NoteDetection.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		03A7F7331E850D5300849AE2 /* NoteDetection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NoteDetection.h; sourceTree = "<group>"; };
@@ -136,6 +135,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		032160F41F0561C600C9AE3E /* MIDIEngine */ = {
+			isa = PBXGroup;
+			children = (
+				032160C21F04EE7100C9AE3E /* MIDIEngineIOS.swift */,
+				032160C31F04EE7100C9AE3E /* MIDIInput.swift */,
+				032160C11F04EE7100C9AE3E /* MIDIEngine+Debug.swift */,
+				032160C81F04EE7100C9AE3E /* MIDIObjectRef.swift */,
+				032160C01F04EE7100C9AE3E /* MIDIDevice.swift */,
+				032160C41F04EE7100C9AE3E /* MIDIMessage.swift */,
+				032160D11F04EE7100C9AE3E /* UInt8+MIDI.swift */,
+				032160C51F04EE7100C9AE3E /* MIDIMessage+MIDIPacket.swift */,
+			);
+			name = MIDIEngine;
+			sourceTree = "<group>";
+		};
+		032160F51F0561CF00C9AE3E /* AudioEngine */ = {
+			isa = PBXGroup;
+			children = (
+				032160B51F04EE7100C9AE3E /* AudioInput.swift */,
+				032160B31F04EE7100C9AE3E /* AudioEngineIOS.swift */,
+				032160B71F04EE7100C9AE3E /* AudioUnitExtensions.swift */,
+				032160CD1F04EE7100C9AE3E /* OSStatus+LocalizedError.swift */,
+			);
+			name = AudioEngine;
+			sourceTree = "<group>";
+		};
 		03A7F7261E850D5300849AE2 = {
 			isa = PBXGroup;
 			children = (
@@ -158,12 +183,10 @@
 		03A7F7321E850D5300849AE2 /* NoteDetection */ = {
 			isa = PBXGroup;
 			children = (
-				032160F11F05458700C9AE3E /* AudioEngineAndroid.swift */,
-				032160B31F04EE7100C9AE3E /* AudioEngineIOS.swift */,
+				032160F51F0561CF00C9AE3E /* AudioEngine */,
+				032160F41F0561C600C9AE3E /* MIDIEngine */,
 				032160B41F04EE7100C9AE3E /* AudioHelper.swift */,
-				032160B51F04EE7100C9AE3E /* AudioInput.swift */,
 				032160B61F04EE7100C9AE3E /* AudioNoteDetection.swift */,
-				032160B71F04EE7100C9AE3E /* AudioUnitExtensions.swift */,
 				032160B81F04EE7100C9AE3E /* ChromaVector.swift */,
 				032160B91F04EE7100C9AE3E /* CrossPlatformHelper.swift */,
 				032160BA1F04EE7100C9AE3E /* DetectableNoteEvent.swift */,
@@ -172,24 +195,15 @@
 				032160BD1F04EE7100C9AE3E /* Filterbank+ChromaVector.swift */,
 				032160BE1F04EE7100C9AE3E /* FlowMathApple.swift */,
 				032160BF1F04EE7100C9AE3E /* InputType.swift */,
-				032160C01F04EE7100C9AE3E /* MIDIDevice.swift */,
-				032160C11F04EE7100C9AE3E /* MIDIEngine+Debug.swift */,
-				032160C21F04EE7100C9AE3E /* MIDIEngineIOS.swift */,
-				032160C31F04EE7100C9AE3E /* MIDIInput.swift */,
-				032160C41F04EE7100C9AE3E /* MIDIMessage.swift */,
-				032160C51F04EE7100C9AE3E /* MIDIMessage+MIDIPacket.swift */,
 				032160C61F04EE7100C9AE3E /* MIDINoteDetection.swift */,
 				032160C71F04EE7100C9AE3E /* MIDINumber.swift */,
-				032160C81F04EE7100C9AE3E /* MIDIObjectRef.swift */,
 				032160C91F04EE7100C9AE3E /* MusicalNote.swift */,
 				032160CA1F04EE7100C9AE3E /* NoteDetection.swift */,
 				032160CB1F04EE7100C9AE3E /* OnsetDetection.swift */,
 				032160CC1F04EE7100C9AE3E /* OnsetFeatures.swift */,
-				032160CD1F04EE7100C9AE3E /* OSStatus+LocalizedError.swift */,
 				032160CE1F04EE7100C9AE3E /* PitchDetection.swift */,
 				032160CF1F04EE7100C9AE3E /* PlatformApple.swift */,
 				032160D01F04EE7100C9AE3E /* ProcessedAudio.swift */,
-				032160D11F04EE7100C9AE3E /* UInt8+MIDI.swift */,
 				03A7F7331E850D5300849AE2 /* NoteDetection.h */,
 				03A7F7341E850D5300849AE2 /* Info.plist */,
 			);
