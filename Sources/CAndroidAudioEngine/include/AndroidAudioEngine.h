@@ -2,7 +2,10 @@
 extern "C" {
 #endif
 
-int getSampleRateFromAudioEngine();
+void initialize();
+void start();
+void stop();
+int getSampleRate();
 
 #ifdef __cplusplus
 extern "C" {

@@ -4,8 +4,12 @@ final class AudioEngine: AudioInput {
 
     public var onSampleRateChanged: SampleRateChangedCallback?
 
+    public init() {
+        CAndroidAudioEngine.initialize()
+    }
+
     public var sampleRate: Double {
-        return Double(getSampleRateFromAudioEngine())
+        return Double(CAndroidAudioEngine.getSampleRate())
     }
 
     func set(onAudioData: AudioDataCallback?) {
@@ -16,11 +20,11 @@ final class AudioEngine: AudioInput {
 
 // MARK: Public controls.
 extension AudioEngine {
-    public func start() throws {
-
+    public func start() {
+        CAndroidAudioEngine.start()
     }
 
-    public func stop() throws {
-
+    public func stop() {
+        CAndroidAudioEngine.stop()
     }
 }

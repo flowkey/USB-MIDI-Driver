@@ -1,10 +1,23 @@
-// #include "AndroidAudioEngine.h"
+#include "AndroidAudioEngine.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-int getSampleRateFromAudioEngine()
+void initialize()
+{
+
+}
+
+void start()
+{
+}
+
+void stop()
+{
+}
+
+int getSampleRate()
 {
     return 44100;
     // return AndroidAudioEngine().getSampleRate();
