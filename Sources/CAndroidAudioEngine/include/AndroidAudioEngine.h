@@ -2,11 +2,12 @@
 extern "C" {
 #endif
 
-void initialize();
+void initialize(int desiredSamplerate, int desiredBufferSize);
 void start();
 void stop();
-int getSampleRate();
+int getSamplerate();
+void setOnAudioData(void (*funcpntr)(float*, int, void*), void*);
 
 #ifdef __cplusplus
-extern "C" {
+}
 #endif

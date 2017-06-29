@@ -108,6 +108,7 @@
 		032160CF1F04EE7100C9AE3E /* PlatformApple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlatformApple.swift; path = Sources/NoteDetection/PlatformApple.swift; sourceTree = SOURCE_ROOT; };
 		032160D01F04EE7100C9AE3E /* ProcessedAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProcessedAudio.swift; path = Sources/NoteDetection/ProcessedAudio.swift; sourceTree = SOURCE_ROOT; };
 		032160D11F04EE7100C9AE3E /* UInt8+MIDI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt8+MIDI.swift"; path = "Sources/NoteDetection/UInt8+MIDI.swift"; sourceTree = SOURCE_ROOT; };
+		032160F11F05458700C9AE3E /* AudioEngineAndroid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioEngineAndroid.swift; path = Sources/NoteDetection/AudioEngineAndroid.swift; sourceTree = SOURCE_ROOT; };
 		037122131E8532A0009CC189 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		03A7F7301E850D5300849AE2 /* NoteDetection.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NoteDetection.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		03A7F7331E850D5300849AE2 /* NoteDetection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NoteDetection.h; sourceTree = "<group>"; };
@@ -157,6 +158,7 @@
 		03A7F7321E850D5300849AE2 /* NoteDetection */ = {
 			isa = PBXGroup;
 			children = (
+				032160F11F05458700C9AE3E /* AudioEngineAndroid.swift */,
 				032160B31F04EE7100C9AE3E /* AudioEngineIOS.swift */,
 				032160B41F04EE7100C9AE3E /* AudioHelper.swift */,
 				032160B51F04EE7100C9AE3E /* AudioInput.swift */,

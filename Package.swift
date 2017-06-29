@@ -23,9 +23,6 @@ let package = Package(
         "Sources/NoteDetection/MIDIObjectRef.swift",
         "Sources/NoteDetection/OSStatus+LocalizedError.swift",
 
-        "Sources/CAndroidAudioEngine/Sources/Superpowered/SuperpoweredAndroidAudioIO.h",
-        "Sources/CAndroidAudioEngine/Sources/Superpowered/SuperpoweredAndroidAudioIO.cpp",
-        "Sources/CAndroidAudioEngine/Sources/SuperpoweredWrapper.h",
-        "Sources/CAndroidAudioEngine/Sources/SuperpoweredWrapper.cpp",
+        "Sources/CAndroidAudioEngine/Sources/"
     ]
 )
