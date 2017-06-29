@@ -7,16 +7,16 @@ final class AudioEngine: AudioInput {
     public var onSampleRateChanged: SampleRateChangedCallback?
 
     public init() {
-        CAndroidAudioEngine.initialize(44100, 512)
+        CAndroidAudioEngine_initialize(44100, 1024)
     }
 
     public var sampleRate: Double {
-        return Double(CAndroidAudioEngine.getSamplerate())
+        return Double(CAndroidAudioEngine_getSamplerate())
     }
 
     func set(onAudioData: AudioDataCallback?) {
         self.onAudioData = onAudioData
-        CAndroidAudioEngine.setOnAudioData({ buffer, count, context in
+        CAndroidAudioEngine_setOnAudioData({ buffer, count, context in
             let `self` = unsafeBitCast(context, to: AudioEngine.self) // override "self" with our hacked C context
             let bufferPointer = UnsafeBufferPointer(start: buffer, count: Int(count))
             let floatArray = [Float](bufferPointer)
@@ -29,10 +29,10 @@ final class AudioEngine: AudioInput {
 // MARK: Public controls.
 extension AudioEngine {
     public func start() {
-        CAndroidAudioEngine.start()
+        CAndroidAudioEngine_start()
     }
 
     public func stop() {
-        CAndroidAudioEngine.stop()
+        CAndroidAudioEngine_stop()
     }
 }

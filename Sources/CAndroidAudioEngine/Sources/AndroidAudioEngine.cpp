@@ -1,6 +1,6 @@
 #include "../include/AndroidAudioEngine.h"
-#include "SuperpoweredAndroidAudioIO.h"
-#include "SuperpoweredSimple.h"
+#include "Superpowered/SuperpoweredAndroidAudioIO.h"
+#include "Superpowered/SuperpoweredSimple.h"
 
 #include <SLES/OpenSLES.h>
 #include <SLES/OpenSLES_AndroidConfiguration.h>
@@ -18,11 +18,11 @@ extern "C" {
 static SuperpoweredAndroidAudioIO *audioIO;
 float *monoBufferFloat;
 float *inputBufferFloat;
-void (*onAudioData)(float*, int, void*);
+void (*onAudioData)(float *, int, void *);
 void *onAudioDataContext;
+int samplerate = 0;
 
-    static bool
-    audioProcessing(void *clientdata, short int *audioInputOutput, int numberOfSamples, int samplerate)
+static bool audioProcessing(void *clientdata, short int *audioInputOutput, int numberOfSamples, int currentSamplerate)
 {
     // First of all, numberOfSamples is __per channel__
     // Secondly, audioProcessing ALWAYS receives 16-bit Stereo Interleaved samples
@@ -37,7 +37,14 @@ void *onAudioDataContext;
         monoBufferFloat[i / 2] = inputBufferFloat[i];
     }
 
+    if (samplerate != currentSamplerate)
+    {
+        // onSamplerateChanged(currentSamplerate);
+        samplerate = currentSamplerate;
+    }
+
     onAudioData(monoBufferFloat, numberOfSamples, onAudioDataContext);
+
     return true;
 }
 
@@ -47,7 +54,7 @@ void setOnAudioData(void (*funcpntr)(float *, int, void *), void *context)
     onAudioDataContext = context;
 }
 
-void initialize(int desiredSamplerate, int desiredBufferSize)
+void CAndroidAudioEngine_initialize(int desiredSamplerate, int desiredBufferSize)
 {
     if (audioIO != NULL)
         return;
@@ -73,21 +80,21 @@ void initialize(int desiredSamplerate, int desiredBufferSize)
     audioIO->stop();
 }
 
-void start()
+void CAndroidAudioEngine_start()
 {
     if (audioIO != NULL)
         audioIO->start();
 }
 
-void stop()
+void CAndroidAudioEngine_stop()
 {
     if (audioIO != NULL)
         audioIO->stop();
 }
 
-int getSamplerate()
+int CAndroidAudioEngine_getSamplerate()
 {
-    return 44100;
+    return samplerate;
 }
 
 #ifdef __cplusplus

@@ -2,11 +2,11 @@
 extern "C" {
 #endif
 
-void initialize(int desiredSamplerate, int desiredBufferSize);
-void start();
-void stop();
-int getSamplerate();
-void setOnAudioData(void (*funcpntr)(float*, int, void*), void*);
+void CAndroidAudioEngine_initialize(int desiredSamplerate, int desiredBufferSize);
+void CAndroidAudioEngine_start();
+void CAndroidAudioEngine_stop();
+int CAndroidAudioEngine_getSamplerate();
+void CAndroidAudioEngine_setOnAudioData(void (*funcpntr)(float *, int, void *), void *);
 
 #ifdef __cplusplus
 }

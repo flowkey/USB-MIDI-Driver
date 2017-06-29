@@ -23,6 +23,7 @@ let package = Package(
         "Sources/NoteDetection/MIDIObjectRef.swift",
         "Sources/NoteDetection/OSStatus+LocalizedError.swift",
 
+        // exclude CAndroidAudioEngine (using prebuilt library)
         "Sources/CAndroidAudioEngine/Sources/"
     ]
 )

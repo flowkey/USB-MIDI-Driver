@@ -1,0 +1,5 @@
+module CAndroidAudioEngine {
+    header "AndroidAudioEngine.h"
+    link "CAndroidAudioEngine"
+    export *
+}
