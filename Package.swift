@@ -24,6 +24,7 @@ let package = Package(
         "Sources/NoteDetection/OSStatus+LocalizedError.swift",
 
         // exclude CAndroidAudioEngine (using prebuilt library)
-        "Sources/CAndroidAudioEngine/Sources/"
+        "Sources/CAndroidAudioEngine/Sources/AndroidAudioEngine.cpp",
+        "Sources/CAndroidAudioEngine/Sources/Superpowered/SuperpoweredAndroidAudioIO.cpp"
     ]
 )
