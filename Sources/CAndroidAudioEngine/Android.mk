@@ -8,7 +8,7 @@ LOCAL_EXPORT_C_INCLUDES := $(SRC_DIR)
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := AudioEngine
+LOCAL_MODULE := CAndroidAudioEngine
 SRC_DIR := $(LOCAL_PATH)/Sources
 LOCAL_CFLAGS := -I$(SRC_DIR)/include -I$(SRC_DIR)/Superpowered
 LOCAL_SRC_FILES := $(SRC_DIR)/AndroidAudioEngine.cpp $(SRC_DIR)/Superpowered/SuperpoweredAndroidAudioIO.cpp

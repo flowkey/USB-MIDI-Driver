@@ -28,3 +28,7 @@ let package = Package(
         "Sources/CAndroidAudioEngine/Sources/Superpowered/SuperpoweredAndroidAudioIO.cpp"
     ]
 )
+
+products.append(
+    Product(name: "NoteDetection", type: .Library(.Dynamic), modules: ["NoteDetection"])
+)

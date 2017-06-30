@@ -712,6 +712,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_PATH = $PROJECT_DIR/../FlowkeyPlayerSDL/Android/app/libs;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -759,6 +760,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_PATH = $PROJECT_DIR/../FlowkeyPlayerSDL/Android/app/libs;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
@@ -835,6 +837,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEVELOPMENT_TEAM = FTSYMMN5B5;
 				INFOPLIST_FILE = NoteDetectionTests/Info.plist;
+				INSTALL_PATH = "";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.flowkey.NoteDetectionTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -852,6 +855,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEVELOPMENT_TEAM = FTSYMMN5B5;
 				INFOPLIST_FILE = NoteDetectionTests/Info.plist;
+				INSTALL_PATH = "";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.flowkey.NoteDetectionTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -870,6 +874,7 @@
 				032161741F06568200C9AE3E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		032161761F0657A400C9AE3E /* Build configuration list for PBXLegacyTarget "NoteDetectionAndroid" */ = {
 			isa = XCConfigurationList;
@@ -878,6 +883,7 @@
 				032161781F0657A400C9AE3E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		03A7F72A1E850D5300849AE2 /* Build configuration list for PBXProject "NoteDetection" */ = {
 			isa = XCConfigurationList;
