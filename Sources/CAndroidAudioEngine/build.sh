@@ -5,3 +5,5 @@ export PATH=$PATH:$ANDROID_NDK_HOME
 cd "$(dirname "$0")"
 
 ndk-build APP_ABI=armeabi-v7a NDK_PROJECT_PATH=$(pwd) APP_BUILD_SCRIPT=$(pwd)/Android.mk
+
+exit $?
