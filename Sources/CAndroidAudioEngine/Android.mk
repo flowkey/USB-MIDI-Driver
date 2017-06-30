@@ -16,16 +16,3 @@ LOCAL_CFLAGS += -O3
 LOCAL_LDLIBS := -llog -landroid -lOpenSLES
 LOCAL_STATIC_LIBRARIES := Superpowered
 include $(BUILD_SHARED_LIBRARY)
-
-# include $(CLEAR_VARS)
-# 	LOCAL_MODULE := SuperpoweredWrapper
-# 	LOCAL_SRC_FILES := \
-# 		SuperpoweredWrapper.cpp \
-# 		$(SUPERPOWERED_PATH)/SuperpoweredAndroidAudioIO.cpp
-
-# 	LOCAL_C_INCLUDES += $(SUPERPOWERED_PATH)
-# 	LOCAL_LDLIBS := -llog -landroid -lOpenSLES
-# 	LOCAL_STATIC_LIBRARIES := Superpowered
-# 	LOCAL_SHARED_LIBRARIES := NativePitchDetection
-# 	LOCAL_CFLAGS = -O3
-# 	include $(BUILD_SHARED_LIBRARY)

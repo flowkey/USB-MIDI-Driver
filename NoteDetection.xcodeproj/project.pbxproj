@@ -55,6 +55,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		032161791F06591300C9AE3E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 03A7F7271E850D5300849AE2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 032161711F06568200C9AE3E;
+			remoteInfo = CAndroidAudioEngine;
+		};
 		03A7F73B1E850D5300849AE2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 03A7F7271E850D5300849AE2 /* Project object */;
@@ -108,6 +115,49 @@
 		032160CF1F04EE7100C9AE3E /* PlatformApple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlatformApple.swift; path = Sources/NoteDetection/PlatformApple.swift; sourceTree = SOURCE_ROOT; };
 		032160D01F04EE7100C9AE3E /* ProcessedAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProcessedAudio.swift; path = Sources/NoteDetection/ProcessedAudio.swift; sourceTree = SOURCE_ROOT; };
 		032160D11F04EE7100C9AE3E /* UInt8+MIDI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt8+MIDI.swift"; path = "Sources/NoteDetection/UInt8+MIDI.swift"; sourceTree = SOURCE_ROOT; };
+		032161001F0655E900C9AE3E /* AudioEngineAndroid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioEngineAndroid.swift; path = Sources/NoteDetection/AudioEngineAndroid.swift; sourceTree = SOURCE_ROOT; };
+		032161031F0655F100C9AE3E /* Android.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Android.mk; sourceTree = "<group>"; };
+		032161041F0655F100C9AE3E /* build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = "<group>"; };
+		032161061F0655F100C9AE3E /* AndroidAudioEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AndroidAudioEngine.h; sourceTree = "<group>"; };
+		032161201F0655F100C9AE3E /* AndroidAudioEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidAudioEngine.cpp; sourceTree = "<group>"; };
+		032161211F0655F100C9AE3E /* dummy.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dummy.c; sourceTree = "<group>"; };
+		032161231F0655F100C9AE3E /* libSuperpoweredAndroidARM.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSuperpoweredAndroidARM.a; sourceTree = "<group>"; };
+		032161241F0655F100C9AE3E /* libSuperpoweredAndroidARM64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSuperpoweredAndroidARM64.a; sourceTree = "<group>"; };
+		032161251F0655F100C9AE3E /* libSuperpoweredAndroidX86.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSuperpoweredAndroidX86.a; sourceTree = "<group>"; };
+		032161261F0655F100C9AE3E /* libSuperpoweredAndroidX86_64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSuperpoweredAndroidX86_64.a; sourceTree = "<group>"; };
+		032161271F0655F100C9AE3E /* Superpowered3BandEQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Superpowered3BandEQ.h; sourceTree = "<group>"; };
+		032161281F0655F100C9AE3E /* SuperpoweredAdvancedAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredAdvancedAudioPlayer.h; sourceTree = "<group>"; };
+		032161291F0655F100C9AE3E /* SuperpoweredAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredAnalyzer.h; sourceTree = "<group>"; };
+		0321612A1F0655F100C9AE3E /* SuperpoweredAndroidAudioIO.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SuperpoweredAndroidAudioIO.cpp; sourceTree = "<group>"; };
+		0321612B1F0655F100C9AE3E /* SuperpoweredAndroidAudioIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredAndroidAudioIO.h; sourceTree = "<group>"; };
+		0321612C1F0655F100C9AE3E /* SuperpoweredAudioBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredAudioBuffers.h; sourceTree = "<group>"; };
+		0321612D1F0655F100C9AE3E /* SuperpoweredBandpassFilterbank.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredBandpassFilterbank.h; sourceTree = "<group>"; };
+		0321612E1F0655F100C9AE3E /* SuperpoweredClipper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredClipper.h; sourceTree = "<group>"; };
+		0321612F1F0655F100C9AE3E /* SuperpoweredCompressor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredCompressor.h; sourceTree = "<group>"; };
+		032161301F0655F100C9AE3E /* SuperpoweredDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredDecoder.h; sourceTree = "<group>"; };
+		032161311F0655F100C9AE3E /* SuperpoweredEcho.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredEcho.h; sourceTree = "<group>"; };
+		032161321F0655F100C9AE3E /* SuperpoweredFFT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredFFT.h; sourceTree = "<group>"; };
+		032161331F0655F100C9AE3E /* SuperpoweredFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredFilter.h; sourceTree = "<group>"; };
+		032161341F0655F100C9AE3E /* SuperpoweredFlanger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredFlanger.h; sourceTree = "<group>"; };
+		032161351F0655F100C9AE3E /* SuperpoweredFrequencyDomain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredFrequencyDomain.h; sourceTree = "<group>"; };
+		032161361F0655F100C9AE3E /* SuperpoweredFX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredFX.h; sourceTree = "<group>"; };
+		032161371F0655F100C9AE3E /* SuperpoweredGate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredGate.h; sourceTree = "<group>"; };
+		032161381F0655F100C9AE3E /* SuperpoweredIOSAudioIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredIOSAudioIO.h; sourceTree = "<group>"; };
+		032161391F0655F100C9AE3E /* SuperpoweredLimiter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredLimiter.h; sourceTree = "<group>"; };
+		0321613A1F0655F100C9AE3E /* SuperpoweredMixer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredMixer.h; sourceTree = "<group>"; };
+		0321613B1F0655F100C9AE3E /* SuperpoweredOSXAudioIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredOSXAudioIO.h; sourceTree = "<group>"; };
+		0321613C1F0655F100C9AE3E /* SuperpoweredRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredRecorder.h; sourceTree = "<group>"; };
+		0321613D1F0655F100C9AE3E /* SuperpoweredResampler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredResampler.h; sourceTree = "<group>"; };
+		0321613E1F0655F100C9AE3E /* SuperpoweredReverb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredReverb.h; sourceTree = "<group>"; };
+		0321613F1F0655F100C9AE3E /* SuperpoweredRoll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredRoll.h; sourceTree = "<group>"; };
+		032161401F0655F100C9AE3E /* SuperpoweredSimple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredSimple.h; sourceTree = "<group>"; };
+		032161411F0655F100C9AE3E /* SuperpoweredTimeStretching.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredTimeStretching.h; sourceTree = "<group>"; };
+		032161421F0655F100C9AE3E /* SuperpoweredtvOSAudioIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredtvOSAudioIO.h; sourceTree = "<group>"; };
+		032161431F0655F100C9AE3E /* SuperpoweredWhoosh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredWhoosh.h; sourceTree = "<group>"; };
+		0321617B1F06594D00C9AE3E /* PlatformAndroid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlatformAndroid.swift; path = Sources/NoteDetection/PlatformAndroid.swift; sourceTree = SOURCE_ROOT; };
+		0321617D1F06596600C9AE3E /* FlowMathAndroid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FlowMathAndroid.swift; path = Sources/NoteDetection/FlowMathAndroid.swift; sourceTree = SOURCE_ROOT; };
+		0321617F1F065B8E00C9AE3E /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = SOURCE_ROOT; };
+		032161801F065BB600C9AE3E /* build_android.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build_android.sh; sourceTree = SOURCE_ROOT; };
 		037122131E8532A0009CC189 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		03A7F7301E850D5300849AE2 /* NoteDetection.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NoteDetection.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		03A7F7331E850D5300849AE2 /* NoteDetection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NoteDetection.h; sourceTree = "<group>"; };
@@ -153,12 +203,100 @@
 		032160F51F0561CF00C9AE3E /* AudioEngine */ = {
 			isa = PBXGroup;
 			children = (
+				032160FF1F0655D500C9AE3E /* Android */,
+				032160FE1F0655C700C9AE3E /* iOS */,
 				032160B51F04EE7100C9AE3E /* AudioInput.swift */,
+			);
+			name = AudioEngine;
+			sourceTree = "<group>";
+		};
+		032160FE1F0655C700C9AE3E /* iOS */ = {
+			isa = PBXGroup;
+			children = (
 				032160B31F04EE7100C9AE3E /* AudioEngineIOS.swift */,
 				032160B71F04EE7100C9AE3E /* AudioUnitExtensions.swift */,
 				032160CD1F04EE7100C9AE3E /* OSStatus+LocalizedError.swift */,
 			);
-			name = AudioEngine;
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		032160FF1F0655D500C9AE3E /* Android */ = {
+			isa = PBXGroup;
+			children = (
+				032161001F0655E900C9AE3E /* AudioEngineAndroid.swift */,
+				032161021F0655F100C9AE3E /* CAndroidAudioEngine */,
+			);
+			name = Android;
+			sourceTree = "<group>";
+		};
+		032161021F0655F100C9AE3E /* CAndroidAudioEngine */ = {
+			isa = PBXGroup;
+			children = (
+				032161031F0655F100C9AE3E /* Android.mk */,
+				032161041F0655F100C9AE3E /* build.sh */,
+				032161051F0655F100C9AE3E /* include */,
+				0321611F1F0655F100C9AE3E /* Sources */,
+			);
+			name = CAndroidAudioEngine;
+			path = Sources/CAndroidAudioEngine;
+			sourceTree = SOURCE_ROOT;
+		};
+		032161051F0655F100C9AE3E /* include */ = {
+			isa = PBXGroup;
+			children = (
+				032161061F0655F100C9AE3E /* AndroidAudioEngine.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		0321611F1F0655F100C9AE3E /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				032161201F0655F100C9AE3E /* AndroidAudioEngine.cpp */,
+				032161211F0655F100C9AE3E /* dummy.c */,
+				032161221F0655F100C9AE3E /* Superpowered */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		032161221F0655F100C9AE3E /* Superpowered */ = {
+			isa = PBXGroup;
+			children = (
+				032161231F0655F100C9AE3E /* libSuperpoweredAndroidARM.a */,
+				032161241F0655F100C9AE3E /* libSuperpoweredAndroidARM64.a */,
+				032161251F0655F100C9AE3E /* libSuperpoweredAndroidX86.a */,
+				032161261F0655F100C9AE3E /* libSuperpoweredAndroidX86_64.a */,
+				032161271F0655F100C9AE3E /* Superpowered3BandEQ.h */,
+				032161281F0655F100C9AE3E /* SuperpoweredAdvancedAudioPlayer.h */,
+				032161291F0655F100C9AE3E /* SuperpoweredAnalyzer.h */,
+				0321612A1F0655F100C9AE3E /* SuperpoweredAndroidAudioIO.cpp */,
+				0321612B1F0655F100C9AE3E /* SuperpoweredAndroidAudioIO.h */,
+				0321612C1F0655F100C9AE3E /* SuperpoweredAudioBuffers.h */,
+				0321612D1F0655F100C9AE3E /* SuperpoweredBandpassFilterbank.h */,
+				0321612E1F0655F100C9AE3E /* SuperpoweredClipper.h */,
+				0321612F1F0655F100C9AE3E /* SuperpoweredCompressor.h */,
+				032161301F0655F100C9AE3E /* SuperpoweredDecoder.h */,
+				032161311F0655F100C9AE3E /* SuperpoweredEcho.h */,
+				032161321F0655F100C9AE3E /* SuperpoweredFFT.h */,
+				032161331F0655F100C9AE3E /* SuperpoweredFilter.h */,
+				032161341F0655F100C9AE3E /* SuperpoweredFlanger.h */,
+				032161351F0655F100C9AE3E /* SuperpoweredFrequencyDomain.h */,
+				032161361F0655F100C9AE3E /* SuperpoweredFX.h */,
+				032161371F0655F100C9AE3E /* SuperpoweredGate.h */,
+				032161381F0655F100C9AE3E /* SuperpoweredIOSAudioIO.h */,
+				032161391F0655F100C9AE3E /* SuperpoweredLimiter.h */,
+				0321613A1F0655F100C9AE3E /* SuperpoweredMixer.h */,
+				0321613B1F0655F100C9AE3E /* SuperpoweredOSXAudioIO.h */,
+				0321613C1F0655F100C9AE3E /* SuperpoweredRecorder.h */,
+				0321613D1F0655F100C9AE3E /* SuperpoweredResampler.h */,
+				0321613E1F0655F100C9AE3E /* SuperpoweredReverb.h */,
+				0321613F1F0655F100C9AE3E /* SuperpoweredRoll.h */,
+				032161401F0655F100C9AE3E /* SuperpoweredSimple.h */,
+				032161411F0655F100C9AE3E /* SuperpoweredTimeStretching.h */,
+				032161421F0655F100C9AE3E /* SuperpoweredtvOSAudioIO.h */,
+				032161431F0655F100C9AE3E /* SuperpoweredWhoosh.h */,
+			);
+			path = Superpowered;
 			sourceTree = "<group>";
 		};
 		03A7F7261E850D5300849AE2 = {
@@ -183,6 +321,8 @@
 		03A7F7321E850D5300849AE2 /* NoteDetection */ = {
 			isa = PBXGroup;
 			children = (
+				0321617F1F065B8E00C9AE3E /* Package.swift */,
+				032161801F065BB600C9AE3E /* build_android.sh */,
 				032160F51F0561CF00C9AE3E /* AudioEngine */,
 				032160F41F0561C600C9AE3E /* MIDIEngine */,
 				032160B41F04EE7100C9AE3E /* AudioHelper.swift */,
@@ -194,6 +334,7 @@
 				032160BC1F04EE7100C9AE3E /* FilterBank.swift */,
 				032160BD1F04EE7100C9AE3E /* Filterbank+ChromaVector.swift */,
 				032160BE1F04EE7100C9AE3E /* FlowMathApple.swift */,
+				0321617D1F06596600C9AE3E /* FlowMathAndroid.swift */,
 				032160BF1F04EE7100C9AE3E /* InputType.swift */,
 				032160C61F04EE7100C9AE3E /* MIDINoteDetection.swift */,
 				032160C71F04EE7100C9AE3E /* MIDINumber.swift */,
@@ -203,6 +344,7 @@
 				032160CC1F04EE7100C9AE3E /* OnsetFeatures.swift */,
 				032160CE1F04EE7100C9AE3E /* PitchDetection.swift */,
 				032160CF1F04EE7100C9AE3E /* PlatformApple.swift */,
+				0321617B1F06594D00C9AE3E /* PlatformAndroid.swift */,
 				032160D01F04EE7100C9AE3E /* ProcessedAudio.swift */,
 				03A7F7331E850D5300849AE2 /* NoteDetection.h */,
 				03A7F7341E850D5300849AE2 /* Info.plist */,
@@ -242,6 +384,38 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
+
+/* Begin PBXLegacyTarget section */
+		032161711F06568200C9AE3E /* CAndroidAudioEngine */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = build.sh;
+			buildConfigurationList = 032161721F06568200C9AE3E /* Build configuration list for PBXLegacyTarget "CAndroidAudioEngine" */;
+			buildPhases = (
+			);
+			buildToolPath = /bin/bash;
+			buildWorkingDirectory = /Users/erik/flowDev/swiftDev/NativePlayerIOS/NoteDetection/Sources/CAndroidAudioEngine;
+			dependencies = (
+			);
+			name = CAndroidAudioEngine;
+			passBuildSettingsInEnvironment = 1;
+			productName = CAndroidAudioEngine;
+		};
+		032161751F0657A400C9AE3E /* NoteDetectionAndroid */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = build_android.sh;
+			buildConfigurationList = 032161761F0657A400C9AE3E /* Build configuration list for PBXLegacyTarget "NoteDetectionAndroid" */;
+			buildPhases = (
+			);
+			buildToolPath = /bin/bash;
+			buildWorkingDirectory = "";
+			dependencies = (
+				0321617A1F06591300C9AE3E /* PBXTargetDependency */,
+			);
+			name = NoteDetectionAndroid;
+			passBuildSettingsInEnvironment = 1;
+			productName = NoteDetectionAndroid;
+		};
+/* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
 		03A7F72F1E850D5300849AE2 /* NoteDetection */ = {
@@ -291,6 +465,16 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = flowkey;
 				TargetAttributes = {
+					032161711F06568200C9AE3E = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = FTSYMMN5B5;
+						ProvisioningStyle = Automatic;
+					};
+					032161751F0657A400C9AE3E = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = FTSYMMN5B5;
+						ProvisioningStyle = Automatic;
+					};
 					03A7F72F1E850D5300849AE2 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = FTSYMMN5B5;
@@ -319,6 +503,8 @@
 			targets = (
 				03A7F72F1E850D5300849AE2 /* NoteDetection */,
 				03A7F7381E850D5300849AE2 /* NoteDetectionTests */,
+				032161711F06568200C9AE3E /* CAndroidAudioEngine */,
+				032161751F0657A400C9AE3E /* NoteDetectionAndroid */,
 			);
 		};
 /* End PBXProject section */
@@ -418,6 +604,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		0321617A1F06591300C9AE3E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 032161711F06568200C9AE3E /* CAndroidAudioEngine */;
+			targetProxy = 032161791F06591300C9AE3E /* PBXContainerItemProxy */;
+		};
 		03A7F73C1E850D5300849AE2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 03A7F72F1E850D5300849AE2 /* NoteDetection */;
@@ -426,6 +617,60 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		032161731F06568200C9AE3E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				DEBUGGING_SYMBOLS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = FTSYMMN5B5;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		032161741F06568200C9AE3E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = FTSYMMN5B5;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		032161771F0657A400C9AE3E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				DEBUGGING_SYMBOLS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = FTSYMMN5B5;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		032161781F0657A400C9AE3E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = FTSYMMN5B5;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		03A7F7421E850D5300849AE2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -541,6 +786,11 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Sources/CAndroidAudioEngine/obj/local/armeabi-v7a",
+					"$(PROJECT_DIR)/Sources/CAndroidAudioEngine/Sources/Superpowered",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.flowkey.NoteDetection;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -565,6 +815,11 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Sources/CAndroidAudioEngine/obj/local/armeabi-v7a",
+					"$(PROJECT_DIR)/Sources/CAndroidAudioEngine/Sources/Superpowered",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.flowkey.NoteDetection;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -608,6 +863,22 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		032161721F06568200C9AE3E /* Build configuration list for PBXLegacyTarget "CAndroidAudioEngine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				032161731F06568200C9AE3E /* Debug */,
+				032161741F06568200C9AE3E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		032161761F0657A400C9AE3E /* Build configuration list for PBXLegacyTarget "NoteDetectionAndroid" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				032161771F0657A400C9AE3E /* Debug */,
+				032161781F0657A400C9AE3E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		03A7F72A1E850D5300849AE2 /* Build configuration list for PBXProject "NoteDetection" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -38,6 +38,8 @@ static bool audioProcessing(void *clientdata, short int *audioInputOutput, int n
     for (short i = 0; i < numberOfSamples * 2; i += 2)
     {
         monoBufferFloat[i / 2] = inputBufferFloat[i];
+        // XXX: would be more correct:
+        // monoBufferFloat[i / 2] = (inputBufferFloat[i] + inputBufferFloat[i+1] / 2)
     }
 
     if (samplerate != currentSamplerate)
@@ -77,12 +79,12 @@ void CAndroidAudioEngine_initialize(int desiredSamplerate, int desiredBufferSize
     audioIO = new SuperpoweredAndroidAudioIO(
         desiredSamplerate,
         desiredBufferSize,
-        true,  // enableInput
-        false, // enableOutput
-        audioProcessing,
-        NULL,                                // clientData
-        SL_ANDROID_RECORDING_PRESET_GENERIC, // inputStreamType
-        desiredBufferSize * 2                // latencySamples
+        true,                               // enableInput
+        false,                              // enableOutput
+        audioProcessing,                    // callback
+        NULL,                               // clientData
+        SL_ANDROID_RECORDING_PRESET_GENERIC,// inputStreamType
+        desiredBufferSize * 2               // latencySamples
         );
 
     // we only want to init the stream, so stop it straight away.
