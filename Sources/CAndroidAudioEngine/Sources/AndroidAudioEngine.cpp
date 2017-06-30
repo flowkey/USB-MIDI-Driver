@@ -108,6 +108,14 @@ int CAndroidAudioEngine_getSamplerate()
     return samplerate;
 }
 
+void CAndroidAudioEngine_deinitialize()
+{
+    CAndroidAudioEngine_stop();
+    delete(audioIO);
+    free(inputBufferFloat);
+    free(monoBufferFloat);
+}
+
 #ifdef __cplusplus
 }
 #endif

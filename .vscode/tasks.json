@@ -20,6 +20,7 @@
             // "args": ["APP_ABI=armeabi-v7a","NDK_PROJECT_PATH=$(pwd)","APP_BUILD_SCRIPT=$(pwd)/Android.mk"],
             "command": "/bin/bash",
             "args": ["Sources/CAndroidAudioEngine/build.sh"],
+            "isBuildCommand": true,
             "isShellCommand": true,
             "showOutput": "always"
         }

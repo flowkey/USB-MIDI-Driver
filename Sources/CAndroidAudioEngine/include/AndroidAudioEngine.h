@@ -3,6 +3,7 @@ extern "C" {
 #endif
 
 void CAndroidAudioEngine_initialize(int desiredSamplerate, int desiredBufferSize);
+void CAndroidAudioEngine_deinitialize();
 void CAndroidAudioEngine_start();
 void CAndroidAudioEngine_stop();
 int CAndroidAudioEngine_getSamplerate();

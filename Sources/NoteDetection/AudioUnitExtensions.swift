@@ -1,6 +1,6 @@
 import Foundation
 import CoreAudio
-import AVFoundation
+import AudioToolbox
 
 extension AudioUnit {
     static func createInputUnit(sampleRate: Float64, numberOfChannels: UInt32) throws -> AudioUnit {
