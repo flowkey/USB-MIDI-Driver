@@ -23,7 +23,7 @@ void (*onAudioData)(float *, int, void *);
 void (*onSamplerateChanged)(int, void *);
 void *audioEngineContext;
 
-int samplerate = 0;
+int samplerate;
 
 static bool audioProcessing(void *clientdata, short int *audioInputOutput, int numberOfSamples, int currentSamplerate)
 {
@@ -85,7 +85,9 @@ void CAndroidAudioEngine_initialize(int desiredSamplerate, int desiredBufferSize
         NULL,                               // clientData
         SL_ANDROID_RECORDING_PRESET_GENERIC,// inputStreamType
         desiredBufferSize * 2               // latencySamples
-        );
+    );
+
+    samplerate = desiredSamplerate;
 
     // we only want to init the stream, so stop it straight away.
     audioIO->stop();
