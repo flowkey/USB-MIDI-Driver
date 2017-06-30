@@ -2,26 +2,24 @@
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
     "version": "0.1.0",
+    "echoCommand": true,
     "tasks": [
         {
-            "taskName": "sr build",
-            "command": "sr",
-            "args": [
-                "build",
-                "--verbose"
-            ],
-            "isBuildCommand": true,
+            "taskName": "Build NoteDetection for Android",
+            "command": "/bin/bash",
+            "args": ["./build_android.sh"],
             "isShellCommand": true,
-            "showOutput": "always"
+            "isBuildCommand": true,
+            "showOutput": "always",
+            "suppressTaskName": true,
+            "promptOnClose": true
         },
         {
-            "taskName": "ndk build",
-            "command": "ndk-build",
-            "args": [
-                "APP_ABI=armeabi-v7a",
-                "NDK_PROJECT_PATH=$(pwd)",
-                "APP_BUILD_SCRIPT=$(pwd)/Android.mk"
-            ],
+            "taskName": "Build CAndroidAudioEngine",
+            // "command": "ndk-build",
+            // "args": ["APP_ABI=armeabi-v7a","NDK_PROJECT_PATH=$(pwd)","APP_BUILD_SCRIPT=$(pwd)/Android.mk"],
+            "command": "/bin/bash",
+            "args": ["Sources/CAndroidAudioEngine/build.sh"],
             "isShellCommand": true,
             "showOutput": "always"
         }

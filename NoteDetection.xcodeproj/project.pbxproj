@@ -55,13 +55,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		032161791F06591300C9AE3E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 03A7F7271E850D5300849AE2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 032161711F06568200C9AE3E;
-			remoteInfo = CAndroidAudioEngine;
-		};
 		03A7F73B1E850D5300849AE2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 03A7F7271E850D5300849AE2 /* Project object */;
@@ -409,7 +402,6 @@
 			buildToolPath = /bin/bash;
 			buildWorkingDirectory = "";
 			dependencies = (
-				0321617A1F06591300C9AE3E /* PBXTargetDependency */,
 			);
 			name = NoteDetectionAndroid;
 			passBuildSettingsInEnvironment = 1;
@@ -604,11 +596,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		0321617A1F06591300C9AE3E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 032161711F06568200C9AE3E /* CAndroidAudioEngine */;
-			targetProxy = 032161791F06591300C9AE3E /* PBXContainerItemProxy */;
-		};
 		03A7F73C1E850D5300849AE2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 03A7F72F1E850D5300849AE2 /* NoteDetection */;
