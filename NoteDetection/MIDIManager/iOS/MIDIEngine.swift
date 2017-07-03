@@ -28,7 +28,7 @@ class MIDIEngine: MIDIInput {
             try MIDIInputPortCreateWithBlock(midiClient, inputName, &inputPort, onMIDIPacketListReceived)
                 .throwOnError()
         } else {
-            let refCon = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
+            let refCon = Unmanaged.passUnretained(self).toOpaque()
             try MIDIClientCreate(clientName, onMIDIDeviceChangedProc, refCon, &midiClient)
                 .throwOnError()
             try MIDIInputPortCreate(midiClient, inputName, onMIDIPacketListReceivedProc, refCon, &inputPort)
