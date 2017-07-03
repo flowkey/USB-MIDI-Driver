@@ -40,6 +40,8 @@ class MIDIEngine: MIDIInput {
 
     deinit {
         print("deiniting MIDIEngine")
+        MIDIPortDispose(inputPort)
+        MIDIClientDispose(midiClient)
     }
 
     func set(onMIDIMessageReceived: MIDIMessageReceivedCallback?) {
