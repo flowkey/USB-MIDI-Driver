@@ -52,6 +52,35 @@
 		037122141E8532A0009CC189 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 037122131E8532A0009CC189 /* .swiftlint.yml */; };
 		03A7F73A1E850D5300849AE2 /* NoteDetection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03A7F7301E850D5300849AE2 /* NoteDetection.framework */; };
 		03A7F7411E850D5300849AE2 /* NoteDetection.h in Headers */ = {isa = PBXBuildFile; fileRef = 03A7F7331E850D5300849AE2 /* NoteDetection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5C0E567C1F0BE92800793A7F /* NoteDetection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C0E56731F0BE92700793A7F /* NoteDetection.framework */; };
+		5C0E56811F0BE92800793A7F /* NoteDetectionMacTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0E56801F0BE92800793A7F /* NoteDetectionMacTests.swift */; };
+		5C0E56831F0BE92800793A7F /* NoteDetectionMac.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C0E56751F0BE92700793A7F /* NoteDetectionMac.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5C0E568A1F0BE96900793A7F /* AudioHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160B41F04EE7100C9AE3E /* AudioHelper.swift */; };
+		5C0E568B1F0BE96900793A7F /* AudioNoteDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160B61F04EE7100C9AE3E /* AudioNoteDetection.swift */; };
+		5C0E568C1F0BE96900793A7F /* ChromaVector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160B81F04EE7100C9AE3E /* ChromaVector.swift */; };
+		5C0E568D1F0BE96900793A7F /* CrossPlatformHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160B91F04EE7100C9AE3E /* CrossPlatformHelper.swift */; };
+		5C0E568E1F0BE96900793A7F /* DetectableNoteEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160BA1F04EE7100C9AE3E /* DetectableNoteEvent.swift */; };
+		5C0E568F1F0BE96900793A7F /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160BB1F04EE7100C9AE3E /* Filter.swift */; };
+		5C0E56901F0BE96900793A7F /* FilterBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160BC1F04EE7100C9AE3E /* FilterBank.swift */; };
+		5C0E56911F0BE96900793A7F /* Filterbank+ChromaVector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160BD1F04EE7100C9AE3E /* Filterbank+ChromaVector.swift */; };
+		5C0E56921F0BE96900793A7F /* FlowMathApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160BE1F04EE7100C9AE3E /* FlowMathApple.swift */; };
+		5C0E56941F0BE96900793A7F /* InputType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160BF1F04EE7100C9AE3E /* InputType.swift */; };
+		5C0E56951F0BE96900793A7F /* MIDINoteDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C61F04EE7100C9AE3E /* MIDINoteDetection.swift */; };
+		5C0E56961F0BE96900793A7F /* MIDINumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C71F04EE7100C9AE3E /* MIDINumber.swift */; };
+		5C0E56971F0BE96900793A7F /* MusicalNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C91F04EE7100C9AE3E /* MusicalNote.swift */; };
+		5C0E56981F0BE96900793A7F /* NoteDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160CA1F04EE7100C9AE3E /* NoteDetection.swift */; };
+		5C0E56991F0BE96900793A7F /* OnsetDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160CB1F04EE7100C9AE3E /* OnsetDetection.swift */; };
+		5C0E569A1F0BE96900793A7F /* OnsetFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160CC1F04EE7100C9AE3E /* OnsetFeatures.swift */; };
+		5C0E569B1F0BE96900793A7F /* PitchDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160CE1F04EE7100C9AE3E /* PitchDetection.swift */; };
+		5C0E569C1F0BE96900793A7F /* PlatformApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160CF1F04EE7100C9AE3E /* PlatformApple.swift */; };
+		5C0E569E1F0BE96900793A7F /* ProcessedAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160D01F04EE7100C9AE3E /* ProcessedAudio.swift */; };
+		5C0E569F1F0BEA0100793A7F /* AudioInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160B51F04EE7100C9AE3E /* AudioInput.swift */; };
+		5CC5C8E01F0BEB610037F1FF /* MIDIEngineMac.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC5C8DE1F0BEB5E0037F1FF /* MIDIEngineMac.swift */; };
+		5CC5C8E11F0BEB940037F1FF /* AudioEngineMac.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0E56A01F0BEA2900793A7F /* AudioEngineMac.swift */; };
+		5CC5C8E31F0BEBC40037F1FF /* MIDIInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C31F04EE7100C9AE3E /* MIDIInput.swift */; };
+		5CC5C8E41F0BEBCE0037F1FF /* MIDIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C01F04EE7100C9AE3E /* MIDIDevice.swift */; };
+		5CC5C8E51F0BEC040037F1FF /* MIDIMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C41F04EE7100C9AE3E /* MIDIMessage.swift */; };
+		5CC5C8E61F0BEC090037F1FF /* UInt8+MIDI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160D11F04EE7100C9AE3E /* UInt8+MIDI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +97,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 03A7F72F1E850D5300849AE2;
 			remoteInfo = NoteDetection;
+		};
+		5C0E567D1F0BE92800793A7F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 03A7F7271E850D5300849AE2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5C0E56721F0BE92700793A7F;
+			remoteInfo = NoteDetectionMac;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -164,6 +200,14 @@
 		03A7F7341E850D5300849AE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		03A7F7391E850D5300849AE2 /* NoteDetectionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NoteDetectionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		03A7F7401E850D5300849AE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5C0E56731F0BE92700793A7F /* NoteDetection.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NoteDetection.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C0E56751F0BE92700793A7F /* NoteDetectionMac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NoteDetectionMac.h; sourceTree = "<group>"; };
+		5C0E56761F0BE92700793A7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5C0E567B1F0BE92800793A7F /* NoteDetectionMacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NoteDetectionMacTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C0E56801F0BE92800793A7F /* NoteDetectionMacTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetectionMacTests.swift; sourceTree = "<group>"; };
+		5C0E56821F0BE92800793A7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5C0E56A01F0BEA2900793A7F /* AudioEngineMac.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AudioEngineMac.swift; path = NoteDetectionMac/AudioEngineMac.swift; sourceTree = SOURCE_ROOT; };
+		5CC5C8DE1F0BEB5E0037F1FF /* MIDIEngineMac.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MIDIEngineMac.swift; path = NoteDetectionMac/MIDIEngineMac.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,12 +226,28 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5C0E566F1F0BE92700793A7F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5C0E56781F0BE92800793A7F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5C0E567C1F0BE92800793A7F /* NoteDetection.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		032160F41F0561C600C9AE3E /* MIDIEngine */ = {
 			isa = PBXGroup;
 			children = (
+				5CC5C8E21F0BEB9D0037F1FF /* Mac */,
 				032160C21F04EE7100C9AE3E /* MIDIEngineIOS.swift */,
 				032160C31F04EE7100C9AE3E /* MIDIInput.swift */,
 				032160C11F04EE7100C9AE3E /* MIDIEngine+Debug.swift */,
@@ -205,6 +265,7 @@
 			children = (
 				032160FF1F0655D500C9AE3E /* Android */,
 				032160FE1F0655C700C9AE3E /* iOS */,
+				5C0E56A21F0BEA2D00793A7F /* Mac */,
 				032160B51F04EE7100C9AE3E /* AudioInput.swift */,
 			);
 			name = AudioEngine;
@@ -304,6 +365,8 @@
 			children = (
 				03A7F7321E850D5300849AE2 /* NoteDetection */,
 				03A7F73D1E850D5300849AE2 /* NoteDetectionTests */,
+				5C0E56741F0BE92700793A7F /* NoteDetectionMac */,
+				5C0E567F1F0BE92800793A7F /* NoteDetectionMacTests */,
 				03A7F7311E850D5300849AE2 /* Products */,
 				037122131E8532A0009CC189 /* .swiftlint.yml */,
 			);
@@ -314,6 +377,8 @@
 			children = (
 				03A7F7301E850D5300849AE2 /* NoteDetection.framework */,
 				03A7F7391E850D5300849AE2 /* NoteDetectionTests.xctest */,
+				5C0E56731F0BE92700793A7F /* NoteDetection.framework */,
+				5C0E567B1F0BE92800793A7F /* NoteDetectionMacTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -372,6 +437,40 @@
 			path = NoteDetectionTests;
 			sourceTree = "<group>";
 		};
+		5C0E56741F0BE92700793A7F /* NoteDetectionMac */ = {
+			isa = PBXGroup;
+			children = (
+				5C0E56751F0BE92700793A7F /* NoteDetectionMac.h */,
+				5C0E56761F0BE92700793A7F /* Info.plist */,
+			);
+			path = NoteDetectionMac;
+			sourceTree = "<group>";
+		};
+		5C0E567F1F0BE92800793A7F /* NoteDetectionMacTests */ = {
+			isa = PBXGroup;
+			children = (
+				5C0E56801F0BE92800793A7F /* NoteDetectionMacTests.swift */,
+				5C0E56821F0BE92800793A7F /* Info.plist */,
+			);
+			path = NoteDetectionMacTests;
+			sourceTree = "<group>";
+		};
+		5C0E56A21F0BEA2D00793A7F /* Mac */ = {
+			isa = PBXGroup;
+			children = (
+				5C0E56A01F0BEA2900793A7F /* AudioEngineMac.swift */,
+			);
+			name = Mac;
+			sourceTree = "<group>";
+		};
+		5CC5C8E21F0BEB9D0037F1FF /* Mac */ = {
+			isa = PBXGroup;
+			children = (
+				5CC5C8DE1F0BEB5E0037F1FF /* MIDIEngineMac.swift */,
+			);
+			name = Mac;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -380,6 +479,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				03A7F7411E850D5300849AE2 /* NoteDetection.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5C0E56701F0BE92700793A7F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5C0E56831F0BE92800793A7F /* NoteDetectionMac.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,9 +525,9 @@
 /* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
-		03A7F72F1E850D5300849AE2 /* NoteDetection */ = {
+		03A7F72F1E850D5300849AE2 /* NoteDetectionIOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 03A7F7441E850D5300849AE2 /* Build configuration list for PBXNativeTarget "NoteDetection" */;
+			buildConfigurationList = 03A7F7441E850D5300849AE2 /* Build configuration list for PBXNativeTarget "NoteDetectionIOS" */;
 			buildPhases = (
 				03A7F72B1E850D5300849AE2 /* Sources */,
 				03A7F72C1E850D5300849AE2 /* Frameworks */,
@@ -432,7 +539,7 @@
 			);
 			dependencies = (
 			);
-			name = NoteDetection;
+			name = NoteDetectionIOS;
 			productName = NoteDetection;
 			productReference = 03A7F7301E850D5300849AE2 /* NoteDetection.framework */;
 			productType = "com.apple.product-type.framework";
@@ -455,13 +562,49 @@
 			productReference = 03A7F7391E850D5300849AE2 /* NoteDetectionTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		5C0E56721F0BE92700793A7F /* NoteDetectionMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5C0E56881F0BE92800793A7F /* Build configuration list for PBXNativeTarget "NoteDetectionMac" */;
+			buildPhases = (
+				5C0E566E1F0BE92700793A7F /* Sources */,
+				5C0E566F1F0BE92700793A7F /* Frameworks */,
+				5C0E56701F0BE92700793A7F /* Headers */,
+				5C0E56711F0BE92700793A7F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NoteDetectionMac;
+			productName = NoteDetectionMac;
+			productReference = 5C0E56731F0BE92700793A7F /* NoteDetection.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		5C0E567A1F0BE92800793A7F /* NoteDetectionMacTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5C0E56891F0BE92800793A7F /* Build configuration list for PBXNativeTarget "NoteDetectionMacTests" */;
+			buildPhases = (
+				5C0E56771F0BE92800793A7F /* Sources */,
+				5C0E56781F0BE92800793A7F /* Frameworks */,
+				5C0E56791F0BE92800793A7F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5C0E567E1F0BE92800793A7F /* PBXTargetDependency */,
+			);
+			name = NoteDetectionMacTests;
+			productName = NoteDetectionMacTests;
+			productReference = 5C0E567B1F0BE92800793A7F /* NoteDetectionMacTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		03A7F7271E850D5300849AE2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0820;
+				LastSwiftUpdateCheck = 0900;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = flowkey;
 				TargetAttributes = {
@@ -487,6 +630,14 @@
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
+					5C0E56721F0BE92700793A7F = {
+						CreatedOnToolsVersion = 9.0;
+						DevelopmentTeam = FTSYMMN5B5;
+					};
+					5C0E567A1F0BE92800793A7F = {
+						CreatedOnToolsVersion = 9.0;
+						DevelopmentTeam = FTSYMMN5B5;
+					};
 				};
 			};
 			buildConfigurationList = 03A7F72A1E850D5300849AE2 /* Build configuration list for PBXProject "NoteDetection" */;
@@ -501,10 +652,12 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				03A7F72F1E850D5300849AE2 /* NoteDetection */,
+				03A7F72F1E850D5300849AE2 /* NoteDetectionIOS */,
 				03A7F7381E850D5300849AE2 /* NoteDetectionTests */,
 				032161711F06568200C9AE3E /* CAndroidAudioEngine */,
 				032161751F0657A400C9AE3E /* NoteDetectionAndroid */,
+				5C0E56721F0BE92700793A7F /* NoteDetectionMac */,
+				5C0E567A1F0BE92800793A7F /* NoteDetectionMacTests */,
 			);
 		};
 /* End PBXProject section */
@@ -519,6 +672,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		03A7F7371E850D5300849AE2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5C0E56711F0BE92700793A7F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5C0E56791F0BE92800793A7F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -601,6 +768,47 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5C0E566E1F0BE92700793A7F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5CC5C8E11F0BEB940037F1FF /* AudioEngineMac.swift in Sources */,
+				5C0E568B1F0BE96900793A7F /* AudioNoteDetection.swift in Sources */,
+				5CC5C8E01F0BEB610037F1FF /* MIDIEngineMac.swift in Sources */,
+				5CC5C8E61F0BEC090037F1FF /* UInt8+MIDI.swift in Sources */,
+				5C0E56951F0BE96900793A7F /* MIDINoteDetection.swift in Sources */,
+				5C0E568F1F0BE96900793A7F /* Filter.swift in Sources */,
+				5C0E56911F0BE96900793A7F /* Filterbank+ChromaVector.swift in Sources */,
+				5C0E569A1F0BE96900793A7F /* OnsetFeatures.swift in Sources */,
+				5C0E56961F0BE96900793A7F /* MIDINumber.swift in Sources */,
+				5C0E56971F0BE96900793A7F /* MusicalNote.swift in Sources */,
+				5C0E56991F0BE96900793A7F /* OnsetDetection.swift in Sources */,
+				5C0E56941F0BE96900793A7F /* InputType.swift in Sources */,
+				5C0E56921F0BE96900793A7F /* FlowMathApple.swift in Sources */,
+				5C0E568A1F0BE96900793A7F /* AudioHelper.swift in Sources */,
+				5C0E568C1F0BE96900793A7F /* ChromaVector.swift in Sources */,
+				5C0E56901F0BE96900793A7F /* FilterBank.swift in Sources */,
+				5C0E569F1F0BEA0100793A7F /* AudioInput.swift in Sources */,
+				5C0E569C1F0BE96900793A7F /* PlatformApple.swift in Sources */,
+				5C0E569E1F0BE96900793A7F /* ProcessedAudio.swift in Sources */,
+				5CC5C8E31F0BEBC40037F1FF /* MIDIInput.swift in Sources */,
+				5C0E568D1F0BE96900793A7F /* CrossPlatformHelper.swift in Sources */,
+				5C0E56981F0BE96900793A7F /* NoteDetection.swift in Sources */,
+				5C0E569B1F0BE96900793A7F /* PitchDetection.swift in Sources */,
+				5CC5C8E51F0BEC040037F1FF /* MIDIMessage.swift in Sources */,
+				5CC5C8E41F0BEBCE0037F1FF /* MIDIDevice.swift in Sources */,
+				5C0E568E1F0BE96900793A7F /* DetectableNoteEvent.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5C0E56771F0BE92800793A7F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5C0E56811F0BE92800793A7F /* NoteDetectionMacTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -611,8 +819,13 @@
 		};
 		03A7F73C1E850D5300849AE2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 03A7F72F1E850D5300849AE2 /* NoteDetection */;
+			target = 03A7F72F1E850D5300849AE2 /* NoteDetectionIOS */;
 			targetProxy = 03A7F73B1E850D5300849AE2 /* PBXContainerItemProxy */;
+		};
+		5C0E567E1F0BE92800793A7F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5C0E56721F0BE92700793A7F /* NoteDetectionMac */;
+			targetProxy = 5C0E567D1F0BE92800793A7F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -794,9 +1007,8 @@
 					"$(PROJECT_DIR)/Sources/CAndroidAudioEngine/Sources/Superpowered",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.flowkey.NoteDetection;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = NoteDetection;
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -823,7 +1035,7 @@
 					"$(PROJECT_DIR)/Sources/CAndroidAudioEngine/Sources/Superpowered",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.flowkey.NoteDetection;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = NoteDetection;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 			};
@@ -864,6 +1076,118 @@
 			};
 			name = Release;
 		};
+		5C0E56841F0BE92800793A7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = FTSYMMN5B5;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = NoteDetectionMac/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.flowkey.NoteDetectionMac;
+				PRODUCT_NAME = NoteDetection;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		5C0E56851F0BE92800793A7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = FTSYMMN5B5;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = NoteDetectionMac/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.flowkey.NoteDetectionMac;
+				PRODUCT_NAME = NoteDetection;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		5C0E56861F0BE92800793A7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = FTSYMMN5B5;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = NoteDetectionMacTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.flowkey.NoteDetectionMacTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		5C0E56871F0BE92800793A7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = FTSYMMN5B5;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = NoteDetectionMacTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.flowkey.NoteDetectionMacTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -894,7 +1218,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		03A7F7441E850D5300849AE2 /* Build configuration list for PBXNativeTarget "NoteDetection" */ = {
+		03A7F7441E850D5300849AE2 /* Build configuration list for PBXNativeTarget "NoteDetectionIOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				03A7F7451E850D5300849AE2 /* Debug */,
@@ -908,6 +1232,24 @@
 			buildConfigurations = (
 				03A7F7481E850D5300849AE2 /* Debug */,
 				03A7F7491E850D5300849AE2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5C0E56881F0BE92800793A7F /* Build configuration list for PBXNativeTarget "NoteDetectionMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C0E56841F0BE92800793A7F /* Debug */,
+				5C0E56851F0BE92800793A7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5C0E56891F0BE92800793A7F /* Build configuration list for PBXNativeTarget "NoteDetectionMacTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C0E56861F0BE92800793A7F /* Debug */,
+				5C0E56871F0BE92800793A7F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

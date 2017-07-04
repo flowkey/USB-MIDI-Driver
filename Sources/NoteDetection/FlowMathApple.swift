@@ -66,6 +66,8 @@ func min(_ x: [Double]) -> Double {
     return result
 }
 
+//func pow(_ x)
+
 func sum(_ x: [Float]) -> Float {
     return x.reduce(0, { $0 + $1 })
 }

@@ -8,7 +8,12 @@
 
 public typealias AudioDataCallback = (([Float]) -> Void)
 
-protocol AudioInput {
-    func set(onAudioData: AudioDataCallback?)
+protocol AudioInput: class {
     var sampleRate: Double { get }
+    var onSampleRateChanged: SampleRateChangedCallback? { get set }
+
+    func start() throws
+    func stop() throws
+
+    func set(onAudioData: AudioDataCallback?)
 }

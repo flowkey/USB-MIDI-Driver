@@ -9,7 +9,8 @@
 public typealias MIDIMessageReceivedCallback = (MIDIMessage, MIDIDevice?, Timestamp) -> Void
 public typealias MIDIDeviceListChangedCallback = (Set<MIDIDevice>) -> Void
 
-protocol MIDIInput {
+protocol MIDIInput: class {
+    var midiDeviceList: Set<MIDIDevice> { get }
     func set(onMIDIMessageReceived: MIDIMessageReceivedCallback?)
     func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?)
 }

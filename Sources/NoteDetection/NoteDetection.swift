@@ -7,8 +7,8 @@ public class NoteDetection {
     var onInputLevelChanged: InputLevelChangedCallback?
 
     var noteDetector: NoteDetector! // implicitly unwrapped so we can use self.createNoteDetector() on init
-    let audioEngine: AudioEngine
-    let midiEngine: MIDIEngine
+    let audioEngine: AudioInput
+    let midiEngine: MIDIInput
 
     fileprivate var ignoreUntilDeadline: Timestamp?
 

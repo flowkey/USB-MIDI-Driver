@@ -7,6 +7,8 @@
 
 #if os(Android)
 import Glibc
+#else
+import Foundation
 #endif
 
 

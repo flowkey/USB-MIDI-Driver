@@ -44,52 +44,8 @@ final class FilterBank {
 
     static let strideWidth = 4
 
-#if os(Android) // no SIMD instructions
 
-    func calculateMagnitudes (_ audioData: [Float]) {
-        let count = Float(audioData.count)
-        for bi in stride(from: 0, through: bandpassFilters.count - FilterBank.strideWidth, by: FilterBank.strideWidth) {
-            var sumA: Float = 0
-            var sumB: Float = 0
-            var sumC: Float = 0
-            var sumD: Float = 0
-
-            var filterA = bandpassFilters[bi + 0]
-            var filterB = bandpassFilters[bi + 1]
-            var filterC = bandpassFilters[bi + 2]
-            var filterD = bandpassFilters[bi + 3]
-
-            for x in audioData {
-                let diff = x - x2
-                let yA = filterA.calculateOutputFrame(diff)
-                let yB = filterB.calculateOutputFrame(diff)
-                let yC = filterC.calculateOutputFrame(diff)
-                let yD = filterD.calculateOutputFrame(diff)
-
-                sumA += abs(yA)
-                sumB += abs(yB)
-                sumC += abs(yC)
-                sumD += abs(yD)
-
-                x2 = x1
-                x1 = x
-            }
-
-            // Put y1 and y2 back into each filter array. Without this, the filters break in peak mode
-            // and decay artifically quickly in RMS mode. It is correct and doesn't affect CPU. Do it:
-            bandpassFilters[bi + 0] = filterA
-            bandpassFilters[bi + 1] = filterB
-            bandpassFilters[bi + 2] = filterC
-            bandpassFilters[bi + 3] = filterD
-
-            magnitudes[bi + 0] = sumA / count
-            magnitudes[bi + 1] = sumB / count
-            magnitudes[bi + 2] = sumC / count
-            magnitudes[bi + 3] = sumD / count
-        }
-    }
-
-#else // Use SIMD Instructions
+#if os(iOS) // Use SIMD instructions:
 
     func calculateMagnitudes (_ audioData: [Float]) {
         // We can't divide sum (a float4) by a scalar (below) so this is a workaround:
@@ -146,6 +102,51 @@ final class FilterBank {
             bandpassFilters[bi + 1] = filterB
             bandpassFilters[bi + 2] = filterC
             bandpassFilters[bi + 3] = filterD
+        }
+    }
+
+#else // Non-SIMD version:
+
+    func calculateMagnitudes (_ audioData: [Float]) {
+        let count = Float(audioData.count)
+        for bi in stride(from: 0, through: bandpassFilters.count - FilterBank.strideWidth, by: FilterBank.strideWidth) {
+            var sumA: Float = 0
+            var sumB: Float = 0
+            var sumC: Float = 0
+            var sumD: Float = 0
+
+            var filterA = bandpassFilters[bi + 0]
+            var filterB = bandpassFilters[bi + 1]
+            var filterC = bandpassFilters[bi + 2]
+            var filterD = bandpassFilters[bi + 3]
+
+            for x in audioData {
+                let diff = x - x2
+                let yA = filterA.calculateOutputFrame(diff)
+                let yB = filterB.calculateOutputFrame(diff)
+                let yC = filterC.calculateOutputFrame(diff)
+                let yD = filterD.calculateOutputFrame(diff)
+
+                sumA += abs(yA)
+                sumB += abs(yB)
+                sumC += abs(yC)
+                sumD += abs(yD)
+
+                x2 = x1
+                x1 = x
+            }
+
+            // Put y1 and y2 back into each filter array. Without this, the filters break in peak mode
+            // and decay artifically quickly in RMS mode. It is correct and doesn't affect CPU. Do it:
+            bandpassFilters[bi + 0] = filterA
+            bandpassFilters[bi + 1] = filterB
+            bandpassFilters[bi + 2] = filterC
+            bandpassFilters[bi + 3] = filterD
+
+            magnitudes[bi + 0] = sumA / count
+            magnitudes[bi + 1] = sumB / count
+            magnitudes[bi + 2] = sumC / count
+            magnitudes[bi + 3] = sumD / count
         }
     }
 #endif

@@ -1,6 +1,7 @@
 .build
 NoteDetection.xcodeproj/xcuserdata
 NoteDetection.xcworkspace/xcuserdata
+NoteDetection.xcodeproj/project.xcworkspace/xcuserdata
 Testumgebung/Testumgebung.xcodeproj/xcuserdata/*.xcuserdatad/
 
 Sources/CAndroidAudioEngine/libs/
