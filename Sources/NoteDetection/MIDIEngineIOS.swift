@@ -19,19 +19,29 @@ class MIDIEngine: MIDIInput {
     public private(set) var midiDeviceList: Set<MIDIDevice> = []
 
     public init() throws {
-        try MIDIClientCreateWithBlock(
-            "flowkey" as CFString, &midiClient, onMIDIDeviceChanged
-        ).throwOnError()
+        let clientName = "flowkey" as CFString
+        let inputName = "flowkey input port" as CFString
 
-        try MIDIInputPortCreateWithBlock(
-            midiClient, "flowkey input port" as CFString, &inputPort, onMIDIPacketListReceived
-        ).throwOnError()
+        if #available(iOS 9.0, *) {
+            try MIDIClientCreateWithBlock(clientName, &midiClient, onMIDIDeviceChanged)
+                .throwOnError()
+            try MIDIInputPortCreateWithBlock(midiClient, inputName, &inputPort, onMIDIPacketListReceived)
+                .throwOnError()
+        } else {
+            let refCon = Unmanaged.passUnretained(self).toOpaque()
+            try MIDIClientCreate(clientName, onMIDIDeviceChangedProc, refCon, &midiClient)
+                .throwOnError()
+            try MIDIInputPortCreate(midiClient, inputName, onMIDIPacketListReceivedProc, refCon, &inputPort)
+                .throwOnError()
+        }
 
         connect()
     }
 
     deinit {
         print("deiniting MIDIEngine")
+        MIDIPortDispose(inputPort)
+        MIDIClientDispose(midiClient)
     }
 
     func set(onMIDIMessageReceived: MIDIMessageReceivedCallback?) {
@@ -96,6 +106,11 @@ class MIDIEngine: MIDIInput {
 
     // MARK: MIDI Notification (Device added / removed)
 
+    let onMIDIDeviceChangedProc: MIDINotifyProc = { (notificationPtr, refCon) in
+        let `self` = unsafeBitCast(refCon, to: MIDIEngine.self)
+        self.onMIDIDeviceChanged(notification: notificationPtr)
+    }
+
     func onMIDIDeviceChanged(notification: UnsafePointer<MIDINotification>) {
         switch notification.pointee.messageID {
         case .msgObjectAdded, .msgObjectRemoved, .msgPropertyChanged:
@@ -118,6 +133,11 @@ class MIDIEngine: MIDIInput {
             packet = MIDIPacketNext(&packet).pointee
             return packet
         }
+    }
+
+    let onMIDIPacketListReceivedProc: MIDIReadProc = { (packetList, readProcRefCon, srcConnRefCon) in
+        let `self` = unsafeBitCast(readProcRefCon, to: MIDIEngine.self)
+        self.onMIDIPacketListReceived(packetList: packetList, srcConnRefCon: srcConnRefCon)
     }
 
     func onMIDIPacketListReceived(packetList: UnsafePointer<MIDIPacketList>?, srcConnRefCon: UnsafeMutableRawPointer?) {
