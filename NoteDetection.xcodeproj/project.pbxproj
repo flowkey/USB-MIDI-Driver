@@ -54,7 +54,6 @@
 		03A7F7411E850D5300849AE2 /* NoteDetection.h in Headers */ = {isa = PBXBuildFile; fileRef = 03A7F7331E850D5300849AE2 /* NoteDetection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C0E567C1F0BE92800793A7F /* NoteDetection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C0E56731F0BE92700793A7F /* NoteDetection.framework */; };
 		5C0E56811F0BE92800793A7F /* NoteDetectionMacTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0E56801F0BE92800793A7F /* NoteDetectionMacTests.swift */; };
-		5C0E56831F0BE92800793A7F /* NoteDetectionMac.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C0E56751F0BE92700793A7F /* NoteDetectionMac.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C0E568A1F0BE96900793A7F /* AudioHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160B41F04EE7100C9AE3E /* AudioHelper.swift */; };
 		5C0E568B1F0BE96900793A7F /* AudioNoteDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160B61F04EE7100C9AE3E /* AudioNoteDetection.swift */; };
 		5C0E568C1F0BE96900793A7F /* ChromaVector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160B81F04EE7100C9AE3E /* ChromaVector.swift */; };
@@ -75,6 +74,13 @@
 		5C0E569C1F0BE96900793A7F /* PlatformApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160CF1F04EE7100C9AE3E /* PlatformApple.swift */; };
 		5C0E569E1F0BE96900793A7F /* ProcessedAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160D01F04EE7100C9AE3E /* ProcessedAudio.swift */; };
 		5C0E569F1F0BEA0100793A7F /* AudioInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160B51F04EE7100C9AE3E /* AudioInput.swift */; };
+		5C8EA7D61F0E8D4300B66A02 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C8EA7D51F0E8D3600B66A02 /* AudioUnit.framework */; };
+		5C8EA7D71F0E8D4300B66A02 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C8EA7D41F0E8D3200B66A02 /* AudioToolbox.framework */; };
+		5C8EA7DB1F0E8D9600B66A02 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C8EA7DA1F0E8D9000B66A02 /* CoreAudio.framework */; };
+		5C8EA7DE1F0E8E1A00B66A02 /* SuperpoweredOSXAudioIO.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C8EA7DC1F0E8E1900B66A02 /* SuperpoweredOSXAudioIO.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5C8EA7DF1F0E8E1A00B66A02 /* SuperpoweredOSXAudioIO.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5C8EA7DD1F0E8E1A00B66A02 /* SuperpoweredOSXAudioIO.mm */; };
+		5C8EA7E01F0E8F4D00B66A02 /* NoteDetectionMac.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C0E56751F0BE92700793A7F /* NoteDetectionMac.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5C8EA7E11F0E923600B66A02 /* NoteDetection.h in Headers */ = {isa = PBXBuildFile; fileRef = 03A7F7331E850D5300849AE2 /* NoteDetection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CC5C8E01F0BEB610037F1FF /* MIDIEngineMac.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC5C8DE1F0BEB5E0037F1FF /* MIDIEngineMac.swift */; };
 		5CC5C8E11F0BEB940037F1FF /* AudioEngineMac.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0E56A01F0BEA2900793A7F /* AudioEngineMac.swift */; };
 		5CC5C8E31F0BEBC40037F1FF /* MIDIInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C31F04EE7100C9AE3E /* MIDIInput.swift */; };
@@ -179,6 +185,12 @@
 		5C0E56801F0BE92800793A7F /* NoteDetectionMacTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetectionMacTests.swift; sourceTree = "<group>"; };
 		5C0E56821F0BE92800793A7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5C0E56A01F0BEA2900793A7F /* AudioEngineMac.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AudioEngineMac.swift; path = NoteDetectionMac/AudioEngineMac.swift; sourceTree = SOURCE_ROOT; };
+		5C8EA7D41F0E8D3200B66A02 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
+		5C8EA7D51F0E8D3600B66A02 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/AudioUnit.framework; sourceTree = DEVELOPER_DIR; };
+		5C8EA7D81F0E8D6600B66A02 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		5C8EA7DA1F0E8D9000B66A02 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/CoreAudio.framework; sourceTree = DEVELOPER_DIR; };
+		5C8EA7DC1F0E8E1900B66A02 /* SuperpoweredOSXAudioIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SuperpoweredOSXAudioIO.h; path = NoteDetectionMac/SuperpoweredOSXAudioIO.h; sourceTree = SOURCE_ROOT; };
+		5C8EA7DD1F0E8E1A00B66A02 /* SuperpoweredOSXAudioIO.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SuperpoweredOSXAudioIO.mm; path = NoteDetectionMac/SuperpoweredOSXAudioIO.mm; sourceTree = SOURCE_ROOT; };
 		5CC5C8DE1F0BEB5E0037F1FF /* MIDIEngineMac.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MIDIEngineMac.swift; path = NoteDetectionMac/MIDIEngineMac.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -202,6 +214,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C8EA7D61F0E8D4300B66A02 /* AudioUnit.framework in Frameworks */,
+				5C8EA7D71F0E8D4300B66A02 /* AudioToolbox.framework in Frameworks */,
+				5C8EA7DB1F0E8D9600B66A02 /* CoreAudio.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,6 +328,7 @@
 				5C0E567F1F0BE92800793A7F /* NoteDetectionMacTests */,
 				03A7F7311E850D5300849AE2 /* Products */,
 				037122131E8532A0009CC189 /* .swiftlint.yml */,
+				5C8EA7D31F0E8D3000B66A02 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -402,9 +418,22 @@
 		5C0E56A21F0BEA2D00793A7F /* Mac */ = {
 			isa = PBXGroup;
 			children = (
+				5C8EA7DC1F0E8E1900B66A02 /* SuperpoweredOSXAudioIO.h */,
+				5C8EA7DD1F0E8E1A00B66A02 /* SuperpoweredOSXAudioIO.mm */,
 				5C0E56A01F0BEA2900793A7F /* AudioEngineMac.swift */,
 			);
 			name = Mac;
+			sourceTree = "<group>";
+		};
+		5C8EA7D31F0E8D3000B66A02 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5C8EA7DA1F0E8D9000B66A02 /* CoreAudio.framework */,
+				5C8EA7D81F0E8D6600B66A02 /* Cocoa.framework */,
+				5C8EA7D51F0E8D3600B66A02 /* AudioUnit.framework */,
+				5C8EA7D41F0E8D3200B66A02 /* AudioToolbox.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		5CC5C8E21F0BEB9D0037F1FF /* Mac */ = {
@@ -430,7 +459,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C0E56831F0BE92800793A7F /* NoteDetectionMac.h in Headers */,
+				5C8EA7E01F0E8F4D00B66A02 /* NoteDetectionMac.h in Headers */,
+				5C8EA7DE1F0E8E1A00B66A02 /* SuperpoweredOSXAudioIO.h in Headers */,
+				5C8EA7E11F0E923600B66A02 /* NoteDetection.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -577,6 +608,7 @@
 					5C0E56721F0BE92700793A7F = {
 						CreatedOnToolsVersion = 9.0;
 						DevelopmentTeam = FTSYMMN5B5;
+						LastSwiftMigration = 0900;
 					};
 					5C0E567A1F0BE92800793A7F = {
 						CreatedOnToolsVersion = 9.0;
@@ -739,6 +771,7 @@
 				5C0E568D1F0BE96900793A7F /* CrossPlatformHelper.swift in Sources */,
 				5C0E56981F0BE96900793A7F /* NoteDetection.swift in Sources */,
 				5C0E569B1F0BE96900793A7F /* PitchDetection.swift in Sources */,
+				5C8EA7DF1F0E8E1A00B66A02 /* SuperpoweredOSXAudioIO.mm in Sources */,
 				5CC5C8E51F0BEC040037F1FF /* MIDIMessage.swift in Sources */,
 				5CC5C8E41F0BEBCE0037F1FF /* MIDIDevice.swift in Sources */,
 				5C0E568E1F0BE96900793A7F /* DetectableNoteEvent.swift in Sources */,
@@ -876,6 +909,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -922,6 +956,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -933,7 +968,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
@@ -945,11 +979,6 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Sources/CAndroidAudioEngine/obj/local/armeabi-v7a",
-					"$(PROJECT_DIR)/Sources/CAndroidAudioEngine/Sources/Superpowered",
-				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.flowkey.NoteDetection;
 				PRODUCT_NAME = NoteDetection;
 				SKIP_INSTALL = YES;
@@ -961,7 +990,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
@@ -973,11 +1001,6 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Sources/CAndroidAudioEngine/obj/local/armeabi-v7a",
-					"$(PROJECT_DIR)/Sources/CAndroidAudioEngine/Sources/Superpowered",
-				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.flowkey.NoteDetection;
 				PRODUCT_NAME = NoteDetection;
 				SKIP_INSTALL = YES;
@@ -1025,6 +1048,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -1047,7 +1071,8 @@
 				PRODUCT_NAME = NoteDetection;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -1056,6 +1081,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -1078,7 +1104,7 @@
 				PRODUCT_NAME = NoteDetection;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -1103,7 +1129,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.flowkey.NoteDetectionMacTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -1128,7 +1153,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.flowkey.NoteDetectionMacTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
