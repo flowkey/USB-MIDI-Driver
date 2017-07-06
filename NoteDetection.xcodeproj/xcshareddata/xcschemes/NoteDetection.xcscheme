@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "03A7F72F1E850D5300849AE2"
-               BuildableName = "NoteDetectionIOS.framework"
+               BuildableName = "NoteDetection.framework"
                BlueprintName = "NoteDetectionIOS"
                ReferencedContainer = "container:NoteDetection.xcodeproj">
             </BuildableReference>
@@ -44,7 +44,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "03A7F72F1E850D5300849AE2"
-            BuildableName = "NoteDetectionIOS.framework"
+            BuildableName = "NoteDetection.framework"
             BlueprintName = "NoteDetectionIOS"
             ReferencedContainer = "container:NoteDetection.xcodeproj">
          </BuildableReference>
@@ -67,7 +67,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "03A7F72F1E850D5300849AE2"
-            BuildableName = "NoteDetectionIOS.framework"
+            BuildableName = "NoteDetection.framework"
             BlueprintName = "NoteDetectionIOS"
             ReferencedContainer = "container:NoteDetection.xcodeproj">
          </BuildableReference>
@@ -85,7 +85,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "03A7F72F1E850D5300849AE2"
-            BuildableName = "NoteDetectionIOS.framework"
+            BuildableName = "NoteDetection.framework"
             BlueprintName = "NoteDetectionIOS"
             ReferencedContainer = "container:NoteDetection.xcodeproj">
          </BuildableReference>
