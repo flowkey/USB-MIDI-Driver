@@ -393,7 +393,7 @@
 					"$(SRCROOT)/../build",
 				);
 				INFOPLIST_FILE = Testumgebung/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.flowkey.Testumgebung;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -416,7 +416,7 @@
 					"$(SRCROOT)/../build",
 				);
 				INFOPLIST_FILE = Testumgebung/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.flowkey.Testumgebung;
 				PRODUCT_NAME = "$(TARGET_NAME)";
