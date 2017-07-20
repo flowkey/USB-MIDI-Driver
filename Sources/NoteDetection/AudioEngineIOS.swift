@@ -17,7 +17,8 @@ final class AudioEngine: AudioInput {
     // AudioEngine has no public initialisers and is only accessible via `sharedInstance`:
     init() throws {
         let audioSession = AVAudioSession.sharedInstance()
-        try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, with: .defaultToSpeaker)
+
+        try? audioSession.setCategoryToPlayAndRecordIfNecessary()
 
         // It's not fatal if these settings fail:
         let preferredSampleRate = 44100.0

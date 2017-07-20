@@ -31,9 +31,6 @@ extension AudioUnit {
         // Apple Resource for Audio Unit Hosting: https://goo.gl/SN1OlC
         // Doing this requires us to manage audio output manually, since by default iOS sets audio output to receiver
 
-        // XXX: @rikner - we still have audio output from video without setting the output, can we delete this?
-        try inputUnit.setProperty(kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Output, .outputBus, UInt32(true))
-
         try inputUnit.setProperty(kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, .inputBus, streamFormat)
         try inputUnit.setProperty(kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, .outputBus, streamFormat)
 
