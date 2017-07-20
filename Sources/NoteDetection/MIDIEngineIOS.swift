@@ -64,7 +64,7 @@ class MIDIEngine: MIDIInput {
         return true
     }
 
-    public func connect() {
+    func connect() {
         disconnect()
 
         let noNetworkSessionConnected = !self.networkSessionIsConnected()
@@ -87,7 +87,7 @@ class MIDIEngine: MIDIInput {
         }
     }
 
-    public func disconnect() {
+    func disconnect() {
         for sourceIndex in 0 ..< MIDIGetNumberOfSources() {
             let source = MIDIGetSource(sourceIndex)
 
