@@ -90,13 +90,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		032161811F068B5400C9AE3E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 03A7F7271E850D5300849AE2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 032161711F06568200C9AE3E;
-			remoteInfo = CAndroidAudioEngine;
-		};
 		03A7F73B1E850D5300849AE2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 03A7F7271E850D5300849AE2 /* Project object */;
@@ -486,38 +479,6 @@
 		};
 /* End PBXHeadersBuildPhase section */
 
-/* Begin PBXLegacyTarget section */
-		032161711F06568200C9AE3E /* CAndroidAudioEngine */ = {
-			isa = PBXLegacyTarget;
-			buildArgumentsString = build.sh;
-			buildConfigurationList = 032161721F06568200C9AE3E /* Build configuration list for PBXLegacyTarget "CAndroidAudioEngine" */;
-			buildPhases = (
-			);
-			buildToolPath = /bin/bash;
-			buildWorkingDirectory = Sources/CAndroidAudioEngine;
-			dependencies = (
-			);
-			name = CAndroidAudioEngine;
-			passBuildSettingsInEnvironment = 1;
-			productName = CAndroidAudioEngine;
-		};
-		032161751F0657A400C9AE3E /* NoteDetectionAndroid */ = {
-			isa = PBXLegacyTarget;
-			buildArgumentsString = build_android.sh;
-			buildConfigurationList = 032161761F0657A400C9AE3E /* Build configuration list for PBXLegacyTarget "NoteDetectionAndroid" */;
-			buildPhases = (
-			);
-			buildToolPath = /bin/bash;
-			buildWorkingDirectory = "";
-			dependencies = (
-				032161821F068B5400C9AE3E /* PBXTargetDependency */,
-			);
-			name = NoteDetectionAndroid;
-			passBuildSettingsInEnvironment = 1;
-			productName = NoteDetectionAndroid;
-		};
-/* End PBXLegacyTarget section */
-
 /* Begin PBXNativeTarget section */
 		03A7F72F1E850D5300849AE2 /* NoteDetectionIOS */ = {
 			isa = PBXNativeTarget;
@@ -602,16 +563,6 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = flowkey;
 				TargetAttributes = {
-					032161711F06568200C9AE3E = {
-						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = FTSYMMN5B5;
-						ProvisioningStyle = Automatic;
-					};
-					032161751F0657A400C9AE3E = {
-						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = FTSYMMN5B5;
-						ProvisioningStyle = Automatic;
-					};
 					03A7F72F1E850D5300849AE2 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = FTSYMMN5B5;
@@ -649,8 +600,6 @@
 			targets = (
 				03A7F72F1E850D5300849AE2 /* NoteDetectionIOS */,
 				03A7F7381E850D5300849AE2 /* NoteDetectionTests */,
-				032161711F06568200C9AE3E /* CAndroidAudioEngine */,
-				032161751F0657A400C9AE3E /* NoteDetectionAndroid */,
 				5C0E56721F0BE92700793A7F /* NoteDetectionMac */,
 				5C0E567A1F0BE92800793A7F /* NoteDetectionMacTests */,
 			);
@@ -809,11 +758,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		032161821F068B5400C9AE3E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 032161711F06568200C9AE3E /* CAndroidAudioEngine */;
-			targetProxy = 032161811F068B5400C9AE3E /* PBXContainerItemProxy */;
-		};
 		03A7F73C1E850D5300849AE2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 03A7F72F1E850D5300849AE2 /* NoteDetectionIOS */;
@@ -827,60 +771,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		032161731F06568200C9AE3E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEBUGGING_SYMBOLS = YES;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = FTSYMMN5B5;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		032161741F06568200C9AE3E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = FTSYMMN5B5;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
-		032161771F0657A400C9AE3E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEBUGGING_SYMBOLS = YES;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = FTSYMMN5B5;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		032161781F0657A400C9AE3E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = FTSYMMN5B5;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		03A7F7421E850D5300849AE2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1179,24 +1069,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		032161721F06568200C9AE3E /* Build configuration list for PBXLegacyTarget "CAndroidAudioEngine" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				032161731F06568200C9AE3E /* Debug */,
-				032161741F06568200C9AE3E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		032161761F0657A400C9AE3E /* Build configuration list for PBXLegacyTarget "NoteDetectionAndroid" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				032161771F0657A400C9AE3E /* Debug */,
-				032161781F0657A400C9AE3E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		03A7F72A1E850D5300849AE2 /* Build configuration list for PBXProject "NoteDetection" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -1,10 +1,10 @@
-#include "../include/AndroidAudioEngine.h"
+#include "AndroidAudioEngine.h"
 #include "Superpowered/SuperpoweredAndroidAudioIO.h"
-#include "Superpowered/SuperpoweredSimple.h"
 
 #include <SLES/OpenSLES.h>
 #include <SLES/OpenSLES_AndroidConfiguration.h>
 
+#include <limits.h>
 #include <stdlib.h>
 #include <android/log.h>
 
@@ -31,13 +31,17 @@ static bool audioProcessing(void *clientdata, short int *audioInputOutput, int n
     // Secondly, audioProcessing ALWAYS receives 16-bit Stereo Interleaved samples
     // The left & right input channels contained exactly the same data in our tests
 
-    // Convert the 16-bit integer samples to 32-bit floating point.
-    SuperpoweredShortIntToFloat(audioInputOutput, inputBufferFloat, numberOfSamples);
+    // We now do this in the loop below to save the dependency on libSuperpowered.a:
+    // SuperpoweredShortIntToFloat(audioInputOutput, inputBufferFloat, numberOfSamples);
 
+    // Convert the 16-bit integer samples to 32-bit floating point, then:
     // De-interleave, discarding (identical) samples from the Right channel.
     for (short i = 0; i < numberOfSamples * 2; i += 2)
     {
-        monoBufferFloat[i / 2] = inputBufferFloat[i];
+        // The intention of this code is to convert the signed int into an unsigned one and divide it by the maximum possible value for unsigned short
+        unsigned short unsignedSample = (unsigned short)audioInputOutput[i];
+        float sample = (float)unsignedSample / (float)USHRT_MAX;
+        monoBufferFloat[i / 2] = sample;
         // XXX: would be more correct:
         // monoBufferFloat[i / 2] = (inputBufferFloat[i] + inputBufferFloat[i+1] / 2)
     }
@@ -50,7 +54,7 @@ static bool audioProcessing(void *clientdata, short int *audioInputOutput, int n
 
     onAudioData(monoBufferFloat, numberOfSamples, audioEngineContext);
 
-    return true;
+    return true; // XXX should actually return false to output silence ??
 }
 
 void CAndroidAudioEngine_setOnAudioData(void (*funcpntr)(float *, int, void *), void *context)

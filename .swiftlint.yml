@@ -2,6 +2,8 @@
 # exclude submodules for now, we can include them later step by step
 excluded:
   - Testumgebung
+  - .build
+  - Packages
 
 # only show warning instead of error
 line_length:
