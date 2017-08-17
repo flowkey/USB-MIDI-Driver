@@ -17,7 +17,7 @@
 		<key>NoteDetectionAndroid.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>8</integer>
+			<integer>4</integer>
 		</dict>
 		<key>NoteDetectionMac.xcscheme</key>
 		<dict>

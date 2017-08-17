@@ -51,9 +51,9 @@ public let noteDetection = try! NoteDetection(input: .audio)
             for device in deviceList { print(device.displayName) }
         })
 
-        noteDetection.midiEngine.onMIDIMessageReceived = {
-            (midiMessage: MIDIMessage, device: MIDIDevice?, timestamp: Timestamp) in print(midiMessage)
-        }
+        noteDetection.midiEngine.set(onMIDIMessageReceived: { (midiMessage: MIDIMessage, device: MIDIDevice?, timestamp: Timestamp) in
+            print(midiMessage)
+        })
 
         (noteDetection.noteDetector as? AudioNoteDetector)?.onAudioProcessed = { processedAudio in
             self.lastProcessedBlock = processedAudio
