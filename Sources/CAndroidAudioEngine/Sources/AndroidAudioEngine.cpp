@@ -114,6 +114,11 @@ int CAndroidAudioEngine_getSamplerate()
     return samplerate;
 }
 
+bool CAndroidAudioEngine_isInitialized()
+{
+    return (audioIO != NULL);
+}
+
 void CAndroidAudioEngine_deinitialize()
 {
     CAndroidAudioEngine_stop();

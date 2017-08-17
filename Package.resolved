@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "JNI",
+        "repositoryURL": "/root/host_fs/Users/erik/flowDev/swiftDev/swift-jni",
+        "state": {
+          "branch": null,
+          "revision": "5314ceea6ca8a33725cfb807894223909f0c174f",
+          "version": "1.0.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
