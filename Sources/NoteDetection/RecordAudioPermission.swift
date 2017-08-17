@@ -11,10 +11,10 @@ import JNI
 private var onRecordAudioPermissionResult: ((AndroidPermissions.Result) -> Void)?
 
 class AndroidPermissions {
-    private let permissionsClass: JavaClass = jni.FindClass(className: "Permissions/PermissionsKt")!
+    private let permissionsClass: JavaClass = jni.FindClass(name: "Permissions/PermissionsKt")!
 
     var recordAudioPermissionName: String? {
-        return try? jni.GetStaticField(name: "RECORD_AUDIO", on: permissionsClass)
+        return try? jni.GetStaticField("RECORD_AUDIO", on: permissionsClass)
     }
 
     func requestAudioPermissionIfRequired(callback : @escaping ((Result) -> Void)) throws {
