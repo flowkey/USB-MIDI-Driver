@@ -27,25 +27,6 @@ class NoteDetectionTests: XCTestCase {
         XCTAssertNotEqual(inititalInputType, noteDetection.inputType)
     }
 
-    // input should __NOT__ change automatically when midi device is connected
-    func testInputDoesNotChangeOnNewMIDIDevice() {
-        noteDetection.inputType = .audio
-        XCTAssertEqual(noteDetection.inputType, .audio)
-        noteDetection.set(onMIDIDeviceListChanged: nil)
-
-        // add new MIDI device
-        var arbitraryReferenceContext = 0
-        noteDetection.midiEngine.onMIDIDeviceListChanged?([MIDIDevice(
-            displayName: "TestDevice",
-            manufacturer: "ACME",
-            model: "midi_5000",
-            uniqueID: 123456,
-            refCon: &arbitraryReferenceContext
-        )])
-
-        XCTAssertNotEqual(noteDetection.inputType, .midi)
-    }
-
     func testIfCallbacksExistAfterSwitch() {
         // set callbacks
         noteDetection.set(onNoteEventDetected: { print($0) })
