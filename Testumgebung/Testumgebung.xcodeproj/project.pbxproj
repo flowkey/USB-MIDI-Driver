@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0349638E1F47107500E0C46D /* NoteDetection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0349638D1F47107500E0C46D /* NoteDetection.framework */; };
 		03B86D041B53CD45003DC61C /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B86D031B53CD45003DC61C /* WaveformView.swift */; };
 		03B86D061B53CD4F003DC61C /* OnsetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B86D051B53CD4F003DC61C /* OnsetView.swift */; };
 		03FB3F031B7CD866003E85B5 /* MidiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FB3F021B7CD866003E85B5 /* MidiView.swift */; };
@@ -50,6 +51,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0349638D1F47107500E0C46D /* NoteDetection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NoteDetection.framework; path = "../../../../Library/Developer/Xcode/DerivedData/NoteDetection-bflbdqkdrptqtyawqpogjabnkimj/Build/Products/Debug-iphonesimulator/NoteDetection.framework"; sourceTree = "<group>"; };
 		03B86D031B53CD45003DC61C /* WaveformView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveformView.swift; sourceTree = "<group>"; };
 		03B86D051B53CD4F003DC61C /* OnsetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnsetView.swift; sourceTree = "<group>"; };
 		03FB3F021B7CD866003E85B5 /* MidiView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MidiView.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0349638E1F47107500E0C46D /* NoteDetection.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,11 +93,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0349638C1F47107500E0C46D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0349638D1F47107500E0C46D /* NoteDetection.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		5C43689A1B38690000C748C3 = {
 			isa = PBXGroup;
 			children = (
 				5C4368A51B38690000C748C3 /* Testumgebung */,
 				5C4368A41B38690000C748C3 /* Products */,
+				0349638C1F47107500E0C46D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
