@@ -69,14 +69,14 @@ public func onRequestPermissionsResult(
     let recordAudioPermissionsName = AndroidPermissions().recordAudioPermissionName
     guard let recordAudioPermission = permissions.first(where: { $0.name == recordAudioPermissionsName }) else {
         assertionFailure(
-            "Got permissions but they didn't include AndroidPermissions().recordAudioPermissionName (\(recordAudioPermissionsName).) " +
+            "Got permissions but they didn't include AndroidPermissions().recordAudioPermissionName (\(String(describing: recordAudioPermissionsName)).) " +
             "Got '\(permissions)' instead"
         )
         return
     }
 
     guard let result = AndroidPermissions.Result(rawValue: recordAudioPermission.result) else {
-        assertionFailure("Could not create AndroidPermissions.Result from recordAudioPermission.result = \(recordAudioPermission.result) ")
+        assertionFailure("Could not create AndroidPermissions.Result from recordAudioPermission.result = \(String(describing: recordAudioPermission.result)) ")
         return
     }
     onRecordAudioPermissionResult?(result)
