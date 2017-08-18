@@ -11,7 +11,7 @@ import JNI
 private var onRecordAudioPermissionResult: ((AndroidPermissions.Result) -> Void)?
 
 class AndroidPermissions {
-    private let permissionsClass: JavaClass = jni.FindClass(name: "Permissions/PermissionsKt")!
+    private let permissionsClass: JavaClass = jni.FindClass(name: "com/flowkey/Permissions/PermissionsKt")!
 
     var recordAudioPermissionName: String? {
         return try? jni.GetStaticField("RECORD_AUDIO", on: permissionsClass)
@@ -50,7 +50,7 @@ extension AndroidPermissions {
     }
 }
 
-@_silgen_name("Java_Permissions_PermissionsKt_onRequestPermissionsResult")
+@_silgen_name("Java_com_flowkey_Permissions_PermissionsKt_onRequestPermissionsResult")
 public func onRequestPermissionsResult(
     env: UnsafeMutablePointer<JNIEnv>,
     cls: JavaObject,
