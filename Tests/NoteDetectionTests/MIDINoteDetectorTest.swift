@@ -2,8 +2,11 @@ import XCTest
 @testable import NoteDetection
 
 class MIDIDInputMock: MIDIInput {
+    var midiDeviceList: Set<MIDIDevice> = []
     func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?) {}
     func set(onMIDIMessageReceived: MIDIMessageReceivedCallback?) {}
+
+    init(){}
 }
 
 class MIDINoteDetectorTests: XCTestCase {
