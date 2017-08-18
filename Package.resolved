@@ -3,11 +3,11 @@
     "pins": [
       {
         "package": "JNI",
-        "repositoryURL": "/root/host_fs/Users/erik/flowDev/swiftDev/swift-jni",
+        "repositoryURL": "https://github.com/SwiftAndroid/swift-jni.git",
         "state": {
           "branch": null,
-          "revision": "5314ceea6ca8a33725cfb807894223909f0c174f",
-          "version": "1.0.0"
+          "revision": "01e4b7fb9801339b9533b0981d8e3eae0ea02610",
+          "version": "1.1.0"
         }
       }
     ]
