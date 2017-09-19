@@ -11,7 +11,14 @@ import JNI
 private var onRecordAudioPermissionResult: ((AndroidPermissions.Result) -> Void)?
 
 class AndroidPermissions {
-    private let permissionsClass: JavaClass = jni.FindClass(name: "com/flowkey/Permissions/PermissionsKt")!
+    private let permissionsClass: JavaClass
+
+    init() {
+        let permissionsClassName = "com/flowkey/Permissions/PermissionsKt"
+        guard let jPermissionsClass = try? jni.FindClass(name: permissionsClassName)
+        else { fatalError("Could not find class: " + permissionsClassName) }
+        permissionsClass = jPermissionsClass
+    }
 
     var recordAudioPermissionName: String? {
         return try? jni.GetStaticField("RECORD_AUDIO", on: permissionsClass)

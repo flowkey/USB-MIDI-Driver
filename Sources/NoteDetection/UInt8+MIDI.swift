@@ -16,3 +16,21 @@ extension UInt8 {
     static let rawControlChange: UInt8 =   0b00001011
     static let rawSysexStart: UInt8 =      0b11110000
 }
+
+extension Array where Element == UInt8 {
+    func toMIDIMessages() -> [MIDIMessage] {
+        var messages = [MIDIMessage]()
+
+        for i in stride(from: 0, to: self.count, by: 3) {
+            if self[i] == .activeSensing { continue }
+
+            let lastIndexInSlice = (i + 2)
+            if lastIndexInSlice >= self.count { continue } // ignore incomplete midi packets (avoid crashes)
+
+            if let midiMessage = MIDIMessage(status: self[i + 0], data1: self[i + 1], data2: self[i + 2]) {
+                messages.append(midiMessage)
+            }
+        }
+        return messages
+    }
+}

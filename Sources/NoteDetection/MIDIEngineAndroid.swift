@@ -6,35 +6,80 @@
 //  Copyright © 2017 flowkey. All rights reserved.
 //
 
-class MIDIEngine: MIDIInput {
-    var onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?
-    var onMIDIMessageReceived: MIDIMessageReceivedCallback?
+import JNI
 
-    public private(set) var midiDeviceList: Set<MIDIDevice> = []
+private weak var midiEngine: MIDIEngine?
 
-    public init() throws {
-        connect()
+@_silgen_name("Java_com_flowkey_MIDI_ApiIndependentMIDIEngine_nativeMidiMessageCallback")
+func onMIDIMessageReceived(env: UnsafeMutablePointer<JNIEnv>, cls: JavaObject, midiData: JavaByteArray, timestamp: JavaLong) {
+    let midiDataArray: [UInt8] = jni.GetByteArrayRegion(array: midiData)
+    midiDataArray.toMIDIMessages().forEach { midiMessage in
+        midiEngine?.onMIDIMessageReceived?(midiMessage, nil, Timestamp(timestamp))
     }
+}
+
+@_silgen_name("Java_com_flowkey_MIDI_ApiIndependentMIDIEngine_nativeMidiDeviceCallback")
+func onDeviceListChanged(env: UnsafeMutablePointer<JNIEnv>, cls: JavaObject, jMIDIDevices: JavaObjectArray) {
+    let numberOfDevices = jni.GetLength(jMIDIDevices)
+    var midiDeviceList: Set<MIDIDevice> = []
+
+    for index in (0..<numberOfDevices) {
+        guard let jMIDIDevice = try? jni.GetObjectArrayElement(in: jMIDIDevices, at: index),
+              let device = try? jMIDIDevice.toMIDIDevice() else {
+            fatalError("Could not create midi device from java array element")
+        }
+        midiDeviceList.insert(device)
+    }
+
+    midiEngine?.midiDeviceList = midiDeviceList
+    midiEngine?.onMIDIDeviceListChanged?(midiDeviceList)
+}
+
+extension JavaObject {
+    func toMIDIDevice() throws -> MIDIDevice {
+        let model: String = try jni.GetField("model", from: self)
+        let manufacturer: String = try jni.GetField("manufacturer", from: self)
+        let id: Int = try jni.GetField("uniqueID", from: self)
+        let displayName = model + "/" + manufacturer
+        var arbitraryReferenceContext = 0 // dummy
+
+        return MIDIDevice(
+            displayName: displayName,
+            manufacturer: manufacturer,
+            model: model,
+            uniqueID: id,
+            refCon: &arbitraryReferenceContext
+        )
+    }
+}
+
+
+class MIDIEngine: JNIObject, MIDIInput {
+
+    enum MIDIEngineError : Error {
+        case InitError
+    }
+
+   init() throws {
+        let midiEngineClassName = "com/flowkey/MIDI/ApiIndependentMIDIEngine"
+        try super.init(midiEngineClassName)
+        midiEngine = self
+    }
+
+    fileprivate(set) var midiDeviceList: Set<MIDIDevice> = []
 
     deinit {
         print("deiniting MIDIEngine")
+        midiEngine = nil
     }
 
+    var onMIDIMessageReceived: MIDIMessageReceivedCallback?
     func set(onMIDIMessageReceived: MIDIMessageReceivedCallback?) {
         self.onMIDIMessageReceived = onMIDIMessageReceived
     }
 
+    var onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?
     func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?) {
         self.onMIDIDeviceListChanged = onMIDIDeviceListChanged
-    }
-
-
-    public func connect() {
-        disconnect()
-
-    }
-
-    public func disconnect() {
-        midiDeviceList = []
     }
 }

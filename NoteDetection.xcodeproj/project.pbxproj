@@ -36,7 +36,7 @@
 		032160E11F04EE7100C9AE3E /* MIDIEngineIOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C21F04EE7100C9AE3E /* MIDIEngineIOS.swift */; };
 		032160E21F04EE7100C9AE3E /* MIDIInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C31F04EE7100C9AE3E /* MIDIInput.swift */; };
 		032160E31F04EE7100C9AE3E /* MIDIMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C41F04EE7100C9AE3E /* MIDIMessage.swift */; };
-		032160E41F04EE7100C9AE3E /* MIDIMessage+MIDIPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C51F04EE7100C9AE3E /* MIDIMessage+MIDIPacket.swift */; };
+		032160E41F04EE7100C9AE3E /* MIDIPacket+UInt8Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C51F04EE7100C9AE3E /* MIDIPacket+UInt8Array.swift */; };
 		032160E51F04EE7100C9AE3E /* MIDINoteDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C61F04EE7100C9AE3E /* MIDINoteDetection.swift */; };
 		032160E61F04EE7100C9AE3E /* MIDINumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C71F04EE7100C9AE3E /* MIDINumber.swift */; };
 		032160E71F04EE7100C9AE3E /* MIDIObjectRef.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C81F04EE7100C9AE3E /* MIDIObjectRef.swift */; };
@@ -137,7 +137,7 @@
 		032160C21F04EE7100C9AE3E /* MIDIEngineIOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIEngineIOS.swift; path = Sources/NoteDetection/MIDIEngineIOS.swift; sourceTree = SOURCE_ROOT; };
 		032160C31F04EE7100C9AE3E /* MIDIInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIInput.swift; path = Sources/NoteDetection/MIDIInput.swift; sourceTree = SOURCE_ROOT; };
 		032160C41F04EE7100C9AE3E /* MIDIMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIMessage.swift; path = Sources/NoteDetection/MIDIMessage.swift; sourceTree = SOURCE_ROOT; };
-		032160C51F04EE7100C9AE3E /* MIDIMessage+MIDIPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MIDIMessage+MIDIPacket.swift"; path = "Sources/NoteDetection/MIDIMessage+MIDIPacket.swift"; sourceTree = SOURCE_ROOT; };
+		032160C51F04EE7100C9AE3E /* MIDIPacket+UInt8Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MIDIPacket+UInt8Array.swift"; path = "Sources/NoteDetection/MIDIPacket+UInt8Array.swift"; sourceTree = SOURCE_ROOT; };
 		032160C61F04EE7100C9AE3E /* MIDINoteDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDINoteDetection.swift; path = Sources/NoteDetection/MIDINoteDetection.swift; sourceTree = SOURCE_ROOT; };
 		032160C71F04EE7100C9AE3E /* MIDINumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDINumber.swift; path = Sources/NoteDetection/MIDINumber.swift; sourceTree = SOURCE_ROOT; };
 		032160C81F04EE7100C9AE3E /* MIDIObjectRef.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIObjectRef.swift; path = Sources/NoteDetection/MIDIObjectRef.swift; sourceTree = SOURCE_ROOT; };
@@ -306,7 +306,7 @@
 		038A82801F210F2F00875E5E /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				032160C51F04EE7100C9AE3E /* MIDIMessage+MIDIPacket.swift */,
+				032160C51F04EE7100C9AE3E /* MIDIPacket+UInt8Array.swift */,
 				032160C21F04EE7100C9AE3E /* MIDIEngineIOS.swift */,
 				032160C11F04EE7100C9AE3E /* MIDIEngine+Debug.swift */,
 				032160C81F04EE7100C9AE3E /* MIDIObjectRef.swift */,
@@ -570,6 +570,10 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = flowkey;
 				TargetAttributes = {
+					035D494F1F33217F0033513A = {
+						CreatedOnToolsVersion = 9.0;
+						DevelopmentTeam = FTSYMMN5B5;
+					};
 					03A7F72F1E850D5300849AE2 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = FTSYMMN5B5;
@@ -663,7 +667,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "#if which swiftlint >/dev/null; then\n# swiftlint\n# else\n# echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n# fi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -692,7 +696,7 @@
 				032160D71F04EE7100C9AE3E /* ChromaVector.swift in Sources */,
 				032160F01F04EE7100C9AE3E /* UInt8+MIDI.swift in Sources */,
 				032160EE1F04EE7100C9AE3E /* PlatformApple.swift in Sources */,
-				032160E41F04EE7100C9AE3E /* MIDIMessage+MIDIPacket.swift in Sources */,
+				032160E41F04EE7100C9AE3E /* MIDIPacket+UInt8Array.swift in Sources */,
 				032160ED1F04EE7100C9AE3E /* PitchDetection.swift in Sources */,
 				032160DD1F04EE7100C9AE3E /* FlowMathApple.swift in Sources */,
 				032160D61F04EE7100C9AE3E /* AudioUnitExtensions.swift in Sources */,
@@ -783,6 +787,51 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		035D49501F33217F0033513A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				DEBUGGING_SYMBOLS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = FTSYMMN5B5;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		035D49511F33217F0033513A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = FTSYMMN5B5;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		03A7F7421E850D5300849AE2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1126,6 +1175,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		035D49521F33217F0033513A /* Build configuration list for PBXLegacyTarget "NoteDetectionAndroid" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				035D49501F33217F0033513A /* Debug */,
+				035D49511F33217F0033513A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		03A7F72A1E850D5300849AE2 /* Build configuration list for PBXProject "NoteDetection" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

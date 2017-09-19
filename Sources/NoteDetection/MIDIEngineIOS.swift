@@ -145,7 +145,7 @@ class MIDIEngine: MIDIInput {
         let packets = makePacketsFromPacketList(packetList)
 
         for packet in packets {
-            let midiMessages = packet.toMIDIMessages()
+            let midiMessages = packet.toMIDIDataArray().toMIDIMessages()
 
             DispatchQueue.main.async {
                 midiMessages.forEach { midiMessage in

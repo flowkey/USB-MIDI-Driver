@@ -8,7 +8,7 @@ let package = Package(
         .library(name: "NoteDetection", type: .dynamic, targets: ["NoteDetection"])
     ],
     dependencies: [
-        .package(url: "https://github.com/SwiftAndroid/swift-jni.git", from: "1.1.0")
+        .package(url: "https://github.com/SwiftAndroid/swift-jni.git", from: "1.2.0")
     ],
     targets: [
         .target(name: "CAndroidAudioEngine"),
@@ -24,7 +24,7 @@ let package = Package(
                 "AudioUnitExtensions.swift",
                 "MIDIEngineIOS.swift",
                 "MIDIEngine+Debug.swift",
-                "MIDIMessage+MIDIPacket.swift",
+                "MIDIPacket+UInt8Array.swift",
                 "MIDIObjectRef.swift",
                 "OSStatus+LocalizedError.swift",
                 "AVAudioEngine+Category.swift"
