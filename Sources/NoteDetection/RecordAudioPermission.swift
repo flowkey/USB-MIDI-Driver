@@ -17,7 +17,11 @@ class AndroidPermissions {
         let permissionsClassName = "com/flowkey/Permissions/PermissionsKt"
         guard let jPermissionsClass = try? jni.FindClass(name: permissionsClassName)
         else { fatalError("Could not find class: " + permissionsClassName) }
-        permissionsClass = jPermissionsClass
+
+        guard let globalPermissionClass = jni.NewGlobalRef(jPermissionsClass)
+        else { fatalError("Could not create global ref to: " + permissionsClassName) }
+
+        permissionsClass = globalPermissionClass
     }
 
     var recordAudioPermissionName: String? {
@@ -43,7 +47,10 @@ class AndroidPermissions {
         try jni.callStatic("requestRecordAudioPermission", on: permissionsClass)
     }
 
-    deinit { onRecordAudioPermissionResult = nil }
+    deinit {
+        onRecordAudioPermissionResult = nil
+        jni.DeleteGlobalRef(globalRef: permissionsClass)
+    }
 }
 
 
