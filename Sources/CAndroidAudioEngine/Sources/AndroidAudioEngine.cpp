@@ -19,11 +19,9 @@ static SuperpoweredAndroidAudioIO *audioIO;
 float *monoBufferFloat;
 float *inputBufferFloat;
 
-void (*onAudioData)(float *, int, void *);
+void (*onAudioData)(float *, int, int, void *);
 void (*onSamplerateChanged)(int, void *);
 void *audioEngineContext;
-
-int samplerate;
 
 static bool audioProcessing(void *clientdata, short int *audioInputOutput, int numberOfSamples, int currentSamplerate)
 {
@@ -38,34 +36,21 @@ static bool audioProcessing(void *clientdata, short int *audioInputOutput, int n
     // De-interleave, discarding (identical) samples from the Right channel.
     for (short i = 0; i < numberOfSamples * 2; i += 2)
     {
-        // The intention of this code is to convert the signed int into an unsigned one and divide it by the maximum possible value for unsigned short
-        unsigned short unsignedSample = (unsigned short)audioInputOutput[i];
-        float sample = (float)unsignedSample / (float)USHRT_MAX;
+        // convert a signed short int in the range between −32.768 .. 32.767 into a float in the range between -1 .. 1
+        float sample = (float)audioInputOutput[i] / ((float)SHRT_MAX);
         monoBufferFloat[i / 2] = sample;
         // XXX: would be more correct:
         // monoBufferFloat[i / 2] = (inputBufferFloat[i] + inputBufferFloat[i+1] / 2)
     }
 
-    if (samplerate != currentSamplerate)
-    {
-        onSamplerateChanged(currentSamplerate, audioEngineContext);
-        samplerate = currentSamplerate;
-    }
-
-    onAudioData(monoBufferFloat, numberOfSamples, audioEngineContext);
+    onAudioData(monoBufferFloat, numberOfSamples, currentSamplerate, audioEngineContext);
 
     return true; // XXX should actually return false to output silence ??
 }
 
-void CAndroidAudioEngine_setOnAudioData(void (*funcpntr)(float *, int, void *), void *context)
+void CAndroidAudioEngine_setOnAudioData(void (*funcpntr)(float *, int, int, void *), void *context)
 {
     onAudioData = funcpntr;
-    audioEngineContext = context;
-}
-
-void CAndroidAudioEngine_setOnSamplerateChange(void (*funcpntr)(int, void *), void *context)
-{
-    onSamplerateChanged = funcpntr;
     audioEngineContext = context;
 }
 
@@ -90,11 +75,6 @@ void CAndroidAudioEngine_initialize(int desiredSamplerate, int desiredBufferSize
         SL_ANDROID_RECORDING_PRESET_GENERIC,// inputStreamType
         desiredBufferSize * 2               // latencySamples
     );
-
-    samplerate = desiredSamplerate;
-
-    // we only want to init the stream, so stop it straight away.
-    audioIO->stop();
 }
 
 void CAndroidAudioEngine_start()
@@ -107,11 +87,6 @@ void CAndroidAudioEngine_stop()
 {
     if (audioIO != NULL)
         audioIO->stop();
-}
-
-int CAndroidAudioEngine_getSamplerate()
-{
-    return samplerate;
 }
 
 bool CAndroidAudioEngine_isInitialized()
