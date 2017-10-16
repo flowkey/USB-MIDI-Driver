@@ -22,6 +22,11 @@ class MIDIEngine: MIDIInput {
         let clientName = "flowkey" as CFString
         let inputName = "flowkey input port" as CFString
 
+        #if os(iOS)
+        MIDINetworkSession.default().isEnabled = true
+        MIDINetworkSession.default().connectionPolicy = .anyone
+        #endif
+
         if #available(iOS 9.0, *) {
             try MIDIClientCreateWithBlock(clientName, &midiClient, onMIDIDeviceChanged)
                 .throwOnError()
@@ -52,26 +57,14 @@ class MIDIEngine: MIDIInput {
         self.onMIDIDeviceListChanged = onMIDIDeviceListChanged
     }
 
-    // ios9 bug - keep ref to prevent bad_exec error on removal of the device
-    // details: http://stackoverflow.com/questions/32686214/removeconnection-results-in-exc-bad-access
-    private var oldNetworkMIDIConnections: Set<MIDINetworkConnection> = []
-
-    private func networkSessionIsConnected() -> Bool {
-        let activeConnections = MIDINetworkSession.default().connections()
-        if activeConnections.isEmpty { return false }
-
-        oldNetworkMIDIConnections.formUnion(activeConnections)
-        return true
-    }
-
     func connect() {
         disconnect()
 
-        let noNetworkSessionConnected = !self.networkSessionIsConnected()
         for sourceIndex in 0 ..< MIDIGetNumberOfSources() {
             let source = MIDIGetSource(sourceIndex)
 
-            if !source.online || source.isNetworkSession && noNetworkSessionConnected {
+
+            if !source.online || source.isADisconnectedNetworkSession {
                 continue // abort this iteration and start next
             }
 
@@ -156,11 +149,6 @@ class MIDIEngine: MIDIInput {
     }
 }
 
-fileprivate extension MIDIEndpointRef {
-    var isNetworkSession: Bool {
-        return uniqueID == MIDINetworkSession.default().sourceEndpoint().uniqueID
-    }
-}
 
 extension MIDIDevice {
     init(_ device: MIDIObjectRef, srcRefCon: UnsafeMutableRawPointer) {
