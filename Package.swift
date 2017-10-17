@@ -22,7 +22,7 @@ let package = Package(
                 "NoteDetectionIOS.swift",
                 "AudioEngineIOS.swift",
                 "AudioUnitExtensions.swift",
-                "MIDIEngineIOS.swift",
+                "MIDIEngineApple.swift",
                 "MIDIEngine+Debug.swift",
                 "MIDIPacket+UInt8Array.swift",
                 "MIDIObjectRef.swift",
