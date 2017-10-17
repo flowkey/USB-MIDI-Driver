@@ -19,8 +19,7 @@ static SuperpoweredAndroidAudioIO *audioIO;
 float *monoBufferFloat;
 float *inputBufferFloat;
 
-void (*onAudioData)(float *, int, int, void *);
-void (*onSamplerateChanged)(int, void *);
+void (*onAudioData)(float *audioBuffer, int numberOfSamples, int sampleRate, void *context);
 void *audioEngineContext;
 
 static bool audioProcessing(void *clientdata, short int *audioInputOutput, int numberOfSamples, int currentSamplerate)
