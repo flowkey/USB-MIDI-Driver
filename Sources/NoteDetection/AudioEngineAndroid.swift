@@ -8,6 +8,8 @@ final class AudioEngine: AudioInput {
 
     public var sampleRate: Double = 44100
 
+    public init() throws {} // throws as in iOS
+
     func set(onAudioData: AudioDataCallback?) {
         self.onAudioData = onAudioData
         CAndroidAudioEngine_setOnAudioData({ buffer, count, sampleRate, context in
