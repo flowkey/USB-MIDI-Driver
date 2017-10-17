@@ -10,22 +10,15 @@ import JNI
 
 private var onRecordAudioPermissionResult: ((AndroidPermissions.Result) -> Void)?
 
-class AndroidPermissions {
-    private let permissionsClass: JavaClass
-
+class AndroidPermissions: JNIObject {
     init() {
-        let permissionsClassName = "com/flowkey/Permissions/PermissionsKt"
-        guard let jPermissionsClass = try? jni.FindClass(name: permissionsClassName)
-        else { fatalError("Could not find class: " + permissionsClassName) }
-
-        guard let globalPermissionClass = jni.NewGlobalRef(jPermissionsClass)
-        else { fatalError("Could not create global ref to: " + permissionsClassName) }
-
-        permissionsClass = globalPermissionClass
+        let className = "com/flowkey/Permissions/PermissionsKt"
+        do { try super.init(className) }
+        catch { fatalError("Could not instantiate AndroidPermissions JNIObject from " + className) }
     }
 
     var recordAudioPermissionName: String? {
-        return try? jni.GetStaticField("RECORD_AUDIO", on: permissionsClass)
+        return try? jni.GetStaticField("RECORD_AUDIO", on: self.javaClass)
     }
 
     func requestAudioPermissionIfRequired(callback : @escaping ((Result) -> Void)) throws {
@@ -36,7 +29,7 @@ class AndroidPermissions {
     }
 
     private func getRecordAudioPermissionResult() throws -> Result {
-        let audioPermissionResult: Int = try jni.callStatic("checkRecordAudioPermission", on: permissionsClass)
+        let audioPermissionResult: Int = try jni.callStatic("checkRecordAudioPermission", on: self.javaClass)
         guard let result = Result(rawValue: audioPermissionResult) else {
             throw AndroidPermissionsError.noResult
         }
@@ -44,12 +37,7 @@ class AndroidPermissions {
     }
 
     private func requestRecordAudioPermission() throws {
-        try jni.callStatic("requestRecordAudioPermission", on: permissionsClass)
-    }
-
-    deinit {
-        onRecordAudioPermissionResult = nil
-        jni.DeleteGlobalRef(globalRef: permissionsClass)
+        try jni.callStatic("requestRecordAudioPermission", on: self.javaClass)
     }
 }
 
@@ -72,13 +60,10 @@ public func onRequestPermissionsResult(
     permissionsJavaArr: JavaObjectArray,
     grantResultsJavaArr: JavaIntArray)
 {
-    guard
-        let requestedPermissionNames = try? jni.GetStrings(from: permissionsJavaArr),
-        let requestedPermissionResults = try? jni.GetIntArrayRegion(array: grantResultsJavaArr)
-    else {
-        fatalError("Couldn't get requestedPermissions from Java result")
-    }
+    guard let requestedPermissionNames = try? jni.GetStrings(from: permissionsJavaArr)
+    else { fatalError("Couldn't get requestedPermissions from Java result") }
 
+    let requestedPermissionResults = jni.GetIntArrayRegion(array: grantResultsJavaArr)
     let permissions: [(name: String, result: Int)] = Array(zip(requestedPermissionNames, requestedPermissionResults))
     let recordAudioPermissionsName = AndroidPermissions().recordAudioPermissionName
     guard let recordAudioPermission = permissions.first(where: { $0.name == recordAudioPermissionsName }) else {
