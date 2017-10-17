@@ -35,6 +35,7 @@ extension AudioEngine {
             try androidPermissions.requestAudioPermissionIfRequired { result in
                 guard result == .granted else { assertionFailure("Permission was not granted!"); return }
                 CAndroidAudioEngine_initialize(Int32(self.sampleRate), 1024)
+                CAndroidAudioEngine_start()
             }
         }
     }

@@ -75,6 +75,9 @@ void CAndroidAudioEngine_initialize(int desiredSamplerate, int desiredBufferSize
         SL_ANDROID_RECORDING_PRESET_GENERIC,// inputStreamType
         desiredBufferSize * 2               // latencySamples
     );
+
+    // audioIO immediatly runs after initialziation, so stop it right away
+    audioIO->stop();
 }
 
 void CAndroidAudioEngine_start()
