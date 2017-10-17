@@ -2,13 +2,15 @@ import CAndroidAudioEngine
 
 final class AudioEngine: AudioInput {
     private var onAudioData: AudioDataCallback?
-    fileprivate let androidPermissions = AndroidPermissions()
+    fileprivate let androidPermissions: AndroidPermissions
 
     public var onSampleRateChanged: SampleRateChangedCallback?
 
     public var sampleRate: Double = 44100
 
-    public init() throws {} // throws as in iOS
+    public init() throws {
+        androidPermissions = try AndroidPermissions()
+    }
 
     func set(onAudioData: AudioDataCallback?) {
         self.onAudioData = onAudioData

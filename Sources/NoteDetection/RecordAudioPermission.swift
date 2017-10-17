@@ -11,10 +11,8 @@ import JNI
 private var onRecordAudioPermissionResult: ((AndroidPermissions.Result) -> Void)?
 
 class AndroidPermissions: JNIObject {
-    init() {
-        let className = "com/flowkey/Permissions/PermissionsKt"
-        do { try super.init(className) }
-        catch { fatalError("Could not instantiate AndroidPermissions JNIObject from " + className) }
+    init() throws {
+        try super.init("com/flowkey/Permissions/PermissionsKt")
     }
 
     var recordAudioPermissionName: String? {
@@ -65,8 +63,15 @@ public func onRequestPermissionsResult(
 
     let requestedPermissionResults = jni.GetIntArrayRegion(array: grantResultsJavaArr)
     let permissions: [(name: String, result: Int)] = Array(zip(requestedPermissionNames, requestedPermissionResults))
-    let recordAudioPermissionsName = AndroidPermissions().recordAudioPermissionName
-    guard let recordAudioPermission = permissions.first(where: { $0.name == recordAudioPermissionsName }) else {
+
+    guard let recordAudioPermissionsName = try? AndroidPermissions().recordAudioPermissionName
+    else {
+        assertionFailure("Could not get recordAudioPermissionName")
+        return
+    }
+
+    guard let recordAudioPermission = permissions.first(where: { $0.name == recordAudioPermissionsName })
+    else {
         assertionFailure(
             "Got permissions but they didn't include AndroidPermissions().recordAudioPermissionName (\(String(describing: recordAudioPermissionsName)).) " +
             "Got '\(permissions)' instead"
