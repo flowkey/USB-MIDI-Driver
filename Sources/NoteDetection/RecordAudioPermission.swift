@@ -10,13 +10,22 @@ import JNI
 
 private var onRecordAudioPermissionResult: ((AndroidPermissions.Result) -> Void)?
 
-class AndroidPermissions: JNIObject {
+class AndroidPermissions {
+    private let permissionsClass: JavaClass
+
     init() throws {
-        try super.init("com/flowkey/Permissions/PermissionsKt")
+        let permissionsClassName = "com/flowkey/Permissions/PermissionsKt"
+        guard let jPermissionsClass = try? jni.FindClass(name: permissionsClassName)
+        else { throw AndroidPermissionsError.PermissionsClassNotFound }
+
+        guard let globalPermissionClass = jni.NewGlobalRef(jPermissionsClass)
+        else { throw AndroidPermissionsError.GlobalRefNotCreated }
+
+        permissionsClass = globalPermissionClass
     }
 
     var recordAudioPermissionName: String? {
-        return try? jni.GetStaticField("RECORD_AUDIO", on: self.javaClass)
+        return try? jni.GetStaticField("RECORD_AUDIO", on: permissionsClass)
     }
 
     func requestAudioPermissionIfRequired(callback : @escaping ((Result) -> Void)) throws {
@@ -27,15 +36,20 @@ class AndroidPermissions: JNIObject {
     }
 
     private func getRecordAudioPermissionResult() throws -> Result {
-        let audioPermissionResult: Int = try jni.callStatic("checkRecordAudioPermission", on: self.javaClass)
+        let audioPermissionResult: Int = try jni.callStatic("checkRecordAudioPermission", on: permissionsClass)
         guard let result = Result(rawValue: audioPermissionResult) else {
-            throw AndroidPermissionsError.noResult
+            throw AndroidPermissionsError.noPermissionsResult
         }
         return result
     }
 
     private func requestRecordAudioPermission() throws {
-        try jni.callStatic("requestRecordAudioPermission", on: self.javaClass)
+        try jni.callStatic("requestRecordAudioPermission", on: permissionsClass)
+    }
+
+    deinit {
+        onRecordAudioPermissionResult = nil
+        jni.DeleteGlobalRef(globalRef: permissionsClass)
     }
 }
 
@@ -46,7 +60,9 @@ extension AndroidPermissions {
         case denied = -1
     }
     enum AndroidPermissionsError: Error {
-        case noResult
+        case PermissionsClassNotFound
+        case GlobalRefNotCreated
+        case noPermissionsResult
     }
 }
 
