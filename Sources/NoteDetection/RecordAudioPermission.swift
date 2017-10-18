@@ -75,31 +75,23 @@ public func onRequestPermissionsResult(
     grantResultsJavaArr: JavaIntArray)
 {
     guard let requestedPermissionNames = try? jni.GetStrings(from: permissionsJavaArr)
-    else { fatalError("Couldn't get requestedPermissions from Java result") }
+    else { assertionFailure("Couldn't get requestedPermissions from Java result"); return }
 
     let requestedPermissionResults = jni.GetIntArrayRegion(array: grantResultsJavaArr)
     let permissions: [(name: String, result: Int)] = Array(zip(requestedPermissionNames, requestedPermissionResults))
 
-    guard let recordAudioPermissionsName = try? AndroidPermissions().recordAudioPermissionName
+    guard
+        let recordAudioPermissionsName = try? AndroidPermissions().recordAudioPermissionName,
+        let recordAudioPermission = permissions.first(where: { $0.name == recordAudioPermissionsName })
     else {
-        assertionFailure("Could not get recordAudioPermissionName")
-        return
-    }
-
-    guard let recordAudioPermission = permissions.first(where: { $0.name == recordAudioPermissionsName })
-    else {
-        assertionFailure(
-            "Got permissions but they didn't include AndroidPermissions().recordAudioPermissionName (\(String(describing: recordAudioPermissionsName)).) " +
-            "Got '\(permissions)' instead"
-        )
+        assertionFailure("Could not get recordAudioPermission entry from permissions array")
         return
     }
 
     guard let result = AndroidPermissions.Result(rawValue: recordAudioPermission.result) else {
-        assertionFailure("Could not create AndroidPermissions.Result from recordAudioPermission.result = \(String(describing: recordAudioPermission.result)) ")
+        assertionFailure("Could not create AndroidPermissions.Result from recordAudioPermission.result = \(String(describing: recordAudioPermission.result))")
         return
     }
     onRecordAudioPermissionResult?(result)
     onRecordAudioPermissionResult = nil
-
 }
