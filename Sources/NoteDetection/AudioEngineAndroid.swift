@@ -2,15 +2,13 @@ import CAndroidAudioEngine
 
 final class AudioEngine: AudioInput {
     private var onAudioData: AudioDataCallback?
-    fileprivate let androidPermissions: AndroidPermissions
-
     public var onSampleRateChanged: SampleRateChangedCallback?
-
     public var sampleRate: Double = 44100
 
     public init() throws {
-        androidPermissions = try AndroidPermissions()
+        try initAndroidPermissions()
     }
+    deinit { deinitAndroidPermissions() }
 
     func set(onAudioData: AudioDataCallback?) {
         self.onAudioData = onAudioData
@@ -34,7 +32,7 @@ extension AudioEngine {
         if CAndroidAudioEngine_isInitialized() {
             CAndroidAudioEngine_start()
         } else {
-            try androidPermissions.requestAudioPermissionIfRequired { result in
+            try requestAudioPermissionIfRequired { result in
                 guard result == .granted else { assertionFailure("Permission was not granted!"); return }
                 CAndroidAudioEngine_initialize(Int32(self.sampleRate), 1024)
                 CAndroidAudioEngine_start()
