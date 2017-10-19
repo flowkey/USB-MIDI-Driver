@@ -5,14 +5,18 @@ final class AudioEngine: AudioInput {
     public var onSampleRateChanged: SampleRateChangedCallback?
     public var sampleRate: Double = 44100
 
-    public init() throws {
-        try initAndroidPermissions()
+    init() {
+        AndroidPermissions.sharedInstance = AndroidPermissions()
     }
-    deinit { deinitAndroidPermissions() }
+
+    deinit {
+        AndroidPermissions.sharedInstance = nil
+    }
 
     func set(onAudioData: AudioDataCallback?) {
         self.onAudioData = onAudioData
         CAndroidAudioEngine_setOnAudioData({ buffer, count, sampleRate, context in
+            print("running with samplerate: " + String(describing: sampleRate))
             let `self` = unsafeBitCast(context, to: AudioEngine.self)
             let bufferPointer = UnsafeBufferPointer(start: buffer, count: Int(count))
             let floatArray = [Float](bufferPointer)
@@ -32,7 +36,11 @@ extension AudioEngine {
         if CAndroidAudioEngine_isInitialized() {
             CAndroidAudioEngine_start()
         } else {
-            try requestAudioPermissionIfRequired { result in
+            guard let permissions = AndroidPermissions.sharedInstance else {
+                assertionFailure("Permissions shared instance doesn't exist.")
+                return
+            }
+            try permissions.requestAudioPermissionIfRequired { result in
                 guard result == .granted else { assertionFailure("Permission was not granted!"); return }
                 CAndroidAudioEngine_initialize(Int32(self.sampleRate), 1024)
                 CAndroidAudioEngine_start()
