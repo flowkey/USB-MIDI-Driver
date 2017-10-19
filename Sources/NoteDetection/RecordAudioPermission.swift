@@ -24,15 +24,11 @@ class AndroidPermissions {
         permissionsClass = globalPermissionClass
     }
 
-    var recordAudioPermissionName: String? {
-        return try? jni.GetStaticField("RECORD_AUDIO", on: permissionsClass)
-    }
-
     func requestAudioPermissionIfRequired(callback : @escaping ((Result) -> Void)) throws {
         onRecordAudioPermissionResult = callback
         let currentPermissionResult = try getRecordAudioPermissionResult()
         if currentPermissionResult == .granted  { return callback(currentPermissionResult) }
-        try requestRecordAudioPermission()
+        try jni.callStatic("requestRecordAudioPermission", on: permissionsClass)
     }
 
     private func getRecordAudioPermissionResult() throws -> Result {
@@ -41,10 +37,6 @@ class AndroidPermissions {
             throw AndroidPermissionsError.noPermissionsResult
         }
         return result
-    }
-
-    private func requestRecordAudioPermission() throws {
-        try jni.callStatic("requestRecordAudioPermission", on: permissionsClass)
     }
 
     deinit {
@@ -74,15 +66,16 @@ public func onRequestPermissionsResult(
     permissionsJavaArr: JavaObjectArray,
     grantResultsJavaArr: JavaIntArray)
 {
-    guard let requestedPermissionNames = try? jni.GetStrings(from: permissionsJavaArr)
-    else { assertionFailure("Couldn't get requestedPermissions from Java result"); return }
+    guard let requestedPermissionNames = try? jni.GetStrings(from: permissionsJavaArr) else { 
+        assertionFailure("Couldn't get requestedPermissions from Java result")
+        return
+    }
 
     let requestedPermissionResults = jni.GetIntArrayRegion(array: grantResultsJavaArr)
     let permissions: [(name: String, result: Int)] = Array(zip(requestedPermissionNames, requestedPermissionResults))
 
-    guard
-        let recordAudioPermissionsName = try? AndroidPermissions().recordAudioPermissionName,
-        let recordAudioPermission = permissions.first(where: { $0.name == recordAudioPermissionsName })
+    let recordAudioPermissionsName = "android.permission.RECORD_AUDIO"
+    guard let recordAudioPermission = permissions.first(where: { $0.name == recordAudioPermissionsName })
     else {
         assertionFailure("Could not get recordAudioPermission entry from permissions array")
         return
@@ -92,6 +85,11 @@ public func onRequestPermissionsResult(
         assertionFailure("Could not create AndroidPermissions.Result from recordAudioPermission.result = \(String(describing: recordAudioPermission.result))")
         return
     }
-    onRecordAudioPermissionResult?(result)
-    onRecordAudioPermissionResult = nil
+
+    if onRecordAudioPermissionResult != nil {
+        onRecordAudioPermissionResult?(result)
+        onRecordAudioPermissionResult = nil
+    } else {
+        assertionFailure("onRecordAudioPermissionResult does not exist")
+    }
 }
