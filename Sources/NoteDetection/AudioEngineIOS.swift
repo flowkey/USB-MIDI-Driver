@@ -48,7 +48,7 @@ final class AudioEngine: AudioInput {
 
     func enableInput() throws {
         try audioIOUnit.uninitialize()
-        try audioIOUnit.setProperty(kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Input, .inputBus, UInt32(true))
+        try audioIOUnit.setProperty(kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Input, .inputBus, UInt32(truncating: true))
         try audioIOUnit.initialize()
     }
 
