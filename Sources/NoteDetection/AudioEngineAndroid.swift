@@ -16,7 +16,6 @@ final class AudioEngine: AudioInput {
     func set(onAudioData: AudioDataCallback?) {
         self.onAudioData = onAudioData
         CAndroidAudioEngine_setOnAudioData({ buffer, count, sampleRate, context in
-            print("running with samplerate: " + String(describing: sampleRate))
             let `self` = unsafeBitCast(context, to: AudioEngine.self)
             let bufferPointer = UnsafeBufferPointer(start: buffer, count: Int(count))
             let floatArray = [Float](bufferPointer)
