@@ -24,7 +24,7 @@ class NativePitchDetectionTests: XCTestCase {
             "An empty Chroma Vector inited with () should equal one created from a [Float]")
 
         let chromaVectorWithG = ChromaVector([0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0])! // G
-        XCTAssertEqualWithAccuracy(chromaVectorWithG.similarity(to: chromaVectorWithG), 1.0, accuracy: 0.000001,
+        XCTAssertEqual(chromaVectorWithG.similarity(to: chromaVectorWithG), 1.0, accuracy: 0.000001,
             "Equal chroma vectors should have a 1.0 similarity with one another")
     }
 

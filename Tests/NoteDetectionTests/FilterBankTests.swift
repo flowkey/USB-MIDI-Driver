@@ -38,7 +38,7 @@ class FilterBankTests: XCTestCase {
         measure {
             let filterbank = AppleFilterBank(noteRange: self.noteRange, sampleRate: 44100)
             let maxElement = self.runFilterbankTest(filterbank: filterbank)
-            XCTAssertEqualWithAccuracy(maxElement, self.largestMeanMagnitudeInSampleAudioFrame, accuracy: 1e-06)
+            XCTAssertEqual(maxElement, self.largestMeanMagnitudeInSampleAudioFrame, accuracy: 1e-06)
         }
     }
 
@@ -52,7 +52,7 @@ class FilterBankTests: XCTestCase {
 
             let maxElement = self.runFilterbankTest(filterbank: filterbank)
 
-            XCTAssertEqualWithAccuracy(maxElement, self.largestMeanMagnitudeInSampleAudioFrame, accuracy: 1e-06)
+            XCTAssertEqual(maxElement, self.largestMeanMagnitudeInSampleAudioFrame, accuracy: 1e-06)
         }
     }
 }

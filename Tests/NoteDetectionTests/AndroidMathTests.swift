@@ -70,7 +70,7 @@ class MathTest: XCTestCase {
         var sumValue2: Float = 0
         vDSP_sve(sampleAudioFrame, 1, &sumValue2, vDSP_Length(sampleAudioFrame.count))
 
-        XCTAssertEqualWithAccuracy(sumValue1, sumValue2, accuracy: accuracy)
+        XCTAssertEqual(sumValue1, sumValue2, accuracy: accuracy)
         // XCTAssertEqual(sumValue1, sumValue2)
     }
 
@@ -85,7 +85,7 @@ class MathTest: XCTestCase {
         vDSP_rmsqv(sampleAudioFrame, 1, &rms2, vDSP_Length(sampleAudioFrame.count))
 
 
-        XCTAssertEqualWithAccuracy(rms1, rms2, accuracy: accuracy)
+        XCTAssertEqual(rms1, rms2, accuracy: accuracy)
         // XCTAssertEqual(rms1, rms2)
     }
 
@@ -95,7 +95,7 @@ class MathTest: XCTestCase {
         var meanValue2: Float = 0
         vDSP_meanv(sampleAudioFrame, 1, &meanValue2, vDSP_Length(sampleAudioFrame.count))
 
-        XCTAssertEqualWithAccuracy(meanValue1, meanValue2, accuracy: accuracy)
+        XCTAssertEqual(meanValue1, meanValue2, accuracy: accuracy)
         // XCTAssertEqual(meanValue1, meanValue2)
     }
 
