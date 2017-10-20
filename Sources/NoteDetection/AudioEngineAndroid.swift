@@ -5,7 +5,7 @@ final class AudioEngine: AudioInput {
     public var onSampleRateChanged: SampleRateChangedCallback?
     public var sampleRate: Double = 44100
 
-    init() {
+    init() throws { // throws as in iOS
         AndroidPermissions.sharedInstance = AndroidPermissions()
     }
 
