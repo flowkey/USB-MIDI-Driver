@@ -14,19 +14,6 @@ class MathTest: XCTestCase {
 
     let accuracy: Float = 0.0000001
 
-    // MARK: Set up / tear down tests:
-
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-
-
     // MARK: test functions: some simple sanity checks for functions running under android
 
     func testMax() {
@@ -65,13 +52,11 @@ class MathTest: XCTestCase {
     }
 
     func testSum() {
-
         let sumValue1 = sum(sampleAudioFrame)
         var sumValue2: Float = 0
         vDSP_sve(sampleAudioFrame, 1, &sumValue2, vDSP_Length(sampleAudioFrame.count))
 
         XCTAssertEqual(sumValue1, sumValue2, accuracy: accuracy)
-        // XCTAssertEqual(sumValue1, sumValue2)
     }
 
     func testSqrt() {
@@ -79,29 +64,23 @@ class MathTest: XCTestCase {
     }
 
     func testRMS() {
-
         let rms1 = rootMeanSquare(sampleAudioFrame)
         var rms2: Float = 0
         vDSP_rmsqv(sampleAudioFrame, 1, &rms2, vDSP_Length(sampleAudioFrame.count))
 
-
         XCTAssertEqual(rms1, rms2, accuracy: accuracy)
-        // XCTAssertEqual(rms1, rms2)
     }
 
     func testMean() {
-
         let meanValue1 = mean(sampleAudioFrame)
         var meanValue2: Float = 0
         vDSP_meanv(sampleAudioFrame, 1, &meanValue2, vDSP_Length(sampleAudioFrame.count))
 
         XCTAssertEqual(meanValue1, meanValue2, accuracy: accuracy)
-        // XCTAssertEqual(meanValue1, meanValue2)
     }
 
     func testMedian() {
         let arr: [Float] = [3, 4, 1]
-
         let medianValue = median(arr)
 
         XCTAssertEqual(medianValue, 3)

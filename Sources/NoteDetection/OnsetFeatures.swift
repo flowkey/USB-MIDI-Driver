@@ -10,6 +10,8 @@
 //  Example Matlab Implementation: http://www.audiocontentanalysis.org/code/audio-features/spectral-flux/
 //
 
+import Foundation
+
 // MARK: Onset Feature Protocol
 
 /// Could be Spectral Flux, HFC, simple RMS or whatever

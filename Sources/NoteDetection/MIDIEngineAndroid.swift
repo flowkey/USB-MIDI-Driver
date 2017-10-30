@@ -35,7 +35,7 @@ func onDeviceListChanged(env: UnsafeMutablePointer<JNIEnv>, cls: JavaObject, jMI
     midiEngine?.onMIDIDeviceListChanged?(midiDeviceList)
 }
 
-extension JavaObject {
+fileprivate extension JavaObject {
     func toMIDIDevice() throws -> MIDIDevice {
         let model: String = try jni.GetField("model", from: self)
         let manufacturer: String = try jni.GetField("manufacturer", from: self)

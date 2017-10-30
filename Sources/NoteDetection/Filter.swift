@@ -8,9 +8,7 @@
 
 // swiftlint:disable variable_name
 
-#if os(Android)
-import Glibc
-#endif
+import Foundation
 
 struct Filter {
     let b0: Float
@@ -24,7 +22,7 @@ struct Filter {
             fatalError("filter frequency and Q must be > 0")
         }
 
-        let omega = 2 * M_PI * centreFrequency / sampleRate
+        let omega = 2 * .pi * centreFrequency / sampleRate
         let omegaS = sin(omega)
         let omegaC = cos(omega)
         let alpha = omegaS / (2*Q)
@@ -51,6 +49,7 @@ struct Filter {
         self.a2 = Float(a2)
     }
 
+#if os(Android)
     /// only used for Android, where we have no SIMD instructions yet
     /// inputDiff is the value of (inputFrame[n] - inputFrame[n-2])
     mutating func calculateOutputFrame(_ inputDiff: Float) -> Float {
@@ -60,4 +59,6 @@ struct Filter {
 
         return y
     }
+#endif
+
 }

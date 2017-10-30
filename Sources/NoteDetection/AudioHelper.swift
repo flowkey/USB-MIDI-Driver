@@ -5,12 +5,8 @@
 //  Copyright © 2016 flowkey. All rights reserved.
 //
 
-#if os(Android)
-import Glibc
-#else
-import Foundation
-#endif
 
+import Foundation
 
 let midiNumberForA = MIDINumber(69)
 

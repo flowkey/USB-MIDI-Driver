@@ -8,13 +8,6 @@
 
 import Foundation
 
-
-// func postNotification(_ name: String, data: AnyObject? = nil) {
-//     performOnMainThread {
-//         NotificationCenter.default.post(name: Notification.Name(rawValue: name), object: data)
-//     }
-// }
-
 func performOnMainThread(_ block: @escaping () -> Void) {
     DispatchQueue.main.async(execute: block)
 }

@@ -9,38 +9,6 @@
 import Foundation
 import Accelerate
 
-// TODO
-// swiftlint:disable variable_name
-
-let M_PI: Double = 3.1415926535897931
-
-func sin(_ x: Float) -> Float {
-    return Foundation.sinf(x)
-}
-
-func sin(_ x: Double) -> Double {
-    return Foundation.sin(x)
-}
-
-func cos(_ x: Float) -> Float {
-    return Foundation.cosf(x)
-}
-
-func cos(_ x: Double) -> Double {
-    return Foundation.cos(x)
-}
-
-func lround(_ x: Float) -> Int {
-    return Foundation.lroundf(x)
-}
-
-func sqrt(_ num: Float) -> Float {
-    return Foundation.sqrt(num)
-}
-
-func sqrt(_ num: Double) -> Double {
-    return Foundation.sqrt(num)
-}
 
 func max(_ x: [Float]) -> Float {
     if x.count == 0 { return .nan }
@@ -65,8 +33,6 @@ func min(_ x: [Double]) -> Double {
 
     return result
 }
-
-//func pow(_ x)
 
 func sum(_ x: [Float]) -> Float {
     return x.reduce(0, { $0 + $1 })
