@@ -49,7 +49,7 @@ struct Filter {
         self.a2 = Float(a2)
     }
 
-#if os(Android)
+#if !os(iOS)
     /// only used for Android, where we have no SIMD instructions yet
     /// inputDiff is the value of (inputFrame[n] - inputFrame[n-2])
     mutating func calculateOutputFrame(_ inputDiff: Float) -> Float {
