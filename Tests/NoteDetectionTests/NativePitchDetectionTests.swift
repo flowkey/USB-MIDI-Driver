@@ -52,7 +52,8 @@ class NativePitchDetectionTests: XCTestCase {
     }
 
     func testChromaMapping() {
-        let sineWave = createSineWave(bufferLength, freq: midiNumberForA.inHz, sampleRate: Double(sampleRate))
+        let testedNote = midiNumberForA
+        let sineWave = createSineWave(bufferLength, freq: testedNote.inHz, sampleRate: Double(sampleRate))
         let noteDetector = AudioNoteDetector(sampleRate: Double(sampleRate))
 
         for _ in 0...100 {
@@ -60,8 +61,8 @@ class NativePitchDetectionTests: XCTestCase {
         }
 
         let chromaVector = noteDetector.filterbank.getChroma(for: .highAndLow)
-        let actualMaxElementIndex = chromaVector.toRaw.index(of: max(chromaVector.toRaw))
-        let desiredMaxElementIndex = midiNumberForA % 12
+        let actualMaxElementIndex = chromaVector.index(of: max(chromaVector))
+        let desiredMaxElementIndex = testedNote % 12
         XCTAssertEqual(actualMaxElementIndex, desiredMaxElementIndex)
     }
 

@@ -19,9 +19,6 @@ struct ChromaVector: CustomStringConvertible, Equatable {
     // Internal datastore, not publicly writable
     fileprivate var backingStore = ChromaVector.emptyVector
 
-    // Provide read-only access to internal datastore:
-    var toRaw: [Float] { return self.backingStore }
-
     // ---------------------------------------------------
     // Initialisers
 
@@ -83,8 +80,8 @@ struct ChromaVector: CustomStringConvertible, Equatable {
         var y: Float = 0
         var z: Float = 0
 
-        var a = self.toRaw
-        var b = other.toRaw
+        var a = self
+        var b = other
 
         let meanOfA = a.reduce(0.0, +) / Float(ChromaVector.size)
         let meanOfB = b.reduce(0.0, +) / Float(ChromaVector.size)
@@ -136,6 +133,12 @@ struct ChromaVector: CustomStringConvertible, Equatable {
     }
 
     static func == (lhs: ChromaVector, rhs: ChromaVector) -> Bool {
-        return lhs.toRaw == rhs.toRaw
+        return lhs.backingStore == rhs.backingStore
     }
+}
+
+extension ChromaVector: Collection {
+    func index(after i: Int) -> Int { return i + 1 }
+    var startIndex: Int { return 0 }
+    var endIndex: Int { return 11 }
 }

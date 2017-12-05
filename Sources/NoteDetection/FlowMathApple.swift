@@ -20,6 +20,11 @@ func max(_ x: [Double]) -> Double {
     return x.reduce(-.infinity) { ($1 > $0) ? $1 : $0 }
 }
 
+func max(_ x: ChromaVector) -> ChromaVector.Element {
+    if x.count == 0 { return .nan }
+    return x.reduce(-.infinity) { ($1 > $0) ? $1 : $0 }
+}
+
 func min(_ x: [Float]) -> Float {
     var result: Float = 0.0
     vDSP_minv(x, 1, &result, vDSP_Length(x.count))
