@@ -4,8 +4,6 @@ public typealias SampleRateChangedCallback = ((_ sampleRate: Double) -> Void)
 public class NoteDetection {
     public var isEnabled = true
 
-    var onInputLevelChanged: InputLevelChangedCallback?
-
     var noteDetector: NoteDetector! // implicitly unwrapped so we can use self.createNoteDetector() on init
     let audioEngine: AudioInput
     let midiEngine: MIDIInput
@@ -44,7 +42,7 @@ public class NoteDetection {
         // Transfer all callbacks from the previous detector over to the new one:
         newNoteDetector.expectedNoteEvent = noteDetector?.expectedNoteEvent
         newNoteDetector.onNoteEventDetected = noteDetector?.onNoteEventDetected
-        newNoteDetector.onInputLevelChanged = self.onInputLevelChanged
+        newNoteDetector.onInputLevelChanged = noteDetector?.onInputLevelChanged
 
         return newNoteDetector
     }
@@ -63,7 +61,13 @@ extension NoteDetection {
     }
 
     public func set(onInputLevelChanged: InputLevelChangedCallback?) {
-        self.onInputLevelChanged = onInputLevelChanged
+        noteDetector.onInputLevelChanged = onInputLevelChanged
+    }
+
+    public func set(onAudioProcessed: AudioProcessedCallback?) {
+        if let audioNoteDetector = noteDetector as? AudioNoteDetector {
+            audioNoteDetector.onAudioProcessed = onAudioProcessed
+        }
     }
 
     public func set(expectedNoteEvent: DetectableNoteEvent?) {

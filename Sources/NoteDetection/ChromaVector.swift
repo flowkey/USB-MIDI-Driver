@@ -12,7 +12,7 @@ import Foundation
 // for the fifth of a key is calculated. determined through obervation of filterbank during testing
 fileprivate let lowKeyBoundary = 48
 
-struct ChromaVector: CustomStringConvertible, Equatable {
+public struct ChromaVector: CustomStringConvertible, Equatable {
     static let size = 12 // a chroma vector always contains 12 values
     static let emptyVector = [Float](repeating: 0, count: ChromaVector.size)
 
@@ -22,7 +22,7 @@ struct ChromaVector: CustomStringConvertible, Equatable {
     // ---------------------------------------------------
     // Initialisers
 
-    init () {}
+    public init () {}
 
     // The first magnitude in our array needs to be at the 'start' MIDINumber for this to work
     init(from magnitudes: [Float], startingAt start: MIDINumber) {
@@ -51,7 +51,7 @@ struct ChromaVector: CustomStringConvertible, Equatable {
     // ---------------------------------------------------
     // Instance methods
 
-    var count: Int {
+    public var count: Int {
         return self.backingStore.count
     }
 
@@ -60,14 +60,14 @@ struct ChromaVector: CustomStringConvertible, Equatable {
         set { backingStore[index.rawValue] = newValue }
     }
 
-    subscript (index: Int) -> Float {
+    public subscript (index: Int) -> Float {
         // If someone puts an index out of bounds, wrap it
         // i.e. chroma[12] === chroma[0]
         get { return backingStore[index % ChromaVector.size]}
         set { backingStore[(index % ChromaVector.size)] = newValue }
     }
 
-    var description: String {
+    public var description: String {
         return backingStore.description
     }
 
@@ -132,13 +132,13 @@ struct ChromaVector: CustomStringConvertible, Equatable {
         return combinedChroma
     }
 
-    static func == (lhs: ChromaVector, rhs: ChromaVector) -> Bool {
+    public static func == (lhs: ChromaVector, rhs: ChromaVector) -> Bool {
         return lhs.backingStore == rhs.backingStore
     }
 }
 
 extension ChromaVector: Collection {
-    func index(after i: Int) -> Int { return i + 1 }
-    var startIndex: Int { return 0 }
-    var endIndex: Int { return 11 }
+    public func index(after i: Int) -> Int { return i + 1 }
+    public var startIndex: Int { return 0 }
+    public var endIndex: Int { return 11 }
 }

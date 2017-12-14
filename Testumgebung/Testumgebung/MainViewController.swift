@@ -28,7 +28,8 @@ public let noteDetection = try! NoteDetection(input: .audio)
             case .some("Onset"):
                 graphViewController?.updateView(data.onsetFeatureValue, onsetThreshold: data.onsetThreshold, onsetDetected: data.onsetDetected)
             default:
-                graphViewController?.updateView(data.chromaVector.toRaw)
+                let chromaAsFloatArray: [Float] = data.chromaVector.map { return $0 }
+                graphViewController?.updateView(chromaAsFloatArray)
             }
         }
     }

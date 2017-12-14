@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0349638E1F47107500E0C46D /* NoteDetection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0349638D1F47107500E0C46D /* NoteDetection.framework */; };
+		03B79D661FD845820036A2DC /* NoteDetection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03B79D651FD844170036A2DC /* NoteDetection.framework */; };
+		03B79D671FD845820036A2DC /* NoteDetection.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 03B79D651FD844170036A2DC /* NoteDetection.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		03B86D041B53CD45003DC61C /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B86D031B53CD45003DC61C /* WaveformView.swift */; };
 		03B86D061B53CD4F003DC61C /* OnsetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B86D051B53CD4F003DC61C /* OnsetView.swift */; };
 		03FB3F031B7CD866003E85B5 /* MidiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FB3F021B7CD866003E85B5 /* MidiView.swift */; };
@@ -34,6 +35,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				03B79D671FD845820036A2DC /* NoteDetection.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -42,6 +44,7 @@
 
 /* Begin PBXFileReference section */
 		0349638D1F47107500E0C46D /* NoteDetection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NoteDetection.framework; path = "../../../../Library/Developer/Xcode/DerivedData/NoteDetection-bflbdqkdrptqtyawqpogjabnkimj/Build/Products/Debug-iphonesimulator/NoteDetection.framework"; sourceTree = "<group>"; };
+		03B79D651FD844170036A2DC /* NoteDetection.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NoteDetection.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		03B86D031B53CD45003DC61C /* WaveformView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveformView.swift; sourceTree = "<group>"; };
 		03B86D051B53CD4F003DC61C /* OnsetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnsetView.swift; sourceTree = "<group>"; };
 		03FB3F021B7CD866003E85B5 /* MidiView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MidiView.swift; sourceTree = "<group>"; };
@@ -68,7 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0349638E1F47107500E0C46D /* NoteDetection.framework in Frameworks */,
+				03B79D661FD845820036A2DC /* NoteDetection.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +81,7 @@
 		0349638C1F47107500E0C46D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				03B79D651FD844170036A2DC /* NoteDetection.framework */,
 				0349638D1F47107500E0C46D /* NoteDetection.framework */,
 			);
 			name = Frameworks;
@@ -162,7 +166,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "flowkey GmbH";
 				TargetAttributes = {
 					5C4368A21B38690000C748C3 = {

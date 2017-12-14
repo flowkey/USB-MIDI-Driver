@@ -10,16 +10,16 @@ import JNI
 
 private weak var midiEngine: MIDIEngine?
 
-@_silgen_name("Java_com_flowkey_MIDI_ApiIndependentMIDIEngine_nativeMidiMessageCallback")
-func onMIDIMessageReceived(env: UnsafeMutablePointer<JNIEnv>, cls: JavaObject, midiData: JavaByteArray, timestamp: JavaLong) {
+@_silgen_name("Java_com_flowkey_notedetection_MIDI_ApiIndependentMIDIEngine_nativeMidiMessageCallback")
+public func onMIDIMessageReceived(env: UnsafeMutablePointer<JNIEnv>, cls: JavaObject, midiData: JavaByteArray, timestamp: JavaLong) {
     let midiDataArray: [UInt8] = jni.GetByteArrayRegion(array: midiData)
     midiDataArray.toMIDIMessages().forEach { midiMessage in
         midiEngine?.onMIDIMessageReceived?(midiMessage, nil, Timestamp(timestamp))
     }
 }
 
-@_silgen_name("Java_com_flowkey_MIDI_ApiIndependentMIDIEngine_nativeMidiDeviceCallback")
-func onDeviceListChanged(env: UnsafeMutablePointer<JNIEnv>, cls: JavaObject, jMIDIDevices: JavaObjectArray) {
+@_silgen_name("Java_com_flowkey_notedetection_MIDI_ApiIndependentMIDIEngine_nativeMidiDeviceCallback")
+public func onDeviceListChanged(env: UnsafeMutablePointer<JNIEnv>, cls: JavaObject, jMIDIDevices: JavaObjectArray) {
     let numberOfDevices = jni.GetLength(jMIDIDevices)
     var midiDeviceList: Set<MIDIDevice> = []
 
@@ -61,8 +61,8 @@ class MIDIEngine: JNIObject, MIDIInput {
     }
 
    init() throws {
-        let midiEngineClassName = "com/flowkey/MIDI/ApiIndependentMIDIEngine"
-        try super.init(midiEngineClassName)
+        let context = try getMainActivityContext()
+        try super.init("com/flowkey/notedetection/MIDI/ApiIndependentMIDIEngine", arguments: [context])
         midiEngine = self
     }
 

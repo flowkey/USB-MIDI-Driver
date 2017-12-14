@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/SwiftAndroid/swift-jni.git",
         "state": {
           "branch": null,
-          "revision": "955bf5955d98d18215520f3b4c69834ac9195dff",
-          "version": "1.2.0"
+          "revision": "882bca20490d063ecbe160907cbae7d9678c1576",
+          "version": "1.3.0"
         }
       }
     ]

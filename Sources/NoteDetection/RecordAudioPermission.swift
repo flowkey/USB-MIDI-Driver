@@ -18,11 +18,13 @@ class AndroidPermissions {
         onRecordAudioPermissionResult = callback
         let currentPermissionResult = try getRecordAudioPermissionResult()
         if currentPermissionResult == .granted { return callback(currentPermissionResult) }
-        try jni.callStatic("requestRecordAudioPermission", on: getPermissionsJavaClass())
+        let context = try getMainActivityContext()
+        try jni.callStatic("requestRecordAudioPermission", on: getPermissionsJavaClass(), arguments: [context])
     }
 
     private func getRecordAudioPermissionResult() throws -> Result {
-        let audioPermissionResult: Int = try jni.callStatic("checkRecordAudioPermission", on: getPermissionsJavaClass())
+        let context = try getMainActivityContext()
+        let audioPermissionResult: Int = try jni.callStatic("checkRecordAudioPermission", on: getPermissionsJavaClass(), arguments: [context])
         guard let result = Result(rawValue: audioPermissionResult) else {
             throw AndroidPermissionsError.getResultFailed
         }
@@ -35,20 +37,20 @@ class AndroidPermissions {
     }
 }
 
-private enum AndroidPermissionsError: Error {
+enum AndroidPermissionsError: Error {
     case javaClassNotFound
     case getResultFailed
 }
 
 private func getPermissionsJavaClass() throws -> JavaClass {
-    let permissionsClassName = "com/flowkey/Permissions/PermissionsKt"
+    let permissionsClassName = "com/flowkey/notedetection/Permissions/PermissionsKt"
     guard let jPermissionsClass = try? jni.FindClass(name: permissionsClassName) else {
         throw AndroidPermissionsError.javaClassNotFound
     }
     return jPermissionsClass
 }
 
-@_silgen_name("Java_com_flowkey_Permissions_PermissionsKt_onRequestPermissionsResult")
+@_silgen_name("Java_com_flowkey_notedetection_Permissions_PermissionsKt_onRequestPermissionsResult")
 public func onRequestPermissionsResult(
     env: UnsafeMutablePointer<JNIEnv>,
     cls: JavaObject,

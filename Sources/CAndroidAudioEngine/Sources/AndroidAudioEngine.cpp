@@ -22,29 +22,27 @@ float *inputBufferFloat;
 void (*onAudioData)(float *audioBuffer, int numberOfSamples, int sampleRate, void *context);
 void *audioEngineContext;
 
+const float SHORTMAX = ((float)SHRT_MAX);
+
 static bool audioProcessing(void *clientdata, short int *audioInputOutput, int numberOfSamples, int currentSamplerate)
 {
     // First of all, numberOfSamples is __per channel__
     // Secondly, audioProcessing ALWAYS receives 16-bit Stereo Interleaved samples
     // The left & right input channels contained exactly the same data in our tests
 
-    // We now do this in the loop below to save the dependency on libSuperpowered.a:
-    // SuperpoweredShortIntToFloat(audioInputOutput, inputBufferFloat, numberOfSamples);
-
     // Convert the 16-bit integer samples to 32-bit floating point, then:
     // De-interleave, discarding (identical) samples from the Right channel.
     for (short i = 0; i < numberOfSamples * 2; i += 2)
     {
         // convert a signed short int in the range between −32.768 .. 32.767 into a float in the range between -1 .. 1
-        float sample = (float)audioInputOutput[i] / ((float)SHRT_MAX);
-        monoBufferFloat[i / 2] = sample;
+        monoBufferFloat[i / 2] = ((float)audioInputOutput[i]) / SHORTMAX;
         // XXX: would be more correct:
         // monoBufferFloat[i / 2] = (inputBufferFloat[i] + inputBufferFloat[i+1] / 2)
     }
 
     onAudioData(monoBufferFloat, numberOfSamples, currentSamplerate, audioEngineContext);
 
-    return true; // XXX should actually return false to output silence ??
+    return false;
 }
 
 void CAndroidAudioEngine_setOnAudioData(void (*funcpntr)(float *, int, int, void *), void *context)
@@ -59,20 +57,19 @@ void CAndroidAudioEngine_initialize(int desiredSamplerate, int desiredBufferSize
         return;
 
     // Prepare an intermediate buffer for Int-Float conversion.
-    // This buffer never gets freed, but it's not such a big deal if it just dies with the app ( I THINK )
-    // XXX: if we kill audioIO at some point via unloadSource, we should also dealloc inputBufferFloat
     monoBufferFloat = (float *)malloc(desiredBufferSize * sizeof(float));
     inputBufferFloat = (float *)malloc(desiredBufferSize * sizeof(float) * 2 + 128);
 
     audioIO = new SuperpoweredAndroidAudioIO(
         desiredSamplerate,
         desiredBufferSize,
-        true,                               // enableInput
-        false,                              // enableOutput
-        audioProcessing,                    // callback
-        NULL,                               // clientData
-        SL_ANDROID_RECORDING_PRESET_GENERIC,// inputStreamType
-        desiredBufferSize * 2               // latencySamples
+        true,                                // enableInput
+        false,                               // enableOutput
+        audioProcessing,                     // callback
+        NULL,                                // clientData
+        SL_ANDROID_RECORDING_PRESET_GENERIC, // inputStreamType
+        -1,                                  // outputstreamType
+        0                                    // latencySamples, works only if input and output are enabled
     );
 
     // audioIO immediatly runs after initialziation, stop it

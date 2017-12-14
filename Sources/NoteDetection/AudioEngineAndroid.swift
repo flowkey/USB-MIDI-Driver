@@ -1,12 +1,25 @@
 import CAndroidAudioEngine
+import JNI
 
 final class AudioEngine: AudioInput {
     private var onAudioData: AudioDataCallback?
     public var onSampleRateChanged: SampleRateChangedCallback?
-    public var sampleRate: Double = 44100
+    public var sampleRate: Double
+    private let bufferSize: Int
 
     init() throws { // throws as in iOS
         AndroidPermissions.sharedInstance = AndroidPermissions()
+
+        do {
+            let audioSettingsClass = getAudioSettingsJavaClass()
+            let jContext = try getMainActivityContext()
+            sampleRate = try jni.callStatic("getFastAudioPathSampleRate", on: audioSettingsClass, arguments: [jContext])
+            bufferSize = try jni.callStatic("getFastAudioPathBufferSize", on: audioSettingsClass, arguments: [jContext])
+        } catch {
+            assertionFailure("Couldn't get either the settings class or optimal sample rates")
+            sampleRate = 48000 // most common fast audio path sampleRate
+            bufferSize = 512 // as in our settings for iOS
+        }
     }
 
     deinit {
@@ -28,6 +41,13 @@ final class AudioEngine: AudioInput {
     }
 }
 
+private func getAudioSettingsJavaClass() -> JavaClass {
+    let audioSettingsClassName = "com/flowkey/notedetection/Audio/SettingsKt"
+    guard let jAudioSettingsClass = try? jni.FindClass(name: audioSettingsClassName) else {
+        fatalError("Could not find Audio Settings class")
+    }
+    return jAudioSettingsClass
+}
 
 // MARK: Public controls.
 extension AudioEngine {
@@ -41,7 +61,9 @@ extension AudioEngine {
             }
             try permissions.requestAudioPermissionIfRequired { result in
                 guard result == .granted else { assertionFailure("Permission was not granted!"); return }
-                CAndroidAudioEngine_initialize(Int32(self.sampleRate), 1024)
+                let bufferSize = Int32(self.bufferSize)
+                let sampleRate = Int32(self.sampleRate)
+                CAndroidAudioEngine_initialize(sampleRate, bufferSize)
                 CAndroidAudioEngine_start()
             }
         }
@@ -50,4 +72,22 @@ extension AudioEngine {
     public func stop() {
         CAndroidAudioEngine_stop()
     }
+}
+
+
+/// MARK: debug prints for devices audio settings
+private func printAudioSettings(sampleRate: Double, bufferSize: Int) {
+    let audioSettingsClass = getAudioSettingsJavaClass()
+    let jContext = try! getMainActivityContext()
+    let hasLowLatencyFeature: Bool = try! jni.callStatic("hasLowLatencyFeature", on: audioSettingsClass, arguments: [jContext])
+    let hasProAudioFeature: Bool = try! jni.callStatic("hasProAudioFeature", on: audioSettingsClass, arguments: [jContext])
+    printAudioSettings(sampleRate: sampleRate, bufferSize: bufferSize, lowLatency: hasLowLatencyFeature, proAudio: hasProAudioFeature)
+}
+private func printAudioSettings(sampleRate: Double, bufferSize: Int, lowLatency: Bool, proAudio: Bool) {
+    print("-------------------- Audio Settings ----------------------------")
+    print("sampleRate: " + String(describing: sampleRate))
+    print("bufferSize: " + String(describing: bufferSize))
+    print("hasLowLatency: " + String(describing: lowLatency))
+    print("hasProAudio: " + String(describing: proAudio))
+    print("----------------------------------------------------------------")
 }

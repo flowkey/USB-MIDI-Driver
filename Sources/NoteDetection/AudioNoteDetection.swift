@@ -58,9 +58,11 @@ final class AudioNoteDetector: NoteDetector {
 
         // Volume drops a lot more quickly than the filterbank magnitudes
         // So check we either have enough volume, OR the filterbank is still "ringing out":
+        #if os(iOS) // Android has a lot of different microphones with different sensitivities, so don't do it for Android
         guard volume > volumeLowerThreshold || filterbank.magnitudes.contains(where: { $0 > 0.0003 }) else {
             return // print("Too quiet, not detecting")
         }
+        #endif
 
         // Do Pitch / Onset Detection
         filterbank.calculateMagnitudes(buffer)
