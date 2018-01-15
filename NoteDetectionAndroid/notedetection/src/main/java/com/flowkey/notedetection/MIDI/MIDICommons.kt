@@ -1,4 +1,4 @@
-package com.flowkey.notedetection.MIDI
+package com.flowkey.notedetection.midi
 
 class MIDIDevice(
     val model: String,

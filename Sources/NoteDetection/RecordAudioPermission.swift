@@ -38,19 +38,14 @@ class AndroidPermissions {
 }
 
 enum AndroidPermissionsError: Error {
-    case javaClassNotFound
     case getResultFailed
 }
 
 private func getPermissionsJavaClass() throws -> JavaClass {
-    let permissionsClassName = "com/flowkey/notedetection/Permissions/PermissionsKt"
-    guard let jPermissionsClass = try? jni.FindClass(name: permissionsClassName) else {
-        throw AndroidPermissionsError.javaClassNotFound
-    }
-    return jPermissionsClass
+    return try jni.FindClass(name: "com.flowkey.notedetection.permissions.PermissionsKt")
 }
 
-@_silgen_name("Java_com_flowkey_notedetection_Permissions_PermissionsKt_onRequestPermissionsResult")
+@_silgen_name("Java_com_flowkey_notedetection_permissions_PermissionsKt_onRequestPermissionsResult")
 public func onRequestPermissionsResult(
     env: UnsafeMutablePointer<JNIEnv>,
     cls: JavaObject,

@@ -1,4 +1,4 @@
-package com.flowkey.notedetection.Permissions
+package com.flowkey.notedetection.permissions
 
 import android.Manifest
 import android.app.Activity
@@ -13,13 +13,13 @@ import android.support.v4.content.ContextCompat
 val RECORD_AUDIO = Manifest.permission.RECORD_AUDIO
 
 
-external fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray)
+external fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray)
 
-fun checkRecordAudioPermission(context: Object): Int {
-    return ContextCompat.checkSelfPermission(context as Context, RECORD_AUDIO)
+fun checkRecordAudioPermission(context: Context): Int {
+    return ContextCompat.checkSelfPermission(context, RECORD_AUDIO)
 }
 
-fun requestRecordAudioPermission(context: Object) {
+fun requestRecordAudioPermission(context: Context) {
     ActivityCompat.requestPermissions(context as Activity, arrayOf(RECORD_AUDIO), 0)
 }
 

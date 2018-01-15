@@ -1,4 +1,4 @@
-package com.flowkey.notedetection.MIDI
+package com.flowkey.notedetection.midi
 
 import android.content.Context
 import android.hardware.usb.UsbDevice

@@ -10,7 +10,7 @@ import JNI
 
 private weak var midiEngine: MIDIEngine?
 
-@_silgen_name("Java_com_flowkey_notedetection_MIDI_ApiIndependentMIDIEngine_nativeMidiMessageCallback")
+@_silgen_name("Java_com_flowkey_notedetection_midi_ApiIndependentMIDIEngine_nativeMidiMessageCallback")
 public func onMIDIMessageReceived(env: UnsafeMutablePointer<JNIEnv>, cls: JavaObject, midiData: JavaByteArray, timestamp: JavaLong) {
     let midiDataArray: [UInt8] = jni.GetByteArrayRegion(array: midiData)
     midiDataArray.toMIDIMessages().forEach { midiMessage in
@@ -18,7 +18,7 @@ public func onMIDIMessageReceived(env: UnsafeMutablePointer<JNIEnv>, cls: JavaOb
     }
 }
 
-@_silgen_name("Java_com_flowkey_notedetection_MIDI_ApiIndependentMIDIEngine_nativeMidiDeviceCallback")
+@_silgen_name("Java_com_flowkey_notedetection_midi_ApiIndependentMIDIEngine_nativeMidiDeviceCallback")
 public func onDeviceListChanged(env: UnsafeMutablePointer<JNIEnv>, cls: JavaObject, jMIDIDevices: JavaObjectArray) {
     let numberOfDevices = jni.GetLength(jMIDIDevices)
     var midiDeviceList: Set<MIDIDevice> = []
@@ -56,13 +56,13 @@ fileprivate extension JavaObject {
 
 class MIDIEngine: JNIObject, MIDIInput {
 
-    enum MIDIEngineError : Error {
+    enum MIDIEngineError: Error {
         case InitError
     }
 
    init() throws {
         let context = try getMainActivityContext()
-        try super.init("com/flowkey/notedetection/MIDI/ApiIndependentMIDIEngine", arguments: [context])
+        try super.init("com/flowkey/notedetection/midi/ApiIndependentMIDIEngine", arguments: [context])
         midiEngine = self
     }
 
