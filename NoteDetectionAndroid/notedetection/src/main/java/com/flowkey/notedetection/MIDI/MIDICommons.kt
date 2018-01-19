@@ -1,6 +1,6 @@
 package com.flowkey.notedetection.midi
 
-class MIDIDevice(
+data class MIDIDevice(
     val model: String,
     val manufacturer: String,
     val uniqueID: Int
