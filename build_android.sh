@@ -1,5 +1,3 @@
-export PATH=$PATH:~/.swiftyrobot
-     
 BUILD_CONFIGURATION="debug" # release | debug
 echo "Building Android NoteDetection for $BUILD_CONFIGURATION..."
 
