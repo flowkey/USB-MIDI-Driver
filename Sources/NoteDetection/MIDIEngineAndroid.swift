@@ -60,9 +60,9 @@ class MIDIEngine: JNIObject, MIDIInput {
         case InitError
     }
 
-   init() throws {
+   convenience init() throws {
         let context = try getMainActivityContext()
-        try super.init("com/flowkey/notedetection/midi/ApiIndependentMIDIEngine", arguments: [context])
+        try self.init("com/flowkey/notedetection/midi/ApiIndependentMIDIEngine", arguments: [context])
         midiEngine = self
     }
 
