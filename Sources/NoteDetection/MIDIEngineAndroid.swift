@@ -32,9 +32,10 @@ public func onDeviceListChanged(env: UnsafeMutablePointer<JNIEnv>, cls: JavaObje
         }
         midiDeviceList.insert(device)
     }
-
-    midiEngine?.midiDeviceList = midiDeviceList
-    midiEngine?.onMIDIDeviceListChanged?(midiDeviceList)
+    performOnMainThread {
+        midiEngine?.midiDeviceList = midiDeviceList
+        midiEngine?.onMIDIDeviceListChanged?(midiDeviceList)
+    }
 }
 
 fileprivate extension JavaObject {
