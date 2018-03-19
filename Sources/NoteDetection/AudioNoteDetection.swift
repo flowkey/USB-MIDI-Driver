@@ -103,7 +103,9 @@ final class AudioNoteDetector: NoteDetector {
             self.lastOnsetTimestamp = nil
             self.lastNoteTimestamp = nil
 
-            onNoteEventDetected?(.now)
+            performOnMainThread {
+                 self.onNoteEventDetected?(.now)
+            }
         }
     }
 
