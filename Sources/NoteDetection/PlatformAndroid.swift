@@ -5,10 +5,11 @@
 //  Created by Geordie Jay on 17.12.15.
 //  Copyright © 2015 Geordie Jay. All rights reserved.
 //
+import Dispatch
 
 
 func performOnMainThread(_ block: @escaping () -> Void) {
-    block()
+    DispatchQueue.main.async(execute: block)
 }
 
 
