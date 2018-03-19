@@ -108,7 +108,7 @@ class MIDIEngine: MIDIInput {
         switch notification.pointee.messageID {
         case .msgObjectAdded, .msgObjectRemoved, .msgPropertyChanged:
             connect() // refresh sources when something changed
-            DispatchQueue.main.async {
+            performOnMainThread {
                 self.onMIDIDeviceListChanged?(self.midiDeviceList)
             }
         default: break
@@ -140,7 +140,7 @@ class MIDIEngine: MIDIInput {
         for packet in packets {
             let midiMessages = packet.toMIDIDataArray().toMIDIMessages()
 
-            DispatchQueue.main.async {
+            performOnMainThread {
                 midiMessages.forEach { midiMessage in
                     self.onMIDIMessageReceived?(midiMessage, sourceDevice, .now)
                 }
