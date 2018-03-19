@@ -12,9 +12,11 @@ private weak var midiEngine: MIDIEngine?
 
 @_silgen_name("Java_com_flowkey_notedetection_midi_ApiIndependentMIDIEngine_nativeMidiMessageCallback")
 public func onMIDIMessageReceived(env: UnsafeMutablePointer<JNIEnv>, cls: JavaObject, midiData: JavaByteArray, timestamp: JavaLong) {
-    let midiDataArray: [UInt8] = jni.GetByteArrayRegion(array: midiData)
-    midiDataArray.toMIDIMessages().forEach { midiMessage in
-        midiEngine?.onMIDIMessageReceived?(midiMessage, nil, Timestamp(timestamp))
+    let midiMessages = jni.GetByteArrayRegion(array: midiData).toMIDIMessages()
+    performOnMainThread {
+        midiMessages.forEach { midiMessage in
+            midiEngine?.onMIDIMessageReceived?(midiMessage, nil, Timestamp(timestamp))
+        }
     }
 }
 
