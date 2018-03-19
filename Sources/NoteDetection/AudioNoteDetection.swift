@@ -83,7 +83,6 @@ final class AudioNoteDetector: NoteDetector {
 
     private var lastOnsetTimestamp: Timestamp?
     private var lastNoteTimestamp: Timestamp?
-    private var lastFollowEventTime: Timestamp?
 
     var onNoteEventDetected: NoteEventDetectedCallback?
 
@@ -99,7 +98,6 @@ final class AudioNoteDetector: NoteDetector {
 
     func onInputReceived() {
         if timestampsAreCloseEnough() {
-            self.lastFollowEventTime = .now
             self.lastOnsetTimestamp = nil
             self.lastNoteTimestamp = nil
 
