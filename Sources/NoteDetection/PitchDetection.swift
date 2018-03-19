@@ -44,7 +44,7 @@ class PitchDetection {
 
         if statusBufferIsAllTrue {
             let now = Timestamp.now
-            performOnMainThread { self.onPitchDetected(now) }
+            self.onPitchDetected(now)
 
             // Reset the status buffer to reduce the likelihood of repeated notes being detected immediately:
             statusBuffer = [Bool](repeating: false, count: statusBuffer.count)
