@@ -7,13 +7,14 @@
 //
 
 import JNI
+import Dispatch
 
 private weak var midiEngine: MIDIEngine?
 
 @_silgen_name("Java_com_flowkey_notedetection_midi_ApiIndependentMIDIEngine_nativeMidiMessageCallback")
 public func onMIDIMessageReceived(env: UnsafeMutablePointer<JNIEnv>, cls: JavaObject, midiData: JavaByteArray, timestamp: JavaLong) {
     let midiMessages = jni.GetByteArrayRegion(array: midiData).toMIDIMessages()
-    performOnMainThread {
+    DispatchQueue.main.async {
         midiMessages.forEach { midiMessage in
             midiEngine?.onMIDIMessageReceived?(midiMessage, nil, Timestamp(timestamp))
         }
@@ -32,7 +33,7 @@ public func onDeviceListChanged(env: UnsafeMutablePointer<JNIEnv>, cls: JavaObje
         }
         midiDeviceList.insert(device)
     }
-    performOnMainThread {
+    DispatchQueue.main.async {
         midiEngine?.midiDeviceList = midiDeviceList
         midiEngine?.onMIDIDeviceListChanged?(midiDeviceList)
     }

@@ -1,3 +1,5 @@
+import Dispatch
+
 public typealias NoteEventDetectedCallback = (Timestamp) -> Void
 
 final class AudioNoteDetector: NoteDetector {
@@ -45,7 +47,9 @@ final class AudioNoteDetector: NoteDetector {
                 // wanna calculate dBFS reference value? this could be helpful https://goo.gl/rzCeAW
                 let ratio = 1 - (volume / volumeLowerThreshold)
                 let ratioBetween0and1 = min(max(0, ratio), 1)
-                performOnMainThread { onInputLevelChanged(ratioBetween0and1) }
+                DispatchQueue.main.async { 
+                    onInputLevelChanged(ratioBetween0and1) 
+                }
             }
           volumeIteration = 0
         }
@@ -72,8 +76,8 @@ final class AudioNoteDetector: NoteDetector {
 
         // Don't make unnecessary calls to the main thread if there is no callback set:
         if let onAudioProcessed = onAudioProcessed {
-            performOnMainThread {
-                let filterbankMagnitudes = self.filterbank.magnitudes
+            let filterbankMagnitudes = self.filterbank.magnitudes
+            DispatchQueue.main.async {
                 onAudioProcessed(
                     (buffer, chromaVector, filterbankMagnitudes, onset.featureValue, onset.threshold, onset.wasDetected)
                 )
@@ -101,7 +105,7 @@ final class AudioNoteDetector: NoteDetector {
             self.lastOnsetTimestamp = nil
             self.lastNoteTimestamp = nil
 
-            performOnMainThread {
+            DispatchQueue.main.async {
                  self.onNoteEventDetected?(.now)
             }
         }
