@@ -38,8 +38,7 @@ final class MIDINoteDetector: NoteDetector {
             // Otherwise it would feel strange - you could hold the correct keys down
             // then press a random key and onNoteEventDetected would be triggered...
             currentMIDIKeys.removeAll()
-            self.onNoteEventDetected?(timestamp)
-
+            onNoteEventDetected?(timestamp)
         }
     }
 

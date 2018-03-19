@@ -5,13 +5,6 @@
 //  Created by Geordie Jay on 17.12.15.
 //  Copyright © 2015 Geordie Jay. All rights reserved.
 //
-import Dispatch
-
-
-func performOnMainThread(_ block: @escaping () -> Void) {
-    DispatchQueue.main.async(execute: block)
-}
-
 
 @discardableResult
 @_silgen_name("__android_log_write")
