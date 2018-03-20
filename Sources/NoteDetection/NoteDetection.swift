@@ -6,7 +6,8 @@ public class NoteDetection {
 
     var noteDetector: NoteDetector! // implicitly unwrapped so we can use self.createNoteDetector() on init
     let audioEngine: AudioInput
-    let midiEngine: MIDIInput
+    let midiEngine: MIDIEngine
+    var lightControl: LightControl?
 
     fileprivate var ignoreUntilDeadline: Timestamp?
 
@@ -24,6 +25,18 @@ public class NoteDetection {
 
         noteDetector = createNoteDetector(type: input)
         audioEngine.onSampleRateChanged = onSampleRateChanged
+
+        midiEngine.set(onMIDIOutConnectionsChanged: { outConnections in
+            LightControl.sendClavinovaModelRequest(on: outConnections)
+        })
+
+        midiEngine.onSysexMessageReceived = { data, sourceDevice in
+            guard
+                LightControl.messageWasSendByCompatibleDevice(midiMessageData: data),
+                let connection = self.midiEngine.midiOutConnections.first(where: { $0.destinationID == sourceDevice.uniqueID })
+            else { return }
+            self.lightControl = LightControl(connection: connection)
+        }
     }
 
     private func onSampleRateChanged(sampleRate: Double) {
@@ -71,6 +84,12 @@ extension NoteDetection {
     }
 
     public func set(expectedNoteEvent: DetectableNoteEvent?) {
+        if let notes = expectedNoteEvent?.notes {
+            lightControl?.currentLightningKeys = notes.map{ UInt8($0) }
+        } else {
+            lightControl?.currentLightningKeys = []
+        }
+
         noteDetector.expectedNoteEvent = expectedNoteEvent
     }
 
@@ -93,6 +112,7 @@ extension NoteDetection {
     public func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?) {
         midiEngine.set(onMIDIDeviceListChanged: onMIDIDeviceListChanged)
     }
+
 
     public func startMicrophone() throws {
         try audioEngine.start()

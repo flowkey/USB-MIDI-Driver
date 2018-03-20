@@ -14,3 +14,11 @@ protocol MIDIInput: class {
     func set(onMIDIMessageReceived: MIDIMessageReceivedCallback?)
     func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?)
 }
+
+
+public typealias MIDIOutConnectionsChangedCallback = ([MIDIOutConnection]) -> Void
+
+protocol MIDIOutput: class {
+    var midiOutConnections: [MIDIOutConnection] { get }
+    func set(onMIDIOutConnectionsChanged: MIDIOutConnectionsChangedCallback?)
+}
