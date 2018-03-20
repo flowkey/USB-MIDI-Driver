@@ -7,14 +7,17 @@
 //
 
 import JNI
+import Dispatch
 
 private weak var midiEngine: MIDIEngine?
 
 @_silgen_name("Java_com_flowkey_notedetection_midi_ApiIndependentMIDIEngine_nativeMidiMessageCallback")
 public func onMIDIMessageReceived(env: UnsafeMutablePointer<JNIEnv>, cls: JavaObject, midiData: JavaByteArray, timestamp: JavaLong) {
-    let midiDataArray: [UInt8] = jni.GetByteArrayRegion(array: midiData)
-    midiDataArray.toMIDIMessages().forEach { midiMessage in
-        midiEngine?.onMIDIMessageReceived?(midiMessage, nil, Timestamp(timestamp))
+    let midiMessages = jni.GetByteArrayRegion(array: midiData).toMIDIMessages()
+    DispatchQueue.main.async {
+        midiMessages.forEach { midiMessage in
+            midiEngine?.onMIDIMessageReceived?(midiMessage, nil, Timestamp(timestamp))
+        }
     }
 }
 
@@ -30,9 +33,10 @@ public func onDeviceListChanged(env: UnsafeMutablePointer<JNIEnv>, cls: JavaObje
         }
         midiDeviceList.insert(device)
     }
-
-    midiEngine?.midiDeviceList = midiDeviceList
-    midiEngine?.onMIDIDeviceListChanged?(midiDeviceList)
+    DispatchQueue.main.async {
+        midiEngine?.midiDeviceList = midiDeviceList
+        midiEngine?.onMIDIDeviceListChanged?(midiDeviceList)
+    }
 }
 
 fileprivate extension JavaObject {
