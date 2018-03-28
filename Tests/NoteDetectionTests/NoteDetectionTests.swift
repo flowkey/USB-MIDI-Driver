@@ -62,7 +62,7 @@ class NoteDetectionTests: XCTestCase {
         let arbitaryIgnoreTime = 200.0
         noteDetection.ignoreFor(ms: arbitaryIgnoreTime)
 
-        let correctNoteOn = MIDIMessage.noteOn(key: arbitraryMidiNumber, velocity: 100)
+        let correctNoteOn = MIDIMessage.noteOn(key: UInt8(arbitraryMidiNumber), velocity: 100)
 
         midiNoteDetector.process(midiMessage: correctNoteOn)
         XCTAssert(noteWasDetected == false, "We shouldn't report notes detected within the ignore time")
