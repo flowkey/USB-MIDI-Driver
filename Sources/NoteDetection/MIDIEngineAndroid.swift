@@ -72,8 +72,6 @@ class MIDIEngine: JNIObject, MIDIInput, MIDIOutput {
         try self.init("com/flowkey/notedetection/midi/ApiIndependentMIDIEngine", arguments: [context])
         midiEngine = self
     }
-    
-    var onSysexMessageReceived: ((_ data: [UInt8], MIDIDevice) -> Void)?
 
     fileprivate(set) var midiDeviceList: Set<MIDIDevice> = []
     fileprivate(set) var midiOutConnections: Array<MIDIOutConnection> = []
@@ -82,7 +80,7 @@ class MIDIEngine: JNIObject, MIDIInput, MIDIOutput {
         print("deiniting MIDIEngine")
         midiEngine = nil
     }
-    
+
     private(set) var onMIDIOutConnectionsChanged: MIDIOutConnectionsChangedCallback?
     func set(onMIDIOutConnectionsChanged callback: MIDIOutConnectionsChangedCallback?) {
         self.onMIDIOutConnectionsChanged = callback
@@ -102,4 +100,8 @@ class MIDIEngine: JNIObject, MIDIInput, MIDIOutput {
         }
     }
 
+    private(set) var onSysexMessageReceived: SysexMessageReceivedCallback?
+    func set(onSysexMessageReceived callback: SysexMessageReceivedCallback?) {
+        self.onSysexMessageReceived = callback
+    }
 }

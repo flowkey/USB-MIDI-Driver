@@ -30,7 +30,7 @@ public class NoteDetection {
             YamahaLightControl.sendClavinovaModelRequest(on: outConnections)
         })
 
-        midiEngine.onSysexMessageReceived = { data, sourceDevice in
+        midiEngine.set(onSysexMessageReceived: { data, sourceDevice in
             guard
                 YamahaLightControl.checkIfMessageIsFromCompatibleDevice(midiMessageData: data),
                 let connection = self.midiEngine.midiOutConnections.first(where: { connection in
@@ -39,7 +39,7 @@ public class NoteDetection {
             else { return }
 
             self.lightControl = YamahaLightControl(connection: connection)
-        }
+        })
     }
 
     private func onSampleRateChanged(sampleRate: Double) {

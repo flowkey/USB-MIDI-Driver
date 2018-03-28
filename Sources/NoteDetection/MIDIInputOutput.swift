@@ -8,11 +8,13 @@
 
 public typealias MIDIMessageReceivedCallback = (MIDIMessage, MIDIDevice?, Timestamp) -> Void
 public typealias MIDIDeviceListChangedCallback = (Set<MIDIDevice>) -> Void
+public typealias SysexMessageReceivedCallback = ([UInt8], MIDIDevice) -> Void
 
 protocol MIDIInput: class {
     var midiDeviceList: Set<MIDIDevice> { get }
     func set(onMIDIMessageReceived: MIDIMessageReceivedCallback?)
     func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?)
+    func set(onSysexMessageReceived: SysexMessageReceivedCallback?)
 }
 
 public typealias MIDIOutConnectionsChangedCallback = ([MIDIOutConnection]) -> Void

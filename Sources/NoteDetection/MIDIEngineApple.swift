@@ -13,8 +13,7 @@ class MIDIEngine: MIDIInput, MIDIOutput {
     private(set) var onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?
     private(set) var onMIDIMessageReceived: MIDIMessageReceivedCallback?
     private(set) var onMIDIOutConnectionsChanged: MIDIOutConnectionsChangedCallback?
-
-    var onSysexMessageReceived: ((_ data: [UInt8], MIDIDevice) -> Void)?
+    private(set) var onSysexMessageReceived: SysexMessageReceivedCallback?
 
     private var midiClient = MIDIClientRef()
     private var inputPort = MIDIPortRef()
@@ -69,6 +68,10 @@ class MIDIEngine: MIDIInput, MIDIOutput {
         self.onMIDIDeviceListChanged = { devices in
             DispatchQueue.main.async { callback?(devices) }
         }
+    }
+    
+    func set(onSysexMessageReceived callback: ((_ data: [UInt8], MIDIDevice) -> Void)?) {
+        self.onSysexMessageReceived = callback
     }
 
     func set(onMIDIOutConnectionsChanged callback: MIDIOutConnectionsChangedCallback?) {
