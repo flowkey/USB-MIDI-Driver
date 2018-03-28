@@ -160,8 +160,8 @@ class MIDIEngine: MIDIInput, MIDIOutput {
     }
 
     func onMIDIPacketListReceived(packetList: UnsafePointer<MIDIPacketList>?, srcConnRefCon: UnsafeMutableRawPointer?) {
+        let sourceDevice = midiDeviceList.first { $0.refCon == srcConnRefCon }
         let packets = makePacketsFromPacketList(packetList)
-        let device = midiDeviceList.first { $0.refCon == srcConnRefCon }
 
         for packet in packets {
             let midiData = packet.toMIDIDataArray()
@@ -170,10 +170,10 @@ class MIDIEngine: MIDIInput, MIDIOutput {
                 switch message {
                 case .activeSensing: break
                 case .systemExclusive(let data):
-                    guard let device = device else { break }
-                    onSysexMessageReceived?(data, device)
+                    guard let sourceDevice = sourceDevice else { break }
+                    onSysexMessageReceived?(data, sourceDevice)
                 default:
-                    onMIDIMessageReceived?(message, device, .now)
+                    onMIDIMessageReceived?(message, sourceDevice, .now)
                 }
             }
         }

@@ -28,15 +28,13 @@ extension MIDIMessage: Equatable {
         case let (.systemExclusive(dataA), .systemExclusive(dataB)):
             return dataA == dataB
         default:
-            // All other cases are false.
-            // We don't check the contents of sysex messages, so assume they're not equal either:
             return false
         }
     }
 }
 
 
-fileprivate enum MIDIMessageType: UInt8 {
+fileprivate enum MIDICommand: UInt8 {
     case noteOn
     case noteOff
     case systemExclusive
@@ -44,7 +42,7 @@ fileprivate enum MIDIMessageType: UInt8 {
 }
 
 fileprivate extension UInt8 {
-    var midiMessageType: MIDIMessageType? {
+    var midiCommand: MIDICommand? {
         if self == 0b1111_1110 { return .activeSensing }
 
         let command = self & 0b1111_0000 // bitmask status to get command
@@ -64,15 +62,15 @@ func parseMIDIMessages(from data: [UInt8]) -> [MIDIMessage] {
     var index: Int = 0
     while index < data.count {
         // check if value at current index corresponds to a midi command
-        guard let messageType = data[index].midiMessageType else {
+        guard let commandType = data[index].midiCommand else {
             index += 1
-            continue
+            continue // skip midi messages which we are not handling so far
         }
 
         // determine end index for current message
         let endIndex: Int
         let message: MIDIMessage?
-        switch messageType {
+        switch commandType {
         case .activeSensing:
             endIndex = index
             message = MIDIMessage.activeSensing

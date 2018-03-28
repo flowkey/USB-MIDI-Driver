@@ -32,7 +32,7 @@ public class NoteDetection {
 
         midiEngine.onSysexMessageReceived = { data, sourceDevice in
             guard
-                YamahaLightControl.messageWasSendByCompatibleDevice(midiMessageData: data),
+                YamahaLightControl.checkIfMessageIsFromCompatibleDevice(midiMessageData: data),
                 let connection = self.midiEngine.midiOutConnections.first(where: { connection in
                     return connection.displayName == sourceDevice.displayName
                 })
