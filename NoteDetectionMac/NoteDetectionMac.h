@@ -17,5 +17,3 @@ FOUNDATION_EXPORT const unsigned char NoteDetectionMacVersionString[];
 // In this header, you should import all the public headers of your framework using statements like #import <NoteDetectionMac/PublicHeader.h>
 
 #import <NoteDetectionMac/SuperpoweredOSXAudioIO.h>
-
-#import <NoteDetection/miby.h>
