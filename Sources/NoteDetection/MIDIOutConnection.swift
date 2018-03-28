@@ -6,9 +6,6 @@
 //  Copyright © 2018 flowkey. All rights reserved.
 //
 
-import Foundation
-import CoreMIDI
-
 public protocol MIDIOutConnection {
     var displayName: String { get }
     func send(messages: [[UInt8]])

@@ -7,14 +7,21 @@
 //
 
 import JNI
+import Dispatch
 
 private weak var midiEngine: MIDIEngine?
 
 @_silgen_name("Java_com_flowkey_notedetection_midi_ApiIndependentMIDIEngine_nativeMidiMessageCallback")
 public func onMIDIMessageReceived(env: UnsafeMutablePointer<JNIEnv>, cls: JavaObject, midiData: JavaByteArray, timestamp: JavaLong) {
     let midiDataArray: [UInt8] = jni.GetByteArrayRegion(array: midiData)
-    midiDataArray.toMIDIMessages().forEach { midiMessage in
-        midiEngine?.onMIDIMessageReceived?(midiMessage, nil, Timestamp(timestamp))
+    let midiMessages = parseMIDIMessages(from: midiDataArray)
+    midiMessages.forEach { midiMessage in
+        midiMessages.forEach { message in
+            switch message {
+            case .noteOn, .noteOff: midiEngine?.onMIDIMessageReceived?(message, nil, .now)
+            default: break 
+            }
+        }
     }
 }
 
@@ -54,7 +61,7 @@ fileprivate extension JavaObject {
 }
 
 
-class MIDIEngine: JNIObject, MIDIInput {
+class MIDIEngine: JNIObject, MIDIInput, MIDIOutput {
 
     enum MIDIEngineError: Error {
         case InitError
@@ -65,21 +72,34 @@ class MIDIEngine: JNIObject, MIDIInput {
         try self.init("com/flowkey/notedetection/midi/ApiIndependentMIDIEngine", arguments: [context])
         midiEngine = self
     }
+    
+    var onSysexMessageReceived: ((_ data: [UInt8], MIDIDevice) -> Void)?
 
     fileprivate(set) var midiDeviceList: Set<MIDIDevice> = []
+    fileprivate(set) var midiOutConnections: Array<MIDIOutConnection> = []
 
     deinit {
         print("deiniting MIDIEngine")
         midiEngine = nil
     }
-
-    var onMIDIMessageReceived: MIDIMessageReceivedCallback?
-    func set(onMIDIMessageReceived: MIDIMessageReceivedCallback?) {
-        self.onMIDIMessageReceived = onMIDIMessageReceived
+    
+    private(set) var onMIDIOutConnectionsChanged: MIDIOutConnectionsChangedCallback?
+    func set(onMIDIOutConnectionsChanged callback: MIDIOutConnectionsChangedCallback?) {
+        self.onMIDIOutConnectionsChanged = callback
     }
 
-    var onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?
-    func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?) {
-        self.onMIDIDeviceListChanged = onMIDIDeviceListChanged
+    private(set) var onMIDIMessageReceived: MIDIMessageReceivedCallback?
+    func set(onMIDIMessageReceived callback: MIDIMessageReceivedCallback?) {
+        self.onMIDIMessageReceived = { message, device, timestamp in
+            DispatchQueue.main.async { callback?(message, device, timestamp) }
+        }
     }
+
+    private(set) var onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?
+    func set(onMIDIDeviceListChanged callback: MIDIDeviceListChangedCallback?) {
+        self.onMIDIDeviceListChanged = { devices in
+            DispatchQueue.main.async { callback?(devices) }
+        }
+    }
+
 }
