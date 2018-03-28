@@ -109,7 +109,7 @@ class MIDIEngine: MIDIInput, MIDIOutput {
             }
             let destRefCon = UnsafeMutablePointer<UInt32>.allocate(capacity: 0)
             midiOutConnections.append(CoreMIDIOutConnection(
-                source: inputPort,
+                source: outputPort,
                 destination: destination,
                 destRefCon: destRefCon)
             )

@@ -15,7 +15,7 @@ class LightControl {
 
         self.switchGuideOn()
         self.switchLightsOnNoSound()
-        self.turnOffAllLights()
+//        self.turnOffAllLights()
     }
 
 

@@ -11,14 +11,17 @@ import CoreMIDI
 
 public struct CoreMIDIOutConnection: MIDIOutConnection, Hashable {
     let source: MIDIPortRef
-    let destination: MIDIObjectRef
+    let destination: MIDIEndpointRef
     let refCon: UnsafeMutablePointer<UInt32>
     public var hashValue: Int { return refCon.hashValue }
 
-    init(source: MIDIPortRef, destination: MIDIObjectRef, destRefCon: UnsafeMutablePointer<UInt32>) {
+    init(source: MIDIPortRef, destination: MIDIEndpointRef, destRefCon: UnsafeMutablePointer<UInt32>) {
         self.source = source
         self.destination = destination
         self.refCon = destRefCon
+
+//        let connRefCon = UnsafeMutablePointer<UInt32>.allocate(capacity: 0)
+//        MIDIPortConnectSource(destination, source, connRefCon)
     }
 
     // MARK: MIDIOutConnection Conformance
@@ -32,18 +35,22 @@ public struct CoreMIDIOutConnection: MIDIOutConnection, Hashable {
 
     public func send(_ data: [UInt8]) {
 
+        print("CoreMIDIOutConnection.send was called, creating packetList with data: ", data)
+
         var packetList = UnsafeMutablePointer<MIDIPacketList>.allocate(capacity: 1)
         let packetListSize = MemoryLayout<MIDIPacketList>.size + data.count
         var curPacket = MIDIPacketListInit(packetList)
         curPacket = MIDIPacketListAdd(packetList, packetListSize, curPacket, mach_absolute_time(), data.count, data)
 
+        print(curPacket.pointee)
+
         MIDISend(self.source, self.destination, packetList)
 
-        curPacket.deinitialize()
-        curPacket.deallocate(capacity: data.count)
-
-        packetList.deinitialize()
-        packetList.deallocate(capacity: 1)
+//        curPacket.deinitialize()
+//        curPacket.deallocate(capacity: data.count)
+//
+//        packetList.deinitialize()
+//        packetList.deallocate(capacity: 1)
 
     }
 

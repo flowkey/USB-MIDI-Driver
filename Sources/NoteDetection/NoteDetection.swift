@@ -34,14 +34,16 @@ public class NoteDetection {
             print("----midiout connections-----")
             print(self.midiEngine.midiOutConnections.forEach{ $0.displayName })
             guard
-                LightControl.messageWasSendByCompatibleDevice(midiMessageData: data),
-                let connection = self.midiEngine.midiOutConnections.first(where: { connection in
-                    let sameDisplayName = connection.displayName == sourceDevice.displayName
-                    if sameDisplayName { print(connection.displayName) }
-                    return sameDisplayName
-                })
+                LightControl.messageWasSendByCompatibleDevice(midiMessageData: data)
+//                let connection = self.midiEngine.midiOutConnections.first(where: { connection in
+//                    let sameDisplayName = connection.displayName == sourceDevice.displayName
+//                    if sameDisplayName { print(connection.displayName) }
+//                    return sameDisplayName
+//                })
             else { return }
 
+            // ToDo
+            let connection = self.midiEngine.midiOutConnections[0]
             self.lightControl = LightControl(connection: connection)
         }
     }
@@ -107,7 +109,7 @@ extension NoteDetection {
             return
         }
 
-        lightControl.turnOffAllLights()
+//        lightControl.turnOffAllLights()
         let keys = notes.map{ UInt8($0) }
         print("----turn on lights at: ", keys)
         lightControl.turnOnLights(at: keys)
