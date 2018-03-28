@@ -5,6 +5,7 @@ class MIDIDInputMock: MIDIInput {
     var midiDeviceList: Set<MIDIDevice> = []
     func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?) {}
     func set(onMIDIMessageReceived: MIDIMessageReceivedCallback?) {}
+    func set(onSysexMessageReceived: SysexMessageReceivedCallback?) {}
 }
 
 class MIDINoteDetectorTests: XCTestCase {
