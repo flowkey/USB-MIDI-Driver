@@ -15,7 +15,6 @@ protocol MIDIInput: class {
     func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?)
 }
 
-
 public typealias MIDIOutConnectionsChangedCallback = ([MIDIOutConnection]) -> Void
 
 protocol MIDIOutput: class {

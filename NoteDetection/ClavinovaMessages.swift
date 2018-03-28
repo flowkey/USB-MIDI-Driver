@@ -14,7 +14,6 @@ private let MODEL_ID: UInt8 = 0x4C
 
 private let clavinovaChannel: UInt8 = 10
 
-
 typealias ClavinovaMessages = [UInt8]
 
 extension Array where Element == UInt8 {

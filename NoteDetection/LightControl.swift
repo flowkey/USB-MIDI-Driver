@@ -15,16 +15,16 @@ class LightControl {
 
         self.switchGuideOn()
         self.switchLightsOnNoSound()
-//        self.turnOffAllLights()
+        self.turnOffAllLights()
     }
 
 
-//    var currentLightningKeys: [UInt8] = [] {
-//        didSet {
-//            turnOffLights(at: oldValue)
-//            turnOnLights(at: currentLightningKeys)
-//        }
-//    }
+    var currentLightningKeys: [UInt8] = [] {
+        didSet {
+            turnOffLights(at: oldValue)
+            turnOnLights(at: currentLightningKeys)
+        }
+    }
 
     static func messageWasSendByCompatibleDevice(midiMessageData: [UInt8]) -> Bool {
         guard
@@ -65,24 +65,25 @@ class LightControl {
         return messageDataBegin == ClavinovaMessages.DUMP_REQUEST_RESPONSE_SIGNATURE
     }
 
-    func turnOnLights(at keys: [UInt8]) {
+    private func turnOnLights(at keys: [UInt8]) {
         keys.forEach { key in
             let message = self.createNoteOnMessage(channel: midiChannel, key: key)
-            self.connection.send(message)
+            self.connection.send(messages: [message])
         }
     }
 
-    func turnOffLights(at keys: [UInt8]) {
+    private func turnOffLights(at keys: [UInt8]) {
         keys.forEach { key in
             let message = self.createNoteOffMessage(channel: midiChannel, key: key)
-            self.connection.send(message)
+            self.connection.send(messages: [message])
         }
     }
 
     func turnOffAllLights() {
-        for key in 0..<128 {
-            self.connection.send(self.createNoteOffMessage(channel: midiChannel, key: UInt8(key)))
+        let noteOffMessages = (0..<128).map { key in
+            return self.createNoteOffMessage(channel: midiChannel, key: UInt8(key))
         }
+        self.connection.send(messages: noteOffMessages)
     }
 
     private func createNoteOnMessage(channel: UInt8, key: UInt8, velocity: UInt8 = 2) -> [UInt8] {

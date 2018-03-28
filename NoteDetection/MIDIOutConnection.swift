@@ -11,6 +11,6 @@ import CoreMIDI
 
 public protocol MIDIOutConnection {
     var displayName: String { get }
-    func send(_ data: [UInt8])
+    func send(messages: [[UInt8]])
     func sendSysex(_ data: [UInt8])
 }

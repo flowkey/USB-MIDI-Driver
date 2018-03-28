@@ -49,7 +49,6 @@ class MIDIEngine: MIDIInput, MIDIOutput {
         try MIDIOutputPortCreate(midiClient, outputName, &outputPort)
             .throwOnError()
 
-
         connect()
     }
 
@@ -135,7 +134,6 @@ class MIDIEngine: MIDIInput, MIDIOutput {
         midiOutConnections = []
     }
 
-
     // MARK: MIDI Notification (Device added / removed)
 
     let onMIDIDeviceChangedProc: MIDINotifyProc = { (notificationPtr, refCon) in
@@ -183,10 +181,8 @@ class MIDIEngine: MIDIInput, MIDIOutput {
                     case .systemExclusive(let data):
                         guard let device = device else { break }
                         onSysexMessageReceived?(data, device)
-                        print(message)
                     default:
                         onMIDIMessageReceived?(message, device, .now)
-                        print(message)
                 }
             }
         }
