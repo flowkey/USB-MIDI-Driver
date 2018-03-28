@@ -21,7 +21,7 @@ class MIDIEngine: MIDIInput, MIDIOutput {
     private var outputPort = MIDIPortRef()
 
     private(set) var midiDeviceList: Set<MIDIDevice> = []
-    private(set) var midiOutConnections: [MIDIOutConnection] = []
+    private(set) var midiOutConnections: Array<MIDIOutConnection> = []
 
     public init() throws {
         let clientName = "flowkey" as CFString
@@ -72,7 +72,6 @@ class MIDIEngine: MIDIInput, MIDIOutput {
     }
 
     func set(onMIDIOutConnectionsChanged callback: MIDIOutConnectionsChangedCallback?) {
-        // DispatchQueue.main.async ???
         self.onMIDIOutConnectionsChanged = callback
     }
 
@@ -85,27 +84,21 @@ class MIDIEngine: MIDIInput, MIDIOutput {
             if !source.online || source.isADisconnectedNetworkSession {
                 continue // abort this iteration and start next
             }
-
             let srcRefCon = UnsafeMutablePointer<UInt32>.allocate(capacity: 0)
-            do {
-                try MIDIPortConnectSource(inputPort, source, srcRefCon).throwOnError()
-            } catch {
+
+            do { try MIDIPortConnectSource(inputPort, source, srcRefCon).throwOnError() }
+            catch {
                 print("Failed to establish connection. Error: ", error.localizedDescription)
                 continue
             }
-
             midiDeviceList.insert(MIDIDevice(source, srcRefCon: srcRefCon))
         }
-
         self.onMIDIDeviceListChanged?(midiDeviceList)
 
 
         // DESTINATIONS
         for destIndex in 0 ..< MIDIGetNumberOfDestinations() {
             let destination = MIDIGetDestination(destIndex)
-            if !destination.online || destination.isADisconnectedNetworkSession {
-                continue // abort this iteration and start next
-            }
             let destRefCon = UnsafeMutablePointer<UInt32>.allocate(capacity: 0)
             midiOutConnections.append(CoreMIDIOutConnection(
                 source: outputPort,
@@ -113,7 +106,6 @@ class MIDIEngine: MIDIInput, MIDIOutput {
                 destRefCon: destRefCon)
             )
         }
-
         self.onMIDIOutConnectionsChanged?(midiOutConnections)
     }
 
@@ -143,9 +135,8 @@ class MIDIEngine: MIDIInput, MIDIOutput {
 
     func onMIDIDeviceChanged(notification: UnsafePointer<MIDINotification>) {
         switch notification.pointee.messageID {
-        case .msgObjectAdded: connect()
-        case .msgObjectRemoved: connect()
-        case .msgPropertyChanged: connect()
+        case .msgObjectAdded, .msgObjectRemoved, .msgPropertyChanged: 
+            connect() // refresh sources and destinations when something changed
         default: break
         }
     }
@@ -177,12 +168,12 @@ class MIDIEngine: MIDIInput, MIDIOutput {
             let midiMessages = parseMIDIMessages(from: midiData)
             midiMessages.forEach { message in
                 switch message {
-                    case .activeSensing: break
-                    case .systemExclusive(let data):
-                        guard let device = device else { break }
-                        onSysexMessageReceived?(data, device)
-                    default:
-                        onMIDIMessageReceived?(message, device, .now)
+                case .activeSensing: break
+                case .systemExclusive(let data):
+                    guard let device = device else { break }
+                    onSysexMessageReceived?(data, device)
+                default:
+                    onMIDIMessageReceived?(message, device, .now)
                 }
             }
         }
