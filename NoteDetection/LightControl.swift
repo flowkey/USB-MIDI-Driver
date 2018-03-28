@@ -19,12 +19,12 @@ class LightControl {
     }
 
 
-    var currentLightningKeys: [UInt8] = [] {
-        didSet {
-            turnOffLights(at: oldValue)
-            turnOnLights(at: currentLightningKeys)
-        }
-    }
+//    var currentLightningKeys: [UInt8] = [] {
+//        didSet {
+//            turnOffLights(at: oldValue)
+//            turnOnLights(at: currentLightningKeys)
+//        }
+//    }
 
     static func messageWasSendByCompatibleDevice(midiMessageData: [UInt8]) -> Bool {
         guard
@@ -65,14 +65,14 @@ class LightControl {
         return messageDataBegin == ClavinovaMessages.DUMP_REQUEST_RESPONSE_SIGNATURE
     }
 
-    private func turnOnLights(at keys: [UInt8]) {
+    func turnOnLights(at keys: [UInt8]) {
         keys.forEach { key in
             let message = self.createNoteOnMessage(channel: midiChannel, key: key)
             self.connection.send(message)
         }
     }
 
-    private func turnOffLights(at keys: [UInt8]) {
+    func turnOffLights(at keys: [UInt8]) {
         keys.forEach { key in
             let message = self.createNoteOffMessage(channel: midiChannel, key: key)
             self.connection.send(message)
@@ -109,4 +109,3 @@ class LightControl {
         self.connection.sendSysex(ClavinovaMessages.GUIDE_ON)
     }
 }
-

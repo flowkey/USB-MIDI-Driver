@@ -10,8 +10,7 @@ import Foundation
 import CoreMIDI
 
 public protocol MIDIOutConnection {
-    var sourceID: Int { get }
-    var destinationID: Int { get }
+    var displayName: String { get }
     func send(_ data: [UInt8])
     func sendSysex(_ data: [UInt8])
 }

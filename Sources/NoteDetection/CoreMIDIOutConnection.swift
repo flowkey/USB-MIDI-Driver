@@ -22,34 +22,33 @@ public struct CoreMIDIOutConnection: MIDIOutConnection, Hashable {
     }
 
     // MARK: MIDIOutConnection Conformance
-    public var sourceID: Int {
-        return source.uniqueID
-    }
-    public var destinationID: Int {
-        return destination.uniqueID
+    public var displayName: String {
+        return destination.displayName
     }
 
     public static func == (lhs: CoreMIDIOutConnection, rhs: CoreMIDIOutConnection) -> Bool {
         return lhs.refCon == rhs.refCon
     }
 
-    public func send(_ singleMIDIMessageData: [UInt8]) {
+    public func send(_ data: [UInt8]) {
+
         var packetList = UnsafeMutablePointer<MIDIPacketList>.allocate(capacity: 1)
-        let packetListSize = MemoryLayout<MIDIPacketList>.size + singleMIDIMessageData.count
+        let packetListSize = MemoryLayout<MIDIPacketList>.size + data.count
         var curPacket = MIDIPacketListInit(packetList)
-        curPacket = MIDIPacketListAdd(packetList, packetListSize, curPacket, mach_absolute_time(), singleMIDIMessageData.count, singleMIDIMessageData)
+        curPacket = MIDIPacketListAdd(packetList, packetListSize, curPacket, mach_absolute_time(), data.count, data)
 
         MIDISend(self.source, self.destination, packetList)
 
         curPacket.deinitialize()
-        curPacket.deallocate(capacity: singleMIDIMessageData.count)
+        curPacket.deallocate(capacity: data.count)
 
         packetList.deinitialize()
         packetList.deallocate(capacity: 1)
+
     }
 
     private let midiCompletionCallback: MIDICompletionProc = { request in
-//        print("completed sending sysex with request: ", request.pointee)
+        print("completed sending sysex with request")
     }
 
     private var sysexSendRequestPointer = UnsafeMutablePointer<MIDISysexSendRequest>.allocate(capacity: 1)

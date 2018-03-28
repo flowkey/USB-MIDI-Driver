@@ -31,10 +31,17 @@ public class NoteDetection {
         })
 
         midiEngine.onSysexMessageReceived = { data, sourceDevice in
+            print("----midiout connections-----")
+            print(self.midiEngine.midiOutConnections.forEach{ $0.displayName })
             guard
                 LightControl.messageWasSendByCompatibleDevice(midiMessageData: data),
-                let connection = self.midiEngine.midiOutConnections.first(where: { $0.destinationID == sourceDevice.uniqueID })
+                let connection = self.midiEngine.midiOutConnections.first(where: { connection in
+                    let sameDisplayName = connection.displayName == sourceDevice.displayName
+                    if sameDisplayName { print(connection.displayName) }
+                    return sameDisplayName
+                })
             else { return }
+
             self.lightControl = LightControl(connection: connection)
         }
     }
@@ -84,13 +91,27 @@ extension NoteDetection {
     }
 
     public func set(expectedNoteEvent: DetectableNoteEvent?) {
-        if let notes = expectedNoteEvent?.notes {
-            lightControl?.currentLightningKeys = notes.map{ UInt8($0) }
-        } else {
-            lightControl?.currentLightningKeys = []
-        }
 
         noteDetector.expectedNoteEvent = expectedNoteEvent
+
+//        if let notes = expectedNoteEvent?.notes {
+//            lightControl?.currentLightningKeys = notes.map{ UInt8($0) }
+//        } else {
+//            lightControl?.currentLightningKeys = []
+//        }
+
+        guard
+            let lightControl = lightControl,
+            let notes = expectedNoteEvent?.notes
+        else {
+            return
+        }
+
+        lightControl.turnOffAllLights()
+        let keys = notes.map{ UInt8($0) }
+        print("----turn on lights at: ", keys)
+        lightControl.turnOnLights(at: keys)
+
     }
 
     public func set(onNoteEventDetected: NoteEventDetectedCallback?) {

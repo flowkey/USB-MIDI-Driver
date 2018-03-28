@@ -20,21 +20,13 @@ class MIDIEngine: MIDIInput, MIDIOutput {
     private var inputPort = MIDIPortRef()
     private var outputPort = MIDIPortRef()
 
-    private(set) var midiDeviceList: Set<MIDIDevice> = [] {
-        didSet { self.onMIDIDeviceListChanged?(midiDeviceList) }
-    }
-    private(set) var midiOutConnections: [MIDIOutConnection] = [] {
-        didSet { self.onMIDIOutConnectionsChanged?(midiOutConnections) }
-    }
-
-    var mibyState = miby_t()
+    private(set) var midiDeviceList: Set<MIDIDevice> = []
+    private(set) var midiOutConnections: [MIDIOutConnection] = []
 
     public init() throws {
         let clientName = "flowkey" as CFString
         let inputName = "flowkey input port" as CFString
         let outputName = "flowkey output port" as CFString
-
-        miby_init(&mibyState, Unmanaged.passUnretained(self).toOpaque())
 
         #if os(iOS)
         MIDINetworkSession.default().isEnabled = true
@@ -70,13 +62,7 @@ class MIDIEngine: MIDIInput, MIDIOutput {
 
     func set(onMIDIMessageReceived callback: MIDIMessageReceivedCallback?) {
         self.onMIDIMessageReceived = { message, device, timestamp in
-            switch message {
-            case .systemExclusive(let data):
-                guard let device = device else { break }
-                self.onSysexMessageReceived?(data, device)
-            case .noteOn, .noteOff:
-                DispatchQueue.main.async { callback?(message, device, timestamp) }
-            }
+            DispatchQueue.main.async { callback?(message, device, timestamp) }
         }
     }
 
@@ -91,7 +77,7 @@ class MIDIEngine: MIDIInput, MIDIOutput {
         self.onMIDIOutConnectionsChanged = callback
     }
 
-    func connect() {
+    private func connect() {
         disconnect()
 
         // SOURCES
@@ -112,6 +98,9 @@ class MIDIEngine: MIDIInput, MIDIOutput {
             midiDeviceList.insert(MIDIDevice(source, srcRefCon: srcRefCon))
         }
 
+        self.onMIDIDeviceListChanged?(midiDeviceList)
+
+
         // DESTINATIONS
         for destIndex in 0 ..< MIDIGetNumberOfDestinations() {
             let destination = MIDIGetDestination(destIndex)
@@ -124,11 +113,12 @@ class MIDIEngine: MIDIInput, MIDIOutput {
                 destination: destination,
                 destRefCon: destRefCon)
             )
-
         }
+
+        self.onMIDIOutConnectionsChanged?(midiOutConnections)
     }
 
-    func disconnect() {
+    private func disconnect() {
         for sourceIndex in 0 ..< MIDIGetNumberOfSources() {
             let source = MIDIGetSource(sourceIndex)
 
@@ -155,8 +145,9 @@ class MIDIEngine: MIDIInput, MIDIOutput {
 
     func onMIDIDeviceChanged(notification: UnsafePointer<MIDINotification>) {
         switch notification.pointee.messageID {
-        case .msgObjectAdded, .msgObjectRemoved, .msgPropertyChanged:
-            connect() // refresh sources when something changed
+        case .msgObjectAdded: connect()
+        case .msgObjectRemoved: connect()
+        case .msgPropertyChanged: connect()
         default: break
         }
     }
@@ -179,16 +170,24 @@ class MIDIEngine: MIDIInput, MIDIOutput {
         self.onMIDIPacketListReceived(packetList: packetList, srcConnRefCon: srcConnRefCon)
     }
 
-    // ToDo: try to pass device through MIBY somehow instead of caching it here ?
-    var lastSendingSourceDevice: MIDIDevice?
     func onMIDIPacketListReceived(packetList: UnsafePointer<MIDIPacketList>?, srcConnRefCon: UnsafeMutableRawPointer?) {
         let packets = makePacketsFromPacketList(packetList)
-        lastSendingSourceDevice = midiDeviceList.first { $0.refCon == srcConnRefCon }
+        let device = midiDeviceList.first { $0.refCon == srcConnRefCon }
 
         for packet in packets {
-//            print(packet.toMIDIDataArray())
-            packet.toMIDIDataArray().forEach { byte in
-                miby_parse(&mibyState, byte)
+            let midiData = packet.toMIDIDataArray()
+            let midiMessages = parseMIDIMessages(from: midiData)
+            midiMessages.forEach { message in
+                switch message {
+                    case .activeSensing: break
+                    case .systemExclusive(let data):
+                        guard let device = device else { break }
+                        onSysexMessageReceived?(data, device)
+                        print(message)
+                    default:
+                        onMIDIMessageReceived?(message, device, .now)
+                        print(message)
+                }
             }
         }
     }
@@ -199,8 +198,8 @@ extension MIDIDevice {
     init(_ device: MIDIObjectRef, srcRefCon: UnsafeMutableRawPointer) {
         displayName = device.displayName
         uniqueID = device.uniqueID
-        model = device.getStringProperty(kMIDIPropertyModel)
-        manufacturer = device.getStringProperty(kMIDIPropertyManufacturer)
+        model = device.model
+        manufacturer = device.manufacturer
         refCon = srcRefCon
     }
 }
