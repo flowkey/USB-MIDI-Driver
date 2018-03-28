@@ -32,7 +32,6 @@
 		032160DD1F04EE7100C9AE3E /* FlowMathApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160BE1F04EE7100C9AE3E /* FlowMathApple.swift */; };
 		032160DE1F04EE7100C9AE3E /* InputType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160BF1F04EE7100C9AE3E /* InputType.swift */; };
 		032160DF1F04EE7100C9AE3E /* MIDIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C01F04EE7100C9AE3E /* MIDIDevice.swift */; };
-		032160E01F04EE7100C9AE3E /* MIDIEngine+Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C11F04EE7100C9AE3E /* MIDIEngine+Debug.swift */; };
 		032160E11F04EE7100C9AE3E /* MIDIEngineApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C21F04EE7100C9AE3E /* MIDIEngineApple.swift */; };
 		032160E21F04EE7100C9AE3E /* MIDIInputOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C31F04EE7100C9AE3E /* MIDIInputOutput.swift */; };
 		032160E31F04EE7100C9AE3E /* MIDIMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C41F04EE7100C9AE3E /* MIDIMessage.swift */; };
@@ -63,7 +62,6 @@
 		03CBB9391F7E5FA900574D4D /* MIDIEndpointRef+NetworkSessionIOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CBB9381F7E5FA900574D4D /* MIDIEndpointRef+NetworkSessionIOS.swift */; };
 		03DD8F261F7D571000E0D523 /* MIDIPacket+UInt8Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C51F04EE7100C9AE3E /* MIDIPacket+UInt8Array.swift */; };
 		03DD8F271F7D571400E0D523 /* MIDIEngineApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C21F04EE7100C9AE3E /* MIDIEngineApple.swift */; };
-		03DD8F281F7D571800E0D523 /* MIDIEngine+Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C11F04EE7100C9AE3E /* MIDIEngine+Debug.swift */; };
 		03DD8F291F7D571D00E0D523 /* MIDIObjectRef.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C81F04EE7100C9AE3E /* MIDIObjectRef.swift */; };
 		03DD8F2A1F7D58C600E0D523 /* OSStatus+LocalizedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160CD1F04EE7100C9AE3E /* OSStatus+LocalizedError.swift */; };
 		03E95FCC2060609200773C2B /* ClavinovaMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E95FCA2060609200773C2B /* ClavinovaMessages.swift */; };
@@ -137,7 +135,6 @@
 		032160BE1F04EE7100C9AE3E /* FlowMathApple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FlowMathApple.swift; path = Sources/NoteDetection/FlowMathApple.swift; sourceTree = SOURCE_ROOT; };
 		032160BF1F04EE7100C9AE3E /* InputType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputType.swift; path = Sources/NoteDetection/InputType.swift; sourceTree = SOURCE_ROOT; };
 		032160C01F04EE7100C9AE3E /* MIDIDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIDevice.swift; path = Sources/NoteDetection/MIDIDevice.swift; sourceTree = SOURCE_ROOT; };
-		032160C11F04EE7100C9AE3E /* MIDIEngine+Debug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MIDIEngine+Debug.swift"; path = "Sources/NoteDetection/MIDIEngine+Debug.swift"; sourceTree = SOURCE_ROOT; };
 		032160C21F04EE7100C9AE3E /* MIDIEngineApple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIEngineApple.swift; path = Sources/NoteDetection/MIDIEngineApple.swift; sourceTree = SOURCE_ROOT; };
 		032160C31F04EE7100C9AE3E /* MIDIInputOutput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIInputOutput.swift; path = Sources/NoteDetection/MIDIInputOutput.swift; sourceTree = SOURCE_ROOT; };
 		032160C41F04EE7100C9AE3E /* MIDIMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIMessage.swift; path = Sources/NoteDetection/MIDIMessage.swift; sourceTree = SOURCE_ROOT; };
@@ -307,7 +304,6 @@
 			children = (
 				032160C51F04EE7100C9AE3E /* MIDIPacket+UInt8Array.swift */,
 				032160C21F04EE7100C9AE3E /* MIDIEngineApple.swift */,
-				032160C11F04EE7100C9AE3E /* MIDIEngine+Debug.swift */,
 				032160C81F04EE7100C9AE3E /* MIDIObjectRef.swift */,
 				03CBB9381F7E5FA900574D4D /* MIDIEndpointRef+NetworkSessionIOS.swift */,
 				03B029241F94C7BD00367C53 /* MIDIEndpointRef+NetworkSessionMacOS.swift */,
@@ -650,7 +646,6 @@
 				03CBB9391F7E5FA900574D4D /* MIDIEndpointRef+NetworkSessionIOS.swift in Sources */,
 				03B8D83E20607266009803FA /* LightControl.swift in Sources */,
 				03E95FCC2060609200773C2B /* ClavinovaMessages.swift in Sources */,
-				032160E01F04EE7100C9AE3E /* MIDIEngine+Debug.swift in Sources */,
 				03B103ED2063C484003CAE4D /* CoreMIDIOutConnection.swift in Sources */,
 				032160D41F04EE7100C9AE3E /* AudioInput.swift in Sources */,
 				032160D31F04EE7100C9AE3E /* AudioHelper.swift in Sources */,
@@ -701,7 +696,6 @@
 				5CC5C8E11F0BEB940037F1FF /* AudioEngineMac.swift in Sources */,
 				03B103E5206317B6003CAE4D /* LightControl.swift in Sources */,
 				5C0E568B1F0BE96900793A7F /* AudioNoteDetection.swift in Sources */,
-				03DD8F281F7D571800E0D523 /* MIDIEngine+Debug.swift in Sources */,
 				5C0E56951F0BE96900793A7F /* MIDINoteDetection.swift in Sources */,
 				5C0E568F1F0BE96900793A7F /* Filter.swift in Sources */,
 				03DD8F291F7D571D00E0D523 /* MIDIObjectRef.swift in Sources */,
