@@ -7,7 +7,7 @@ private let NOTE_OFF: UInt8 = 8
 
 private let midiChannel: UInt8 = 10
 
-class LightControl {
+class YamahaLightControl {
     let connection: MIDIOutConnection
 
     init(connection: MIDIOutConnection) {
@@ -28,9 +28,9 @@ class LightControl {
 
     static func messageWasSendByCompatibleDevice(midiMessageData: [UInt8]) -> Bool {
         guard
-            LightControl.messageDataIsDumpRequestResponse(midiMessageData),
-            let model = LightControl.getModelFromDumpRequestResponse(data: midiMessageData),
-            LightControl.modelHasLightControlSupport(model: model)
+            YamahaLightControl.messageDataIsDumpRequestResponse(midiMessageData),
+            let model = YamahaLightControl.getModelFromDumpRequestResponse(data: midiMessageData),
+            YamahaLightControl.modelHasLightControlSupport(model: model)
         else {
             return false
         }
@@ -38,7 +38,7 @@ class LightControl {
     }
 
     static func sendClavinovaModelRequest(on connections: [MIDIOutConnection]) {
-        connections.forEach { $0.sendSysex(ClavinovaMessages.DUMP_REQUEST_MODEL) }
+        connections.forEach { $0.sendSysex(YamahaMessages.DUMP_REQUEST_MODEL) }
     }
 
     private static func getModelFromDumpRequestResponse(data: [UInt8]) -> String? {
@@ -57,12 +57,12 @@ class LightControl {
     }
 
     private static func messageDataIsDumpRequestResponse(_ data: [UInt8]) -> Bool {
-        let responseSignatureCount = ClavinovaMessages.DUMP_REQUEST_RESPONSE_SIGNATURE.count
+        let responseSignatureCount = YamahaMessages.DUMP_REQUEST_RESPONSE_SIGNATURE.count
         guard data.count >= responseSignatureCount else {
             return false
         }
         let messageDataBegin = Array<UInt8>(data[0 ..< responseSignatureCount])
-        return messageDataBegin == ClavinovaMessages.DUMP_REQUEST_RESPONSE_SIGNATURE
+        return messageDataBegin == YamahaMessages.DUMP_REQUEST_RESPONSE_SIGNATURE
     }
 
     private func turnOnLights(at keys: [UInt8]) {
@@ -95,18 +95,18 @@ class LightControl {
     }
 
     private func switchLightsOnNoSound() {
-        self.connection.sendSysex(ClavinovaMessages.LIGHT_ON_NO_SOUND)
+        self.connection.sendSysex(YamahaMessages.LIGHT_ON_NO_SOUND)
     }
 
     private func switchLightsOffNoSound() {
-        self.connection.sendSysex(ClavinovaMessages.LIGHT_OFF_NO_SOUND)
+        self.connection.sendSysex(YamahaMessages.LIGHT_OFF_NO_SOUND)
     }
 
     private func switchGuideOff() {
-        self.connection.sendSysex(ClavinovaMessages.GUIDE_OFF)
+        self.connection.sendSysex(YamahaMessages.GUIDE_OFF)
     }
 
     private func switchGuideOn() {
-        self.connection.sendSysex(ClavinovaMessages.GUIDE_ON)
+        self.connection.sendSysex(YamahaMessages.GUIDE_ON)
     }
 }

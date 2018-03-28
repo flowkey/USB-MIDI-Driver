@@ -48,10 +48,10 @@
 		032160EE1F04EE7100C9AE3E /* PlatformApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160CF1F04EE7100C9AE3E /* PlatformApple.swift */; };
 		032160EF1F04EE7100C9AE3E /* ProcessedAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160D01F04EE7100C9AE3E /* ProcessedAudio.swift */; };
 		037122141E8532A0009CC189 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 037122131E8532A0009CC189 /* .swiftlint.yml */; };
-		0377917E206C15A300350967 /* LightControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0377917D206C15A300350967 /* LightControl.swift */; };
-		0377917F206C15A300350967 /* LightControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0377917D206C15A300350967 /* LightControl.swift */; };
-		03779181206C161100350967 /* ClavinovaMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03779180206C161100350967 /* ClavinovaMessages.swift */; };
-		03779182206C161100350967 /* ClavinovaMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03779180206C161100350967 /* ClavinovaMessages.swift */; };
+		0377917E206C15A300350967 /* YamahaLightControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0377917D206C15A300350967 /* YamahaLightControl.swift */; };
+		0377917F206C15A300350967 /* YamahaLightControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0377917D206C15A300350967 /* YamahaLightControl.swift */; };
+		03779181206C161100350967 /* YamahaMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03779180206C161100350967 /* YamahaMessages.swift */; };
+		03779182206C161100350967 /* YamahaMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03779180206C161100350967 /* YamahaMessages.swift */; };
 		03779184206C163700350967 /* MIDIOutConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03779183206C163700350967 /* MIDIOutConnection.swift */; };
 		03779185206C163700350967 /* MIDIOutConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03779183206C163700350967 /* MIDIOutConnection.swift */; };
 		038A82871F211A7600875E5E /* AVAudioEngine+Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038A82861F211A7600875E5E /* AVAudioEngine+Category.swift */; };
@@ -161,8 +161,8 @@
 		032161801F065BB600C9AE3E /* build_android.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build_android.sh; sourceTree = SOURCE_ROOT; };
 		032E8CF01FC8641300729088 /* AndroidActivityContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AndroidActivityContext.swift; path = Sources/NoteDetection/AndroidActivityContext.swift; sourceTree = SOURCE_ROOT; };
 		037122131E8532A0009CC189 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
-		0377917D206C15A300350967 /* LightControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LightControl.swift; path = Sources/NoteDetection/LightControl.swift; sourceTree = SOURCE_ROOT; };
-		03779180206C161100350967 /* ClavinovaMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClavinovaMessages.swift; path = Sources/NoteDetection/ClavinovaMessages.swift; sourceTree = SOURCE_ROOT; };
+		0377917D206C15A300350967 /* YamahaLightControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YamahaLightControl.swift; path = Sources/NoteDetection/YamahaLightControl.swift; sourceTree = SOURCE_ROOT; };
+		03779180206C161100350967 /* YamahaMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YamahaMessages.swift; path = Sources/NoteDetection/YamahaMessages.swift; sourceTree = SOURCE_ROOT; };
 		03779183206C163700350967 /* MIDIOutConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIOutConnection.swift; path = Sources/NoteDetection/MIDIOutConnection.swift; sourceTree = SOURCE_ROOT; };
 		038A82841F2118A600875E5E /* MIDIEngineAndroid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIEngineAndroid.swift; path = Sources/NoteDetection/MIDIEngineAndroid.swift; sourceTree = SOURCE_ROOT; };
 		038A82861F211A7600875E5E /* AVAudioEngine+Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "AVAudioEngine+Category.swift"; path = "Sources/NoteDetection/AVAudioEngine+Category.swift"; sourceTree = SOURCE_ROOT; };
@@ -399,8 +399,8 @@
 		03E95FC92060607800773C2B /* LightControl */ = {
 			isa = PBXGroup;
 			children = (
-				03779180206C161100350967 /* ClavinovaMessages.swift */,
-				0377917D206C15A300350967 /* LightControl.swift */,
+				03779180206C161100350967 /* YamahaMessages.swift */,
+				0377917D206C15A300350967 /* YamahaLightControl.swift */,
 			);
 			name = LightControl;
 			sourceTree = "<group>";
@@ -633,7 +633,7 @@
 			files = (
 				032160E81F04EE7100C9AE3E /* MusicalNote.swift in Sources */,
 				032160E61F04EE7100C9AE3E /* MIDINumber.swift in Sources */,
-				0377917E206C15A300350967 /* LightControl.swift in Sources */,
+				0377917E206C15A300350967 /* YamahaLightControl.swift in Sources */,
 				032160D81F04EE7100C9AE3E /* CrossPlatformHelper.swift in Sources */,
 				032160EA1F04EE7100C9AE3E /* OnsetDetection.swift in Sources */,
 				03779184206C163700350967 /* MIDIOutConnection.swift in Sources */,
@@ -661,7 +661,7 @@
 				032160E31F04EE7100C9AE3E /* MIDIMessage.swift in Sources */,
 				032160E91F04EE7100C9AE3E /* NoteDetection.swift in Sources */,
 				032160DA1F04EE7100C9AE3E /* Filter.swift in Sources */,
-				03779181206C161100350967 /* ClavinovaMessages.swift in Sources */,
+				03779181206C161100350967 /* YamahaMessages.swift in Sources */,
 				032160D21F04EE7100C9AE3E /* AudioEngineIOS.swift in Sources */,
 				032160DC1F04EE7100C9AE3E /* Filterbank+ChromaVector.swift in Sources */,
 				032160E71F04EE7100C9AE3E /* MIDIObjectRef.swift in Sources */,
@@ -698,7 +698,7 @@
 				5C0E568F1F0BE96900793A7F /* Filter.swift in Sources */,
 				03DD8F291F7D571D00E0D523 /* MIDIObjectRef.swift in Sources */,
 				5C0E56911F0BE96900793A7F /* Filterbank+ChromaVector.swift in Sources */,
-				0377917F206C15A300350967 /* LightControl.swift in Sources */,
+				0377917F206C15A300350967 /* YamahaLightControl.swift in Sources */,
 				5C0E569A1F0BE96900793A7F /* OnsetFeatures.swift in Sources */,
 				5C0E56961F0BE96900793A7F /* MIDINumber.swift in Sources */,
 				5C0E56971F0BE96900793A7F /* MusicalNote.swift in Sources */,
@@ -709,7 +709,7 @@
 				5C0E568A1F0BE96900793A7F /* AudioHelper.swift in Sources */,
 				5C0E568C1F0BE96900793A7F /* ChromaVector.swift in Sources */,
 				03B029261F94C7CA00367C53 /* MIDIEndpointRef+NetworkSessionMacOS.swift in Sources */,
-				03779182206C161100350967 /* ClavinovaMessages.swift in Sources */,
+				03779182206C161100350967 /* YamahaMessages.swift in Sources */,
 				5C0E56901F0BE96900793A7F /* FilterBank.swift in Sources */,
 				5C0E569F1F0BEA0100793A7F /* AudioInput.swift in Sources */,
 				03DD8F2A1F7D58C600E0D523 /* OSStatus+LocalizedError.swift in Sources */,
