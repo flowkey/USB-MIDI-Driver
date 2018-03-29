@@ -9,7 +9,7 @@
 import Foundation
 import CoreMIDI
 
-public struct CoreMIDIOutConnection: MIDIOutConnection, Hashable {
+class CoreMIDIOutConnection: MIDIOutConnection, Hashable {
     let source: MIDIPortRef
     let destination: MIDIEndpointRef
     let refCon: UnsafeMutablePointer<UInt32>
@@ -42,25 +42,9 @@ public struct CoreMIDIOutConnection: MIDIOutConnection, Hashable {
         }
     }
 
-    private let midiCompletionCallback: MIDICompletionProc = { request in
-        print("completed sending sysex with request")
-    }
-
-    private var sysexSendRequestPointer = UnsafeMutablePointer<MIDISysexSendRequest>.allocate(capacity: 1)
-
-    public func sendSysex(_ data: [UInt8]) {
-        let sendRequest = MIDISysexSendRequest(
-            destination: destination,
-            data: data,
-            bytesToSend: UInt32(data.count),
-            complete: false,
-            reserved: (0,0,0),
-            completionProc: midiCompletionCallback,
-            completionRefCon: nil
-        )
-
-        sysexSendRequestPointer.initialize(to: sendRequest)
-        MIDISendSysex(sysexSendRequestPointer)
+    deinit {
+        print("Deiniting CoreMIDIOutConnnection")
+        MIDIFlushOutput(destination) // cancels any pending messages to the destination
     }
 }
 

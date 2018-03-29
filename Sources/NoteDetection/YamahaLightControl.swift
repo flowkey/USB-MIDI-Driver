@@ -49,7 +49,7 @@ class YamahaLightControl {
     }
 
     static func sendClavinovaModelRequest(on connections: [MIDIOutConnection]) {
-        connections.forEach { $0.sendSysex(YamahaMessages.DUMP_REQUEST_MODEL) }
+        connections.forEach { $0.send(messages: [YamahaMessages.DUMP_REQUEST_MODEL]) }
     }
 
     private static func getModelFromDumpRequestResponse(data: [UInt8]) -> String? {
@@ -102,18 +102,18 @@ class YamahaLightControl {
     }
 
     private func switchLightsOnNoSound() {
-        self.connection.sendSysex(YamahaMessages.LIGHT_ON_NO_SOUND)
+        self.connection.send(messages: [YamahaMessages.LIGHT_ON_NO_SOUND])
     }
 
     private func switchLightsOffNoSound() {
-        self.connection.sendSysex(YamahaMessages.LIGHT_OFF_NO_SOUND)
+        self.connection.send(messages: [YamahaMessages.LIGHT_OFF_NO_SOUND])
     }
 
     private func switchGuideOff() {
-        self.connection.sendSysex(YamahaMessages.GUIDE_OFF)
+        self.connection.send(messages: [YamahaMessages.GUIDE_OFF])
     }
 
     private func switchGuideOn() {
-        self.connection.sendSysex(YamahaMessages.GUIDE_ON)
+        self.connection.send(messages: [YamahaMessages.GUIDE_ON])
     }
 }

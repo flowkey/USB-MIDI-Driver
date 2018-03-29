@@ -117,7 +117,6 @@ extension NoteDetection {
         midiEngine.set(onMIDIDeviceListChanged: onMIDIDeviceListChanged)
     }
 
-
     public func startMicrophone() throws {
         try audioEngine.start()
     }

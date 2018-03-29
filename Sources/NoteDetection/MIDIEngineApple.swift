@@ -138,7 +138,7 @@ class MIDIEngine: MIDIInput, MIDIOutput {
 
     func onMIDIDeviceChanged(notification: UnsafePointer<MIDINotification>) {
         switch notification.pointee.messageID {
-        case .msgObjectAdded, .msgObjectRemoved, .msgPropertyChanged: 
+        case .msgObjectAdded, .msgObjectRemoved, .msgPropertyChanged:
             connect() // refresh sources and destinations when something changed
         default: break
         }
