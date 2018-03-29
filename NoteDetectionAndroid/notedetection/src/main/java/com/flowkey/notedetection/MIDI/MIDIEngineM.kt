@@ -52,8 +52,8 @@ internal class MIDIEngineM(context: Context) : MIDIEngine {
 
 @RequiresApi(Build.VERSION_CODES.M)
 private fun MidiDeviceInfo.toMIDIDevice() : MIDIDevice = MIDIDevice(
-    model = this.properties.getString(MidiDeviceInfo.PROPERTY_NAME),
-    manufacturer = this.properties.getString(MidiDeviceInfo.PROPERTY_MANUFACTURER),
+    model = this.properties.getString(MidiDeviceInfo.PROPERTY_NAME) ?: "MIDI Device",
+    manufacturer = this.properties.getString(MidiDeviceInfo.PROPERTY_MANUFACTURER) ?: "",
     uniqueID = this.id
 )
 

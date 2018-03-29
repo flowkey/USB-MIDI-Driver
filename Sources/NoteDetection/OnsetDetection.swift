@@ -43,7 +43,7 @@ public class OnsetDetection {
 
         if currentBufferIsAPeak {
             onsetDetected = true
-            performOnMainThread { self.onOnsetDetected(.now) }
+            onOnsetDetected(.now)
         }
 
         return (currentFeatureValue, currentThreshold, onsetDetected)
