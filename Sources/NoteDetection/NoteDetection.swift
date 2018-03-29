@@ -1,3 +1,5 @@
+import Dispatch
+
 public typealias InputLevelChangedCallback = ((Float) -> Void)
 public typealias SampleRateChangedCallback = ((_ sampleRate: Double) -> Void)
 
@@ -104,7 +106,9 @@ extension NoteDetection {
                 // onDetected sets the next event in most cases (except at end of song),
                 // so we need to nil the event before running it to avoid overwriting the new event
                 self.noteDetector.expectedNoteEvent = nil
-                onNoteEventDetected?(timestamp)
+                DispatchQueue.main.async {
+                    onNoteEventDetected?(timestamp)
+                }
             }
         }
     }
