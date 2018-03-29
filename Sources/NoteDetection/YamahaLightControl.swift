@@ -7,8 +7,7 @@ private let NOTE_OFF: UInt8 = 8
 
 class YamahaLightControl {
 
-    private let connection: MIDIOutConnection
-
+    let connection: MIDIOutConnection
 
     // MARK: Public API
 
@@ -17,21 +16,25 @@ class YamahaLightControl {
 
         self.switchGuideOn()
         self.switchLightsOnNoSound()
-        self.turnOffAllLights()
+        self.animateLights()
     }
 
-    var currentLightningKeys: [UInt8] = [] {
+    private var currentLightningKeys: [UInt8] = [] {
         didSet {
             turnOffLights(at: oldValue)
             turnOnLights(at: currentLightningKeys)
         }
     }
 
-    func turnOffAllLights() {
-        let noteOffMessages = (0..<128).map { key in
-            return self.createNoteOffMessage(channel: LIGHT_CONTROL_CHANNEL, key: UInt8(key))
+
+    var currentLightningNoteEvent: DetectableNoteEvent? {
+        didSet {
+            if let notes = currentLightningNoteEvent?.notes {
+                self.currentLightningKeys = notes.map{ UInt8($0) }
+            } else {
+                self.currentLightningKeys = []
+            }
         }
-        self.connection.send(messages: noteOffMessages)
     }
 
 
@@ -89,6 +92,20 @@ class YamahaLightControl {
         }
     }
 
+    private func turnOffAllLights() {
+        let noteOffMessages = (0..<128).map { key in
+            return self.createNoteOffMessage(channel: LIGHT_CONTROL_CHANNEL, key: UInt8(key))
+        }
+        self.connection.send(messages: noteOffMessages)
+    }
+
+    private func turnOnAllLights() {
+        let noteOnMessages = (0..<128).map { key in
+            return self.createNoteOnMessage(channel: LIGHT_CONTROL_CHANNEL, key: UInt8(key))
+        }
+        self.connection.send(messages: noteOnMessages)
+    }
+
     private func createNoteOnMessage(channel: UInt8, key: UInt8, velocity: UInt8 = 2) -> [UInt8] {
         return [(NOTE_ON << 4) | LIGHT_CONTROL_CHANNEL, key, velocity]
     }
@@ -111,5 +128,28 @@ class YamahaLightControl {
 
     private func switchGuideOn() {
         self.connection.send(messages: [YamahaMessages.GUIDE_ON])
+    }
+
+    private func animateLights() {
+        for key in 0..<128 {
+            let noteOnMsg = self.createNoteOnMessage(channel: LIGHT_CONTROL_CHANNEL, key: UInt8(key))
+            let noteOffMsg = self.createNoteOffMessage(channel: LIGHT_CONTROL_CHANNEL, key: UInt8(key))
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(key*10), execute: {
+                self.connection.send(messages:[noteOnMsg])
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(key*10), execute: {
+                    self.connection.send(messages:[noteOffMsg])
+                    if key == 127 {
+                        let noteOnMsgs = self.currentLightningKeys.map {
+                            return self.createNoteOnMessage(channel: LIGHT_CONTROL_CHANNEL, key: $0)
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(10), execute: {
+                            self.connection.send(messages: noteOnMsgs)
+                        })
+                    }
+                })
+            })
+        }
+
     }
 }

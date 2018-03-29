@@ -44,6 +44,7 @@ public class NoteDetection {
             else { return }
 
             self.lightControl = YamahaLightControl(connection: connection)
+            self.lightControl?.currentLightningNoteEvent = self.noteDetector.expectedNoteEvent
         })
     }
 
@@ -93,13 +94,7 @@ extension NoteDetection {
 
     public func set(expectedNoteEvent: DetectableNoteEvent?) {
         noteDetector.expectedNoteEvent = expectedNoteEvent
-
-        if let notes = expectedNoteEvent?.notes {
-            lightControl?.currentLightningKeys = notes.map{ UInt8($0) }
-        } else {
-            lightControl?.currentLightningKeys = []
-        }
-
+        lightControl?.currentLightningNoteEvent = expectedNoteEvent
     }
 
     public func set(onNoteEventDetected: NoteEventDetectedCallback?) {
