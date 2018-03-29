@@ -41,7 +41,7 @@ class YamahaLightControl {
         guard
             YamahaLightControl.messageDataIsDumpRequestResponse(midiMessageData),
             let model = YamahaLightControl.getModelFromDumpRequestResponse(data: midiMessageData),
-            YamahaLightControl.modelHasLightControlSupport(model: model)
+            supportedModels.contains(model)
         else {
             return false
         }
@@ -61,10 +61,6 @@ class YamahaLightControl {
         return bytes.reduce("", { result, byte in
             return result + String(UnicodeScalar(byte))
         })
-    }
-
-    private static func modelHasLightControlSupport(model: String) -> Bool {
-        return supportedModels.contains(model)
     }
 
     private static func messageDataIsDumpRequestResponse(_ data: [UInt8]) -> Bool {
