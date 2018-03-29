@@ -29,7 +29,7 @@ class YamahaLightControl {
 
     func turnOffAllLights() {
         let noteOffMessages = (0..<128).map { key in
-            return self.createNoteOffMessage(channel: SEND_CHANNEL, key: UInt8(key))
+            return self.createNoteOffMessage(channel: LIGHT_CONTROL_CHANNEL, key: UInt8(key))
         }
         self.connection.send(messages: noteOffMessages)
     }
@@ -77,24 +77,24 @@ class YamahaLightControl {
 
     private func turnOnLights(at keys: [UInt8]) {
         keys.forEach { key in
-            let message = self.createNoteOnMessage(channel: SEND_CHANNEL, key: key)
+            let message = self.createNoteOnMessage(channel: LIGHT_CONTROL_CHANNEL, key: key)
             self.connection.send(messages: [message])
         }
     }
 
     private func turnOffLights(at keys: [UInt8]) {
         keys.forEach { key in
-            let message = self.createNoteOffMessage(channel: SEND_CHANNEL, key: key)
+            let message = self.createNoteOffMessage(channel: LIGHT_CONTROL_CHANNEL, key: key)
             self.connection.send(messages: [message])
         }
     }
 
     private func createNoteOnMessage(channel: UInt8, key: UInt8, velocity: UInt8 = 2) -> [UInt8] {
-        return [(NOTE_ON << 4) | SEND_CHANNEL, key, velocity]
+        return [(NOTE_ON << 4) | LIGHT_CONTROL_CHANNEL, key, velocity]
     }
 
     private func createNoteOffMessage(channel: UInt8, key: UInt8, velocity: UInt8 = 0) -> [UInt8] {
-        return [(NOTE_OFF << 4) | SEND_CHANNEL, key, velocity]
+        return [(NOTE_OFF << 4) | LIGHT_CONTROL_CHANNEL, key, velocity]
     }
 
     private func switchLightsOnNoSound() {

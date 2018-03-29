@@ -12,16 +12,16 @@ private let VOID: UInt8 = 0x00
 private let PART_SELECT_LEFT_RIGHT_OFF: UInt8 = 0x03
 private let MODEL_ID: UInt8 = 0x4C
 
-let SEND_CHANNEL: UInt8 = 10 // the channel the piano will listen for noteOn and noteOff messages to control lights
+let LIGHT_CONTROL_CHANNEL: UInt8 = 10 // the channel the piano will listen for noteOn and noteOff messages to control lights
 
 typealias YamahaMessages = [UInt8]
 
 extension Array where Element == UInt8 {
     // light mode control messages
-    static let LIGHT_OFF_SOUND = createKeyLEDModeControlMessage(channel: SEND_CHANNEL, mode: 0x00)
-    static let LIGHT_ON_NO_SOUND = createKeyLEDModeControlMessage(channel: SEND_CHANNEL, mode: 0x01)
-    static let LIGHT_ON_SOUND = createKeyLEDModeControlMessage(channel: SEND_CHANNEL, mode: 0x02)
-    static let LIGHT_OFF_NO_SOUND = createKeyLEDModeControlMessage(channel: SEND_CHANNEL, mode: 0x03)
+    static let LIGHT_OFF_SOUND = createKeyLEDModeControlMessage(channel: LIGHT_CONTROL_CHANNEL, mode: 0x00)
+    static let LIGHT_ON_NO_SOUND = createKeyLEDModeControlMessage(channel: LIGHT_CONTROL_CHANNEL, mode: 0x01)
+    static let LIGHT_ON_SOUND = createKeyLEDModeControlMessage(channel: LIGHT_CONTROL_CHANNEL, mode: 0x02)
+    static let LIGHT_OFF_NO_SOUND = createKeyLEDModeControlMessage(channel: LIGHT_CONTROL_CHANNEL, mode: 0x03)
     
     // guide mode control messages
     static let GUIDE_OFF = createGuideModeControlMessage(partSelectLeftRight: PART_SELECT_LEFT_RIGHT_OFF, mode: 0x00)
