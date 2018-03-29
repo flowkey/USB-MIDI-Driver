@@ -9,10 +9,16 @@
 import Foundation
 import CoreMIDI
 
-struct CoreMIDIOutConnection: MIDIOutConnection {
+class CoreMIDIOutConnection: MIDIOutConnection {
     let source: MIDIPortRef
     let destination: MIDIEndpointRef
     let refCon: UnsafeMutablePointer<UInt32>
+
+    init(source: MIDIPortRef, destination: MIDIEndpointRef, refCon: UnsafeMutablePointer<UInt32>) {
+        self.source = source
+        self.destination = destination
+        self.refCon = refCon
+    }
 
     public var displayName: String {
         return destination.displayName
