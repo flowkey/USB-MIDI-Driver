@@ -9,42 +9,32 @@
 import Foundation
 import CoreMIDI
 
-class CoreMIDIOutConnection: MIDIOutConnection, Hashable {
+struct CoreMIDIOutConnection: MIDIOutConnection {
     let source: MIDIPortRef
     let destination: MIDIEndpointRef
     let refCon: UnsafeMutablePointer<UInt32>
-    public var hashValue: Int { return refCon.hashValue }
 
-    init(source: MIDIPortRef, destination: MIDIEndpointRef, destRefCon: UnsafeMutablePointer<UInt32>) {
-        self.source = source
-        self.destination = destination
-        self.refCon = destRefCon
-    }
-
-    // MARK: MIDIOutConnection Conformance
     public var displayName: String {
         return destination.displayName
-    }
-
-    public static func == (lhs: CoreMIDIOutConnection, rhs: CoreMIDIOutConnection) -> Bool {
-        return lhs.refCon == rhs.refCon
     }
 
     public func send(messages: [[UInt8]]) {
         // Stay under the Clavinova's apparent 256 byte packetList size limit:
         let maxPacketListLength = 64
 
-        // @Geordie: not really sure what we're doing in the following loop
+        // send multiple packet lists if messages exceed maxPacketListLength
         for i in stride(from: 0, to: messages.count, by: maxPacketListLength) {
-            let events = messages.dropFirst(i).prefix(maxPacketListLength)
-            var packetList = MIDIPacketList(from: Array(events))
+            let messagesToSend = messages.dropFirst(i).prefix(maxPacketListLength)
+            var packetList = MIDIPacketList(from: Array(messagesToSend))
             MIDISend(self.source, self.destination, &packetList)
         }
     }
+}
 
-    deinit {
-        print("Deiniting CoreMIDIOutConnnection")
-        MIDIFlushOutput(destination) // cancels any pending messages to the destination
+extension CoreMIDIOutConnection: Hashable {
+    public var hashValue: Int { return refCon.hashValue }
+    public static func == (lhs: CoreMIDIOutConnection, rhs: CoreMIDIOutConnection) -> Bool {
+        return lhs.refCon == rhs.refCon
     }
 }
 

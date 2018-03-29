@@ -106,8 +106,8 @@ class MIDIEngine: MIDIInput, MIDIOutput {
             midiOutConnections.append(CoreMIDIOutConnection(
                 source: outputPort,
                 destination: destination,
-                destRefCon: destRefCon)
-            )
+                refCon: destRefCon
+            ))
         }
         self.onMIDIOutConnectionsChanged?(midiOutConnections)
     }
