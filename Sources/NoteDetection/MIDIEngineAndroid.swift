@@ -16,10 +16,12 @@ public func onMIDIMessageReceived(env: UnsafeMutablePointer<JNIEnv>, cls: JavaOb
     let midiDataArray: [UInt8] = jni.GetByteArrayRegion(array: midiData)
     let midiMessages = parseMIDIMessages(from: midiDataArray)
     midiMessages.forEach { midiMessage in
-        midiMessages.forEach { message in
-            switch message {
-            case .noteOn, .noteOff: midiEngine?.onMIDIMessageReceived?(message, nil, .now)
-            default: break 
+        DispatchQueue.main.async {
+            midiMessages.forEach { message in
+                switch message {
+                case .noteOn, .noteOff: midiEngine?.onMIDIMessageReceived?(message, nil, .now)
+                default: break 
+                }
             }
         }
     }
@@ -89,16 +91,12 @@ class MIDIEngine: JNIObject, MIDIInput, MIDIOutput {
 
     private(set) var onMIDIMessageReceived: MIDIMessageReceivedCallback?
     func set(onMIDIMessageReceived callback: MIDIMessageReceivedCallback?) {
-        self.onMIDIMessageReceived = { message, device, timestamp in
-            DispatchQueue.main.async { callback?(message, device, timestamp) }
-        }
+        self.onMIDIMessageReceived = callback
     }
 
     private(set) var onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?
     func set(onMIDIDeviceListChanged callback: MIDIDeviceListChangedCallback?) {
-        self.onMIDIDeviceListChanged = { devices in
-            DispatchQueue.main.async { callback?(devices) }
-        }
+        self.onMIDIDeviceListChanged = callback
     }
 
     private(set) var onSysexMessageReceived: SysexMessageReceivedCallback?

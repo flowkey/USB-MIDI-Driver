@@ -59,15 +59,11 @@ class MIDIEngine: MIDIInput, MIDIOutput {
     }
 
     func set(onMIDIMessageReceived callback: MIDIMessageReceivedCallback?) {
-        self.onMIDIMessageReceived = { message, device, timestamp in
-            DispatchQueue.main.async { callback?(message, device, timestamp) }
-        }
+        self.onMIDIMessageReceived = callback
     }
 
     func set(onMIDIDeviceListChanged callback: MIDIDeviceListChangedCallback?) {
-        self.onMIDIDeviceListChanged = { devices in
-            DispatchQueue.main.async { callback?(devices) }
-        }
+        self.onMIDIDeviceListChanged = callback
     }
     
     func set(onSysexMessageReceived callback: ((_ data: [UInt8], MIDIDevice) -> Void)?) {
@@ -96,7 +92,6 @@ class MIDIEngine: MIDIInput, MIDIOutput {
             }
             midiDeviceList.insert(MIDIDevice(source, srcRefCon: srcRefCon))
         }
-        self.onMIDIDeviceListChanged?(midiDeviceList)
 
 
         // DESTINATIONS
@@ -109,7 +104,6 @@ class MIDIEngine: MIDIInput, MIDIOutput {
                 refCon: destRefCon
             ))
         }
-        self.onMIDIOutConnectionsChanged?(midiOutConnections)
     }
 
     private func disconnect() {
@@ -140,6 +134,10 @@ class MIDIEngine: MIDIInput, MIDIOutput {
         switch notification.pointee.messageID {
         case .msgObjectAdded, .msgObjectRemoved, .msgPropertyChanged:
             connect() // refresh sources and destinations when something changed
+            self.onMIDIOutConnectionsChanged?(midiOutConnections)
+            DispatchQueue.main.async {
+                self.onMIDIDeviceListChanged?(self.midiDeviceList)
+            }
         default: break
         }
     }
@@ -169,14 +167,16 @@ class MIDIEngine: MIDIInput, MIDIOutput {
         for packet in packets {
             let midiData = packet.toMIDIDataArray()
             let midiMessages = parseMIDIMessages(from: midiData)
-            midiMessages.forEach { message in
-                switch message {
-                case .activeSensing: break
-                case .systemExclusive(let data):
-                    guard let sourceDevice = sourceDevice else { break }
-                    onSysexMessageReceived?(data, sourceDevice)
-                default:
-                    onMIDIMessageReceived?(message, sourceDevice, .now)
+            DispatchQueue.main.async {
+                midiMessages.forEach { message in
+                    switch message {
+                    case .activeSensing: break
+                    case .systemExclusive(let data):
+                        guard let sourceDevice = sourceDevice else { break }
+                        self.onSysexMessageReceived?(data, sourceDevice)
+                    default:
+                        self.onMIDIMessageReceived?(message, sourceDevice, .now)
+                    }
                 }
             }
         }
