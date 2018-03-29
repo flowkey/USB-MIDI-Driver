@@ -72,7 +72,7 @@ final class NonAnimatingCALayer: CALayer {
         setupLayers(layers.count)
     }
 
-    func onDisplayLink () {
+    @objc func onDisplayLink () {
         // The "default" bits are just for the storyboard and shouldn't affect performance:
         let graphPoints = datasource?.graphPoints ?? defaultGraphPoints
         if graphPoints.count == 0 { return }

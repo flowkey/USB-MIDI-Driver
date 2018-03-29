@@ -4,25 +4,67 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>NoteDetection.xcscheme</key>
+		<key>NoteDetection.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
-		<key>NoteDetection.xcscheme_^#shared#^_</key>
+		<key>NoteDetectionAndroid.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>50</integer>
+			<integer>2</integer>
+		</dict>
+		<key>NoteDetectionIOS.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<true/>
+			<key>orderHint</key>
+			<integer>0</integer>
+		</dict>
+		<key>NoteDetectionMac.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>032160F61F064D2500C9AE3E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>032160FA1F0650D600C9AE3E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>032161711F06568200C9AE3E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>032161751F0657A400C9AE3E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>03A7F72F1E850D5300849AE2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>03A7F7381E850D5300849AE2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5C0E56721F0BE92700793A7F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5C0E567A1F0BE92800793A7F</key>
 		<dict>
 			<key>primary</key>
 			<true/>

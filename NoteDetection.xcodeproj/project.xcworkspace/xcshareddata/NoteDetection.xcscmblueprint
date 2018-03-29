@@ -1,16 +1,18 @@
 {
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "77AB8053D5949F4D67793FEC36A0089B30DA8F57",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
-    "1C8BB41E6ED2B84926C10BAA972F43239432DCE2" : 9223372036854775807,
+    "72E21EC3530DC2B99DEFE5BA3A8EA80B5EC7E6B9" : 9223372036854775807,
     "035DDE7903B1C1B7A3FB4C83F826CFD21123E3CC" : 9223372036854775807,
-    "72E21EC3530DC2B99DEFE5BA3A8EA80B5EC7E6B9" : 9223372036854775807
+    "77AB8053D5949F4D67793FEC36A0089B30DA8F57" : 9223372036854775807
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "9F5AB8CA-955B-4048-9A15-0BC230BEF06E",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "035DDE7903B1C1B7A3FB4C83F826CFD21123E3CC" : "NativePlayerIOS\/",
-    "72E21EC3530DC2B99DEFE5BA3A8EA80B5EC7E6B9" : "NativePlayerIOS\/NativePitchDetection\/"
+    "72E21EC3530DC2B99DEFE5BA3A8EA80B5EC7E6B9" : "NativePlayerIOS\/NativePitchDetection\/",
+    "035DDE7903B1C1B7A3FB4C83F826CFD21123E3CC" : "",
+    "77AB8053D5949F4D67793FEC36A0089B30DA8F57" : "NoteDetection\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "NoteDetection",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
@@ -25,6 +27,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/flowkey\/nativeAudio.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "72E21EC3530DC2B99DEFE5BA3A8EA80B5EC7E6B9"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:flowkey\/NoteDetection.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "77AB8053D5949F4D67793FEC36A0089B30DA8F57"
     }
   ]
 }

@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "JNI",
+        "repositoryURL": "https://github.com/SwiftAndroid/swift-jni.git",
+        "state": {
+          "branch": null,
+          "revision": "9bc4afd9f75984e3a1d97c36b13d63929b705365",
+          "version": "1.4.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

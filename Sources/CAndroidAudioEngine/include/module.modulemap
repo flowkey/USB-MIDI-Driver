@@ -1,0 +1,7 @@
+module CAndroidAudioEngine [system] {
+    header "AndroidAudioEngine.h"
+    link "log"
+    link "android"
+    link "OpenSLES"
+    export *
+}

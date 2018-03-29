@@ -28,7 +28,8 @@ public let noteDetection = try! NoteDetection(input: .audio)
             case .some("Onset"):
                 graphViewController?.updateView(data.onsetFeatureValue, onsetThreshold: data.onsetThreshold, onsetDetected: data.onsetDetected)
             default:
-                graphViewController?.updateView(data.chromaVector.toRaw)
+                let chromaAsFloatArray: [Float] = data.chromaVector.map { return $0 }
+                graphViewController?.updateView(chromaAsFloatArray)
             }
         }
     }
@@ -51,9 +52,9 @@ public let noteDetection = try! NoteDetection(input: .audio)
             for device in deviceList { print(device.displayName) }
         })
 
-        noteDetection.midiEngine.onMIDIMessageReceived = {
-            (midiMessage: MIDIMessage, device: MIDIDevice?, timestamp: Timestamp) in print(midiMessage)
-        }
+        noteDetection.midiEngine.set(onMIDIMessageReceived: { (midiMessage: MIDIMessage, device: MIDIDevice?, timestamp: Timestamp) in
+            print(midiMessage)
+        })
 
         (noteDetection.noteDetector as? AudioNoteDetector)?.onAudioProcessed = { processedAudio in
             self.lastProcessedBlock = processedAudio

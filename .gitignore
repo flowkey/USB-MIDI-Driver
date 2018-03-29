@@ -1,4 +1,11 @@
+.build
 NoteDetection.xcodeproj/xcuserdata
 NoteDetection.xcworkspace/xcuserdata
+NoteDetection.xcodeproj/project.xcworkspace/xcuserdata
 Testumgebung/Testumgebung.xcodeproj/xcuserdata/*.xcuserdatad/
-.vscode
+
+Sources/CAndroidAudioEngine/libs/
+Sources/CAndroidAudioEngine/obj/
+.DS_Store
+Tests/.DS_Store
+Testumgebung/.DS_Store
