@@ -16,6 +16,7 @@ class YamahaLightControl {
 
         self.switchGuideOn()
         self.switchLightsOnNoSound()
+        self.turnOffAllLights()
         self.animateLights()
     }
 
@@ -131,25 +132,30 @@ class YamahaLightControl {
     }
 
     private func animateLights() {
-        for key in 0..<128 {
+        let timeMs = 10
+        let numberOfKeys = 128
+
+        // trigger animation (async)
+        for key in 0..<numberOfKeys {
             let noteOnMsg = self.createNoteOnMessage(channel: LIGHT_CONTROL_CHANNEL, key: UInt8(key))
             let noteOffMsg = self.createNoteOffMessage(channel: LIGHT_CONTROL_CHANNEL, key: UInt8(key))
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(key*10), execute: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(key*timeMs), execute: {
                 self.connection.send(messages:[noteOnMsg])
-                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(key*10), execute: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(key*timeMs), execute: {
                     self.connection.send(messages:[noteOffMsg])
-                    if key == 127 {
-                        let noteOnMsgs = self.currentLightningKeys.map {
-                            return self.createNoteOnMessage(channel: LIGHT_CONTROL_CHANNEL, key: $0)
-                        }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(10), execute: {
-                            self.connection.send(messages: noteOnMsgs)
-                        })
-                    }
                 })
             })
         }
+
+        // after animation is completed, turn on current lightning keys
+        let animationDuration = 2500 // ToDo: compute how long duration really takes
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(animationDuration), execute: {
+            let noteOnMessages = self.currentLightningKeys.map {
+                return self.createNoteOnMessage(channel: LIGHT_CONTROL_CHANNEL, key: $0)
+            }
+            self.connection.send(messages: noteOnMessages)
+        })
 
     }
 }
