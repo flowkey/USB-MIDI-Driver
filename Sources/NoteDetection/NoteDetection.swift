@@ -46,6 +46,13 @@ public class NoteDetection {
             self.lightControl = YamahaLightControl(connection: connection)
             self.lightControl?.currentLightningNoteEvent = self.noteDetector.expectedNoteEvent
         })
+
+        // initially trigger onMIDIOutConnectionsChanged to send model request
+        midiEngine.onMIDIOutConnectionsChanged?(midiEngine.midiOutConnections)
+    }
+
+    deinit {
+        lightControl?.currentLightningNoteEvent = nil
     }
 
     private func onSampleRateChanged(sampleRate: Double) {

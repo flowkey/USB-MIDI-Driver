@@ -134,7 +134,7 @@ class MIDIEngine: MIDIInput, MIDIOutput {
         switch notification.pointee.messageID {
         case .msgObjectAdded, .msgObjectRemoved, .msgPropertyChanged:
             connect() // refresh sources and destinations when something changed
-            self.onMIDIOutConnectionsChanged?(midiOutConnections)
+            self.onMIDIOutConnectionsChanged?(self.midiOutConnections)
             DispatchQueue.main.async {
                 self.onMIDIDeviceListChanged?(self.midiDeviceList)
             }
