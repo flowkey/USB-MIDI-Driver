@@ -9,22 +9,60 @@
 import XCTest
 @testable import NoteDetection
 
-class MIDIMessageTests: XCTestCase {
 
-    let arbitraryVelocity: Int = 100
-    let arbitraryKey: Int = 69
+let arbitraryNoteOnData: [UInt8] = [144 + 1, 50, 50] // channel=1, key=50, velocity=50
+let arbitraryNoteOffData: [UInt8] = [128 + 1, 50, 50] // channel=1, key=50, velocity=50
+let arbitrarySysexData: [UInt8] = [0b11110000, 50, 0b11110111] // sysexstart, arbitrary=50, syexend
+let activeSensingData: [UInt8] = [254]
 
-    func testNoteOn() {
-        XCTAssertEqual(
-            MIDIMessage(status: .rawNoteOn, data1: UInt8(arbitraryKey), data2: UInt8(arbitraryVelocity)),
-            MIDIMessage.noteOn(key: arbitraryKey, velocity: arbitraryVelocity)
-        )
+class MIDIParseTests: XCTestCase {
+    func testSingleNoteOn() {
+        let message: [MIDIMessage] = parseMIDIMessages(from: arbitraryNoteOnData)
+        guard let firstMessage = message.first else {
+            XCTFail("no message")
+            return
+        }
+        XCTAssertEqual(firstMessage, MIDIMessage.noteOn(key: 50, velocity: 50))
     }
 
-    func testNoteOff() {
-        XCTAssertEqual(
-            MIDIMessage(status: .rawNoteOff, data1: UInt8(arbitraryKey), data2: UInt8(arbitraryVelocity)),
-            MIDIMessage.noteOff(key: arbitraryKey)
-        )
+    func testSingleNoteOff() {
+        let message: [MIDIMessage] = parseMIDIMessages(from: arbitraryNoteOffData)
+        guard let firstMessage = message.first else {
+            XCTFail("no message")
+            return
+        }
+        XCTAssertEqual(firstMessage, MIDIMessage.noteOff(key: 50))
+    }
+
+    func testSingleSysex() {
+        let message: [MIDIMessage] = parseMIDIMessages(from: arbitrarySysexData)
+        guard let firstMessage = message.first else {
+            XCTFail("no message")
+            return
+        }
+        XCTAssertEqual(firstMessage, MIDIMessage.systemExclusive(data: arbitrarySysexData))
+    }
+
+    func testSingleActiveSensing() {
+        let message: [MIDIMessage] = parseMIDIMessages(from: activeSensingData)
+        guard let firstMessage = message.first else {
+            XCTFail("no message")
+            return
+        }
+        XCTAssertEqual(firstMessage, MIDIMessage.activeSensing)
+    }
+
+    func testMultipleMessages() {
+        let multipleMessageData: [UInt8] =
+            [arbitraryNoteOnData, arbitrarySysexData, activeSensingData, arbitraryNoteOffData].flatMap { $0 }
+
+        let messages: [MIDIMessage] = parseMIDIMessages(from: Array<UInt8>(multipleMessageData))
+
+        XCTAssertEqual(messages[0], MIDIMessage.noteOn(key: 50, velocity: 50))
+        XCTAssertEqual(messages[1], MIDIMessage.systemExclusive(data: arbitrarySysexData))
+        XCTAssertEqual(messages[2], MIDIMessage.activeSensing)
+        XCTAssertEqual(messages[3], MIDIMessage.noteOff(key: 50))
+
     }
 }
+

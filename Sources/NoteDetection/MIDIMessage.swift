@@ -9,35 +9,11 @@
 // Summary of MIDI Messages:
 // https://www.midi.org/specifications/item/table-1-summary-of-midi-message
 
-fileprivate let commandBitmask: UInt8 = 0b11110000
-
 public enum MIDIMessage {
-    case noteOn(key: Int, velocity: Int)
-    case noteOff(key: Int)
-    case controlChange(controller: Int, value: Int)
-    case systemExclusive
+    case noteOn(key: UInt8, velocity: UInt8)
+    case noteOff(key: UInt8)
+    case systemExclusive(data: [UInt8])
     case activeSensing
-
-    public init?(status: UInt8, data1: UInt8, data2: UInt8) {
-        // check for midi messages with 8bit command type
-        switch status {
-        case UInt8.activeSensing: self = .activeSensing
-        case UInt8.rawSysexStart: self = .systemExclusive
-        default: break
-        }
-
-        // check for other messages with 4bit command type (mask out other 4 bits)
-        let command = status & commandBitmask
-        if (command == .rawNoteOff) || (command == .rawNoteOn && data2 == 0) {
-            self = .noteOff(key: Int(data1))
-        } else if command == .rawNoteOn {
-            self = .noteOn(key: Int(data1), velocity: Int(data2))
-        } else if command == .rawControlChange {
-            self = .controlChange(controller: Int(data1), value: Int(data2))
-        } else {
-            return nil
-        }
-    }
 }
 
 extension MIDIMessage: Equatable {
@@ -47,14 +23,77 @@ extension MIDIMessage: Equatable {
             return (leftNote == rightNote) && (leftVelocity == rightVelocity)
         case let (.noteOff(leftNote), .noteOff(rightNote)):
             return (leftNote == rightNote)
-        case let (.controlChange(leftController, leftValue), .controlChange(rightController, rightValue)):
-            return (leftController == rightController) && (leftValue == rightValue)
         case (.activeSensing, .activeSensing):
             return true
+        case let (.systemExclusive(dataA), .systemExclusive(dataB)):
+            return dataA == dataB
         default:
-            // All other cases are false.
-            // We don't check the contents of sysex messages, so assume they're not equal either:
             return false
         }
     }
 }
+
+
+fileprivate enum MIDICommand: UInt8 {
+    case noteOn
+    case noteOff
+    case systemExclusive
+    case activeSensing
+}
+
+fileprivate extension UInt8 {
+    var midiCommand: MIDICommand? {
+        if self == 0b1111_1110 { return .activeSensing }
+
+        let command = self & 0b1111_0000 // bitmask status to get command
+        switch command {
+            case 0b1001_0000: return .noteOn
+            case 0b1000_0000: return .noteOff
+            case 0b1111_0000: return .systemExclusive
+            default: break
+        }
+
+        return nil
+    }
+}
+
+func parseMIDIMessages(from data: [UInt8]) -> [MIDIMessage] {
+    var midiMessages: [MIDIMessage] = []
+    var index: Int = 0
+    while index < data.count {
+        // check if value at current index corresponds to a midi command
+        guard let commandType = data[index].midiCommand else {
+            index += 1
+            continue // skip midi messages which we are not handling so far
+        }
+
+        // determine end index for current message
+        let endIndex: Int
+        let message: MIDIMessage?
+        switch commandType {
+        case .activeSensing:
+            endIndex = index
+            message = MIDIMessage.activeSensing
+        case .noteOn:
+            endIndex = index + 2
+            message = MIDIMessage.noteOn(key: data[index+1], velocity: data[index+2])
+        case .noteOff:
+            endIndex = index + 2
+            message = MIDIMessage.noteOff(key: data[index+1])
+        case .systemExclusive:
+            let sysexEndIndex = data[index...].index(where: { $0 == 0b1111_0111 })
+            endIndex = (sysexEndIndex ?? index)
+            message = MIDIMessage.systemExclusive(data: Array<UInt8>(data[index ... endIndex]))
+        }
+
+        if let message = message {
+            midiMessages.append(message)
+        }
+
+        // must be last step in the while loop
+        index = endIndex + 1
+    }
+
+    return midiMessages
+}
+

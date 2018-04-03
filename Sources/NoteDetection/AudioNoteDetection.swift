@@ -104,9 +104,9 @@ final class AudioNoteDetector: NoteDetector {
         if timestampsAreCloseEnough() {
             self.lastOnsetTimestamp = nil
             self.lastNoteTimestamp = nil
-
+            
             DispatchQueue.main.async {
-                 self.onNoteEventDetected?(.now)
+                self.onNoteEventDetected?(.now)
             }
         }
     }

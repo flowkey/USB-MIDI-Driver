@@ -27,6 +27,14 @@ extension MIDIObjectRef {
         return Int(getIntProperty(kMIDIPropertyConnectionUniqueID))
     }
 
+    var model: String {
+        return getStringProperty(kMIDIPropertyModel)
+    }
+
+    var manufacturer: String {
+        return getStringProperty(kMIDIPropertyManufacturer)
+    }
+
     func getIntProperty(_ propertyName: CFString) -> Int32 {
         var result = Int32()
         let status = MIDIObjectGetIntegerProperty(self, propertyName, &result)

@@ -5,6 +5,7 @@ class MIDIDInputMock: MIDIInput {
     var midiDeviceList: Set<MIDIDevice> = []
     func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?) {}
     func set(onMIDIMessageReceived: MIDIMessageReceivedCallback?) {}
+    func set(onSysexMessageReceived: SysexMessageReceivedCallback?) {}
 }
 
 class MIDINoteDetectorTests: XCTestCase {
@@ -31,7 +32,7 @@ class MIDINoteDetectorTests: XCTestCase {
         }
 
         for note in noteEvent.notes {
-            let message = MIDIMessage.noteOn(key: note, velocity: 10)
+            let message = MIDIMessage.noteOn(key: UInt8(note), velocity: 10)
             midiNoteDetector.process(midiMessage: message)
         }
 
@@ -70,7 +71,7 @@ class MIDINoteDetectorTests: XCTestCase {
 
         // add expected keys
         for note in noteEvent.notes {
-            midiNoteDetector.process(midiMessage: .noteOn(key: note, velocity: 10))
+            midiNoteDetector.process(midiMessage: .noteOn(key: UInt8(note), velocity: 10))
         }
 
         XCTAssertTrue(notesWereDetected)

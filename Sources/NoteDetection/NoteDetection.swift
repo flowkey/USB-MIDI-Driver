@@ -6,7 +6,8 @@ public class NoteDetection {
 
     var noteDetector: NoteDetector! // implicitly unwrapped so we can use self.createNoteDetector() on init
     let audioEngine: AudioInput
-    let midiEngine: MIDIInput
+    let midiEngine: MIDIEngine
+    var lightControl: YamahaLightControl?
 
     fileprivate var ignoreUntilDeadline: Timestamp?
 
@@ -24,6 +25,27 @@ public class NoteDetection {
 
         noteDetector = createNoteDetector(type: input)
         audioEngine.onSampleRateChanged = onSampleRateChanged
+
+        midiEngine.set(onMIDIOutConnectionsChanged: { outConnections in
+            if outConnections.count == 0 {
+                // kill lightControl if there are no connections
+                // ToDo: actually check if outConnections contains lightControl.connection
+                self.lightControl = nil
+            }
+            YamahaLightControl.sendClavinovaModelRequest(on: outConnections)
+        })
+
+        midiEngine.set(onSysexMessageReceived: { data, sourceDevice in
+            guard
+                YamahaLightControl.checkIfMessageIsFromCompatibleDevice(midiMessageData: data),
+                let connection = self.midiEngine.midiOutConnections.first(where: { connection in
+                    return connection.displayName == sourceDevice.displayName
+                })
+            else { return }
+
+            self.lightControl = YamahaLightControl(connection: connection)
+            self.lightControl?.currentLightningNoteEvent = self.noteDetector.expectedNoteEvent
+        })
     }
 
     private func onSampleRateChanged(sampleRate: Double) {
@@ -72,6 +94,7 @@ extension NoteDetection {
 
     public func set(expectedNoteEvent: DetectableNoteEvent?) {
         noteDetector.expectedNoteEvent = expectedNoteEvent
+        lightControl?.currentLightningNoteEvent = expectedNoteEvent
     }
 
     public func set(onNoteEventDetected: NoteEventDetectedCallback?) {

@@ -9,18 +9,23 @@
 import Foundation
 import CoreMIDI
 
-class MIDIEngine: MIDIInput {
-    var onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?
-    var onMIDIMessageReceived: MIDIMessageReceivedCallback?
+class MIDIEngine: MIDIInput, MIDIOutput {
+    private(set) var onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?
+    private(set) var onMIDIMessageReceived: MIDIMessageReceivedCallback?
+    private(set) var onMIDIOutConnectionsChanged: MIDIOutConnectionsChangedCallback?
+    private(set) var onSysexMessageReceived: SysexMessageReceivedCallback?
 
-    var midiClient = MIDIClientRef()
-    var inputPort = MIDIPortRef()
+    private var midiClient = MIDIClientRef()
+    private var inputPort = MIDIPortRef()
+    private var outputPort = MIDIPortRef()
 
-    public private(set) var midiDeviceList: Set<MIDIDevice> = []
+    private(set) var midiDeviceList: Set<MIDIDevice> = []
+    private(set) var midiOutConnections: Array<MIDIOutConnection> = []
 
     public init() throws {
         let clientName = "flowkey" as CFString
         let inputName = "flowkey input port" as CFString
+        let outputName = "flowkey output port" as CFString
 
         #if os(iOS)
         MIDINetworkSession.default().isEnabled = true
@@ -40,47 +45,68 @@ class MIDIEngine: MIDIInput {
                 .throwOnError()
         }
 
+        try MIDIOutputPortCreate(midiClient, outputName, &outputPort)
+            .throwOnError()
+
         connect()
     }
 
     deinit {
         print("deiniting MIDIEngine")
         MIDIPortDispose(inputPort)
+        MIDIPortDispose(outputPort)
         MIDIClientDispose(midiClient)
     }
 
-    func set(onMIDIMessageReceived: MIDIMessageReceivedCallback?) {
-        self.onMIDIMessageReceived = onMIDIMessageReceived
+    func set(onMIDIMessageReceived callback: MIDIMessageReceivedCallback?) {
+        self.onMIDIMessageReceived = callback
     }
 
-    func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?) {
-        self.onMIDIDeviceListChanged = onMIDIDeviceListChanged
+    func set(onMIDIDeviceListChanged callback: MIDIDeviceListChangedCallback?) {
+        self.onMIDIDeviceListChanged = callback
+    }
+    
+    func set(onSysexMessageReceived callback: SysexMessageReceivedCallback?) {
+        self.onSysexMessageReceived = callback
     }
 
-    func connect() {
+    func set(onMIDIOutConnectionsChanged callback: MIDIOutConnectionsChangedCallback?) {
+        self.onMIDIOutConnectionsChanged = callback
+    }
+
+    private func connect() {
         disconnect()
 
+        // SOURCES
         for sourceIndex in 0 ..< MIDIGetNumberOfSources() {
             let source = MIDIGetSource(sourceIndex)
-
-
             if !source.online || source.isADisconnectedNetworkSession {
                 continue // abort this iteration and start next
             }
-
             let srcRefCon = UnsafeMutablePointer<UInt32>.allocate(capacity: 0)
-            do {
-                try MIDIPortConnectSource(inputPort, source, srcRefCon).throwOnError()
-            } catch {
+
+            do { try MIDIPortConnectSource(inputPort, source, srcRefCon).throwOnError() }
+            catch {
                 print("Failed to establish connection. Error: ", error.localizedDescription)
                 continue
             }
-
             midiDeviceList.insert(MIDIDevice(source, srcRefCon: srcRefCon))
+        }
+
+
+        // DESTINATIONS
+        for destIndex in 0 ..< MIDIGetNumberOfDestinations() {
+            let destination = MIDIGetDestination(destIndex)
+            let destRefCon = UnsafeMutablePointer<UInt32>.allocate(capacity: 0)
+            midiOutConnections.append(CoreMIDIOutConnection(
+                source: outputPort,
+                destination: destination,
+                refCon: destRefCon
+            ))
         }
     }
 
-    func disconnect() {
+    private func disconnect() {
         for sourceIndex in 0 ..< MIDIGetNumberOfSources() {
             let source = MIDIGetSource(sourceIndex)
 
@@ -94,8 +120,8 @@ class MIDIEngine: MIDIInput {
         }
 
         midiDeviceList = []
+        midiOutConnections = []
     }
-
 
     // MARK: MIDI Notification (Device added / removed)
 
@@ -107,7 +133,8 @@ class MIDIEngine: MIDIInput {
     func onMIDIDeviceChanged(notification: UnsafePointer<MIDINotification>) {
         switch notification.pointee.messageID {
         case .msgObjectAdded, .msgObjectRemoved, .msgPropertyChanged:
-            connect() // refresh sources when something changed
+            connect() // refresh sources and destinations when something changed
+            self.onMIDIOutConnectionsChanged?(midiOutConnections)
             DispatchQueue.main.async {
                 self.onMIDIDeviceListChanged?(self.midiDeviceList)
             }
@@ -138,11 +165,18 @@ class MIDIEngine: MIDIInput {
         let packets = makePacketsFromPacketList(packetList)
 
         for packet in packets {
-            let midiMessages = packet.toMIDIDataArray().toMIDIMessages()
-
+            let midiData = packet.toMIDIDataArray()
+            let midiMessages = parseMIDIMessages(from: midiData)
             DispatchQueue.main.async {
-                midiMessages.forEach { midiMessage in
-                    self.onMIDIMessageReceived?(midiMessage, sourceDevice, .now)
+                midiMessages.forEach { message in
+                    switch message {
+                    case .activeSensing: break
+                    case .systemExclusive(let data):
+                        guard let sourceDevice = sourceDevice else { break }
+                        self.onSysexMessageReceived?(data, sourceDevice)
+                    default:
+                        self.onMIDIMessageReceived?(message, sourceDevice, .now)
+                    }
                 }
             }
         }
@@ -154,8 +188,8 @@ extension MIDIDevice {
     init(_ device: MIDIObjectRef, srcRefCon: UnsafeMutableRawPointer) {
         displayName = device.displayName
         uniqueID = device.uniqueID
-        model = device.getStringProperty(kMIDIPropertyModel)
-        manufacturer = device.getStringProperty(kMIDIPropertyManufacturer)
+        model = device.model
+        manufacturer = device.manufacturer
         refCon = srcRefCon
     }
 }
