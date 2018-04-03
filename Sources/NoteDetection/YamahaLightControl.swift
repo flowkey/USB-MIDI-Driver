@@ -22,7 +22,7 @@ class YamahaLightControl {
 
     private var currentLightningKeys: [UInt8] = [] {
         didSet {
-            turnOffLights(at: oldValue)
+            turnOffAllLights()
             turnOnLights(at: currentLightningKeys)
         }
     }
