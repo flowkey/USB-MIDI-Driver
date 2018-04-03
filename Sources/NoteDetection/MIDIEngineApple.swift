@@ -66,7 +66,7 @@ class MIDIEngine: MIDIInput, MIDIOutput {
         self.onMIDIDeviceListChanged = callback
     }
     
-    func set(onSysexMessageReceived callback: ((_ data: [UInt8], MIDIDevice) -> Void)?) {
+    func set(onSysexMessageReceived callback: SysexMessageReceivedCallback?) {
         self.onSysexMessageReceived = callback
     }
 
