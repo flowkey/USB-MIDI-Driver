@@ -52,6 +52,7 @@ public class NoteDetection {
     }
 
     deinit {
+        print("deiniting NoteDetection")
         lightControl?.currentLightningNoteEvent = nil
     }
 
