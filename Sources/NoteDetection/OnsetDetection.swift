@@ -12,13 +12,12 @@ public class OnsetDetection {
     let onsetFeature: OnsetFeature
     var onsetFeatureBuffer: [Float]
     var currentThreshold: Float
-    let onOnsetDetected: OnsetDetectedCallback
+    var onOnsetDetected: OnsetDetectedCallback?
 
-    init(feature: OnsetFeature, onOnset: @escaping OnsetDetectedCallback) {
+    init(feature: OnsetFeature) {
         self.onsetFeature = feature
         self.onsetFeatureBuffer = [Float](repeating: 0.0, count: onsetFeature.defaultFeatureBufferSize)
         self.currentThreshold = onsetFeature.defaultThreshold
-        self.onOnsetDetected = onOnset
     }
 
     // incoming audioData is in time or frequency domain, depending on onsetFeature
@@ -43,7 +42,7 @@ public class OnsetDetection {
 
         if currentBufferIsAPeak {
             onsetDetected = true
-            onOnsetDetected(.now)
+            onOnsetDetected?(.now)
         }
 
         return (currentFeatureValue, currentThreshold, onsetDetected)

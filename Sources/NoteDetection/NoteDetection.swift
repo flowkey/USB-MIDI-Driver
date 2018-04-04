@@ -1,11 +1,17 @@
 public typealias InputLevelChangedCallback = ((Float) -> Void)
 public typealias SampleRateChangedCallback = ((_ sampleRate: Double) -> Void)
+public typealias AudioDataCallback = (([Float]) -> Void)
+
+public typealias MIDIMessageReceivedCallback = (MIDIMessage, MIDIDevice?, Timestamp) -> Void
+public typealias MIDIDeviceListChangedCallback = (Set<MIDIDevice>) -> Void
+public typealias SysexMessageReceivedCallback = ([UInt8], MIDIDevice) -> Void
+public typealias MIDIOutConnectionsChangedCallback = ([MIDIOutConnection]) -> Void
 
 public class NoteDetection {
     public var isEnabled = true
 
     var noteDetector: NoteDetector! // implicitly unwrapped so we can use self.createNoteDetector() on init
-    let audioEngine: AudioInput
+    let audioEngine: AudioEngine
     let midiEngine: MIDIEngine
     var lightControl: YamahaLightControl?
 
@@ -24,9 +30,11 @@ public class NoteDetection {
         audioEngine = try AudioEngine()
 
         noteDetector = createNoteDetector(type: input)
-        audioEngine.onSampleRateChanged = onSampleRateChanged
+        audioEngine.onSampleRateChanged = { [unowned self] sampleRate in
+            self.onSampleRateChanged(sampleRate: sampleRate)
+        }
 
-        midiEngine.set(onMIDIOutConnectionsChanged: { outConnections in
+        midiEngine.set(onMIDIOutConnectionsChanged: { [unowned self] outConnections in
             if outConnections.count == 0 {
                 // kill lightControl if there are no connections
                 // ToDo: actually check if outConnections contains lightControl.connection
@@ -35,16 +43,16 @@ public class NoteDetection {
             YamahaLightControl.sendClavinovaModelRequest(on: outConnections)
         })
 
-        midiEngine.set(onSysexMessageReceived: { data, sourceDevice in
+        midiEngine.set(onSysexMessageReceived: { [weak self] data, sourceDevice in
             guard
                 YamahaLightControl.checkIfMessageIsFromCompatibleDevice(midiMessageData: data),
-                let connection = self.midiEngine.midiOutConnections.first(where: { connection in
+                let connection = self?.midiEngine.midiOutConnections.first(where: { connection in
                     return connection.displayName == sourceDevice.displayName
                 })
             else { return }
 
-            self.lightControl = YamahaLightControl(connection: connection)
-            self.lightControl?.currentLightningNoteEvent = self.noteDetector.expectedNoteEvent
+            self?.lightControl = YamahaLightControl(connection: connection)
+            self?.lightControl?.currentLightningNoteEvent = self?.noteDetector.expectedNoteEvent
         })
 
         // initially trigger onMIDIOutConnectionsChanged to send model request
@@ -65,8 +73,18 @@ public class NoteDetection {
     func createNoteDetector(type: InputType) -> NoteDetector {
         var newNoteDetector: NoteDetector
         switch type {
-        case .audio: newNoteDetector = AudioNoteDetector(input: audioEngine)
-        case .midi: newNoteDetector = MIDINoteDetector(input: midiEngine)
+        case .audio:
+            let audioNoteDetector = AudioNoteDetector(sampleRate: audioEngine.sampleRate)
+            audioEngine.set(onAudioData: { [weak audioNoteDetector] audioData in
+                audioNoteDetector?.process(audio: audioData)
+            })
+            newNoteDetector = audioNoteDetector
+        case .midi:
+            let midiNoteDetector = MIDINoteDetector()
+            midiEngine.set(onMIDIMessageReceived: { [weak midiNoteDetector] msg, device, timestamp in
+                midiNoteDetector?.process(midiMessage: msg, from: device, timestamp: timestamp)
+            })
+            newNoteDetector = midiNoteDetector
         }
 
         // Transfer all callbacks from the previous detector over to the new one:

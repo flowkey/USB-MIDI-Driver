@@ -64,7 +64,7 @@ fileprivate extension JavaObject {
 }
 
 
-class MIDIEngine: JNIObject, MIDIInput, MIDIOutput {
+class MIDIEngine: JNIObject {
 
     enum MIDIEngineError: Error {
         case InitError

@@ -9,35 +9,43 @@
 import XCTest
 @testable import NoteDetection
 
-private class MockAudioInput: AudioInput {
-    var sampleRate: Double = 100
-    var onSampleRateChanged: SampleRateChangedCallback?
-    func start() throws {}
-    func stop() throws {}
-    func set(onAudioData: AudioDataCallback?) {
-        print("onAudioData")
-    }
-}
 
 class MemoryLeakTests: XCTestCase {
-    
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+
+    func testMIDINoteDetectorMemoryLeak() {
+        var noteDetection: NoteDetection? = try? NoteDetection(input: .midi)
+        weak var detector: MIDINoteDetector? = noteDetection?.noteDetector as? MIDINoteDetector
+
+        XCTAssertNotNil(detector)
+        noteDetection = nil
+        XCTAssertNil(detector)
     }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
+
+    func testAudioNoteDetectorMemoryLeak() {
+        var noteDetection: NoteDetection? = try? NoteDetection(input: .audio)
+        weak var detector: AudioNoteDetector? = noteDetection?.noteDetector as? AudioNoteDetector
+
+        XCTAssertNotNil(detector)
+        noteDetection = nil
+        XCTAssertNil(detector)
     }
     
     func testPitchDetectionMemoryLeak() {
-        let mockAudioInput = MockAudioInput()
-        var audioNoteDetector: AudioNoteDetector? = AudioNoteDetector(input: mockAudioInput)
-        weak var pitchDetection: PitchDetection? = audioNoteDetector?.pitchDetection
+        var audioNoteDetector: AudioNoteDetector? = AudioNoteDetector(sampleRate: 22050)
+        weak var pitchDetection = audioNoteDetector?.pitchDetection
 
+        XCTAssertNotNil(pitchDetection)
         audioNoteDetector = nil
-
         XCTAssertNil(pitchDetection)
     }
+
+    func testOnsetDetectionMemoryLeak() {
+        var audioNoteDetector: AudioNoteDetector? = AudioNoteDetector(sampleRate: 22050)
+        weak var onsetDetection = audioNoteDetector?.onsetDetection
+
+        XCTAssertNotNil(onsetDetection)
+        audioNoteDetector = nil
+        XCTAssertNil(onsetDetection)
+    }
+
 }

@@ -1,6 +1,6 @@
 import AVFoundation
 
-final class AudioEngine: AudioInput {
+final class AudioEngine {
 
     fileprivate var audioData: [Float] = []
 

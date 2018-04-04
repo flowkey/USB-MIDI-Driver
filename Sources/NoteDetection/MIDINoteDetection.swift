@@ -15,10 +15,6 @@ final class MIDINoteDetector: NoteDetector {
         didSet { currentMIDIKeys.removeAll() }
     }
 
-    init(input: MIDIInput) {
-        input.set(onMIDIMessageReceived: process)
-    }
-
     func process(midiMessage: MIDIMessage, from device: MIDIDevice? = nil, timestamp: Timestamp = .now) {
         switch midiMessage {
         case let .noteOn(key, velocity):

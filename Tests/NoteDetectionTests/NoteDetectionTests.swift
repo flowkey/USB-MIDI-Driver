@@ -35,13 +35,13 @@ class NoteDetectionTests: XCTestCase {
         noteDetection.set(expectedNoteEvent: NoteEvent(notes:[1]))
 
         // ensure all callbacks are set to begin with
-        XCTAssert(noteDetection.noteDetector!.allCallbacksExist())
+        XCTAssert(noteDetection.noteDetector.allCallbacksExist())
 
         // switch input type
         noteDetection.inputType = alternativeInputType
 
         // ensure callbacks still exist
-        XCTAssert(noteDetection.noteDetector!.allCallbacksExist())
+        XCTAssert(noteDetection.noteDetector.allCallbacksExist())
     }
 
     func testIfNoteDetectionIgnores() {

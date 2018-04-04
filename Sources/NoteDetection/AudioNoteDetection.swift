@@ -2,6 +2,10 @@ import Dispatch
 
 public typealias NoteEventDetectedCallback = (Timestamp) -> Void
 
+// Chroma extractors for our different ranges:
+private let lowRange = MIDINumber(note: .g, octave: 1) ... MIDINumber(note: .d, octave: 5)
+private let highRange = lowRange.last! ... MIDINumber(note: .d, octave: 8)
+
 final class AudioNoteDetector: NoteDetector {
     static let maxNoteToOnsetTimeDelta = Timestamp(150)
 
@@ -10,27 +14,22 @@ final class AudioNoteDetector: NoteDetector {
     }
 
     let filterbank: FilterBank
-    var pitchDetection: PitchDetection!
-    var onsetDetection: OnsetDetection!
+    let pitchDetection = PitchDetection(lowNoteBoundary: lowRange.last!)
+    let onsetDetection = OnsetDetection(feature: SpectralFlux())
 
     var onInputLevelChanged: InputLevelChangedCallback?
     var onAudioProcessed: AudioProcessedCallback?
 
     init(sampleRate: Double) {
-        // Chroma extractors for our different ranges:
-        let lowRange = MIDINumber(note: .g, octave: 1) ... MIDINumber(note: .d, octave: 5)
-        let highRange = lowRange.last! ... MIDINumber(note: .d, octave: 8)
-
-        // Setup processors
         filterbank = FilterBank(lowRange: lowRange, highRange: highRange, sampleRate: sampleRate)
-        pitchDetection = PitchDetection(lowNoteBoundary: lowRange.last!, onPitchDetected: self.onPitchDetected)
-        onsetDetection = OnsetDetection(feature: SpectralFlux(), onOnset: self.onOnsetDetected)
+        pitchDetection.onPitchDetected = { [unowned self] timestamp in
+            self.onPitchDetected()
+        }
+        onsetDetection.onOnsetDetected = { [unowned self] timestamp in
+            self.onOnsetDetected()
+        }
     }
 
-    convenience init(input: AudioInput) {
-        self.init(sampleRate: input.sampleRate)
-        input.set(onAudioData: self.process)
-    }
 
     /// The volume level above which the pitch detection is activated and reported volume increases above 0.
     /// In reality our noise floor is closer to -96dB, but this value seems to work well not only save power

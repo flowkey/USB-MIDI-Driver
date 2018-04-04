@@ -1,20 +1,13 @@
 import XCTest
 @testable import NoteDetection
 
-class MIDIDInputMock: MIDIInput {
-    var midiDeviceList: Set<MIDIDevice> = []
-    func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?) {}
-    func set(onMIDIMessageReceived: MIDIMessageReceivedCallback?) {}
-    func set(onSysexMessageReceived: SysexMessageReceivedCallback?) {}
-}
-
 class MIDINoteDetectorTests: XCTestCase {
-    var midiNoteDetector = MIDINoteDetector(input: MIDIDInputMock())
+    var midiNoteDetector = MIDINoteDetector()
     let noteEvents = anotherDayInParadiseNoteEvents
 
     override func setUp() {
         super.setUp()
-        midiNoteDetector = MIDINoteDetector(input: MIDIDInputMock())
+        midiNoteDetector = MIDINoteDetector()
     }
 
     func testIfFollowsOnRandomEvent() {

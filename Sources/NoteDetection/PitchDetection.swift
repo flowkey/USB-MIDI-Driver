@@ -10,14 +10,13 @@
 typealias OnPitchDetectedCallback = (Timestamp) -> Void
 
 class PitchDetection {
-    init (lowNoteBoundary: MIDINumber, onPitchDetected: @escaping OnPitchDetectedCallback) {
-        self.onPitchDetected = onPitchDetected
+    init (lowNoteBoundary: MIDINumber) {
         self.lowNoteBoundary = lowNoteBoundary
         self.statusBuffer = [false, false, false]
     }
 
     // Let someone know when we play the event correctly
-    let onPitchDetected: OnPitchDetectedCallback
+    var onPitchDetected: OnPitchDetectedCallback?
 
     fileprivate let lowNoteBoundary: MIDINumber
     fileprivate var statusBuffer: [Bool]    // Store the previous runs' status booleans
@@ -44,7 +43,7 @@ class PitchDetection {
 
         if statusBufferIsAllTrue {
             let now = Timestamp.now
-            onPitchDetected(now)
+            onPitchDetected?(now)
 
             // Reset the status buffer to reduce the likelihood of repeated notes being detected immediately:
             statusBuffer = [Bool](repeating: false, count: statusBuffer.count)
