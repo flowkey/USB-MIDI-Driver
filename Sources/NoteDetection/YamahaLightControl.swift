@@ -132,30 +132,27 @@ class YamahaLightControl {
     }
 
     private func animateLights() {
-        let timeMs = 10
-        let numberOfKeys = 128
+        let keyAnimationTime = 10
+        let pianoMIDIRange = 24..<112
 
         // trigger animation (async)
-        for key in 0..<numberOfKeys {
+        for key in pianoMIDIRange {
             let noteOnMsg = self.createNoteOnMessage(channel: LIGHT_CONTROL_CHANNEL, key: UInt8(key))
             let noteOffMsg = self.createNoteOffMessage(channel: LIGHT_CONTROL_CHANNEL, key: UInt8(key))
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(key*timeMs), execute: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(key*keyAnimationTime), execute: {
                 self.connection.send(messages:[noteOnMsg])
-                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(key*timeMs), execute: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(key*keyAnimationTime), execute: {
                     self.connection.send(messages:[noteOffMsg])
                 })
             })
         }
 
         // after animation is completed, turn on current lightning keys
-        let animationDuration = 2500 // ToDo: compute how long duration really takes
+        let animationDuration = (pianoMIDIRange.count * keyAnimationTime) * 2
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(animationDuration), execute: {
-            let noteOnMessages = self.currentLightningKeys.map {
-                return self.createNoteOnMessage(channel: LIGHT_CONTROL_CHANNEL, key: $0)
-            }
-            self.connection.send(messages: noteOnMessages)
+            self.turnOffAllLights()
+            self.turnOnLights(at: self.currentLightningKeys)
         })
-
     }
 }
