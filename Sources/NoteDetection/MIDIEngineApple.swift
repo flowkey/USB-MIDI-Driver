@@ -107,6 +107,8 @@ class MIDIEngine {
     }
 
     private func disconnect() {
+
+        // SOURCES
         for sourceIndex in 0 ..< MIDIGetNumberOfSources() {
             let source = MIDIGetSource(sourceIndex)
 
@@ -118,8 +120,14 @@ class MIDIEngine {
 
             try? MIDIPortDisconnectSource(inputPort, source).throwOnError()
         }
-
         midiDeviceList = []
+
+
+        // DESTINATIONS
+        for destinationIndex in 0 ..< MIDIGetNumberOfDestinations() {
+            let endpointRef = MIDIGetDestination(destinationIndex)
+            MIDIEndpointDispose(endpointRef)
+        }
         midiOutConnections = []
     }
 
