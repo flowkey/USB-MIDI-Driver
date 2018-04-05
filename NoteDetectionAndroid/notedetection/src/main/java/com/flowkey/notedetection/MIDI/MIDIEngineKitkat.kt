@@ -70,7 +70,9 @@ internal class MIDIEngineKitkat(context: Context): MIDIEngine, UsbMidiDriver(con
     init {
         // in order to be able to use the SDL threads looper, we need to call .prepare()
         // else error: "Can't create handler inside thread that has not called Looper.prepare()"
-        Looper.prepare()
+        if (Looper.myLooper() == null) {
+            Looper.prepare()
+        }
 
         this.open()
     }
