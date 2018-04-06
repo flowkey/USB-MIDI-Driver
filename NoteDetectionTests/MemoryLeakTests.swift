@@ -13,7 +13,7 @@ import XCTest
 class MemoryLeakTests: XCTestCase {
 
     func testMIDIEngineMemoryLeak() {
-        var noteDetection: NoteDetection? = try? NoteDetection(input: .midi)
+        var noteDetection: NoteDetection? = try! NoteDetection(input: .midi)
         weak var midiEngine = noteDetection?.midiEngine
 
         XCTAssertNotNil(midiEngine)
@@ -22,7 +22,7 @@ class MemoryLeakTests: XCTestCase {
     }
 
     func testAudioEngineMemoryLeak() {
-        var noteDetection: NoteDetection? = try? NoteDetection(input: .audio)
+        var noteDetection: NoteDetection? = try! NoteDetection(input: .audio)
         weak var audioEngine = noteDetection?.audioEngine
 
         XCTAssertNotNil(audioEngine)
@@ -31,7 +31,7 @@ class MemoryLeakTests: XCTestCase {
     }
 
     func testMIDINoteDetectorMemoryLeak() {
-        var noteDetection: NoteDetection? = try? NoteDetection(input: .midi)
+        var noteDetection: NoteDetection? = try! NoteDetection(input: .midi)
         weak var detector: MIDINoteDetector? = noteDetection?.noteDetector as? MIDINoteDetector
 
         XCTAssertNotNil(detector)
@@ -40,7 +40,7 @@ class MemoryLeakTests: XCTestCase {
     }
 
     func testAudioNoteDetectorMemoryLeak() {
-        var noteDetection: NoteDetection? = try? NoteDetection(input: .audio)
+        var noteDetection: NoteDetection? = try! NoteDetection(input: .audio)
         weak var detector: AudioNoteDetector? = noteDetection?.noteDetector as? AudioNoteDetector
 
         XCTAssertNotNil(detector)
