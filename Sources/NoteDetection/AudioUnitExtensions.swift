@@ -43,7 +43,7 @@ extension AudioUnit {
     func getProperty<PropertyData>
         (_ propertyID: AudioUnitPropertyID, _ scope: AudioUnitScope, _ element: AudioUnitElement) -> PropertyData? {
         let data = UnsafeMutablePointer<PropertyData>.allocate(capacity: 1)
-        defer { data.deallocate(capacity: 1) }
+        defer { data.deallocate() }
 
         do {
             var size = UInt32(MemoryLayout<PropertyData>.size)

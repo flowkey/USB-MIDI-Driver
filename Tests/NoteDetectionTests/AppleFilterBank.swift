@@ -56,7 +56,7 @@ class AppleFilter {
         let count = inputArray.count
 
         if initedBufferLength != count {
-            outputBuffer?.deallocate(capacity: initedBufferLength)
+            outputBuffer?.deallocate()
             outputBuffer = UnsafeMutablePointer<Float>.allocate(capacity: count)
             initedBufferLength = count
         }
@@ -77,7 +77,7 @@ class AppleFilter {
     }
 
     deinit {
-        outputBuffer?.deallocate(capacity: initedBufferLength)
+        outputBuffer?.deallocate()
     }
 }
 
