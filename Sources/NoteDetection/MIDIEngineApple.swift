@@ -32,18 +32,12 @@ class MIDIEngine {
         MIDINetworkSession.default().connectionPolicy = .anyone
         #endif
 
-        if #available(iOS 9.0, *) {
-            try MIDIClientCreateWithBlock(clientName, &midiClient, onMIDIDeviceChanged)
-                .throwOnError()
-            try MIDIInputPortCreateWithBlock(midiClient, inputName, &inputPort, onMIDIPacketListReceived)
-                .throwOnError()
-        } else {
-            let refCon = Unmanaged.passUnretained(self).toOpaque()
-            try MIDIClientCreate(clientName, onMIDIDeviceChangedProc, refCon, &midiClient)
-                .throwOnError()
-            try MIDIInputPortCreate(midiClient, inputName, onMIDIPacketListReceivedProc, refCon, &inputPort)
-                .throwOnError()
-        }
+        let refCon = Unmanaged.passUnretained(self).toOpaque()
+        try MIDIClientCreate(clientName, onMIDIDeviceChangedProc, refCon, &midiClient)
+            .throwOnError()
+
+        try MIDIInputPortCreate(midiClient, inputName, onMIDIPacketListReceivedProc, refCon, &inputPort)
+            .throwOnError()
 
         try MIDIOutputPortCreate(midiClient, outputName, &outputPort)
             .throwOnError()
@@ -135,13 +129,10 @@ class MIDIEngine {
 
     let onMIDIDeviceChangedProc: MIDINotifyProc = { (notificationPtr, refCon) in
         let `self` = unsafeBitCast(refCon, to: MIDIEngine.self)
-        self.onMIDIDeviceChanged(notification: notificationPtr)
-    }
 
-    func onMIDIDeviceChanged(notification: UnsafePointer<MIDINotification>) {
-        switch notification.pointee.messageID {
+        switch notificationPtr.pointee.messageID {
         case .msgObjectAdded, .msgObjectRemoved, .msgPropertyChanged:
-            connect() // refresh sources and destinations when something changed
+            self.connect() // refresh sources and destinations when something changed
             self.onMIDIOutConnectionsChanged?(self.midiOutConnections)
             DispatchQueue.main.async {
                 self.onMIDIDeviceListChanged?(self.midiDeviceList)
