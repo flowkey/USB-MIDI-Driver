@@ -20,9 +20,13 @@ final class AudioEngine {
             sampleRate = 48000 // most common fast audio path sampleRate
             bufferSize = 512 // as in our settings for iOS
         }
+        
+        // printAudioSettings(sampleRate: sampleRate, bufferSize: bufferSize)
     }
 
     deinit {
+        print("deiniting AudioEngine")
+        CAndroidAudioEngine_deinitialize()
         AndroidPermissions.sharedInstance = nil
     }
 
@@ -59,7 +63,7 @@ extension AudioEngine {
                 assertionFailure("Permissions shared instance doesn't exist.")
                 return
             }
-            try permissions.requestAudioPermissionIfRequired { result in
+            try permissions.requestAudioPermissionIfRequired { [unowned self] result in
                 guard result == .granted else { assertionFailure("Permission was not granted!"); return }
                 let bufferSize = Int32(self.bufferSize)
                 let sampleRate = Int32(self.sampleRate)
@@ -70,6 +74,10 @@ extension AudioEngine {
     }
 
     public func stop() {
+        // if CAndroidAudioEngine_isInitialized() {
+        //     // we don't need it anymore and we wan't to kill this reference early to avoid memory leaks
+        //     AndroidPermissions.sharedInstance = nil
+        // }
         CAndroidAudioEngine_stop()
     }
 }

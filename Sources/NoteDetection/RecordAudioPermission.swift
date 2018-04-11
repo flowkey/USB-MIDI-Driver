@@ -35,6 +35,10 @@ class AndroidPermissions {
         case granted = 0
         case denied = -1
     }
+    
+    deinit {
+        print("deiniting AndroidPermissions")
+    }
 }
 
 enum AndroidPermissionsError: Error {
