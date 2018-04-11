@@ -15,7 +15,10 @@
 extern "C" {
 #endif
 
+// use of static for a top level variable means that source code in other files
+// that are part of the project cannot access the variable
 static SuperpoweredAndroidAudioIO *audioIO;
+
 float *monoBufferFloat;
 float *inputBufferFloat;
 
@@ -96,6 +99,7 @@ bool CAndroidAudioEngine_isInitialized()
 
 void CAndroidAudioEngine_deinitialize()
 {
+    LOGI("deiniting CAndroidAudioEngine");
     CAndroidAudioEngine_stop();
     delete(audioIO);
     free(inputBufferFloat);
