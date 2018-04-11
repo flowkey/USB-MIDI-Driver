@@ -101,7 +101,9 @@ void CAndroidAudioEngine_deinitialize()
 {
     LOGI("deiniting CAndroidAudioEngine");
     CAndroidAudioEngine_stop();
-    delete(audioIO);
+    delete audioIO;
+    audioIO = NULL;
+    audioEngineContext = NULL;
     free(inputBufferFloat);
     free(monoBufferFloat);
 }
