@@ -20,8 +20,6 @@ final class AudioEngine {
             sampleRate = 48000 // most common fast audio path sampleRate
             bufferSize = 512 // as in our settings for iOS
         }
-        
-        // printAudioSettings(sampleRate: sampleRate, bufferSize: bufferSize)
     }
 
     deinit {
@@ -74,10 +72,6 @@ extension AudioEngine {
     }
 
     public func stop() {
-        // if CAndroidAudioEngine_isInitialized() {
-        //     // we don't need it anymore and we wan't to kill this reference early to avoid memory leaks
-        //     AndroidPermissions.sharedInstance = nil
-        // }
         CAndroidAudioEngine_stop()
     }
 }
