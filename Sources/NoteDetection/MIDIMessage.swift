@@ -76,7 +76,10 @@ func parseMIDIMessages(from data: [UInt8]) -> [MIDIMessage] {
             message = MIDIMessage.activeSensing
         case .noteOn:
             endIndex = index + 2
-            message = MIDIMessage.noteOn(key: data[index+1], velocity: data[index+2])
+            let velocity = data[index+2]
+            let key = data[index+1]
+            message = (velocity > 0) ? MIDIMessage.noteOn(key: key, velocity: velocity)
+                                     : MIDIMessage.noteOff(key: key)
         case .noteOff:
             endIndex = index + 2
             message = MIDIMessage.noteOff(key: data[index+1])
