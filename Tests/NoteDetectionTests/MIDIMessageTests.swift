@@ -34,6 +34,17 @@ class MIDIParseTests: XCTestCase {
         XCTAssertEqual(firstMessage, MIDIMessage.noteOff(key: 50))
     }
 
+    func testSingleNoteOffWhichHasNoteOnCommand() {
+        let noteOnWithZeroVelocityData: [UInt8] = [144 + 1, 50, 0] // channel=1, key=50, velocity=0
+        let message: [MIDIMessage] = parseMIDIMessages(from: noteOnWithZeroVelocityData)
+        guard let firstMessage = message.first else {
+            XCTFail("no message")
+            return
+        }
+        XCTAssertEqual(firstMessage, MIDIMessage.noteOff(key: 50))
+    }
+
+
     func testSingleSysex() {
         let message: [MIDIMessage] = parseMIDIMessages(from: arbitrarySysexData)
         guard let firstMessage = message.first else {
