@@ -34,11 +34,11 @@ public class NoteDetection {
             self.onSampleRateChanged(sampleRate: sampleRate)
         }
 
-        midiEngine.set(onMIDIOutConnectionsChanged: { [unowned self] outConnections in
+        midiEngine.set(onMIDIOutConnectionsChanged: { [weak self] outConnections in
             if outConnections.count == 0 {
                 // kill lightControl if there are no connections
                 // ToDo: actually check if outConnections contains lightControl.connection
-                self.lightControl = nil
+                self?.lightControl = nil
             }
             YamahaLightControl.sendClavinovaModelRequest(on: outConnections)
         })
