@@ -30,7 +30,8 @@ final class AudioEngine {
     func set(onAudioData: AudioDataCallback?) {
         self.onAudioData = onAudioData
         CAndroidAudioEngine_setOnAudioData({ buffer, count, sampleRate, context in
-            let `self` = unsafeBitCast(context, to: AudioEngine.self)
+            guard let pointerToContext = context else { return }
+            let `self` = Unmanaged<AudioEngine>.fromOpaque(pointerToContext).takeUnretainedValue()
             let bufferPointer = UnsafeBufferPointer(start: buffer, count: Int(count))
             let floatArray = [Float](bufferPointer)
             let sr = Double(sampleRate)

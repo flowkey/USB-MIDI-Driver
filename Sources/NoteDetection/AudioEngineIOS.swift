@@ -117,7 +117,7 @@ extension AudioEngine {
 extension AudioEngine {
     func setInputUnitCallback() throws {
         try audioIOUnit.setCallback(callbackContext: self) { (ctx, actionFlags, timestamp, busNumber, frameCount, _) in
-            let `self` = unsafeBitCast(ctx, to: AudioEngine.self) // override "self" with our hacked C context
+            let `self` = Unmanaged<AudioEngine>.fromOpaque(ctx).takeUnretainedValue()
             guard let onAudioData = self.onAudioData else { return 1 } // generic error, pauses audio
 
             do { // Update the size of the audioData array if needed

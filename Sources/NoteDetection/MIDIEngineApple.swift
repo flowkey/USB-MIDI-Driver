@@ -119,8 +119,9 @@ class MIDIEngine {
     // MARK: MIDI Notification (Device added / removed)
 
     let onMIDIDeviceChangedProc: MIDINotifyProc = { (notificationPtr, refCon) in
-        let `self` = unsafeBitCast(refCon, to: MIDIEngine.self)
-
+        guard let pointerToContext = refCon else { return }
+        let `self` = Unmanaged<MIDIEngine>.fromOpaque(pointerToContext).takeUnretainedValue()
+        
         switch notificationPtr.pointee.messageID {
         case .msgObjectAdded, .msgObjectRemoved, .msgPropertyChanged:
             self.connect() // refresh sources and destinations when something changed
@@ -146,7 +147,8 @@ class MIDIEngine {
     }
 
     let onMIDIPacketListReceivedProc: MIDIReadProc = { (packetList, readProcRefCon, srcConnRefCon) in
-        let `self` = unsafeBitCast(readProcRefCon, to: MIDIEngine.self)
+        guard let pointerToContext = readProcRefCon else { return }
+        let `self` = Unmanaged<MIDIEngine>.fromOpaque(pointerToContext).takeUnretainedValue()
         self.onMIDIPacketListReceived(packetList: packetList, srcConnRefCon: srcConnRefCon)
     }
 
