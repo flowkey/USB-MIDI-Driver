@@ -61,8 +61,14 @@ extension AudioEngine {
                 assertionFailure("Permissions shared instance doesn't exist.")
                 return
             }
-            try permissions.requestAudioPermissionIfRequired { [unowned self] result in
-                guard result == .granted else { assertionFailure("Permission was not granted!"); return }
+            try permissions.requestAudioPermissionIfRequired { [weak self] result in
+                guard 
+                    let `self` = self,
+                    result == .granted 
+                else { 
+                    assertionFailure("Permission was not granted!")
+                    return
+                }
                 let bufferSize = Int32(self.bufferSize)
                 let sampleRate = Int32(self.sampleRate)
                 CAndroidAudioEngine_initialize(sampleRate, bufferSize)
