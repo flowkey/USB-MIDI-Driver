@@ -46,7 +46,6 @@ class MIDIEngine {
     }
 
     deinit {
-        print("deiniting MIDIEngine")
         MIDIPortDispose(inputPort)
         MIDIPortDispose(outputPort)
         MIDIClientDispose(midiClient)

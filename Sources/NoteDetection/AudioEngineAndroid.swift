@@ -23,7 +23,6 @@ final class AudioEngine {
     }
 
     deinit {
-        print("deiniting AudioEngine")
         CAndroidAudioEngine_deinitialize()
         AndroidPermissions.sharedInstance = nil
     }

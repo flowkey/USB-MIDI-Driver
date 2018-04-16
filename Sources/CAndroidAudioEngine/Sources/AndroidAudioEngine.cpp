@@ -99,7 +99,6 @@ bool CAndroidAudioEngine_isInitialized()
 
 void CAndroidAudioEngine_deinitialize()
 {
-    LOGI("deiniting CAndroidAudioEngine");
     CAndroidAudioEngine_stop();
     delete audioIO;
     audioIO = NULL;

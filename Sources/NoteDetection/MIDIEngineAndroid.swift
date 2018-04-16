@@ -80,7 +80,6 @@ class MIDIEngine: JNIObject {
     fileprivate(set) var midiOutConnections: Array<MIDIOutConnection> = []
 
     deinit {
-        print("deiniting MIDIEngine")
         midiEngine = nil
     }
 
