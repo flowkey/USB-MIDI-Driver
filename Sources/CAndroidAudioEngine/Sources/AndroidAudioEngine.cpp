@@ -15,17 +15,16 @@
 extern "C" {
 #endif
 
-// use of static for a top level variable means that source code in other files
-// that are part of the project cannot access the variable
+// top-level static in c means fileprivate for the linker
 static SuperpoweredAndroidAudioIO *audioIO;
 
-float *monoBufferFloat;
-float *inputBufferFloat;
+static float *monoBufferFloat;
+static float *inputBufferFloat;
 
-void (*onAudioData)(float *audioBuffer, int numberOfSamples, int sampleRate, void *context);
-void *audioEngineContext;
+static void (*onAudioData)(float *audioBuffer, int numberOfSamples, int sampleRate, void *context);
+static void *audioEngineContext;
 
-const float SHORTMAX = ((float)SHRT_MAX);
+static const float SHORTMAX = ((float)SHRT_MAX);
 
 static bool audioProcessing(void *clientdata, short int *audioInputOutput, int numberOfSamples, int currentSamplerate)
 {
