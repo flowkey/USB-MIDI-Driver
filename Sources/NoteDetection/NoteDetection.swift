@@ -74,15 +74,11 @@ public class NoteDetection {
         switch type {
         case .audio:
             let audioNoteDetector = AudioNoteDetector(sampleRate: audioEngine.sampleRate)
-            audioEngine.set(onAudioData: { [weak audioNoteDetector] audioData in
-                audioNoteDetector?.process(audio: audioData)
-            })
+            audioEngine.set(onAudioData: audioNoteDetector.process)
             newNoteDetector = audioNoteDetector
         case .midi:
             let midiNoteDetector = MIDINoteDetector()
-            midiEngine.set(onMIDIMessageReceived: { [weak midiNoteDetector] msg, device, timestamp in
-                midiNoteDetector?.process(midiMessage: msg, from: device, timestamp: timestamp)
-            })
+            midiEngine.set(onMIDIMessageReceived: midiNoteDetector.process)
             newNoteDetector = midiNoteDetector
         }
 
