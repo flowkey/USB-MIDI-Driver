@@ -19,7 +19,6 @@ extern "C" {
 static SuperpoweredAndroidAudioIO *audioIO;
 
 static float *monoBufferFloat;
-static float *inputBufferFloat;
 
 static void (*onAudioData)(float *audioBuffer, int numberOfSamples, int sampleRate, void *context);
 static void *audioEngineContext;
@@ -39,7 +38,7 @@ static bool audioProcessing(void *clientdata, short int *audioInputOutput, int n
         // convert a signed short int in the range between −32.768 .. 32.767 into a float in the range between -1 .. 1
         monoBufferFloat[i / 2] = ((float)audioInputOutput[i]) / SHORTMAX;
         // XXX: would be more correct:
-        // monoBufferFloat[i / 2] = (inputBufferFloat[i] + inputBufferFloat[i+1] / 2)
+        // monoBufferFloat[i / 2] = ((float)audioInputOutput[i] + (float)audioInputOutput[i + 1]) / SHORTMAX;
     }
 
     onAudioData(monoBufferFloat, numberOfSamples, currentSamplerate, audioEngineContext);
@@ -60,7 +59,6 @@ void CAndroidAudioEngine_initialize(int desiredSamplerate, int desiredBufferSize
 
     // Prepare an intermediate buffer for Int-Float conversion.
     monoBufferFloat = (float *)malloc(desiredBufferSize * sizeof(float));
-    inputBufferFloat = (float *)malloc(desiredBufferSize * sizeof(float) * 2 + 128);
 
     audioIO = new SuperpoweredAndroidAudioIO(
         desiredSamplerate,
@@ -102,7 +100,6 @@ void CAndroidAudioEngine_deinitialize()
     delete audioIO;
     audioIO = NULL;
     audioEngineContext = NULL;
-    free(inputBufferFloat);
     free(monoBufferFloat);
 }
 
