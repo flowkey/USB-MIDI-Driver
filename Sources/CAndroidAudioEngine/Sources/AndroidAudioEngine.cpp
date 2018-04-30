@@ -63,13 +63,13 @@ void CAndroidAudioEngine_initialize(int desiredSamplerate, int desiredBufferSize
     audioIO = new SuperpoweredAndroidAudioIO(
         desiredSamplerate,
         desiredBufferSize,
-        true,                                // enableInput
-        false,                               // enableOutput
-        audioProcessing,                     // callback
-        NULL,                                // clientData
-        SL_ANDROID_RECORDING_PRESET_GENERIC, // inputStreamType
-        -1,                                  // outputstreamType
-        0                                    // latencySamples, works only if input and output are enabled
+        true,                                          // enableInput
+        false,                                         // enableOutput
+        audioProcessing,                               // callback
+        NULL,                                          // clientData
+        SL_ANDROID_RECORDING_PRESET_VOICE_RECOGNITION, // inputStreamType
+        -1,                                            // outputstreamType
+        0                                              // latencySamples, works only if input and output are enabled
     );
 
     // audioIO immediatly runs after initialziation, stop it
