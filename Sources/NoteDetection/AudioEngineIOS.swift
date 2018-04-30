@@ -127,12 +127,14 @@ extension AudioEngine {
                 }
             }
 
+            // encapsulate our audioData array in a bufferList in order to use AudioUnitRender()
             var bufferList = AudioBufferList(mNumberBuffers: 1, mBuffers: AudioBuffer(
                 mNumberChannels: 1,
                 mDataByteSize: frameCount * UInt32(MemoryLayout<Float32>.size),
                 mData: &self.audioData // could theoretically cause BAD_ACCESS if `onAudioData` takes a long time
             ))
 
+            // render audio unit output (mic data) into the bufferList / audioData
             let status = AudioUnitRender(self.audioIOUnit, actionFlags, timestamp, busNumber, frameCount, &bufferList)
             if status != noErr {
                 print(status.localizedDescription)
