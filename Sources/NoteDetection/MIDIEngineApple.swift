@@ -48,7 +48,10 @@ class MIDIEngine {
     deinit {
         MIDIPortDispose(inputPort)
         MIDIPortDispose(outputPort)
-        MIDIClientDispose(midiClient)
+
+        // The following line causes a failure when initing the NoteDetection after reiniting a few times!
+        // Leave it commented out as a warning in case we think it's a good idea to try this again in the future ;)
+        // MIDIClientDispose(midiClient)
     }
 
     func set(onMIDIMessageReceived callback: MIDIMessageReceivedCallback?) {
