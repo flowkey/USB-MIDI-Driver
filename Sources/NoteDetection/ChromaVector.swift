@@ -13,7 +13,7 @@ import Foundation
 fileprivate let lowKeyBoundary = 48
 
 public struct ChromaVector: CustomStringConvertible, Equatable {
-    static let size = 12 // a chroma vector always contains 12 values
+    public static let size = 12 // a chroma vector always contains 12 values
     static let emptyVector = [Float](repeating: 0, count: ChromaVector.size)
 
     // Internal datastore, not publicly writable
@@ -124,7 +124,7 @@ public struct ChromaVector: CustomStringConvertible, Equatable {
         return 1.0 - (Float(key) / Float(lowKeyBoundary))
     }
 
-    static func + (lhs: ChromaVector, rhs: ChromaVector) -> ChromaVector {
+    public static func + (lhs: ChromaVector, rhs: ChromaVector) -> ChromaVector {
         var combinedChroma = lhs
         for index in 0 ..< ChromaVector.size {
             combinedChroma[index] += rhs[index]
