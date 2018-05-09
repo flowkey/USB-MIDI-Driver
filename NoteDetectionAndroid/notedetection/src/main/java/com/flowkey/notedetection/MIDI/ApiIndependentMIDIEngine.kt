@@ -12,18 +12,16 @@ class ApiIndependentMIDIEngine(context: Context) {
     private val midiEngine: MIDIEngine
 
     init {
-        val hasMIDISystemFeature = SDK_INT >= M && context.packageManager.hasSystemFeature(FEATURE_MIDI)
+//        val hasMIDISystemFeature = SDK_INT >= M && context.packageManager.hasSystemFeature(FEATURE_MIDI)
 
-        midiEngine = if (hasMIDISystemFeature) MIDIEngineM(context)
-        else MIDIEngineKitkat(context)
-
+        midiEngine = MIDIEngineKitkat(context) //if (hasMIDISystemFeature) MIDIEngineM(context) else
         midiEngine.onMIDIDeviceChanged = { devices ->
             nativeMidiDeviceCallback(devices)
         }
 
         midiEngine.onMIDIMessageReceived = { msg, offset, count, timestamp ->
             nativeMidiMessageCallback(
-                    midiData  = Arrays.copyOfRange(msg, offset, offset+count),
+                    midiData  = Arrays.copyOfRange(msg, offset, offset + count),
                     timestamp = timestamp
             )
         }

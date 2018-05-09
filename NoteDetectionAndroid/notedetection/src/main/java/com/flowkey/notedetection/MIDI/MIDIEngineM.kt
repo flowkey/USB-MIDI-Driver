@@ -10,7 +10,7 @@ import android.support.annotation.RequiresApi
 import java.io.IOException
 
 @RequiresApi(api = Build.VERSION_CODES.M)
-internal class MIDIEngineM(context: Context) : MIDIEngine {
+internal class MIDIEngineM(context: Context) : MIDIEngine, MidiManager.OnDeviceOpenedListener {
 
     override var onMIDIDeviceChanged: MIDIDeviceChangedCallback? = null
     override var onMIDIMessageReceived: MIDIMessageReceivedCallback? = null
@@ -22,7 +22,7 @@ internal class MIDIEngineM(context: Context) : MIDIEngine {
 
     private val deviceCallback = object: DeviceCallback() {
         override fun onDeviceAdded(deviceInfo: MidiDeviceInfo) {
-            midiManager.openDevice(deviceInfo, connectOutputPortsToReceiver, handler)
+            midiManager.openDevice(deviceInfo, this@MIDIEngineM, handler)
             onMIDIDeviceChanged?.invoke(midiManager.devices.toMIDIDeviceArray())
         }
         override fun onDeviceRemoved(device: MidiDeviceInfo) {
@@ -33,9 +33,13 @@ internal class MIDIEngineM(context: Context) : MIDIEngine {
         }
     }
 
-    private val connectOutputPortsToReceiver: (MidiDevice) -> Unit = { device ->
-        (0 until device.info.outputPortCount).map {
-            device.openOutputPort(it).connect(midiReceiver)
+    override fun onDeviceOpened(device: MidiDevice?) {
+        device?.info?.ports?.forEach { portInfo ->
+            if (portInfo.type == MidiDeviceInfo.PortInfo.TYPE_OUTPUT) {
+                // we should keep a ref to outputPort and .close() it when deiniting the swift midi engine
+                val outputPort = device.openOutputPort(portInfo.portNumber)
+                outputPort.connect(midiReceiver)
+            }
         }
     }
 
@@ -48,7 +52,9 @@ internal class MIDIEngineM(context: Context) : MIDIEngine {
 
     init {
         midiManager.registerDeviceCallback(deviceCallback, handler)
-        midiManager.devices.forEach { midiManager.openDevice(it, connectOutputPortsToReceiver, handler) }
+        midiManager.devices.forEach {
+            midiManager.openDevice(it, this, handler)
+        }
     }
 }
 

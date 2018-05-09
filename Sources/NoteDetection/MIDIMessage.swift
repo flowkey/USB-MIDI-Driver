@@ -76,13 +76,13 @@ func parseMIDIMessages(from data: [UInt8]) -> [MIDIMessage] {
             message = MIDIMessage.activeSensing
         case .noteOn:
             endIndex = index + 2
-            let velocity = data[index+2]
-            let key = data[index+1]
+            let key = data[index + 1]
+            let velocity = data[index + 2]
             message = (velocity > 0) ? MIDIMessage.noteOn(key: key, velocity: velocity)
                                      : MIDIMessage.noteOff(key: key)
         case .noteOff:
             endIndex = index + 2
-            message = MIDIMessage.noteOff(key: data[index+1])
+            message = MIDIMessage.noteOff(key: data[index + 1])
         case .systemExclusive:
             let sysexEndIndex = data[index...].index(where: { $0 == 0b1111_0111 })
             endIndex = (sysexEndIndex ?? index)
