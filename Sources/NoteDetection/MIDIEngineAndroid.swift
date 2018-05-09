@@ -15,13 +15,14 @@ private weak var midiEngine: MIDIEngine?
 public func onMIDIMessageReceived(env: UnsafeMutablePointer<JNIEnv>, cls: JavaObject, midiData: JavaByteArray, timestamp: JavaLong) {
     let midiDataArray: [UInt8] = jni.GetByteArrayRegion(array: midiData)
     let midiMessages = parseMIDIMessages(from: midiDataArray)
-    midiMessages.forEach { midiMessage in
-        DispatchQueue.main.async {
-            midiMessages.forEach { message in
-                switch message {
-                case .noteOn, .noteOff: midiEngine?.onMIDIMessageReceived?(message, nil, .now)
-                default: break 
-                }
+    let timestamp = Timestamp.now
+
+    DispatchQueue.main.async {
+        midiMessages.forEach { message in
+            switch message {
+            case .noteOn, .noteOff:
+                midiEngine?.onMIDIMessageReceived?(message, nil, timestamp)
+            default: break
             }
         }
     }
@@ -65,7 +66,6 @@ fileprivate extension JavaObject {
 
 
 class MIDIEngine: JNIObject {
-
     enum MIDIEngineError: Error {
         case InitError
     }
@@ -78,10 +78,6 @@ class MIDIEngine: JNIObject {
 
     fileprivate(set) var midiDeviceList: Set<MIDIDevice> = []
     fileprivate(set) var midiOutConnections: Array<MIDIOutConnection> = []
-
-    deinit {
-        midiEngine = nil
-    }
 
     private(set) var onMIDIOutConnectionsChanged: MIDIOutConnectionsChangedCallback?
     func set(onMIDIOutConnectionsChanged callback: MIDIOutConnectionsChangedCallback?) {

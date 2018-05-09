@@ -34,7 +34,9 @@ internal class MIDIEngineM(context: Context) : MIDIEngine {
     }
 
     private val connectOutputPortsToReceiver: (MidiDevice) -> Unit = { device ->
-        (0..device.info.outputPortCount - 1).map { device.openOutputPort(it).connect(midiReceiver) }
+        (0 until device.info.outputPortCount).map {
+            device.openOutputPort(it).connect(midiReceiver)
+        }
     }
 
     private val midiReceiver = object: MidiReceiver() {
