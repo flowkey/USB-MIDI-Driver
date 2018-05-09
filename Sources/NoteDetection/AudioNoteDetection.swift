@@ -15,7 +15,7 @@ final class AudioNoteDetector: NoteDetector {
 
     let filterbank: FilterBank
     let pitchDetection = PitchDetection(lowNoteBoundary: lowRange.last!)
-    let onsetDetection = OnsetDetection(feature: SpectralFlux())
+    let onsetDetection = OnsetDetection()
 
     var onInputLevelChanged: InputLevelChangedCallback?
     var onAudioProcessed: AudioProcessedCallback?
@@ -69,7 +69,7 @@ final class AudioNoteDetector: NoteDetector {
 
         // Do Pitch / Onset Detection
         filterbank.calculateMagnitudes(buffer)
-        let onset = onsetDetection.run(buffer, filterbankMagnitudes: filterbank.magnitudes)
+        let onsetData = onsetDetection.run(inputData: filterbank.magnitudes)
         let chromaVector = filterbank.getChroma(for: pitchDetection.currentDetectionMode)
         pitchDetection.run(chromaVector)
 
@@ -78,7 +78,7 @@ final class AudioNoteDetector: NoteDetector {
             let filterbankMagnitudes = self.filterbank.magnitudes
             DispatchQueue.main.async {
                 onAudioProcessed(
-                    (buffer, chromaVector, filterbankMagnitudes, onset.featureValue, onset.threshold, onset.wasDetected)
+                    (buffer, chromaVector, filterbankMagnitudes, onsetData.featureValue, onsetData.threshold, onsetData.onsetDetected)
                 )
             }
         }

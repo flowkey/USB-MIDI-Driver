@@ -15,9 +15,8 @@ fileprivate let dataCount = 256
     @IBInspectable var thresholdColour: UIColor = .black
     private let defaultThresholdOpacity = Float(0.25)
 
-    var onsetScale: Float = 1_000_000 // SpectralFlux
-//    var onsetScale: CGFloat = 100_000      // RMS_FilterBank
-//    var onsetScale: CGFloat = 10_000      // RMS_TimeDomain
+   var onsetScale: Float = 1_000_000 // SpectralFlux
+    // var onsetScale: Float = 10_0000      // RMS
 
     override var columnGap: CGFloat { return 0 }
 

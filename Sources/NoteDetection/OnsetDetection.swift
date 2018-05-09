@@ -7,42 +7,30 @@
 //
 
 public typealias OnsetDetectedCallback = (Timestamp) -> Void
+typealias OnsetData = (featureValue: Float, threshold: Float, onsetDetected: Bool)
 
 public class OnsetDetection {
-    let onsetFeature: OnsetFeature
-    var onsetFeatureBuffer: [Float]
-    var currentThreshold: Float
+    private let onsetFeature = SpectralFlux() // or RMS()
+    private var onsetFeatureBuffer: [Float]
+    private var currentThreshold: Float = 0
     var onOnsetDetected: OnsetDetectedCallback?
 
-    init(feature: OnsetFeature) {
-        self.onsetFeature = feature
+    init() {
         self.onsetFeatureBuffer = [Float](repeating: 0.0, count: onsetFeature.defaultFeatureBufferSize)
-        self.currentThreshold = onsetFeature.defaultThreshold
     }
 
-    // incoming audioData is in time or frequency domain, depending on onsetFeature
-    func run(_ audioData: [Float], filterbankMagnitudes: [Float]) -> (featureValue: Float, threshold: Float, wasDetected: Bool) {
-        var onsetDetected = false
-
-        var currentFeatureValue: Float = 0.0
-        if onsetFeature is SpectralFlux {
-            currentFeatureValue = onsetFeature.compute(inputData: filterbankMagnitudes)
-        } else if onsetFeature is RMSFilterbank {
-            currentFeatureValue = onsetFeature.compute(inputData: filterbankMagnitudes)
-        } else if onsetFeature is RMSTimeDomain {
-            currentFeatureValue = onsetFeature.compute(inputData: audioData)
-        } else {
-            assertionFailure("Type of onsetFeature not handled. ")
-        }
-
+    func run(inputData: [Float]) -> OnsetData {
+        let currentFeatureValue = onsetFeature.compute(from: inputData)
 		onsetFeatureBuffer.remove(at: 0)
         onsetFeatureBuffer.append(currentFeatureValue)
+        currentThreshold = onsetFeature.computeThreshold(from: onsetFeatureBuffer)
 
-        currentThreshold = onsetFeature.updateThreshold(buffer: onsetFeatureBuffer)
-
+        let onsetDetected: Bool
         if currentBufferIsAPeak {
             onsetDetected = true
             onOnsetDetected?(.now)
+        } else {
+            onsetDetected = false
         }
 
         return (currentFeatureValue, currentThreshold, onsetDetected)
