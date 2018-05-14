@@ -12,6 +12,19 @@ import java.util.*
 
 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
 internal class MIDIEngineKitkat(context: Context): MIDIEngine, UsbMidiDriver(context) {
+    companion object {
+        private var _sharedInstance: MIDIEngineKitkat? = null
+        fun getInstance(context: Context): MIDIEngineKitkat {
+            if (_sharedInstance != null) {
+
+                _sharedInstance?.onMIDIDeviceChanged?.invoke(_sharedInstance!!.midiInputDevices.toMIDIDeviceArray())
+                return _sharedInstance!!
+            }
+
+            _sharedInstance = MIDIEngineKitkat(context)
+            return _sharedInstance!!
+        }
+    }
 
     override var onMIDIDeviceChanged: MIDIDeviceChangedCallback? = null
     override var onMIDIMessageReceived: MIDIMessageReceivedCallback? = null
@@ -68,7 +81,10 @@ internal class MIDIEngineKitkat(context: Context): MIDIEngine, UsbMidiDriver(con
 //    override fun onMidiActiveSensing(midiInputDevice: MidiInputDevice, i: Int) {}
 //    override fun onMidiReset(midiInputDevice: MidiInputDevice, i: Int) {}
 
+
+
     init {
+        println("init MIDIEngineKitkat")
         // in order to be able to use the SDL threads looper, we need to call .prepare()
         // else error: "Can't create handler inside thread that has not called Looper.prepare()"
         if (Looper.myLooper() == null) {
