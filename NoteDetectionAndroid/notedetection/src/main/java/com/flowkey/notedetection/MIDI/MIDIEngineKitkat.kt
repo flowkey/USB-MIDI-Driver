@@ -74,17 +74,6 @@ internal class MIDIEngineKitkat(context: Context): MIDIEngine, UsbMidiDriver(con
     override fun onMidiChannelAftertouch(midiInputDevice: MidiInputDevice, i: Int, i1: Int, i2: Int) {}
     override fun onMidiPitchWheel(midiInputDevice: MidiInputDevice, i: Int, i1: Int, i2: Int) {}
     override fun onMidiSingleByte(midiInputDevice: MidiInputDevice, i: Int, i1: Int) {}
-    // These don't exist in 0.1.2:
-//    override fun onMidiTimeCodeQuarterFrame(midiInputDevice: MidiInputDevice, i: Int, i1: Int) {}
-//    override fun onMidiSongSelect(midiInputDevice: MidiInputDevice, i: Int, i1: Int) {}
-//    override fun onMidiSongPositionPointer(midiInputDevice: MidiInputDevice, i: Int, i1: Int) {}
-//    override fun onMidiTuneRequest(midiInputDevice: MidiInputDevice, i: Int) {}
-//    override fun onMidiTimingClock(midiInputDevice: MidiInputDevice, i: Int) {}
-//    override fun onMidiStart(midiInputDevice: MidiInputDevice, i: Int) {}
-//    override fun onMidiContinue(midiInputDevice: MidiInputDevice, i: Int) {}
-//    override fun onMidiStop(midiInputDevice: MidiInputDevice, i: Int) {}
-//    override fun onMidiActiveSensing(midiInputDevice: MidiInputDevice, i: Int) {}
-//    override fun onMidiReset(midiInputDevice: MidiInputDevice, i: Int) {}
 
     init {
         // in order to be able to use the SDL threads looper, we need to call .prepare()
