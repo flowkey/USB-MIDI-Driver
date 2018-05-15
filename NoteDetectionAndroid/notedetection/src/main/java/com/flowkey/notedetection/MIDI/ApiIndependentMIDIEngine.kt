@@ -12,7 +12,7 @@ class ApiIndependentMIDIEngine(context: Context) {
     private val midiEngine: MIDIEngine
 
     init {
-//        val hasMIDISystemFeature = SDK_INT >= M && context.packageManager.hasSystemFeature(FEATURE_MIDI)
+        // val hasMIDISystemFeature = SDK_INT >= M && context.packageManager.hasSystemFeature(FEATURE_MIDI)
 
         midiEngine = MIDIEngineKitkat.getInstance(context) //if (hasMIDISystemFeature) MIDIEngineM(context) else
         midiEngine.onMIDIDeviceChanged = { devices ->
