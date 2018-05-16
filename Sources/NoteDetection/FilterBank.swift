@@ -11,10 +11,11 @@ import simd
 #endif
 
 final class FilterBank {
+    typealias Magnitude = Float
     private var bandpassFilters: [Filter]
     let lowRange: CountableClosedRange<MIDINumber>
     let highRange: CountableClosedRange<MIDINumber>
-    var magnitudes: [Float]
+    var magnitudes: [Magnitude]
 
     init (lowRange: CountableClosedRange<MIDINumber>, highRange: CountableClosedRange<MIDINumber>, sampleRate: Double) {
         self.lowRange = lowRange
@@ -36,7 +37,7 @@ final class FilterBank {
             return Filter(sampleRate: sampleRate, centreFrequency: freq, Q: 180)
         }
 
-        magnitudes = [Float](repeating: 0, count: noteRange.count)
+        magnitudes = [Magnitude](repeating: 0, count: noteRange.count)
     }
 
     private var x1: Float = 0

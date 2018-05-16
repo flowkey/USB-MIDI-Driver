@@ -15,7 +15,7 @@ final class AudioNoteDetector: NoteDetector {
 
     let filterbank: FilterBank
     let pitchDetection = PitchDetection(lowNoteBoundary: lowRange.last!)
-    let onsetDetection = OnsetDetection()
+    let onsetDetection = SpectralFluxOnsetDetection()
 
     var onInputLevelChanged: InputLevelChangedCallback?
     var onAudioProcessed: AudioProcessedCallback?

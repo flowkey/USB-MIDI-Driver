@@ -8,16 +8,17 @@
 
 import Foundation
 
-class RMS {
-    private let defaultThreshold: Float = 0.0001
-    let defaultFeatureBufferSize: Int = 10
+class RMSOnsetDetection: OnsetDetection {
+    var onsetFeatureBuffer = [OnsetFeatureValue](repeating: 0, count: 10)
+    var currentThreshold: Float = 0
+    var onOnsetDetected: OnsetDetectedCallback?
 
     func compute(from inputData: [Float]) -> Float {
         return rootMeanSquare(inputData)
     }
 
     func computeThreshold(from data: [Float]) -> Float {
-       return max(median(data), self.defaultThreshold)
+        let defaultThreshold: Float = 0.0001
+        return max(median(data), defaultThreshold)
     }
 }
-

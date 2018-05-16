@@ -7,23 +7,29 @@
 //
 
 public typealias OnsetDetectedCallback = (Timestamp) -> Void
-typealias OnsetData = (featureValue: Float, threshold: Float, onsetDetected: Bool)
+public typealias OnsetData = (featureValue: Float, threshold: Float, onsetDetected: Bool)
 
-public class OnsetDetection {
-    private let onsetFeature = SpectralFlux() // or RMS()
-    private var onsetFeatureBuffer: [Float]
-    private var currentThreshold: Float = 0
-    var onOnsetDetected: OnsetDetectedCallback?
+protocol OnsetDetection: class {
+    /// An array of FilterbankMagnitudes or AudioSamples
+    associatedtype InputDataType
+    typealias OnsetFeatureValue = Float
 
-    init() {
-        self.onsetFeatureBuffer = [Float](repeating: 0.0, count: onsetFeature.defaultFeatureBufferSize)
-    }
+    func run(inputData: InputDataType) -> OnsetData
+    func compute(from inputData: InputDataType) -> OnsetFeatureValue
+    var onsetFeatureBuffer: [OnsetFeatureValue] { get set }
 
-    func run(inputData: [Float]) -> OnsetData {
-        let currentFeatureValue = onsetFeature.compute(from: inputData)
-		onsetFeatureBuffer.remove(at: 0)
+    var currentThreshold: Float { get set }
+    func computeThreshold(from buffer: [OnsetFeatureValue]) -> Float
+
+    var onOnsetDetected: OnsetDetectedCallback? { get set }
+}
+
+extension OnsetDetection {
+    func run(inputData: InputDataType) -> OnsetData {
+        let currentFeatureValue = compute(from: inputData)
+        onsetFeatureBuffer.remove(at: 0)
         onsetFeatureBuffer.append(currentFeatureValue)
-        currentThreshold = onsetFeature.computeThreshold(from: onsetFeatureBuffer)
+        currentThreshold = computeThreshold(from: onsetFeatureBuffer)
 
         let onsetDetected: Bool
         if currentBufferIsAPeak {
@@ -45,7 +51,7 @@ public class OnsetDetection {
 
     // simple check for local maximum within the last 3 elements of onsetFeatureBuffer
     fileprivate var atLocalMaximum: Bool {
-        let bufferSlice = [Float](onsetFeatureBuffer[onsetFeatureBuffer.count - 3 ..< onsetFeatureBuffer.count])
+        let bufferSlice = [OnsetFeatureValue](onsetFeatureBuffer[onsetFeatureBuffer.count - 3 ..< onsetFeatureBuffer.count])
         return isLocalMaximum(amplitudes: bufferSlice, centreIndex: 1)
     }
 
