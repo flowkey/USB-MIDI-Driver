@@ -1,5 +1,4 @@
 import Dispatch
-import UIKit
 
 public typealias NoteEventDetectedCallback = (Timestamp) -> Void
 
@@ -63,16 +62,11 @@ final class AudioNoteDetector: NoteDetector {
     }
 
     func process(audio samples: [Float]) {
-        print("incoming samples: ", samples.count)
         audioBuffer.append(contentsOf: samples)
         if audioBuffer.count >= 960 {
-            print("perform note detection with ", audioBuffer.count)
             performNoteDetection(audioBuffer)
             audioBuffer.removeAll(keepingCapacity: true)
         }
-        print("audioBuffer count: ", audioBuffer.count)
-        print("audioBuffer capacity: ", audioBuffer.capacity)
-        print("-------------------")
     }
 
     private func performNoteDetection(_ audioData: [Float]) {
