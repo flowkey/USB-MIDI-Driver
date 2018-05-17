@@ -20,7 +20,12 @@ final class AudioNoteDetector: NoteDetector {
     var onInputLevelChanged: InputLevelChangedCallback?
     var onAudioProcessed: AudioProcessedCallback?
 
+    private var audioBuffer: [Float]
+
     init(sampleRate: Double) {
+        audioBuffer = [Float]()
+        audioBuffer.reserveCapacity(1024)
+
         filterbank = FilterBank(lowRange: lowRange, highRange: highRange, sampleRate: sampleRate)
         pitchDetection.onPitchDetected = { [unowned self] timestamp in
             self.onPitchDetected()
@@ -56,8 +61,27 @@ final class AudioNoteDetector: NoteDetector {
         return volume
     }
 
-    func process(audio buffer: [Float]) {
-        let volume = calculateVolume(from: buffer)
+    func process(audio samples: [Float]) {
+        if samples.count > audioBuffer.capacity {
+            audioBuffer.reserveCapacity(samples.count)
+        }
+
+        let remainingCapacity = (audioBuffer.capacity - audioBuffer.count)
+        if remainingCapacity >= samples.count {
+            audioBuffer.append(contentsOf: samples)
+        } else {
+            performNoteDetection(audioBuffer)
+            audioBuffer.removeAll(keepingCapacity: true)
+            audioBuffer.append(contentsOf: samples)
+        }
+
+        // TODO: we can
+        // defer { audioBuffer.append(contentsOf: samples) }
+        // and refactor the if-else statement
+    }
+
+    private func performNoteDetection(_ audioData: [Float]) {
+        let volume = calculateVolume(from: audioData)
 
         // Volume drops a lot more quickly than the filterbank magnitudes
         // So check we either have enough volume, OR the filterbank is still "ringing out":
@@ -68,7 +92,7 @@ final class AudioNoteDetector: NoteDetector {
         #endif
 
         // Do Pitch / Onset Detection
-        filterbank.calculateMagnitudes(buffer)
+        filterbank.calculateMagnitudes(audioData)
         let onsetData = onsetDetection.run(inputData: filterbank.magnitudes)
         let chromaVector = filterbank.getChroma(for: pitchDetection.currentDetectionMode)
         pitchDetection.run(chromaVector)
@@ -78,7 +102,7 @@ final class AudioNoteDetector: NoteDetector {
             let filterbankMagnitudes = self.filterbank.magnitudes
             DispatchQueue.main.async {
                 onAudioProcessed(
-                    (buffer, chromaVector, filterbankMagnitudes, onsetData.featureValue, onsetData.threshold, onsetData.onsetDetected)
+                    (audioData, chromaVector, filterbankMagnitudes, onsetData.featureValue, onsetData.threshold, onsetData.onsetDetected)
                 )
             }
         }
