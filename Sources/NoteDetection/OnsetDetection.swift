@@ -12,14 +12,14 @@ public typealias OnsetData = (featureValue: Float, threshold: Float, onsetDetect
 protocol OnsetDetection: class {
     /// An array of FilterbankMagnitudes or AudioSamples
     associatedtype InputDataType
-    typealias OnsetFeatureValue = Float
+    typealias FeatureValue = Float
 
     func run(inputData: InputDataType) -> OnsetData
-    func compute(from inputData: InputDataType) -> OnsetFeatureValue
-    var onsetFeatureBuffer: [OnsetFeatureValue] { get set }
+    func compute(from inputData: InputDataType) -> FeatureValue
+    var onsetFeatureBuffer: [FeatureValue] { get set }
 
     var currentThreshold: Float { get set }
-    func computeThreshold(from buffer: [OnsetFeatureValue]) -> Float
+    func computeThreshold(from buffer: [FeatureValue]) -> Float
 
     var onOnsetDetected: OnsetDetectedCallback? { get set }
 }
@@ -51,7 +51,7 @@ extension OnsetDetection {
 
     // simple check for local maximum within the last 3 elements of onsetFeatureBuffer
     fileprivate var atLocalMaximum: Bool {
-        let bufferSlice = [OnsetFeatureValue](onsetFeatureBuffer[onsetFeatureBuffer.count - 3 ..< onsetFeatureBuffer.count])
+        let bufferSlice = [FeatureValue](onsetFeatureBuffer[onsetFeatureBuffer.count - 3 ..< onsetFeatureBuffer.count])
         return isLocalMaximum(amplitudes: bufferSlice, centreIndex: 1)
     }
 

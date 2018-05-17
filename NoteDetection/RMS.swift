@@ -9,7 +9,7 @@
 import Foundation
 
 class RMSOnsetDetection: OnsetDetection {
-    var onsetFeatureBuffer = [OnsetFeatureValue](repeating: 0, count: 10)
+    var onsetFeatureBuffer = [OnsetDetection.FeatureValue](repeating: 0, count: 10)
     var currentThreshold: Float = 0
     var onOnsetDetected: OnsetDetectedCallback?
 
