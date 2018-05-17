@@ -38,7 +38,11 @@ class SpectralFluxOnsetDetection: OnsetDetection {
     func computeThreshold(from buffer: [OnsetDetection.FeatureValue]) -> Float {
         let meanValue = mean(buffer)
         let medianValue = median(buffer)
-        let defaultThreshold: OnsetDetection.FeatureValue = 0.000005
+    #if os(Android)
+        let defaultThreshold: Float = 0.000001
+    #else
+        let defaultThreshold: Float = 0.000005
+    #endif
         return max(meanValue + medianValue, defaultThreshold)
     }
 }
