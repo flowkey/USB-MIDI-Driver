@@ -69,7 +69,7 @@ void CAndroidAudioEngine_initialize(int desiredSamplerate, int desiredBufferSize
         NULL,                                          // clientData
         SL_ANDROID_RECORDING_PRESET_VOICE_RECOGNITION, // inputStreamType
         -1,                                            // outputstreamType
-        0                                              // latencySamples, works only if input and output are enabled
+        desiredBufferSize * 2                          // latencySamples
     );
 
     // audioIO immediatly runs after initialziation, stop it
