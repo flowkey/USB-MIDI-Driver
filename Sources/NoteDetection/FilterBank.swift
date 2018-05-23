@@ -30,11 +30,11 @@ final class FilterBank {
             "note range divisible by FilterBank.stride (\(FilterBank.strideWidth))"
         )
 
-        // Set up a bunch of bandpass filters, each with their own buffers:
+
+        // Set up a constant Q filterbank, each filter with their own buffers:
         bandpassFilters = frequencies.map { freq -> Filter in
-            // It appears Q == 1 is one octave, and 120 is one semitone.
-            // This would be less than one semitone:
-            return Filter(sampleRate: sampleRate, centreFrequency: freq, Q: 180)
+            // It appears Q == 1 is one octave, and 120 is one semitone.		 +            // our desired bandwidth should be (far) less than one semitone, which would be 1/12
+            return Filter(sampleRate: sampleRate, centreFrequency: freq, Q: 120)
         }
 
         magnitudes = [Magnitude](repeating: 0, count: noteRange.count)
