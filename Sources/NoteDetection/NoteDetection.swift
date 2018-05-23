@@ -7,9 +7,20 @@ public typealias MIDIDeviceListChangedCallback = (Set<MIDIDevice>) -> Void
 public typealias SysexMessageReceivedCallback = ([UInt8], MIDIDevice) -> Void
 public typealias MIDIOutConnectionsChangedCallback = ([MIDIOutConnection]) -> Void
 
-public class NoteDetection {
-    public var isEnabled = true
+public protocol NoteDetectionProtocol: class {
+    var inputType: InputType { get set }
+    var midiDeviceList: Set<MIDIDevice> { get }
+    func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?)
+    func set(onInputLevelChanged: InputLevelChangedCallback?)
+    func set(onAudioProcessed: AudioProcessedCallback?)
+    func set(expectedNoteEvent: DetectableNoteEvent?)
+    func set(onNoteEventDetected: NoteEventDetectedCallback?)
+    func ignoreFor(ms duration: Double)
+    func startInput() throws
+    func stopInput() throws
+}
 
+public class NoteDetection {
     var noteDetector: NoteDetector! // implicitly unwrapped so we can use self.createNoteDetector() on init
     let audioEngine: AudioEngine
     let midiEngine: MIDIEngine
@@ -93,7 +104,7 @@ public class NoteDetection {
 
 // MARK: Public Interface
 
-extension NoteDetection {
+extension NoteDetection: NoteDetectionProtocol {
     public var inputType: InputType {
         get { return noteDetector is AudioNoteDetector ? .audio : .midi }
         set { noteDetector = createNoteDetector(type: newValue) }
@@ -121,7 +132,7 @@ extension NoteDetection {
     public func set(onNoteEventDetected: NoteEventDetectedCallback?) {
         noteDetector.onNoteEventDetected = { [unowned self] timestamp in
             // unowned self, otherwise noteDetector 'owns' self and vice-versa (ref cycle)
-            if self.isEnabled, !self.isIgnoring(at: timestamp) {
+            if !self.isIgnoring(at: timestamp) {
                 // onDetected sets the next event in most cases (except at end of song),
                 // so we need to nil the event before running it to avoid overwriting the new event
                 self.noteDetector.expectedNoteEvent = nil
@@ -138,11 +149,11 @@ extension NoteDetection {
         midiEngine.set(onMIDIDeviceListChanged: onMIDIDeviceListChanged)
     }
 
-    public func startMicrophone() throws {
+    public func startInput() throws {
         try audioEngine.start()
     }
 
-    public func stopMicrophone() throws {
+    public func stopInput() throws {
         try audioEngine.stop()
     }
 }
