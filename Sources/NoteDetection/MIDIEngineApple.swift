@@ -94,7 +94,7 @@ class MIDIEngine {
         for destIndex in 0 ..< MIDIGetNumberOfDestinations() {
             let destination = MIDIGetDestination(destIndex)
             let destRefCon = UnsafeMutablePointer<UInt32>.allocate(capacity: 0)
-            midiOutConnections.append(CoreMIDIOutConnection(
+            midiOutConnections.append(MIDIOutConnection(
                 source: outputPort,
                 destination: destination,
                 refCon: destRefCon

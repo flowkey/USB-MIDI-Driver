@@ -8,6 +8,12 @@ private let NOTE_OFF: UInt8 = 8
 class YamahaLightControl {
 
     let connection: MIDIOutConnection
+    var isEnabled = false {
+        didSet {
+            if isEnabled { animateLights() }
+            else { turnOffLights(at: currentLightningKeys) }
+        }
+    }
 
     // MARK: Public API
 
@@ -17,7 +23,11 @@ class YamahaLightControl {
         self.switchGuideOn()
         self.switchLightsOnNoSound()
         self.turnOffAllLights()
-        self.animateLights()
+        self.isEnabled = true
+    }
+
+    deinit {
+        self.turnOffAllLights()
     }
 
     private var currentLightningKeys: [UInt8] = [] {
@@ -80,6 +90,7 @@ class YamahaLightControl {
     // MARK: Private API
 
     private func turnOnLights(at keys: [UInt8]) {
+        guard isEnabled else { return }
         keys.forEach { key in
             let message = self.createNoteOnMessage(channel: LIGHT_CONTROL_CHANNEL, key: key)
             self.connection.send(messages: [message])

@@ -44,13 +44,13 @@
 		032160EC1F04EE7100C9AE3E /* OSStatus+LocalizedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160CD1F04EE7100C9AE3E /* OSStatus+LocalizedError.swift */; };
 		032160ED1F04EE7100C9AE3E /* PitchDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160CE1F04EE7100C9AE3E /* PitchDetection.swift */; };
 		032160EF1F04EE7100C9AE3E /* ProcessedAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160D01F04EE7100C9AE3E /* ProcessedAudio.swift */; };
+		035A1DC320BAECF7009F4248 /* LightController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0368462120B88457006C3C9E /* LightController.swift */; };
+		0368462220B88457006C3C9E /* LightController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0368462120B88457006C3C9E /* LightController.swift */; };
 		037122141E8532A0009CC189 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 037122131E8532A0009CC189 /* .swiftlint.yml */; };
 		0377917E206C15A300350967 /* YamahaLightControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0377917D206C15A300350967 /* YamahaLightControl.swift */; };
 		0377917F206C15A300350967 /* YamahaLightControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0377917D206C15A300350967 /* YamahaLightControl.swift */; };
 		03779181206C161100350967 /* YamahaMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03779180206C161100350967 /* YamahaMessages.swift */; };
 		03779182206C161100350967 /* YamahaMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03779180206C161100350967 /* YamahaMessages.swift */; };
-		03779184206C163700350967 /* MIDIOutConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03779183206C163700350967 /* MIDIOutConnection.swift */; };
-		03779185206C163700350967 /* MIDIOutConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03779183206C163700350967 /* MIDIOutConnection.swift */; };
 		038A82871F211A7600875E5E /* AVAudioEngine+Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038A82861F211A7600875E5E /* AVAudioEngine+Category.swift */; };
 		03935B092074A61700D3C325 /* MemoryLeakTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03935B082074A61700D3C325 /* MemoryLeakTests.swift */; };
 		03A7F73A1E850D5300849AE2 /* NoteDetection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03A7F7301E850D5300849AE2 /* NoteDetection.framework */; };
@@ -58,8 +58,8 @@
 		03A8F41020A3040400171C35 /* RMS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A8F40E20A3010900171C35 /* RMS.swift */; };
 		03B029261F94C7CA00367C53 /* MIDIEndpointRef+NetworkSessionMacOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B029241F94C7BD00367C53 /* MIDIEndpointRef+NetworkSessionMacOS.swift */; };
 		03B103D32062B80A003CAE4D /* NoteDetection.h in Headers */ = {isa = PBXBuildFile; fileRef = 03A7F7331E850D5300849AE2 /* NoteDetection.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		03B103ED2063C484003CAE4D /* CoreMIDIOutConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B103EC2063C484003CAE4D /* CoreMIDIOutConnection.swift */; };
-		03B103EE2063C484003CAE4D /* CoreMIDIOutConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B103EC2063C484003CAE4D /* CoreMIDIOutConnection.swift */; };
+		03B103ED2063C484003CAE4D /* MIDIOutConnectionApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B103EC2063C484003CAE4D /* MIDIOutConnectionApple.swift */; };
+		03B103EE2063C484003CAE4D /* MIDIOutConnectionApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B103EC2063C484003CAE4D /* MIDIOutConnectionApple.swift */; };
 		03CBB9391F7E5FA900574D4D /* MIDIEndpointRef+NetworkSessionIOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CBB9381F7E5FA900574D4D /* MIDIEndpointRef+NetworkSessionIOS.swift */; };
 		03DD8F261F7D571000E0D523 /* MIDIPacket+UInt8Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C51F04EE7100C9AE3E /* MIDIPacket+UInt8Array.swift */; };
 		03DD8F271F7D571400E0D523 /* MIDIEngineApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C21F04EE7100C9AE3E /* MIDIEngineApple.swift */; };
@@ -154,10 +154,10 @@
 		0321617F1F065B8E00C9AE3E /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = SOURCE_ROOT; };
 		032161801F065BB600C9AE3E /* build_android.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build_android.sh; sourceTree = SOURCE_ROOT; };
 		032E8CF01FC8641300729088 /* AndroidActivityContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AndroidActivityContext.swift; path = Sources/NoteDetection/AndroidActivityContext.swift; sourceTree = SOURCE_ROOT; };
+		0368462120B88457006C3C9E /* LightController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LightController.swift; path = Sources/NoteDetection/LightController.swift; sourceTree = SOURCE_ROOT; };
 		037122131E8532A0009CC189 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		0377917D206C15A300350967 /* YamahaLightControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YamahaLightControl.swift; path = Sources/NoteDetection/YamahaLightControl.swift; sourceTree = SOURCE_ROOT; };
 		03779180206C161100350967 /* YamahaMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YamahaMessages.swift; path = Sources/NoteDetection/YamahaMessages.swift; sourceTree = SOURCE_ROOT; };
-		03779183206C163700350967 /* MIDIOutConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIOutConnection.swift; path = Sources/NoteDetection/MIDIOutConnection.swift; sourceTree = SOURCE_ROOT; };
 		038A82841F2118A600875E5E /* MIDIEngineAndroid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIEngineAndroid.swift; path = Sources/NoteDetection/MIDIEngineAndroid.swift; sourceTree = SOURCE_ROOT; };
 		038A82861F211A7600875E5E /* AVAudioEngine+Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "AVAudioEngine+Category.swift"; path = "Sources/NoteDetection/AVAudioEngine+Category.swift"; sourceTree = SOURCE_ROOT; };
 		03935B082074A61700D3C325 /* MemoryLeakTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryLeakTests.swift; sourceTree = "<group>"; };
@@ -169,7 +169,7 @@
 		03A7F7401E850D5300849AE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		03A8F40E20A3010900171C35 /* RMS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMS.swift; sourceTree = "<group>"; };
 		03B029241F94C7BD00367C53 /* MIDIEndpointRef+NetworkSessionMacOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MIDIEndpointRef+NetworkSessionMacOS.swift"; sourceTree = "<group>"; };
-		03B103EC2063C484003CAE4D /* CoreMIDIOutConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CoreMIDIOutConnection.swift; path = Sources/NoteDetection/CoreMIDIOutConnection.swift; sourceTree = SOURCE_ROOT; };
+		03B103EC2063C484003CAE4D /* MIDIOutConnectionApple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MIDIOutConnectionApple.swift; path = Sources/NoteDetection/MIDIOutConnectionApple.swift; sourceTree = SOURCE_ROOT; };
 		03CBB9381F7E5FA900574D4D /* MIDIEndpointRef+NetworkSessionIOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MIDIEndpointRef+NetworkSessionIOS.swift"; sourceTree = "<group>"; };
 		5C0E56731F0BE92700793A7F /* NoteDetection.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NoteDetection.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C0E56751F0BE92700793A7F /* NoteDetectionMac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NoteDetectionMac.h; sourceTree = "<group>"; };
@@ -219,7 +219,6 @@
 				038A82811F2117BD00875E5E /* Android */,
 				038A82801F210F2F00875E5E /* Apple */,
 				032160C01F04EE7100C9AE3E /* MIDIDevice.swift */,
-				03779183206C163700350967 /* MIDIOutConnection.swift */,
 				032160C41F04EE7100C9AE3E /* MIDIMessage.swift */,
 			);
 			name = MIDIEngine;
@@ -301,7 +300,7 @@
 				032160C81F04EE7100C9AE3E /* MIDIObjectRef.swift */,
 				03CBB9381F7E5FA900574D4D /* MIDIEndpointRef+NetworkSessionIOS.swift */,
 				03B029241F94C7BD00367C53 /* MIDIEndpointRef+NetworkSessionMacOS.swift */,
-				03B103EC2063C484003CAE4D /* CoreMIDIOutConnection.swift */,
+				03B103EC2063C484003CAE4D /* MIDIOutConnectionApple.swift */,
 			);
 			name = Apple;
 			sourceTree = "<group>";
@@ -366,6 +365,7 @@
 				03A7F7331E850D5300849AE2 /* NoteDetection.h */,
 				03A7F7341E850D5300849AE2 /* Info.plist */,
 				03A8F40E20A3010900171C35 /* RMS.swift */,
+				0368462120B88457006C3C9E /* LightController.swift */,
 			);
 			path = NoteDetection;
 			sourceTree = "<group>";
@@ -631,7 +631,6 @@
 				0377917E206C15A300350967 /* YamahaLightControl.swift in Sources */,
 				032160D81F04EE7100C9AE3E /* CrossPlatformHelper.swift in Sources */,
 				032160EA1F04EE7100C9AE3E /* OnsetDetection.swift in Sources */,
-				03779184206C163700350967 /* MIDIOutConnection.swift in Sources */,
 				032160DB1F04EE7100C9AE3E /* FilterBank.swift in Sources */,
 				032160E11F04EE7100C9AE3E /* MIDIEngineApple.swift in Sources */,
 				032160EC1F04EE7100C9AE3E /* OSStatus+LocalizedError.swift in Sources */,
@@ -641,7 +640,7 @@
 				032160E51F04EE7100C9AE3E /* MIDINoteDetection.swift in Sources */,
 				03CBB9391F7E5FA900574D4D /* MIDIEndpointRef+NetworkSessionIOS.swift in Sources */,
 				03A8F40F20A3010900171C35 /* RMS.swift in Sources */,
-				03B103ED2063C484003CAE4D /* CoreMIDIOutConnection.swift in Sources */,
+				03B103ED2063C484003CAE4D /* MIDIOutConnectionApple.swift in Sources */,
 				032160D31F04EE7100C9AE3E /* AudioHelper.swift in Sources */,
 				032160EF1F04EE7100C9AE3E /* ProcessedAudio.swift in Sources */,
 				032160DF1F04EE7100C9AE3E /* MIDIDevice.swift in Sources */,
@@ -655,6 +654,7 @@
 				032160E91F04EE7100C9AE3E /* NoteDetection.swift in Sources */,
 				032160DA1F04EE7100C9AE3E /* Filter.swift in Sources */,
 				03779181206C161100350967 /* YamahaMessages.swift in Sources */,
+				0368462220B88457006C3C9E /* LightController.swift in Sources */,
 				032160D21F04EE7100C9AE3E /* AudioEngineIOS.swift in Sources */,
 				032160DC1F04EE7100C9AE3E /* Filterbank+ChromaVector.swift in Sources */,
 				032160E71F04EE7100C9AE3E /* MIDIObjectRef.swift in Sources */,
@@ -685,7 +685,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				03B103EE2063C484003CAE4D /* CoreMIDIOutConnection.swift in Sources */,
+				03B103EE2063C484003CAE4D /* MIDIOutConnectionApple.swift in Sources */,
 				5CC5C8E11F0BEB940037F1FF /* AudioEngineMac.swift in Sources */,
 				5C0E568B1F0BE96900793A7F /* AudioNoteDetection.swift in Sources */,
 				5C0E56951F0BE96900793A7F /* MIDINoteDetection.swift in Sources */,
@@ -697,6 +697,7 @@
 				5C0E56961F0BE96900793A7F /* MIDINumber.swift in Sources */,
 				5C0E56971F0BE96900793A7F /* MusicalNote.swift in Sources */,
 				5C0E56991F0BE96900793A7F /* OnsetDetection.swift in Sources */,
+				035A1DC320BAECF7009F4248 /* LightController.swift in Sources */,
 				5C0E56941F0BE96900793A7F /* InputType.swift in Sources */,
 				03DD8F271F7D571400E0D523 /* MIDIEngineApple.swift in Sources */,
 				5C0E56921F0BE96900793A7F /* FlowMathApple.swift in Sources */,
@@ -706,7 +707,6 @@
 				03779182206C161100350967 /* YamahaMessages.swift in Sources */,
 				5C0E56901F0BE96900793A7F /* FilterBank.swift in Sources */,
 				03DD8F2A1F7D58C600E0D523 /* OSStatus+LocalizedError.swift in Sources */,
-				03779185206C163700350967 /* MIDIOutConnection.swift in Sources */,
 				03A8F41020A3040400171C35 /* RMS.swift in Sources */,
 				5C0E569E1F0BE96900793A7F /* ProcessedAudio.swift in Sources */,
 				5C0E568D1F0BE96900793A7F /* CrossPlatformHelper.swift in Sources */,

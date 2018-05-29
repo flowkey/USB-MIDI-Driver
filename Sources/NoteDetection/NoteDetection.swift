@@ -24,7 +24,16 @@ public class NoteDetection {
     var noteDetector: NoteDetector! // implicitly unwrapped so we can use self.createNoteDetector() on init
     let audioEngine: AudioEngine
     let midiEngine: MIDIEngine
-    var lightControl: YamahaLightControl?
+    var lightControl: YamahaLightControl? {
+        didSet {
+            if let lightControl = lightControl {
+                onLightControlStatusChanged?(lightControl.isEnabled ? .enabled : .disabled)
+            } else {
+                onLightControlStatusChanged?(.notAvailable)
+            }
+        }
+    }
+    var onLightControlStatusChanged: LightControlStatusChangedCallback?
 
     fileprivate var ignoreUntilDeadline: Timestamp?
 
@@ -46,9 +55,8 @@ public class NoteDetection {
         }
 
         midiEngine.set(onMIDIOutConnectionsChanged: { [weak self] outConnections in
-            if outConnections.count == 0 {
-                // kill lightControl if there are no connections
-                // ToDo: actually check if outConnections contains lightControl.connection
+            if let lightControl = self?.lightControl, !outConnections.contains(lightControl.connection) {
+                // kill lightControl if outconnnection is gone
                 self?.lightControl = nil
             }
             YamahaLightControl.sendClavinovaModelRequest(on: outConnections)

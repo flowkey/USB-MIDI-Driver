@@ -9,7 +9,7 @@
 import Foundation
 import CoreMIDI
 
-class CoreMIDIOutConnection: MIDIOutConnection {
+public class MIDIOutConnection  {
     let source: MIDIPortRef
     let destination: MIDIEndpointRef
     let refCon: UnsafeMutablePointer<UInt32>
@@ -37,9 +37,9 @@ class CoreMIDIOutConnection: MIDIOutConnection {
     }
 }
 
-extension CoreMIDIOutConnection: Hashable {
+extension MIDIOutConnection: Hashable {
     public var hashValue: Int { return refCon.hashValue }
-    public static func == (lhs: CoreMIDIOutConnection, rhs: CoreMIDIOutConnection) -> Bool {
+    public static func == (lhs: MIDIOutConnection, rhs: MIDIOutConnection) -> Bool {
         return lhs.refCon == rhs.refCon
     }
 }
