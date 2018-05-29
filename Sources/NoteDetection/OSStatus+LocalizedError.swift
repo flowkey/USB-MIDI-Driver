@@ -19,7 +19,7 @@ extension OSStatus: LocalizedError {
         var message = [CChar](repeating: 0, count: 4)
         message.withUnsafeMutableBytes { buffer in
             // Safe because OSStatus is actually an Int32 which is always 4 bytes long:
-            buffer.baseAddress!.assumingMemoryBound(to: OSStatus.self)[0] = self.bigEndian
+            buffer.baseAddress!.assumingMemoryBound(to: OSStatus.self).pointee = self.bigEndian
         }
 
         for char in message {
@@ -32,6 +32,6 @@ extension OSStatus: LocalizedError {
         }
 
         // We know we have 4 valid characters, add a null terminating character and convert to ascii:
-        return String(cString: message + [0])
+        return String(cString: message + [0] as [CChar])
     }
 }

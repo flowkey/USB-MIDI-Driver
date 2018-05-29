@@ -22,15 +22,15 @@ struct Filter {
             fatalError("filter frequency and Q must be > 0")
         }
 
-        let omega = 2 * .pi * centreFrequency / sampleRate
-        let omegaS = sin(omega)
-        let omegaC = cos(omega)
-        let alpha = omegaS / (2*Q)
+        let omega: Double = 2 * .pi * centreFrequency / sampleRate
+        let omegaS: Double = sin(omega)
+        let omegaC: Double = cos(omega)
+        let alpha: Double = omegaS / (2*Q)
 
-        let a0 = 1 + alpha
-        let a1 = (-2 * omegaC)  / a0
-        let a2 = (1 - alpha)    / a0
-        let b0 = alpha          / a0
+        let a0: Double = 1 + alpha
+        let a1: Double = (-2 * omegaC)  / a0
+        let a2: Double = (1 - alpha)    / a0
+        let b0: Double = alpha          / a0
         //    let b1 = Double(0)      / a0 -- not used
         //    let b2 = -alpha         / a0 --
 
