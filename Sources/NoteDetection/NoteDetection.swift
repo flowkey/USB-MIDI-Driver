@@ -25,13 +25,13 @@ public class NoteDetection {
     let audioEngine: AudioEngine
     let midiEngine: MIDIEngine
     var lightControl: YamahaLightControl? {
-        didSet {
-            if let lightControl = lightControl {
-                onLightControlStatusChanged?(lightControl.isEnabled ? .enabled : .disabled)
-            } else {
-                onLightControlStatusChanged?(.notAvailable)
-            }
+        didSet { onLightControlStatusChanged?(self.lightControlStatus) }
+    }
+    public var lightControlStatus: LightControlStatus {
+        guard let lightControl = lightControl else {
+            return .notAvailable
         }
+        return lightControl.isEnabled ? .enabled : .disabled
     }
     var onLightControlStatusChanged: LightControlStatusChangedCallback?
 

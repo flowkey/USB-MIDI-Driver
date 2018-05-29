@@ -26,6 +26,7 @@ public enum LightControlStatus {
 }
 
 public protocol LightController {
+    var lightControlStatus: LightControlStatus { get }
     func set(onLightControlStatusChanged: @escaping LightControlStatusChangedCallback)
     func disableLightControl() throws
     func enableLightControl() throws
