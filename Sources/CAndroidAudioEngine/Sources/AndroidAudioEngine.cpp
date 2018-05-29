@@ -18,7 +18,7 @@ extern "C" {
 // top-level static in c means fileprivate for the linker
 static SuperpoweredAndroidAudioIO *audioIO;
 
-static float *monoBufferFloat;
+static float *monoBufferFloat = NULL;
 
 static void (*onAudioData)(float *audioBuffer, int numberOfSamples, int sampleRate, void *context);
 static void *audioEngineContext;
@@ -100,7 +100,10 @@ void CAndroidAudioEngine_deinitialize()
     delete audioIO;
     audioIO = NULL;
     audioEngineContext = NULL;
-    free(monoBufferFloat);
+    if (monoBufferFloat) {
+        free(monoBufferFloat);
+        monoBufferFloat = NULL;
+    }
 }
 
 #ifdef __cplusplus
