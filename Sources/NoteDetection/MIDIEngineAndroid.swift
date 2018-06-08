@@ -65,37 +65,37 @@ fileprivate extension JavaObject {
 }
 
 
-class MIDIEngine: JNIObject {
+public class MIDIEngine: JNIObject {
     enum MIDIEngineError: Error {
         case InitError
     }
 
-   convenience init() throws {
+   public convenience init() throws {
         let context = try getMainActivityContext()
         try self.init("com/flowkey/notedetection/midi/ApiIndependentMIDIEngine", arguments: [context])
         midiEngine = self
     }
 
-    fileprivate(set) var midiDeviceList: Set<MIDIDevice> = []
-    fileprivate(set) var midiOutConnections: Array<MIDIOutConnection> = []
+    fileprivate(set) public var midiDeviceList: Set<MIDIDevice> = []
+    fileprivate(set) public var midiOutConnections: Array<MIDIOutConnection> = []
 
     private(set) var onMIDIOutConnectionsChanged: MIDIOutConnectionsChangedCallback?
-    func set(onMIDIOutConnectionsChanged callback: MIDIOutConnectionsChangedCallback?) {
+    public func set(onMIDIOutConnectionsChanged callback: MIDIOutConnectionsChangedCallback?) {
         self.onMIDIOutConnectionsChanged = callback
     }
 
     private(set) var onMIDIMessageReceived: MIDIMessageReceivedCallback?
-    func set(onMIDIMessageReceived callback: MIDIMessageReceivedCallback?) {
+    public func set(onMIDIMessageReceived callback: MIDIMessageReceivedCallback?) {
         self.onMIDIMessageReceived = callback
     }
 
     private(set) var onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?
-    func set(onMIDIDeviceListChanged callback: MIDIDeviceListChangedCallback?) {
+    public func set(onMIDIDeviceListChanged callback: MIDIDeviceListChangedCallback?) {
         self.onMIDIDeviceListChanged = callback
     }
 
     private(set) var onSysexMessageReceived: SysexMessageReceivedCallback?
-    func set(onSysexMessageReceived callback: SysexMessageReceivedCallback?) {
+    public func set(onSysexMessageReceived callback: SysexMessageReceivedCallback?) {
         self.onSysexMessageReceived = callback
     }
 }

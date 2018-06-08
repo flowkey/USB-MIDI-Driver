@@ -15,7 +15,7 @@ final class MIDINoteDetector: NoteDetector {
         didSet { currentMIDIKeys.removeAll() }
     }
 
-    func process(midiMessage: MIDIMessage, from device: MIDIDevice? = nil, timestamp: Timestamp = .now) {
+    func process(midiMessage: MIDIMessage) {
         switch midiMessage {
         case let .noteOn(key, velocity):
             currentMIDIKeys.insert(Int(key))
@@ -34,7 +34,7 @@ final class MIDINoteDetector: NoteDetector {
             // Otherwise it would feel strange - you could hold the correct keys down
             // then press a random key and onNoteEventDetected would be triggered...
             currentMIDIKeys.removeAll()
-            onNoteEventDetected?(timestamp)
+            onNoteEventDetected?(.now)
         }
     }
 

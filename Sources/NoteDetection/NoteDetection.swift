@@ -7,98 +7,57 @@ public typealias MIDIDeviceListChangedCallback = (Set<MIDIDevice>) -> Void
 public typealias SysexMessageReceivedCallback = ([UInt8], MIDIDevice) -> Void
 public typealias MIDIOutConnectionsChangedCallback = ([MIDIOutConnection]) -> Void
 
+public enum InputType {
+    case audio
+    case midi
+}
+
+/// Public note detection API, mock note detection with this protocol
 public protocol NoteDetectionProtocol: class {
     var inputType: InputType { get set }
-    var midiDeviceList: Set<MIDIDevice> { get }
-    func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?)
-    func set(onInputLevelChanged: InputLevelChangedCallback?)
-    func set(onAudioProcessed: AudioProcessedCallback?)
     func set(expectedNoteEvent: DetectableNoteEvent?)
     func set(onNoteEventDetected: NoteEventDetectedCallback?)
+    func set(onInputLevelChanged: InputLevelChangedCallback?)
     func ignoreFor(ms duration: Double)
-    func startInput() throws
-    func stopInput() throws
+    func process(audioData: [Float])
+    func process(midiMessage: MIDIMessage)
 }
+
+/// Common public interface for audio and MIDI note detection
+protocol NoteDetector {
+    var onNoteEventDetected: NoteEventDetectedCallback? { get set }
+    var expectedNoteEvent: DetectableNoteEvent? { get set }
+    var onInputLevelChanged: InputLevelChangedCallback? { get set }
+}
+
 
 public class NoteDetection {
     var noteDetector: NoteDetector! // implicitly unwrapped so we can use self.createNoteDetector() on init
-    let audioEngine: AudioEngine
-    let midiEngine: MIDIEngine
-    var lightControl: YamahaLightControl? {
-        didSet { onLightControlStatusChanged?(self.lightControlStatus) }
-    }
-    public var lightControlStatus: LightControlStatus {
-        guard let lightControl = lightControl else {
-            return .notAvailable
-        }
-        return lightControl.isEnabled ? .enabled : .disabled
-    }
-    var onLightControlStatusChanged: LightControlStatusChangedCallback?
-
     fileprivate var ignoreUntilDeadline: Timestamp?
 
-    /// This used to have an implicit `at timestamp` of `.now`. That was incorrect. We
-    /// want to compare with the timestamp of the potential notesDetected event, which
-    /// could either be slightly before .now because of async code, or mocked in tests:
     fileprivate func isIgnoring(at timestamp: Timestamp) -> Bool {
         guard let deadline = ignoreUntilDeadline else { return false }
         return (timestamp - deadline) < 0
     }
 
-    public init(input: InputType) throws {
-        midiEngine = try MIDIEngine()
-        audioEngine = try AudioEngine()
-
+    public init(input: InputType, audioSampleRate: Double) throws {
+        sampleRate = audioSampleRate
         noteDetector = createNoteDetector(type: input)
-        audioEngine.onSampleRateChanged = { [unowned self] sampleRate in
-            self.onSampleRateChanged(sampleRate: sampleRate)
-        }
+    }
 
-        midiEngine.set(onMIDIOutConnectionsChanged: { [weak self] outConnections in
-            if let lightControl = self?.lightControl, !outConnections.contains(lightControl.connection) {
-                // kill lightControl if outconnnection is gone
-                self?.lightControl = nil
+    var sampleRate: Double {
+        didSet {
+            if noteDetector is AudioNoteDetector { // don't switch away from midi just because the sampleRate changed
+                noteDetector = createNoteDetector(type: .audio)
             }
-            YamahaLightControl.sendClavinovaModelRequest(on: outConnections)
-        })
-
-        midiEngine.set(onSysexMessageReceived: { [weak self] data, sourceDevice in
-            guard
-                YamahaLightControl.checkIfMessageIsFromCompatibleDevice(midiMessageData: data),
-                let connection = self?.midiEngine.midiOutConnections.first(where: { connection in
-                    return connection.displayName == sourceDevice.displayName
-                })
-            else { return }
-
-            self?.lightControl = YamahaLightControl(connection: connection)
-            self?.lightControl?.currentLightningNoteEvent = self?.noteDetector.expectedNoteEvent
-        })
-
-        // initially trigger onMIDIOutConnectionsChanged to send model request
-        midiEngine.onMIDIOutConnectionsChanged?(midiEngine.midiOutConnections)
-    }
-
-    deinit {
-        lightControl?.currentLightningNoteEvent = nil
-    }
-
-    private func onSampleRateChanged(sampleRate: Double) {
-        if noteDetector is AudioNoteDetector { // don't switch away from midi just because the sampleRate changed
-            noteDetector = createNoteDetector(type: .audio)
         }
     }
 
     func createNoteDetector(type: InputType) -> NoteDetector {
         var newNoteDetector: NoteDetector
         switch type {
-        case .audio:
-            let audioNoteDetector = AudioNoteDetector(sampleRate: audioEngine.sampleRate)
-            audioEngine.set(onAudioData: audioNoteDetector.process)
-            newNoteDetector = audioNoteDetector
-        case .midi:
-            let midiNoteDetector = MIDINoteDetector()
-            midiEngine.set(onMIDIMessageReceived: midiNoteDetector.process)
-            newNoteDetector = midiNoteDetector
+        case .audio: newNoteDetector = AudioNoteDetector(sampleRate: self.sampleRate)
+        case .midi: newNoteDetector = MIDINoteDetector()
         }
 
         // Transfer all callbacks from the previous detector over to the new one:
@@ -110,31 +69,14 @@ public class NoteDetection {
     }
 }
 
-// MARK: Public Interface
-
 extension NoteDetection: NoteDetectionProtocol {
     public var inputType: InputType {
         get { return noteDetector is AudioNoteDetector ? .audio : .midi }
         set { noteDetector = createNoteDetector(type: newValue) }
     }
 
-    public var midiDeviceList: Set<MIDIDevice> {
-        return midiEngine.midiDeviceList
-    }
-
-    public func set(onInputLevelChanged: InputLevelChangedCallback?) {
-        noteDetector.onInputLevelChanged = onInputLevelChanged
-    }
-
-    public func set(onAudioProcessed: AudioProcessedCallback?) {
-        if let audioNoteDetector = noteDetector as? AudioNoteDetector {
-            audioNoteDetector.onAudioProcessed = onAudioProcessed
-        }
-    }
-
     public func set(expectedNoteEvent: DetectableNoteEvent?) {
         noteDetector.expectedNoteEvent = expectedNoteEvent
-        lightControl?.currentLightningNoteEvent = expectedNoteEvent
     }
 
     public func set(onNoteEventDetected: NoteEventDetectedCallback?) {
@@ -149,25 +91,25 @@ extension NoteDetection: NoteDetectionProtocol {
         }
     }
 
+    public func set(onInputLevelChanged: InputLevelChangedCallback?) {
+        noteDetector.onInputLevelChanged = onInputLevelChanged
+    }
+
     public func ignoreFor(ms duration: Double) {
         ignoreUntilDeadline = .now + duration
     }
 
-    public func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?) {
-        midiEngine.set(onMIDIDeviceListChanged: onMIDIDeviceListChanged)
+    public func process(audioData: [Float]) {
+        guard let audioNoteDetector = (self.noteDetector as? AudioNoteDetector) else {
+            return
+        }
+        audioNoteDetector.process(audio: audioData)
     }
 
-    public func startInput() throws {
-        try audioEngine.start()
+    public func process(midiMessage: MIDIMessage) {
+        guard let midiNoteDetector = (self.noteDetector as? MIDINoteDetector) else {
+            return
+        }
+        midiNoteDetector.process(midiMessage: midiMessage)
     }
-
-    public func stopInput() throws {
-        try audioEngine.stop()
-    }
-}
-
-protocol NoteDetector {
-    var onNoteEventDetected: NoteEventDetectedCallback? { get set }
-    var expectedNoteEvent: DetectableNoteEvent? { get set }
-    var onInputLevelChanged: InputLevelChangedCallback? { get set }
 }

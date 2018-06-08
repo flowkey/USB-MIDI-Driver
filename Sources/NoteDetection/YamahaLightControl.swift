@@ -5,10 +5,10 @@ private let supportedModels = Set(["CVP-701", "CVP-705", "CVP-709", "CVP-709GP",
 private let NOTE_ON: UInt8 = 9
 private let NOTE_OFF: UInt8 = 8
 
-class YamahaLightControl {
+public class YamahaLightControl {
 
-    let connection: MIDIOutConnection
-    var isEnabled = false {
+    public let connection: MIDIOutConnection
+    public var isEnabled = false {
         didSet {
             if isEnabled { animateLights() }
             else { turnOffLights(at: currentLightningKeys) }
@@ -17,7 +17,7 @@ class YamahaLightControl {
 
     // MARK: Public API
 
-    init(connection: MIDIOutConnection) {
+    public init(connection: MIDIOutConnection) {
         self.connection = connection
 
         self.switchGuideOn()
@@ -38,7 +38,7 @@ class YamahaLightControl {
     }
 
 
-    var currentLightningNoteEvent: DetectableNoteEvent? {
+    public var currentLightningNoteEvent: DetectableNoteEvent? {
         didSet {
             if let notes = currentLightningNoteEvent?.notes {
                 self.currentLightningKeys = notes.map{ UInt8($0) }
@@ -51,7 +51,7 @@ class YamahaLightControl {
 
     // MARK: Statics
 
-    static func checkIfMessageIsFromCompatibleDevice(midiMessageData: [UInt8]) -> Bool {
+    public static func checkIfMessageIsFromCompatibleDevice(midiMessageData: [UInt8]) -> Bool {
         guard
             YamahaLightControl.messageDataIsDumpRequestResponse(midiMessageData),
             let model = YamahaLightControl.getModelFromDumpRequestResponse(data: midiMessageData),
@@ -62,7 +62,7 @@ class YamahaLightControl {
         return true
     }
 
-    static func sendClavinovaModelRequest(on connections: [MIDIOutConnection]) {
+    public static func sendClavinovaModelRequest(on connections: [MIDIOutConnection]) {
         connections.forEach { $0.send(messages: [YamahaMessages.DUMP_REQUEST_MODEL]) }
     }
 

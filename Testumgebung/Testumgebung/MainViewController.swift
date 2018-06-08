@@ -9,7 +9,8 @@
 import UIKit
 @testable import NoteDetection
 
-public let noteDetection = try! NoteDetection(input: .audio)
+public let audioEngine = try! AudioEngine()
+public let noteDetection = try! NoteDetection(input: .audio, audioSampleRate: audioEngine.sampleRate)
 
 @objc class MainViewController: UITabBarController, UITabBarControllerDelegate {
 
@@ -46,15 +47,8 @@ public let noteDetection = try! NoteDetection(input: .audio)
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        try! noteDetection.startInput()
-
-        noteDetection.set(onMIDIDeviceListChanged: { (deviceList: Set<MIDIDevice>) in
-            for device in deviceList { print(device.displayName) }
-        })
-
-        noteDetection.midiEngine.set(onMIDIMessageReceived: { (midiMessage: MIDIMessage, device: MIDIDevice?, timestamp: Timestamp) in
-            print(midiMessage)
-        })
+        audioEngine.set(onAudioData: noteDetection.process)
+        try! audioEngine.start()
 
         (noteDetection.noteDetector as? AudioNoteDetector)?.onAudioProcessed = { processedAudio in
             self.lastProcessedBlock = processedAudio
@@ -62,7 +56,7 @@ public let noteDetection = try! NoteDetection(input: .audio)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        try? noteDetection.stopInput()
+        try? audioEngine.stop()
         delegate = nil
         NotificationCenter.default.removeObserver(self)
     }

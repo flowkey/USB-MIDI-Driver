@@ -1,6 +1,6 @@
 import AVFoundation
 
-final class AudioEngine {
+public final class AudioEngine {
 
     fileprivate var audioData: [Float] = []
 
@@ -15,7 +15,7 @@ final class AudioEngine {
     public var onSampleRateChanged: SampleRateChangedCallback?
 
     // AudioEngine has no public initialisers and is only accessible via `sharedInstance`:
-    init() throws {
+    public init() throws {
         let audioSession = AVAudioSession.sharedInstance()
 
         try? audioSession.setCategoryToPlayAndRecordIfNecessary()
@@ -42,7 +42,7 @@ final class AudioEngine {
         )
     }
 
-    func set(onAudioData: AudioDataCallback?) {
+    public func set(onAudioData: AudioDataCallback?) {
         self.onAudioData = onAudioData
     }
 

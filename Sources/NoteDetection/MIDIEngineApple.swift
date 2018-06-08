@@ -9,7 +9,7 @@
 import Foundation
 import CoreMIDI
 
-class MIDIEngine {
+public final class MIDIEngine {
     private(set) var onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?
     private(set) var onMIDIMessageReceived: MIDIMessageReceivedCallback?
     private(set) var onMIDIOutConnectionsChanged: MIDIOutConnectionsChangedCallback?
@@ -19,8 +19,8 @@ class MIDIEngine {
     private var inputPort = MIDIPortRef()
     private var outputPort = MIDIPortRef()
 
-    private(set) var midiDeviceList: Set<MIDIDevice> = []
-    private(set) var midiOutConnections: Array<MIDIOutConnection> = []
+    private(set) public var midiDeviceList: Set<MIDIDevice> = []
+    private(set) public var midiOutConnections: Array<MIDIOutConnection> = []
 
     public init() throws {
         let clientName = "flowkey" as CFString
@@ -54,19 +54,19 @@ class MIDIEngine {
         // MIDIClientDispose(midiClient)
     }
 
-    func set(onMIDIMessageReceived callback: MIDIMessageReceivedCallback?) {
+    public func set(onMIDIMessageReceived callback: MIDIMessageReceivedCallback?) {
         self.onMIDIMessageReceived = callback
     }
 
-    func set(onMIDIDeviceListChanged callback: MIDIDeviceListChangedCallback?) {
+    public func set(onMIDIDeviceListChanged callback: MIDIDeviceListChangedCallback?) {
         self.onMIDIDeviceListChanged = callback
     }
     
-    func set(onSysexMessageReceived callback: SysexMessageReceivedCallback?) {
+    public func set(onSysexMessageReceived callback: SysexMessageReceivedCallback?) {
         self.onSysexMessageReceived = callback
     }
 
-    func set(onMIDIOutConnectionsChanged callback: MIDIOutConnectionsChangedCallback?) {
+    public func set(onMIDIOutConnectionsChanged callback: MIDIOutConnectionsChangedCallback?) {
         self.onMIDIOutConnectionsChanged = callback
     }
 

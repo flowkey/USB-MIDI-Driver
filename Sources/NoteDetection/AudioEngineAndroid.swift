@@ -1,13 +1,13 @@
 import CAndroidAudioEngine
 import JNI
 
-final class AudioEngine {
+public final class AudioEngine {
     private var onAudioData: AudioDataCallback?
     public var onSampleRateChanged: SampleRateChangedCallback?
     public var sampleRate: Double
     private let bufferSize: Int
 
-    init() throws { // throws as in iOS
+    public init() throws { // throws as in iOS
         AndroidPermissions.sharedInstance = AndroidPermissions()
 
         do {
@@ -27,7 +27,7 @@ final class AudioEngine {
         AndroidPermissions.sharedInstance = nil
     }
 
-    func set(onAudioData: AudioDataCallback?) {
+    public func set(onAudioData: AudioDataCallback?) {
         self.onAudioData = onAudioData
         CAndroidAudioEngine_setOnAudioData({ buffer, count, sampleRate, context in
             guard let pointerToContext = context else { return }
