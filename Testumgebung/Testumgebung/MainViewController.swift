@@ -48,7 +48,7 @@ public let noteDetection = try! NoteDetection(input: .audio, audioSampleRate: au
 
     override func viewDidAppear(_ animated: Bool) {
         audioEngine.set(onAudioData: noteDetection.process)
-        try! audioEngine.start()
+        try! audioEngine.startMicrophone()
 
         (noteDetection.noteDetector as? AudioNoteDetector)?.onAudioProcessed = { processedAudio in
             self.lastProcessedBlock = processedAudio
@@ -56,7 +56,7 @@ public let noteDetection = try! NoteDetection(input: .audio, audioSampleRate: au
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        try? audioEngine.stop()
+        try? audioEngine.stopMicrophone()
         delegate = nil
         NotificationCenter.default.removeObserver(self)
     }

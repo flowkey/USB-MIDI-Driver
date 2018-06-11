@@ -53,7 +53,7 @@ private func getAudioSettingsJavaClass() -> JavaClass {
 
 // MARK: Public controls.
 extension AudioEngine {
-    public func start() throws {
+    public func startMicrophone() throws {
         if CAndroidAudioEngine_isInitialized() {
             CAndroidAudioEngine_start()
         } else {
@@ -77,7 +77,7 @@ extension AudioEngine {
         }
     }
 
-    public func stop() throws {
+    public func stopMicrophone() {
         CAndroidAudioEngine_stop()
     }
 }

@@ -22,14 +22,14 @@ public final class AudioEngine: SuperpoweredOSXAudioIODelegate {
         self.onAudioData = onAudioData
     }
 
-    public func start() throws {
+    public func startMicrophone() throws {
         let result = superpowered.start()
         if !result {
             throw Error.couldNotStartEngine
         }
     }
 
-    public func stop() throws {
+    public func stopMicrophone() throws {
         superpowered.stop()
     }
 

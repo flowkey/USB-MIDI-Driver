@@ -54,7 +54,7 @@ public final class AudioEngine {
 
     deinit {
         NotificationCenter.default.removeObserver(self)
-        try? stop()
+        try? stopMicrophone()
         try? audioIOUnit.uninitialize()
         try? audioIOUnit.dispose()
     }
@@ -62,7 +62,7 @@ public final class AudioEngine {
 
 // MARK: Public controls.
 extension AudioEngine {
-    public func start() throws {
+    public func startMicrophone() throws {
         if !inputIsEnabled { try? enableInput() }
         try updateSampleRateIfNeeded(self.sampleRate)
         try audioIOUnit.start()
@@ -76,7 +76,7 @@ extension AudioEngine {
         return result == 1
     }
 
-    public func stop() throws {
+    public func stopMicrophone() throws {
         try audioIOUnit.stop()
     }
 }
@@ -101,13 +101,13 @@ extension AudioEngine {
         let wasRunning = audioIOUnit.isRunning
 
         // We have to uninitialize the unit before adjusting its sampleRate
-        try stop()
+        try stopMicrophone()
         try audioIOUnit.uninitialize()
 
         printOnErrorAndContinue { try audioIOUnit.setSampleRate(newSampleRate) }
 
         try audioIOUnit.initialize()
-        if wasRunning { try start() }
+        if wasRunning { try startMicrophone() }
 
         onSampleRateChanged?(newSampleRate)
     }
