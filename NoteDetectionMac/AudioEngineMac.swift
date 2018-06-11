@@ -6,7 +6,7 @@
 //  Copyright © 2017 flowkey. All rights reserved.
 //
 
-public final class AudioEngine: SuperpoweredOSXAudioIODelegate {
+public final class AudioEngine: SuperpoweredOSXAudioIODelegate, AudioEngineProtocol {
     enum Error: Swift.Error { case couldNotStartEngine }
 
     private var onAudioData: AudioDataCallback?

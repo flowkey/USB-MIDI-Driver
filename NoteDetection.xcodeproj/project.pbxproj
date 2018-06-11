@@ -60,6 +60,8 @@
 		03B103ED2063C484003CAE4D /* MIDIOutConnectionApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B103EC2063C484003CAE4D /* MIDIOutConnectionApple.swift */; };
 		03B103EE2063C484003CAE4D /* MIDIOutConnectionApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B103EC2063C484003CAE4D /* MIDIOutConnectionApple.swift */; };
 		03CBB9391F7E5FA900574D4D /* MIDIEndpointRef+NetworkSessionIOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CBB9381F7E5FA900574D4D /* MIDIEndpointRef+NetworkSessionIOS.swift */; };
+		03DCDF8620CED72100CDE282 /* EngineProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DCDF8520CED72100CDE282 /* EngineProtocol.swift */; };
+		03DCDF8720CED72100CDE282 /* EngineProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DCDF8520CED72100CDE282 /* EngineProtocol.swift */; };
 		03DD8F261F7D571000E0D523 /* MIDIPacket+UInt8Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C51F04EE7100C9AE3E /* MIDIPacket+UInt8Array.swift */; };
 		03DD8F271F7D571400E0D523 /* MIDIEngineApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C21F04EE7100C9AE3E /* MIDIEngineApple.swift */; };
 		03DD8F291F7D571D00E0D523 /* MIDIObjectRef.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C81F04EE7100C9AE3E /* MIDIObjectRef.swift */; };
@@ -166,6 +168,7 @@
 		03B029241F94C7BD00367C53 /* MIDIEndpointRef+NetworkSessionMacOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MIDIEndpointRef+NetworkSessionMacOS.swift"; sourceTree = "<group>"; };
 		03B103EC2063C484003CAE4D /* MIDIOutConnectionApple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MIDIOutConnectionApple.swift; path = Sources/NoteDetection/MIDIOutConnectionApple.swift; sourceTree = SOURCE_ROOT; };
 		03CBB9381F7E5FA900574D4D /* MIDIEndpointRef+NetworkSessionIOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MIDIEndpointRef+NetworkSessionIOS.swift"; sourceTree = "<group>"; };
+		03DCDF8520CED72100CDE282 /* EngineProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EngineProtocol.swift; path = Sources/NoteDetection/EngineProtocol.swift; sourceTree = SOURCE_ROOT; };
 		5C0E56731F0BE92700793A7F /* NoteDetection.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NoteDetection.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C0E56751F0BE92700793A7F /* NoteDetectionMac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NoteDetectionMac.h; sourceTree = "<group>"; };
 		5C0E56761F0BE92700793A7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -332,6 +335,7 @@
 		03A7F7321E850D5300849AE2 /* NoteDetection */ = {
 			isa = PBXGroup;
 			children = (
+				03DCDF8520CED72100CDE282 /* EngineProtocol.swift */,
 				03E95FC92060607800773C2B /* LightControl */,
 				032160F51F0561CF00C9AE3E /* AudioEngine */,
 				032160B41F04EE7100C9AE3E /* AudioHelper.swift */,
@@ -629,6 +633,7 @@
 				032160D91F04EE7100C9AE3E /* DetectableNoteEvent.swift in Sources */,
 				032160EB1F04EE7100C9AE3E /* SpectralFlux.swift in Sources */,
 				032160E51F04EE7100C9AE3E /* MIDINoteDetection.swift in Sources */,
+				03DCDF8620CED72100CDE282 /* EngineProtocol.swift in Sources */,
 				03CBB9391F7E5FA900574D4D /* MIDIEndpointRef+NetworkSessionIOS.swift in Sources */,
 				03A8F40F20A3010900171C35 /* RMS.swift in Sources */,
 				03B103ED2063C484003CAE4D /* MIDIOutConnectionApple.swift in Sources */,
@@ -699,6 +704,7 @@
 				03A8F41020A3040400171C35 /* RMS.swift in Sources */,
 				03A9FD9820CABCF800FFE60B /* LightControlStatus.swift in Sources */,
 				5C0E569E1F0BE96900793A7F /* ProcessedAudio.swift in Sources */,
+				03DCDF8720CED72100CDE282 /* EngineProtocol.swift in Sources */,
 				5C0E568D1F0BE96900793A7F /* CrossPlatformHelper.swift in Sources */,
 				5C0E56981F0BE96900793A7F /* NoteDetection.swift in Sources */,
 				5C0E569B1F0BE96900793A7F /* PitchDetection.swift in Sources */,

@@ -45,15 +45,17 @@ class NoteDetectionTests: XCTestCase {
     }
 
     func testIfNoteDetectionIgnores() {
+        let noteEventIsNotIgnored = XCTestExpectation(description: "note event is not ignored")
+        noteEventIsNotIgnored.isInverted = true // the test passes if the expectation is never fulfilled
+
         noteDetection.inputType = .midi
         guard let midiNoteDetector = noteDetection.noteDetector as? MIDINoteDetector else {
             XCTFail("NoteDetector should have been set to MIDINoteDetector!")
             return
         }
 
-        var noteWasDetected = false
         noteDetection.set(onNoteEventDetected: { _ in
-            noteWasDetected = true
+            noteEventIsNotIgnored.fulfill() // for the test to pass this should never be called 
         })
 
         let arbitraryMidiNumber = MIDINumber(1)
@@ -63,12 +65,9 @@ class NoteDetectionTests: XCTestCase {
         noteDetection.ignoreFor(ms: arbitaryIgnoreTime)
 
         let correctNoteOn = MIDIMessage.noteOn(key: UInt8(arbitraryMidiNumber), velocity: 100)
-
         midiNoteDetector.process(midiMessage: correctNoteOn)
-        XCTAssert(noteWasDetected == false, "We shouldn't report notes detected within the ignore time")
 
-        midiNoteDetector.process(midiMessage: correctNoteOn)
-        XCTAssert(noteWasDetected == true, "We should be able to detect again after the ignored time")
+        wait(for: [noteEventIsNotIgnored], timeout: 0.4)
     }
 }
 

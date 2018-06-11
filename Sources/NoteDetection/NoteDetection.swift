@@ -12,25 +12,6 @@ public enum InputType {
     case midi
 }
 
-/// Public note detection API, mock note detection with this protocol
-public protocol NoteDetectionProtocol: class {
-    var inputType: InputType { get set }
-    func set(expectedNoteEvent: DetectableNoteEvent?)
-    func set(onNoteEventDetected: NoteEventDetectedCallback?)
-    func set(onInputLevelChanged: InputLevelChangedCallback?)
-    func ignoreFor(ms duration: Double)
-    func process(audioData: [Float])
-    func process(midiMessage: MIDIMessage)
-}
-
-/// Common public interface for audio and MIDI note detection
-protocol NoteDetector {
-    var onNoteEventDetected: NoteEventDetectedCallback? { get set }
-    var expectedNoteEvent: DetectableNoteEvent? { get set }
-    var onInputLevelChanged: InputLevelChangedCallback? { get set }
-}
-
-
 public class NoteDetection {
     var noteDetector: NoteDetector! // implicitly unwrapped so we can use self.createNoteDetector() on init
     fileprivate var ignoreUntilDeadline: Timestamp?
@@ -40,7 +21,7 @@ public class NoteDetection {
         return (timestamp - deadline) < 0
     }
 
-    public init(input: InputType, audioSampleRate: Double) throws {
+    public init(input: InputType, audioSampleRate: Double) {
         sampleRate = audioSampleRate
         noteDetector = createNoteDetector(type: input)
     }
@@ -69,7 +50,7 @@ public class NoteDetection {
     }
 }
 
-extension NoteDetection: NoteDetectionProtocol {
+extension NoteDetection {
     public var inputType: InputType {
         get { return noteDetector is AudioNoteDetector ? .audio : .midi }
         set { noteDetector = createNoteDetector(type: newValue) }
@@ -112,4 +93,12 @@ extension NoteDetection: NoteDetectionProtocol {
         }
         midiNoteDetector.process(midiMessage: midiMessage)
     }
+}
+
+
+/// Common public interface for audio and MIDI note detection
+protocol NoteDetector {
+    var onNoteEventDetected: NoteEventDetectedCallback? { get set }
+    var expectedNoteEvent: DetectableNoteEvent? { get set }
+    var onInputLevelChanged: InputLevelChangedCallback? { get set }
 }

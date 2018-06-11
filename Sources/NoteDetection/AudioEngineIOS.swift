@@ -1,7 +1,6 @@
 import AVFoundation
 
-public final class AudioEngine {
-
+public final class AudioEngine: AudioEngineProtocol {
     fileprivate var audioData: [Float] = []
 
     /// RemoteIOAudioUnit, from which we capture audio data and execute `onAudioData`

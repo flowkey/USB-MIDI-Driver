@@ -1,7 +1,7 @@
 import CAndroidAudioEngine
 import JNI
 
-public final class AudioEngine {
+public final class AudioEngine: AudioEngineProtocol {
     private var onAudioData: AudioDataCallback?
     public var onSampleRateChanged: SampleRateChangedCallback?
     public var sampleRate: Double

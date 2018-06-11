@@ -9,7 +9,7 @@
 import Foundation
 import CoreMIDI
 
-public final class MIDIEngine {
+public final class MIDIEngine: MIDIEngineProtocol {
     private(set) var onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?
     private(set) var onMIDIMessageReceived: MIDIMessageReceivedCallback?
     private(set) var onMIDIOutConnectionsChanged: MIDIOutConnectionsChangedCallback?
