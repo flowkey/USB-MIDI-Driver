@@ -12,15 +12,18 @@ class AudioNoteDetectorTests: XCTestCase {
     }
 
     func testTimestampsAreCloseEnough() {
-        var noteWasDetected = false
+        let expectation = XCTestExpectation(description: "onNoteEventDetected was called")
+
         audioNoteDetector.onNoteEventDetected = { timestamp in
-            noteWasDetected = true
+            expectation.fulfill()
         }
 
-        audioNoteDetector.onOnsetDetected(timestamp: .now)
-        audioNoteDetector.onPitchDetected(timestamp: .now + AudioNoteDetector.maxNoteToOnsetTimeDelta / 2)
+        let now: Timestamp = .now
+        let then: Timestamp = now + AudioNoteDetector.maxNoteToOnsetTimeDelta / 2
+        audioNoteDetector.onOnsetDetected(timestamp: now)
+        audioNoteDetector.onPitchDetected(timestamp: then)
 
-        XCTAssert(noteWasDetected)
+        wait(for: [expectation], timeout: 0.1)
     }
 
     func testTimestampsAreNotCloseEnough() {

@@ -13,10 +13,10 @@ private let initialInputType = InputType.audio
 private let alternativeInputType = InputType.midi
 
 class NoteDetectionTests: XCTestCase {
-    var noteDetection = try! NoteDetection(input: initialInputType)
+    var noteDetection = try! NoteDetection(input: initialInputType, audioSampleRate: 44100)
 
     override func setUp() {
-        noteDetection = try! NoteDetection(input: initialInputType)
+        noteDetection = try! NoteDetection(input: initialInputType, audioSampleRate: 44100)
     }
 
     func testInputOverride() {
@@ -67,7 +67,7 @@ class NoteDetectionTests: XCTestCase {
         midiNoteDetector.process(midiMessage: correctNoteOn)
         XCTAssert(noteWasDetected == false, "We shouldn't report notes detected within the ignore time")
 
-        midiNoteDetector.process(midiMessage: correctNoteOn, timestamp: .now + arbitaryIgnoreTime + 1)
+        midiNoteDetector.process(midiMessage: correctNoteOn)
         XCTAssert(noteWasDetected == true, "We should be able to detect again after the ignored time")
     }
 }
