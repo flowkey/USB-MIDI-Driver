@@ -12,7 +12,7 @@ final class AudioEngine: SuperpoweredOSXAudioIODelegate {
     private var onAudioData: AudioDataCallback?
     private var superpowered: SuperpoweredOSXAudioIO!
 
-    init() {
+    init() throws {
         self.superpowered = SuperpoweredOSXAudioIO(delegate: self, preferredBufferSizeMs: 12, numberOfChannels: 1, enableInput: true, enableOutput: true)
     }
 

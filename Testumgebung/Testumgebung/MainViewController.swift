@@ -46,7 +46,7 @@ public let noteDetection = try! NoteDetection(input: .audio)
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        try! noteDetection.startMicrophone()
+        try! noteDetection.startInput()
 
         noteDetection.set(onMIDIDeviceListChanged: { (deviceList: Set<MIDIDevice>) in
             for device in deviceList { print(device.displayName) }
@@ -62,7 +62,7 @@ public let noteDetection = try! NoteDetection(input: .audio)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        try? noteDetection.stopMicrophone()
+        try? noteDetection.stopInput()
         delegate = nil
         NotificationCenter.default.removeObserver(self)
     }

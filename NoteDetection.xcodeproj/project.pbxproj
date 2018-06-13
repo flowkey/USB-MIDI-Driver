@@ -88,7 +88,6 @@
 		5C8EA7DB1F0E8D9600B66A02 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C8EA7DA1F0E8D9000B66A02 /* CoreAudio.framework */; };
 		5C8EA7DE1F0E8E1A00B66A02 /* SuperpoweredOSXAudioIO.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C8EA7DC1F0E8E1900B66A02 /* SuperpoweredOSXAudioIO.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C8EA7DF1F0E8E1A00B66A02 /* SuperpoweredOSXAudioIO.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5C8EA7DD1F0E8E1A00B66A02 /* SuperpoweredOSXAudioIO.mm */; };
-		5C8EA7E01F0E8F4D00B66A02 /* NoteDetectionMac.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C0E56751F0BE92700793A7F /* NoteDetectionMac.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C8EA7E11F0E923600B66A02 /* NoteDetection.h in Headers */ = {isa = PBXBuildFile; fileRef = 03A7F7331E850D5300849AE2 /* NoteDetection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CC5C8E11F0BEB940037F1FF /* AudioEngineMac.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0E56A01F0BEA2900793A7F /* AudioEngineMac.swift */; };
 		5CC5C8E41F0BEBCE0037F1FF /* MIDIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C01F04EE7100C9AE3E /* MIDIDevice.swift */; };
@@ -117,7 +116,6 @@
 		03215F951F02A87000C9AE3E /* NoteDetectionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NoteDetectionTests.swift; path = Tests/NoteDetectionTests/NoteDetectionTests.swift; sourceTree = SOURCE_ROOT; };
 		03215F961F02A87000C9AE3E /* NoteEventsFixture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NoteEventsFixture.swift; path = Tests/NoteDetectionTests/NoteEventsFixture.swift; sourceTree = SOURCE_ROOT; };
 		03215F971F02A87000C9AE3E /* SampleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SampleData.swift; path = Tests/NoteDetectionTests/SampleData.swift; sourceTree = SOURCE_ROOT; };
-		03215FA41F02AB3600C9AE3E /* NoteDetectionTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NoteDetectionTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		032160B31F04EE7100C9AE3E /* AudioEngineIOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioEngineIOS.swift; path = Sources/NoteDetection/AudioEngineIOS.swift; sourceTree = SOURCE_ROOT; };
 		032160B41F04EE7100C9AE3E /* AudioHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioHelper.swift; path = Sources/NoteDetection/AudioHelper.swift; sourceTree = SOURCE_ROOT; };
 		032160B61F04EE7100C9AE3E /* AudioNoteDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioNoteDetection.swift; path = Sources/NoteDetection/AudioNoteDetection.swift; sourceTree = SOURCE_ROOT; };
@@ -385,7 +383,6 @@
 				03215F961F02A87000C9AE3E /* NoteEventsFixture.swift */,
 				03215F971F02A87000C9AE3E /* SampleData.swift */,
 				03A7F7401E850D5300849AE2 /* Info.plist */,
-				03215FA41F02AB3600C9AE3E /* NoteDetectionTests-Bridging-Header.h */,
 				03935B082074A61700D3C325 /* MemoryLeakTests.swift */,
 			);
 			path = NoteDetectionTests;
@@ -445,7 +442,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C8EA7E01F0E8F4D00B66A02 /* NoteDetectionMac.h in Headers */,
 				5C8EA7DE1F0E8E1A00B66A02 /* SuperpoweredOSXAudioIO.h in Headers */,
 				5C8EA7E11F0E923600B66A02 /* NoteDetection.h in Headers */,
 			);
