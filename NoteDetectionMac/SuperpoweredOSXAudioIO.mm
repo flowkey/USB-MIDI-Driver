@@ -5,9 +5,6 @@
 #define MAXFRAMES 4096
 
 @implementation SuperpoweredOSXAudioIO {
-#if __has_feature(objc_arc)
-    __weak
-#endif
     id<SuperpoweredOSXAudioIODelegate>delegate;
     audioProcessingCallback_C processingCallback;
     void *processingClientdata;
@@ -32,6 +29,13 @@ static OSStatus audioInputCallback(void *inRefCon, AudioUnitRenderActionFlags *i
 
     self->inputFrames = inNumberFrames;
     self->hasInput = !AudioUnitRender(self->inputUnit, ioActionFlags, inTimeStamp, inBusNumber, inNumberFrames, self->inputEven ? self->inputBuffers0 : self->inputBuffers1);
+    
+    if (self->hasInput && !self->outputEnabled) {
+        float **inputBufs = self->inputEven ? self->inputBufs0 : self->inputBufs1;
+        if (self->processingCallback) self->processingCallback(self->processingClientdata, inputBufs, self->inputChannels, NULL, self->numberOfChannels, inNumberFrames, self->samplerate, inTimeStamp->mHostTime);
+        else if (self->delegate) [self->delegate audioProcessingCallback:inputBufs inputChannels:self->inputChannels outputBuffers:NULL outputChannels:self->numberOfChannels numberOfSamples:inNumberFrames samplerate:self->samplerate hostTime:inTimeStamp->mHostTime];
+    }
+    
     self->inputEven = !self->inputEven;
 	return noErr;
 }
@@ -242,12 +246,12 @@ static void makeStreamFormat(AudioUnit au, AudioStreamBasicDescription *format, 
         if (!AudioComponentInstanceNew(component, &inau) && enableInput(inau, true) && enableOutput(inau, false)) {
             AudioDeviceID device = getAudioDevice(true);
             if ((device != UINT_MAX) && !AudioUnitSetProperty(inau, kAudioOutputUnitProperty_CurrentDevice, kAudioUnitScope_Global, 0, &device, sizeof(device))) {
-                AudioUnitAddPropertyListener(outau, kAudioUnitProperty_StreamFormat, streamFormatChangedCallback, (__bridge void *)self);
+                AudioUnitAddPropertyListener(inau, kAudioUnitProperty_StreamFormat, streamFormatChangedCallback, (__bridge void *)self);
                 AudioStreamBasicDescription format;
                 makeStreamFormat(inau, &format, true);
                 if (format.mChannelsPerFrame > numberOfChannels) format.mChannelsPerFrame = numberOfChannels;
                 inputChannels = format.mChannelsPerFrame;
-                format.mSampleRate = samplerate;
+                if (outputEnabled) format.mSampleRate = samplerate; else samplerate = format.mSampleRate;
                 format.mChannelsPerFrame = numberOfChannels;
                 if (!AudioUnitSetProperty(inau, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 1, &format, sizeof(format))) {
                     AURenderCallbackStruct callbackStruct;
