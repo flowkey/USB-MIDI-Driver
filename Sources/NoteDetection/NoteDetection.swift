@@ -60,6 +60,13 @@ extension NoteDetection {
         noteDetector.expectedNoteEvent = expectedNoteEvent
     }
 
+    public func set(onAudioProcessed: AudioProcessedCallback?) {
+        guard let audioNoteDetector = (self.noteDetector as? AudioNoteDetector) else {
+            return
+        }
+        audioNoteDetector.onAudioProcessed = onAudioProcessed
+    }
+
     public func set(onNoteEventDetected: NoteEventDetectedCallback?) {
         noteDetector.onNoteEventDetected = { [unowned self] timestamp in
             // unowned self, otherwise noteDetector 'owns' self and vice-versa (ref cycle)

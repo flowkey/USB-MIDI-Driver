@@ -50,7 +50,7 @@ public let noteDetection = try! NoteDetection(input: .audio, audioSampleRate: au
         audioEngine.set(onAudioData: noteDetection.process)
         try! audioEngine.startMicrophone()
 
-        (noteDetection.noteDetector as? AudioNoteDetector)?.onAudioProcessed = { processedAudio in
+        noteDetection.set { (processedAudio) in
             self.lastProcessedBlock = processedAudio
         }
     }
