@@ -6,16 +6,18 @@
 //  Copyright © 2017 flowkey. All rights reserved.
 //
 
-final class MIDINoteDetector: NoteDetector {
-    var onInputLevelChanged: InputLevelChangedCallback?
-    var onNoteEventDetected: NoteEventDetectedCallback?
+public final class MIDINoteDetector: NoteDetector {
+    public weak var inputLevelDelegate: InputLevelDelegate?
+    public weak var noteEventDelegate: NoteEventDelegate?
 
     var currentMIDIKeys = Set<Int>()
-    var expectedNoteEvent: DetectableNoteEvent? {
+    public var expectedNoteEvent: DetectableNoteEvent? {
         didSet { currentMIDIKeys.removeAll() }
     }
+    
+    public init() {}
 
-    func process(midiMessage: MIDIMessage) {
+    public func process(midiMessage: MIDIMessage) {
         switch midiMessage {
         case let .noteOn(key, velocity):
             currentMIDIKeys.insert(Int(key))
@@ -34,12 +36,15 @@ final class MIDINoteDetector: NoteDetector {
             // Otherwise it would feel strange - you could hold the correct keys down
             // then press a random key and onNoteEventDetected would be triggered...
             currentMIDIKeys.removeAll()
-            onNoteEventDetected?(.now)
+            DispatchQueue.main.async {
+                self.noteEventDelegate?.onNoteEventDetected(noteDetector: self, timestamp: .now)
+            }
+            expectedNoteEvent = nil
         }
     }
 
     private var currentVelocity: Float = 0 {
-        didSet { onInputLevelChanged?(currentVelocity / 127) }
+        didSet { inputLevelDelegate?.onInputLevelChanged(ratio: currentVelocity / 127) }
     }
 
     var allExpectedNotesAreOn: Bool {

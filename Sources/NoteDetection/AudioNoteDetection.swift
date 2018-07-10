@@ -1,28 +1,43 @@
 import Dispatch
 
-public typealias NoteEventDetectedCallback = (Timestamp) -> Void
-
 // Chroma extractors for our different ranges:
 private let lowRange = MIDINumber(note: .g, octave: 1) ... MIDINumber(note: .d, octave: 5)
 private let highRange = lowRange.last! ... MIDINumber(note: .d, octave: 8)
 
-final class AudioNoteDetector: NoteDetector {
+
+public protocol ProcessedAudioDelegate: class {
+    var onAudioProcessed: AudioProcessedCallback { get }
+}
+
+public final class AudioNoteDetector: NoteDetector {
+    public weak var noteEventDelegate: NoteEventDelegate?
+    public weak var inputLevelDelegate: InputLevelDelegate?
+    public weak var processedAudioDelegate: ProcessedAudioDelegate?
+    
     static let maxNoteToOnsetTimeDelta = Timestamp(150)
 
-    var expectedNoteEvent: DetectableNoteEvent? {
+    public var expectedNoteEvent: DetectableNoteEvent? {
         didSet { pitchDetection.setExpectedEvent(expectedNoteEvent) }
     }
 
     let filterbank: FilterBank
     let pitchDetection = PitchDetection(lowNoteBoundary: lowRange.last!)
     let onsetDetection = SpectralFluxOnsetDetection()
+    
+    fileprivate var ignoreUntilDeadline: Timestamp?
+    
+    fileprivate func isIgnoring(at timestamp: Timestamp) -> Bool {
+        guard let deadline = ignoreUntilDeadline else { return false }
+        return (timestamp - deadline) < 0
+    }
 
-    var onInputLevelChanged: InputLevelChangedCallback?
-    var onAudioProcessed: AudioProcessedCallback?
+    public func ignoreFor(ms duration: Double) {
+        ignoreUntilDeadline = .now + duration
+    }
 
     private var audioBuffer: [Float]
 
-    init(sampleRate: Double) {
+    public init(sampleRate: Double) {
         audioBuffer = [Float]()
         audioBuffer.reserveCapacity(1024)
 
@@ -46,22 +61,25 @@ final class AudioNoteDetector: NoteDetector {
         let volume = linearToDecibel(rootMeanSquare(buffer))
 
         volumeIteration += 1
-        if volumeIteration >= 3 { // avoid overloading the main thread unnecessarily
-            if let onInputLevelChanged = onInputLevelChanged, volume.isFinite {
-                // wanna calculate dBFS reference value? this could be helpful https://goo.gl/rzCeAW
-                let ratio = 1 - (volume / volumeLowerThreshold)
-                let ratioBetween0and1 = min(max(0, ratio), 1)
-                DispatchQueue.main.async { 
-                    onInputLevelChanged(ratioBetween0and1) 
-                }
+        
+        if
+            volumeIteration >= 3, // avoid overloading the main thread unnecessarily
+            let delegate = inputLevelDelegate,
+            volume.isFinite
+        {
+            // wanna calculate dBFS reference value? this could be helpful https://goo.gl/rzCeAW
+            let ratio = 1 - (volume / volumeLowerThreshold)
+            let ratioBetween0and1 = min(max(0, ratio), 1)
+            DispatchQueue.main.async {
+                delegate.onInputLevelChanged(ratio: ratioBetween0and1)
             }
-          volumeIteration = 0
+            volumeIteration = 0
         }
 
         return volume
     }
 
-    func process(audio samples: [Float]) {
+    public func process(audio samples: [Float]) {
         audioBuffer.append(contentsOf: samples)
         if audioBuffer.count >= 960 {
             performNoteDetection(audioBuffer)
@@ -86,21 +104,21 @@ final class AudioNoteDetector: NoteDetector {
         let chromaVector = filterbank.getChroma(for: pitchDetection.currentDetectionMode)
         pitchDetection.run(chromaVector)
 
-        // Don't make unnecessary calls to the main thread if there is no callback set:
-        if let onAudioProcessed = onAudioProcessed {
-            let filterbankMagnitudes = self.filterbank.magnitudes
-            DispatchQueue.main.async {
-                onAudioProcessed(
-                    (audioData, chromaVector, filterbankMagnitudes, onsetData.featureValue, onsetData.threshold, onsetData.onsetDetected)
-                )
-            }
+        
+        // Don't make unnecessary calls to the main thread if there is no delegate:
+        guard let processedAudioDelegate = processedAudioDelegate else {
+            return
+        }
+        
+        DispatchQueue.main.async {
+            processedAudioDelegate.onAudioProcessed(
+                (audioData, chromaVector, self.filterbank.magnitudes, onsetData.featureValue, onsetData.threshold, onsetData.onsetDetected)
+            )
         }
     }
 
     private var lastOnsetTimestamp: Timestamp?
     private var lastNoteTimestamp: Timestamp?
-
-    var onNoteEventDetected: NoteEventDetectedCallback?
 
     func onOnsetDetected(timestamp: Timestamp = .now) {
         lastOnsetTimestamp = timestamp
@@ -114,11 +132,15 @@ final class AudioNoteDetector: NoteDetector {
 
     func onInputReceived() {
         if timestampsAreCloseEnough() {
+            let noteEventDetectedTimestamp = Timestamp.now
             self.lastOnsetTimestamp = nil
             self.lastNoteTimestamp = nil
             
-            DispatchQueue.main.async {
-                self.onNoteEventDetected?(.now)
+            if !self.isIgnoring(at: noteEventDetectedTimestamp) {
+                DispatchQueue.main.async {
+                    self.noteEventDelegate?.onNoteEventDetected(noteDetector: self, timestamp: noteEventDetectedTimestamp)
+                }
+                expectedNoteEvent = nil
             }
         }
     }
