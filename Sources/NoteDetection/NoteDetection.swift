@@ -6,18 +6,13 @@ public typealias MIDIDeviceListChangedCallback = (Set<MIDIDevice>) -> Void
 public typealias SysexMessageReceivedCallback = ([UInt8], MIDIDevice) -> Void
 public typealias MIDIOutConnectionsChangedCallback = ([MIDIOutConnection]) -> Void
 
-public protocol NoteEventDelegate: class {
+public protocol NoteDetectorDelegate: class {
     func onNoteEventDetected(noteDetector: NoteDetector, timestamp: Timestamp) -> Void
-}
-
-public protocol InputLevelDelegate: class {
     func onInputLevelChanged(ratio: Float) -> Void
+    var expectedNoteEvent: DetectableNoteEvent? { get }
 }
-
 
 /// Common public interface for audio and MIDI note detection
 public protocol NoteDetector {
-    var noteEventDelegate: NoteEventDelegate? { get set }
-    var inputLevelDelegate: InputLevelDelegate? { get set }
-    var expectedNoteEvent: DetectableNoteEvent? { get set }
+    var delegate: NoteDetectorDelegate? { get set }
 }

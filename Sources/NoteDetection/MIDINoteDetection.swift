@@ -5,19 +5,19 @@
 //  Created by flowing erik on 28.03.17.
 //  Copyright © 2017 flowkey. All rights reserved.
 //
+import Dispatch
 
 public final class MIDINoteDetector: NoteDetector {
-    public weak var inputLevelDelegate: InputLevelDelegate?
-    public weak var noteEventDelegate: NoteEventDelegate?
+    public weak var delegate: NoteDetectorDelegate?
 
     var currentMIDIKeys = Set<Int>()
-    public var expectedNoteEvent: DetectableNoteEvent? {
-        didSet { currentMIDIKeys.removeAll() }
+    var expectedNoteEvent: DetectableNoteEvent? {
+        didSet { self.currentMIDIKeys.removeAll() }
     }
     
     public init() {}
 
-    public func process(midiMessage: MIDIMessage) {
+    public func process(midiMessage: MIDIMessage, from device: MIDIDevice?, at time: Timestamp) {
         switch midiMessage {
         case let .noteOn(key, velocity):
             currentMIDIKeys.insert(Int(key))
@@ -37,14 +37,14 @@ public final class MIDINoteDetector: NoteDetector {
             // then press a random key and onNoteEventDetected would be triggered...
             currentMIDIKeys.removeAll()
             DispatchQueue.main.async {
-                self.noteEventDelegate?.onNoteEventDetected(noteDetector: self, timestamp: .now)
+                self.delegate?.onNoteEventDetected(noteDetector: self, timestamp: .now)
+                self.expectedNoteEvent = self.delegate?.expectedNoteEvent
             }
-            expectedNoteEvent = nil
         }
     }
 
     private var currentVelocity: Float = 0 {
-        didSet { inputLevelDelegate?.onInputLevelChanged(ratio: currentVelocity / 127) }
+        didSet { delegate?.onInputLevelChanged(ratio: currentVelocity / 127) }
     }
 
     var allExpectedNotesAreOn: Bool {

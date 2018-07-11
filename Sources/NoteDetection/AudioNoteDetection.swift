@@ -10,15 +10,11 @@ public protocol ProcessedAudioDelegate: class {
 }
 
 public final class AudioNoteDetector: NoteDetector {
-    public weak var noteEventDelegate: NoteEventDelegate?
-    public weak var inputLevelDelegate: InputLevelDelegate?
+    public weak var delegate: NoteDetectorDelegate?
     public weak var processedAudioDelegate: ProcessedAudioDelegate?
     
     static let maxNoteToOnsetTimeDelta = Timestamp(150)
 
-    public var expectedNoteEvent: DetectableNoteEvent? {
-        didSet { pitchDetection.setExpectedEvent(expectedNoteEvent) }
-    }
 
     let filterbank: FilterBank
     let pitchDetection = PitchDetection(lowNoteBoundary: lowRange.last!)
@@ -43,10 +39,10 @@ public final class AudioNoteDetector: NoteDetector {
 
         filterbank = FilterBank(lowRange: lowRange, highRange: highRange, sampleRate: sampleRate)
         pitchDetection.onPitchDetected = { [unowned self] timestamp in
-            self.onPitchDetected()
+            self.onPitchDetected(timestamp: timestamp)
         }
         onsetDetection.onOnsetDetected = { [unowned self] timestamp in
-            self.onOnsetDetected()
+            self.onOnsetDetected(timestamp: timestamp)
         }
     }
 
@@ -64,7 +60,7 @@ public final class AudioNoteDetector: NoteDetector {
         
         if
             volumeIteration >= 3, // avoid overloading the main thread unnecessarily
-            let delegate = inputLevelDelegate,
+            let delegate = delegate,
             volume.isFinite
         {
             // wanna calculate dBFS reference value? this could be helpful https://goo.gl/rzCeAW
@@ -120,12 +116,12 @@ public final class AudioNoteDetector: NoteDetector {
     private var lastOnsetTimestamp: Timestamp?
     private var lastNoteTimestamp: Timestamp?
 
-    func onOnsetDetected(timestamp: Timestamp = .now) {
+    func onOnsetDetected(timestamp: Timestamp) {
         lastOnsetTimestamp = timestamp
         onInputReceived()
     }
 
-    func onPitchDetected(timestamp: Timestamp = .now) {
+    func onPitchDetected(timestamp: Timestamp) {
         lastNoteTimestamp = timestamp
         onInputReceived()
     }
@@ -138,9 +134,9 @@ public final class AudioNoteDetector: NoteDetector {
             
             if !self.isIgnoring(at: noteEventDetectedTimestamp) {
                 DispatchQueue.main.async {
-                    self.noteEventDelegate?.onNoteEventDetected(noteDetector: self, timestamp: noteEventDetectedTimestamp)
+                    self.delegate?.onNoteEventDetected(noteDetector: self, timestamp: noteEventDetectedTimestamp)
+                    self.pitchDetection.setExpectedEvent(self.delegate?.expectedNoteEvent)
                 }
-                expectedNoteEvent = nil
             }
         }
     }
