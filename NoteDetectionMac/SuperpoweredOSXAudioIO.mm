@@ -5,6 +5,9 @@
 #define MAXFRAMES 4096
 
 @implementation SuperpoweredOSXAudioIO {
+#if __has_feature(objc_arc)
+    __weak
+#endif
     id<SuperpoweredOSXAudioIODelegate>delegate;
     audioProcessingCallback_C processingCallback;
     void *processingClientdata;
