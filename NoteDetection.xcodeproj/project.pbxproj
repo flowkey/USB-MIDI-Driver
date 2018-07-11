@@ -92,6 +92,7 @@
 		5CC5C8E11F0BEB940037F1FF /* AudioEngineMac.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0E56A01F0BEA2900793A7F /* AudioEngineMac.swift */; };
 		5CC5C8E41F0BEBCE0037F1FF /* MIDIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C01F04EE7100C9AE3E /* MIDIDevice.swift */; };
 		5CC5C8E51F0BEC040037F1FF /* MIDIMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C41F04EE7100C9AE3E /* MIDIMessage.swift */; };
+		609641E820F6425900A7F67E /* NoteDetectorTestDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609641E720F6425900A7F67E /* NoteDetectorTestDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -179,6 +180,7 @@
 		5C8EA7DA1F0E8D9000B66A02 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/CoreAudio.framework; sourceTree = DEVELOPER_DIR; };
 		5C8EA7DC1F0E8E1900B66A02 /* SuperpoweredOSXAudioIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SuperpoweredOSXAudioIO.h; path = NoteDetectionMac/SuperpoweredOSXAudioIO.h; sourceTree = SOURCE_ROOT; };
 		5C8EA7DD1F0E8E1A00B66A02 /* SuperpoweredOSXAudioIO.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SuperpoweredOSXAudioIO.mm; path = NoteDetectionMac/SuperpoweredOSXAudioIO.mm; sourceTree = SOURCE_ROOT; };
+		609641E720F6425900A7F67E /* NoteDetectorTestDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetectorTestDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -373,6 +375,7 @@
 				03215F8C1F02A87000C9AE3E /* AndroidMathTests.swift */,
 				03215F8D1F02A87000C9AE3E /* AppleFilterBank.swift */,
 				03215F8E1F02A87000C9AE3E /* AudioNoteDetectorTest.swift */,
+				609641E720F6425900A7F67E /* NoteDetectorTestDelegate.swift */,
 				03215F8F1F02A87000C9AE3E /* ChromaVectorTests.swift */,
 				03215F901F02A87000C9AE3E /* FilterBankTests.swift */,
 				03215F921F02A87000C9AE3E /* MIDIMessageTests.swift */,
@@ -662,6 +665,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				609641E820F6425900A7F67E /* NoteDetectorTestDelegate.swift in Sources */,
 				03215F9F1F02A87000C9AE3E /* MIDINoteDetectorTest.swift in Sources */,
 				03215F9A1F02A87000C9AE3E /* AudioNoteDetectorTest.swift in Sources */,
 				03215F991F02A87000C9AE3E /* AppleFilterBank.swift in Sources */,
