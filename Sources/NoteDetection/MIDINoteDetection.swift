@@ -11,9 +11,6 @@ public final class MIDINoteDetector: NoteDetector {
     public weak var delegate: NoteDetectorDelegate?
 
     var currentMIDIKeys = Set<Int>()
-    var expectedNoteEvent: DetectableNoteEvent? {
-        didSet { self.currentMIDIKeys.removeAll() }
-    }
     
     public init() {}
 
@@ -38,7 +35,6 @@ public final class MIDINoteDetector: NoteDetector {
             currentMIDIKeys.removeAll()
             DispatchQueue.main.async {
                 self.delegate?.onNoteEventDetected(noteDetector: self, timestamp: .now)
-                self.expectedNoteEvent = self.delegate?.expectedNoteEvent
             }
         }
     }
@@ -48,7 +44,7 @@ public final class MIDINoteDetector: NoteDetector {
     }
 
     var allExpectedNotesAreOn: Bool {
-        guard let expectedKeys = expectedNoteEvent?.notes else { return false }
+        guard let expectedKeys = self.delegate?.expectedNoteEvent?.notes else { return false }
         return currentMIDIKeys.isSuperset(of: expectedKeys) // allows not expected keys
     }
 }

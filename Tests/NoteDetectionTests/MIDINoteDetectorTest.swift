@@ -3,7 +3,7 @@ import XCTest
 
 class MIDINoteDetectorTests: XCTestCase {
     var midiNoteDetector = MIDINoteDetector()
-    var noteDetectorDelegate: NoteDetectorDelegate? // keep a ref to delegate
+    var noteDetectorDelegate: NoteDetectorTestDelegate? // keep a ref to delegate
     let noteEvents = anotherDayInParadiseNoteEvents
 
     override func setUp() {
@@ -23,9 +23,9 @@ class MIDINoteDetectorTests: XCTestCase {
         midiNoteDetector.delegate = noteDetectorDelegate
 
         let randomEventIndex = getRandomEventIndexFrom(noteEvents: noteEvents)
-        midiNoteDetector.expectedNoteEvent = noteEvents[randomEventIndex]
-
-        guard let noteEvent = midiNoteDetector.expectedNoteEvent else {
+        noteDetectorDelegate!.expectedNoteEvent = noteEvents[randomEventIndex]
+        
+        guard let noteEvent = noteDetectorDelegate?.expectedNoteEvent else {
             XCTFail()
             return
         }
@@ -60,12 +60,12 @@ class MIDINoteDetectorTests: XCTestCase {
         midiNoteDetector.delegate = noteDetectorDelegate
         
         let randomEventIndex = getRandomEventIndexFrom(noteEvents: noteEvents)
-        midiNoteDetector.expectedNoteEvent = noteEvents[randomEventIndex]
+        noteDetectorDelegate!.expectedNoteEvent = noteEvents[randomEventIndex]
 
         // add not expected key
         midiNoteDetector.process(midiMessage: .noteOn(key: 0, velocity: 10), from: nil, at: .now)
 
-        guard let noteEvent = midiNoteDetector.expectedNoteEvent else {
+        guard let noteEvent = noteDetectorDelegate?.expectedNoteEvent else {
             XCTFail()
             return
         }
