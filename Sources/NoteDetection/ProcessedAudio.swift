@@ -7,8 +7,6 @@
 //
 
 // To use these in the Testumgebung, import NoteDetection as @testable
-public typealias AudioProcessedCallback = (ProcessedAudio) -> Void
-
 public typealias ProcessedAudio = (
     audioData: [Float],
     chromaVector: ChromaVector,

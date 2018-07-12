@@ -6,7 +6,7 @@ private let highRange = lowRange.last! ... MIDINumber(note: .d, octave: 8)
 
 
 public protocol ProcessedAudioDelegate: class {
-    var onAudioProcessed: AudioProcessedCallback { get }
+    func onAudioProcessed(_: ProcessedAudio) -> Void
 }
 
 public final class AudioNoteDetector: NoteDetector {

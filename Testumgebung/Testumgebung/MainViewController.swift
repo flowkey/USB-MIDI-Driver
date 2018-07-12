@@ -10,10 +10,9 @@ import UIKit
 @testable import NoteDetection
 
 public let audioEngine = try! AudioEngine()
-public let noteDetection = try! NoteDetection(input: .audio, audioSampleRate: audioEngine.sampleRate)
+public let noteDetection = AudioNoteDetector(sampleRate: audioEngine.sampleRate)
 
-@objc class MainViewController: UITabBarController, UITabBarControllerDelegate {
-
+@objc class MainViewController: UITabBarController, UITabBarControllerDelegate, ProcessedAudioDelegate {
     var graphViewController: GraphViewController?
     var midiViewController: MidiViewController?
 
@@ -48,11 +47,12 @@ public let noteDetection = try! NoteDetection(input: .audio, audioSampleRate: au
 
     override func viewDidAppear(_ animated: Bool) {
         audioEngine.set(onAudioData: noteDetection.process)
+        noteDetection.processedAudioDelegate = self
         try! audioEngine.startMicrophone()
-
-        noteDetection.set { (processedAudio) in
-            self.lastProcessedBlock = processedAudio
-        }
+    }
+    
+    func onAudioProcessed(_ processedAudio: ProcessedAudio) {
+        self.lastProcessedBlock = processedAudio
     }
 
     override func viewWillDisappear(_ animated: Bool) {
