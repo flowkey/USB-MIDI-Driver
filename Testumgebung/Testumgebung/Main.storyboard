@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="IXv-gy-QWg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="IXv-gy-QWg">
     <device id="retina3_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -26,7 +26,6 @@
                         <segue destination="qce-vY-fWX" kind="relationship" relationship="viewControllers" id="WZh-U4-anw"/>
                         <segue destination="rG1-Qs-Mmu" kind="relationship" relationship="viewControllers" id="GL6-DM-PVx"/>
                         <segue destination="Lrl-pY-j0Z" kind="relationship" relationship="viewControllers" id="N0M-lC-FJu"/>
-                        <segue destination="gwv-LY-8tw" kind="relationship" relationship="viewControllers" id="1Fu-iA-Jgn"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j38-RX-VHr" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -49,14 +48,14 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="431"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="48M-mJ-fgw">
-                                        <rect key="frame" x="60" y="24" width="32" height="30"/>
+                                        <rect key="frame" x="60" y="44" width="32" height="30"/>
                                         <state key="normal" title="Stop"/>
                                         <connections>
                                             <action selector="Stop:" destination="N81-NQ-Rhq" eventType="touchUpInside" id="5PN-ea-WnR"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UXY-AI-KQs">
-                                        <rect key="frame" x="18" y="24" width="34" height="30"/>
+                                        <rect key="frame" x="18" y="44" width="34" height="30"/>
                                         <state key="normal" title="Start"/>
                                         <connections>
                                             <action selector="Start:" destination="N81-NQ-Rhq" eventType="touchUpInside" id="Qti-yE-f34"/>
@@ -209,25 +208,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MSj-V9-pd2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1030" y="901"/>
-        </scene>
-        <!--MIDIView-->
-        <scene sceneID="l5k-lu-jW8">
-            <objects>
-                <viewController id="gwv-LY-8tw" userLabel="MIDIView" customClass="MidiViewController" customModule="Testumgebung" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="WAi-VM-Oad"/>
-                        <viewControllerLayoutGuide type="bottom" id="iCm-HL-RvF"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="SlW-qK-Nyi" customClass="MidiView" customModule="Testumgebung" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="MIDI" id="bZ9-yz-Vuo" userLabel="MIDI2"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="OsE-mf-Fi9" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1503" y="40"/>
         </scene>
     </scenes>
 </document>
