@@ -9,4 +9,6 @@ public protocol MIDIEngineProtocol: class {
     var midiDeviceList: Set<MIDIDevice> { get }
     func set(onMIDIMessageReceived: MIDIMessageReceivedCallback?)
     func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?)
+    func set(onSysexMessageReceived: SysexMessageReceivedCallback?)
+    func set(onMIDIOutConnectionsChanged: MIDIOutConnectionsChangedCallback?)
 }
