@@ -6,7 +6,6 @@ private let NOTE_ON: UInt8 = 9
 private let NOTE_OFF: UInt8 = 8
 
 public class YamahaLightControl {
-
     private weak var connection: MIDIOutConnection? {
         didSet {
             if connection != nil {
@@ -31,28 +30,24 @@ public class YamahaLightControl {
 
     // MARK: Public API
     public init(midiEngine: MIDIEngine) {
+        midiEngine.set(onMIDIOutConnectionsChanged: { outConnections in
+            if let connection = self.connection, !outConnections.contains(connection) {
+                self.connection = nil
+            }
+            self.sendClavinovaModelRequest(on: outConnections)
+        })
+
         midiEngine.set(onSysexMessageReceived: { data, sourceDevice in
             guard
-                YamahaLightControl.checkIfMessageIsFromCompatibleDevice(midiMessageData: data),
+                self.checkIfMessageIsFromCompatibleDevice(midiMessageData: data),
                 let connection = midiEngine.midiOutConnections.first(where: { connection in
                     return connection.displayName == sourceDevice.displayName
                 })
-            else { return }
-            
+                else { return }
             self.connection = connection
         })
-        
-        midiEngine.set(onMIDIOutConnectionsChanged: { outConnections in
-            if
-                let connection = self.connection,
-                !outConnections.contains(connection)
-            {
-                self.connection = nil
-            }
-            YamahaLightControl.sendClavinovaModelRequest(on: midiEngine.midiOutConnections)
-        })
-        
-        YamahaLightControl.sendClavinovaModelRequest(on: midiEngine.midiOutConnections)
+
+        sendClavinovaModelRequest(on: midiEngine.midiOutConnections)
         
         self.switchGuideOn()
         self.switchLightsOnNoSound()
@@ -64,13 +59,6 @@ public class YamahaLightControl {
         self.turnOffAllLights()
     }
 
-    private var currentLightningKeys: [UInt8] = [] {
-        didSet {
-            turnOffAllLights()
-            turnOnLights(at: currentLightningKeys)
-        }
-    }
-
     public var currentLightningNoteEvent: DetectableNoteEvent? {
         didSet {
             if let notes = currentLightningNoteEvent?.notes {
@@ -80,14 +68,22 @@ public class YamahaLightControl {
             }
         }
     }
+    
+    
+    
+    // MARK: Private API
+    
+    private var currentLightningKeys: [UInt8] = [] {
+        didSet {
+            turnOffAllLights()
+            turnOnLights(at: currentLightningKeys)
+        }
+    }
 
-
-    // MARK: Statics
-
-    static func checkIfMessageIsFromCompatibleDevice(midiMessageData: [UInt8]) -> Bool {
+    private func checkIfMessageIsFromCompatibleDevice(midiMessageData: [UInt8]) -> Bool {
         guard
-            YamahaLightControl.messageDataIsDumpRequestResponse(midiMessageData),
-            let model = YamahaLightControl.getModelFromDumpRequestResponse(data: midiMessageData),
+            messageDataIsDumpRequestResponse(midiMessageData),
+            let model = getModelFromDumpRequestResponse(data: midiMessageData),
             supportedModels.contains(model)
         else {
             return false
@@ -95,11 +91,11 @@ public class YamahaLightControl {
         return true
     }
 
-    static func sendClavinovaModelRequest(on connections: [MIDIOutConnection]) {
+    private func sendClavinovaModelRequest(on connections: [MIDIOutConnection]) {
         connections.forEach { $0.send(messages: [YamahaMessages.DUMP_REQUEST_MODEL]) }
     }
 
-    private static func getModelFromDumpRequestResponse(data: [UInt8]) -> String? {
+    private func getModelFromDumpRequestResponse(data: [UInt8]) -> String? {
         let responseDataLength = 16
         guard data.count >= responseDataLength else {
             return nil
@@ -110,7 +106,7 @@ public class YamahaLightControl {
         })
     }
 
-    private static func messageDataIsDumpRequestResponse(_ data: [UInt8]) -> Bool {
+    private func messageDataIsDumpRequestResponse(_ data: [UInt8]) -> Bool {
         let responseSignatureCount = YamahaMessages.DUMP_REQUEST_RESPONSE_SIGNATURE.count
         guard data.count >= responseSignatureCount else {
             return false
@@ -119,8 +115,6 @@ public class YamahaLightControl {
         return messageDataBegin == YamahaMessages.DUMP_REQUEST_RESPONSE_SIGNATURE
     }
 
-
-    // MARK: Private API
 
     private func turnOnLights(at keys: [UInt8]) {
         guard isEnabled else { return }
