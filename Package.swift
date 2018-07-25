@@ -23,6 +23,7 @@ let package = Package(
                 "AudioEngineIOS.swift",
                 "AudioUnitExtensions.swift",
                 "MIDIEngineApple.swift",
+                "MIDIEngineApple+send.swift",
                 "MIDIEngine+Debug.swift",
                 "MIDIPacket+UInt8Array.swift",
                 "MIDIObjectRef.swift",
