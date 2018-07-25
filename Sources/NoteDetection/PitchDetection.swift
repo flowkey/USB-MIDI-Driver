@@ -59,8 +59,8 @@ class PitchDetection {
         case lowPitches, highPitches, highAndLow
     }
 
-    var expectedChroma: ChromaVector?
-    var currentTolerance: Float = 0
+    private var expectedChroma: ChromaVector?
+    private var currentTolerance: Float = 0
 
     func setExpectedEvent(_ event: DetectableNoteEvent?) {
         expectedChroma = ChromaVector(composeFrom: event?.notes) // result could be nil

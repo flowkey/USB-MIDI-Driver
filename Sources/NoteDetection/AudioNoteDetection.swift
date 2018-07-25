@@ -14,7 +14,10 @@ public final class AudioNoteDetector: NoteDetector {
     public weak var processedAudioDelegate: ProcessedAudioDelegate?
     
     static let maxNoteToOnsetTimeDelta = Timestamp(150)
-
+    
+    public var expectedNoteEvent: DetectableNoteEvent? {
+        didSet { pitchDetection.setExpectedEvent(expectedNoteEvent) }
+    }
 
     let filterbank: FilterBank
     let pitchDetection = PitchDetection(lowNoteBoundary: lowRange.last!)
@@ -135,7 +138,6 @@ public final class AudioNoteDetector: NoteDetector {
             if !self.isIgnoring(at: noteEventDetectedTimestamp) {
                 DispatchQueue.main.async {
                     self.delegate?.onNoteEventDetected(noteDetector: self, timestamp: noteEventDetectedTimestamp)
-                    self.pitchDetection.setExpectedEvent(self.delegate?.expectedNoteEvent)
                 }
             }
         }

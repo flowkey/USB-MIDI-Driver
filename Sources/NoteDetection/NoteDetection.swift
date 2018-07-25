@@ -9,7 +9,6 @@ public typealias MIDIOutConnectionsChangedCallback = ([MIDIOutConnection]) -> Vo
 public protocol NoteDetectorDelegate: class {
     func onNoteEventDetected(noteDetector: NoteDetector, timestamp: Timestamp) -> Void
     func onInputLevelChanged(ratio: Float) -> Void
-    var expectedNoteEvent: DetectableNoteEvent? { get }
 }
 
 /// Common public interface for audio and MIDI note detection
