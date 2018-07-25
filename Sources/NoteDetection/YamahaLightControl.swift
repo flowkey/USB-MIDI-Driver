@@ -6,35 +6,41 @@ private let NOTE_ON: UInt8 = 9
 private let NOTE_OFF: UInt8 = 8
 
 public class YamahaLightControl {
+    private weak var midiEngine: MIDIEngine?
+    
     private weak var connection: MIDIOutConnection? {
         didSet {
-            if connection != nil {
-                self.status = self.isEnabled ? .enabled : .disabled
+            if connection == nil {
+                status = .notAvailable
             } else {
-                self.status = .notAvailable
+                switchGuideOn()
+                switchLightsOnNoSound()
+                animateLights()
+                status = .enabled
             }
-        }
-    }
-
-    public var isEnabled = false {
-        didSet {
-            if isEnabled { animateLights() }
-            else { turnOffLights(at: currentLightningKeys) }
         }
     }
     
     public var onStatusChanged: LightControlStatusChangedCallback?
-    var status: LightControlStatus = .disabled {
-        didSet { self.onStatusChanged?(status) }
+    public var status: LightControlStatus = .notAvailable {
+        didSet {
+            switch status {
+                case .enabled: turnOnLights(at: currentLightningKeys)
+                case .disabled: turnOffAllLights()
+                case .notAvailable: break
+            }
+            onStatusChanged?(status)
+        }
     }
 
     // MARK: Public API
     public init(midiEngine: MIDIEngine) {
+        self.midiEngine = midiEngine
+
         midiEngine.set(onMIDIOutConnectionsChanged: { outConnections in
-            if let connection = self.connection, !outConnections.contains(connection) {
-                self.connection = nil
-            }
-            self.sendClavinovaModelRequest(on: outConnections)
+            // kill current light control connection and send a new request to all output connections
+            self.connection = nil
+            midiEngine.sendToAllOutConnections(messages: [YamahaMessages.DUMP_REQUEST_MODEL])
         })
 
         midiEngine.set(onSysexMessageReceived: { data, sourceDevice in
@@ -47,12 +53,8 @@ public class YamahaLightControl {
             self.connection = connection
         })
 
-        sendClavinovaModelRequest(on: midiEngine.midiOutConnections)
-        
-        self.switchGuideOn()
-        self.switchLightsOnNoSound()
-        self.turnOffAllLights()
-        self.isEnabled = true
+        // initially send model request to all output connections
+        midiEngine.sendToAllOutConnections(messages: [YamahaMessages.DUMP_REQUEST_MODEL])
     }
     
     deinit {
@@ -70,8 +72,21 @@ public class YamahaLightControl {
     }
     
     
-    
     // MARK: Private API
+    
+    private func sendToConnection(messages: [[UInt8]]) {
+        guard let connection = self.connection else {
+            print("light control can not send messages because outConnection does not exist.")
+            return
+        }
+        
+        guard let midiEngine = self.midiEngine else {
+            print("light control can not send messages because midiEngine does not exist.")
+            return
+        }
+
+        midiEngine.send(messages: messages, to: connection)
+    }
     
     private var currentLightningKeys: [UInt8] = [] {
         didSet {
@@ -89,10 +104,6 @@ public class YamahaLightControl {
             return false
         }
         return true
-    }
-
-    private func sendClavinovaModelRequest(on connections: [MIDIOutConnection]) {
-        connections.forEach { $0.send(messages: [YamahaMessages.DUMP_REQUEST_MODEL]) }
     }
 
     private func getModelFromDumpRequestResponse(data: [UInt8]) -> String? {
@@ -117,32 +128,33 @@ public class YamahaLightControl {
 
 
     private func turnOnLights(at keys: [UInt8]) {
-        guard isEnabled else { return }
-        keys.forEach { key in
-            let message = self.createNoteOnMessage(channel: LIGHT_CONTROL_CHANNEL, key: key)
-            self.connection?.send(messages: [message])
+        guard status == .enabled
+        else { return }
+        let noteOnMessages: [[UInt8]] = keys.map{
+            createNoteOnMessage(channel: LIGHT_CONTROL_CHANNEL, key: $0)
         }
+        sendToConnection(messages: noteOnMessages)
     }
 
     private func turnOffLights(at keys: [UInt8]) {
-        keys.forEach { key in
-            let message = self.createNoteOffMessage(channel: LIGHT_CONTROL_CHANNEL, key: key)
-            self.connection?.send(messages: [message])
+        let noteOffMessages: [[UInt8]] = keys.map{
+            createNoteOffMessage(channel: LIGHT_CONTROL_CHANNEL, key: $0)
         }
+        sendToConnection(messages: noteOffMessages)
     }
 
     private func turnOffAllLights() {
         let noteOffMessages = (0..<128).map { key in
             return self.createNoteOffMessage(channel: LIGHT_CONTROL_CHANNEL, key: UInt8(key))
         }
-        self.connection?.send(messages: noteOffMessages)
+        sendToConnection(messages: noteOffMessages)
     }
 
     private func turnOnAllLights() {
         let noteOnMessages = (0..<128).map { key in
             return self.createNoteOnMessage(channel: LIGHT_CONTROL_CHANNEL, key: UInt8(key))
         }
-        self.connection?.send(messages: noteOnMessages)
+        sendToConnection(messages: noteOnMessages)
     }
 
     private func createNoteOnMessage(channel: UInt8, key: UInt8, velocity: UInt8 = 2) -> [UInt8] {
@@ -154,19 +166,19 @@ public class YamahaLightControl {
     }
 
     private func switchLightsOnNoSound() {
-        self.connection?.send(messages: [YamahaMessages.LIGHT_ON_NO_SOUND])
+        sendToConnection(messages: [YamahaMessages.LIGHT_ON_NO_SOUND])
     }
 
     private func switchLightsOffNoSound() {
-        self.connection?.send(messages: [YamahaMessages.LIGHT_OFF_NO_SOUND])
+        sendToConnection(messages: [YamahaMessages.LIGHT_OFF_NO_SOUND])
     }
 
     private func switchGuideOff() {
-        self.connection?.send(messages: [YamahaMessages.GUIDE_OFF])
+       sendToConnection(messages: [YamahaMessages.GUIDE_OFF])
     }
 
     private func switchGuideOn() {
-        self.connection?.send(messages: [YamahaMessages.GUIDE_ON])
+        sendToConnection(messages: [YamahaMessages.GUIDE_ON])
     }
 
     private func animateLights() {
@@ -179,9 +191,9 @@ public class YamahaLightControl {
             let noteOffMsg = self.createNoteOffMessage(channel: LIGHT_CONTROL_CHANNEL, key: UInt8(key))
 
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(key*keyAnimationTime), execute: {
-                self.connection?.send(messages:[noteOnMsg])
+                self.sendToConnection(messages: [noteOnMsg])
                 DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(key*keyAnimationTime), execute: {
-                    self.connection?.send(messages:[noteOffMsg])
+                    self.sendToConnection(messages: [noteOffMsg])
                 })
             })
         }
