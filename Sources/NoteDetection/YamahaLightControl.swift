@@ -6,9 +6,9 @@ private let NOTE_ON: UInt8 = 9
 private let NOTE_OFF: UInt8 = 8
 
 public class YamahaLightControl {
-    private weak var midiEngine: MIDIEngine?
+    private(set) weak var midiEngine: MIDIEngineProtocol?
     
-    private weak var connection: MIDIOutConnection? {
+    private(set) weak var connection: MIDIOutConnection? {
         didSet {
             if connection == nil {
                 status = .notAvailable
@@ -34,26 +34,10 @@ public class YamahaLightControl {
     }
 
     // MARK: Public API
-    public init(midiEngine: MIDIEngine) {
+    public init(midiEngine: MIDIEngineProtocol) {
         self.midiEngine = midiEngine
-
-        midiEngine.set(onMIDIOutConnectionsChanged: { outConnections in
-            // kill current light control connection and send a new request to all output connections
-            self.connection = nil
-            midiEngine.sendToAllOutConnections(messages: [YamahaMessages.DUMP_REQUEST_MODEL])
-        })
-
-        midiEngine.set(onSysexMessageReceived: { data, sourceDevice in
-            guard
-                self.checkIfMessageIsFromCompatibleDevice(midiMessageData: data),
-                let connection = midiEngine.midiOutConnections.first(where: { connection in
-                    return connection.displayName == sourceDevice.displayName
-                })
-                else { return }
-            self.connection = connection
-        })
-
-        // initially send model request to all output connections
+        midiEngine.set(onMIDIOutConnectionsChanged: self.onChangedMIDIOutConnections)
+        midiEngine.set(onSysexMessageReceived: self.onReceiveSysexMessage)
         midiEngine.sendToAllOutConnections(messages: [YamahaMessages.DUMP_REQUEST_MODEL])
     }
     
@@ -69,6 +53,25 @@ public class YamahaLightControl {
                 self.currentLightningKeys = []
             }
         }
+    }
+    
+    // MARK: Internal API
+    
+    func onChangedMIDIOutConnections(outConnections: [MIDIOutConnection]) {
+        // kill current light control connection and send a new request to all output connections
+        self.connection = nil
+        midiEngine?.sendToAllOutConnections(messages: [YamahaMessages.DUMP_REQUEST_MODEL])
+    }
+    
+    func onReceiveSysexMessage(data: [UInt8], sourceDevice: MIDIDevice) {
+        print(data)
+        guard
+            self.checkIfMessageIsFromCompatibleDevice(midiMessageData: data),
+            let connection = midiEngine?.midiOutConnections.first(where: { connection in
+                return connection.displayName == sourceDevice.displayName
+            })
+            else { return }
+        self.connection = connection
     }
     
     

@@ -8,8 +8,6 @@
 
 import CoreMIDI
 
-typealias MIDIObjectRef = UInt32
-
 extension MIDIObjectRef {
     var online: Bool {
         return getIntProperty(kMIDIPropertyOffline) == 0

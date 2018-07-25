@@ -7,6 +7,7 @@ public protocol AudioEngineProtocol: class {
 
 public protocol MIDIEngineProtocol: class {
     var midiDeviceList: Set<MIDIDevice> { get }
+    var midiOutConnections: Array<MIDIOutConnection> { get }
     func set(onMIDIMessageReceived: MIDIMessageReceivedCallback?)
     func set(onMIDIDeviceListChanged: MIDIDeviceListChangedCallback?)
     func set(onSysexMessageReceived: SysexMessageReceivedCallback?)
