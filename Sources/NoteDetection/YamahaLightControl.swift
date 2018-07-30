@@ -64,6 +64,7 @@ public class YamahaLightControl {
     }
     
     func onReceiveSysexMessage(data: [UInt8], sourceDevice: MIDIDevice) {
+        print(data)
         guard
             self.checkIfMessageIsFromCompatibleDevice(midiMessageData: data),
             let connection = midiEngine?.midiOutConnections.first(where: { connection in
