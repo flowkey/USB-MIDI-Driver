@@ -85,6 +85,8 @@ public final class AudioNoteDetector: NoteDetector {
 
     private func performNoteDetection(_ audioData: [Float]) {
         let volume = calculateVolume(from: audioData)
+        
+        pitchDetection.setExpectedEvent(delegate?.expectedNoteEvent)
 
         // Volume drops a lot more quickly than the filterbank magnitudes
         // So check we either have enough volume, OR the filterbank is still "ringing out":
