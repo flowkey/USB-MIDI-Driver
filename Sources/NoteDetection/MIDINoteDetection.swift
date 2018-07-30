@@ -9,8 +9,8 @@ import Dispatch
 
 public final class MIDINoteDetector: NoteDetector {
     public weak var delegate: NoteDetectorDelegate?
-
-    var currentMIDIKeys = Set<Int>()
+    
+    private var currentMIDIKeys = Set<Int>()
     
     public init() {}
 
@@ -43,7 +43,7 @@ public final class MIDINoteDetector: NoteDetector {
         didSet { delegate?.onInputLevelChanged(ratio: currentVelocity / 127) }
     }
 
-    var allExpectedNotesAreOn: Bool {
+    private var allExpectedNotesAreOn: Bool {
         guard let expectedKeys = self.delegate?.expectedNoteEvent?.notes else { return false }
         return currentMIDIKeys.isSuperset(of: expectedKeys) // allows not expected keys
     }
