@@ -77,7 +77,7 @@ extension AudioEngine {
         }
     }
 
-    public func stopMicrophone() {
+    public func stopMicrophone() throws {
         CAndroidAudioEngine_stop()
     }
 }

@@ -17,32 +17,23 @@ extension MIDIEngine {
             MIDISend(outConnection.source, outConnection.destination, &packetList)
         }
     }
-    
-    public func sendToAllOutConnections(messages: [[UInt8]]) {
-        self.midiOutConnections.forEach({
-            self.send(messages: messages, to: $0)
-        })
-    }
 }
 
 
 extension MIDIPacketList {
-    init(from messageDataArr: [[UInt8]]) {
-        let timestamp = mach_absolute_time()
-        let totalBytesInAllEvents = messageDataArr.reduce(0) { total, event in
+    private static var clavinovaByteLimit = 256
+    init(from midiEvents: [[UInt8]]) {
+        let totalBytesInAllEvents = midiEvents.reduce(0) { total, event in
             return total + event.count
         }
 
-        let listSize = MemoryLayout<MIDIPacketList>.size + totalBytesInAllEvents
-
         // CoreMIDI supports up to 65536 bytes, but the Clavinova doesn't seem to
-        assert(totalBytesInAllEvents < 256, "The packet list was too long! Split your data into multiple lists.")
+        assert(totalBytesInAllEvents < MIDIPacketList.clavinovaByteLimit, "The packet list was too long! Split your data into multiple lists.")
 
         var packetList = MIDIPacketList()
         var packet = MIDIPacketListInit(&packetList)
-
-        messageDataArr.forEach { event in
-            packet = MIDIPacketListAdd(&packetList, listSize, packet, timestamp, event.count, event)
+        midiEvents.forEach { event in
+            packet = MIDIPacketListAdd(&packetList, MIDIPacketList.clavinovaByteLimit, packet, mach_absolute_time(), event.count, event)
         }
 
         self = packetList

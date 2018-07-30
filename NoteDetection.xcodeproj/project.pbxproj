@@ -94,6 +94,7 @@
 		5CC5C8E51F0BEC040037F1FF /* MIDIMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C41F04EE7100C9AE3E /* MIDIMessage.swift */; };
 		6026B7B221087E13009B2BBB /* MIDIEngineApple+send.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6026B7B121087E13009B2BBB /* MIDIEngineApple+send.swift */; };
 		6026B7B321087E13009B2BBB /* MIDIEngineApple+send.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6026B7B121087E13009B2BBB /* MIDIEngineApple+send.swift */; };
+		605AC25B210F5EB400A21951 /* MIDIPacketListTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605AC25A210F5EB400A21951 /* MIDIPacketListTest.swift */; };
 		609641E820F6425900A7F67E /* NoteDetectorTestDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609641E720F6425900A7F67E /* NoteDetectorTestDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -183,6 +184,7 @@
 		5C8EA7DC1F0E8E1900B66A02 /* SuperpoweredOSXAudioIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SuperpoweredOSXAudioIO.h; path = NoteDetectionMac/SuperpoweredOSXAudioIO.h; sourceTree = SOURCE_ROOT; };
 		5C8EA7DD1F0E8E1A00B66A02 /* SuperpoweredOSXAudioIO.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SuperpoweredOSXAudioIO.mm; path = NoteDetectionMac/SuperpoweredOSXAudioIO.mm; sourceTree = SOURCE_ROOT; };
 		6026B7B121087E13009B2BBB /* MIDIEngineApple+send.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MIDIEngineApple+send.swift"; path = "Sources/NoteDetection/MIDIEngineApple+send.swift"; sourceTree = SOURCE_ROOT; };
+		605AC25A210F5EB400A21951 /* MIDIPacketListTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDIPacketListTest.swift; sourceTree = "<group>"; };
 		609641E720F6425900A7F67E /* NoteDetectorTestDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetectorTestDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -390,6 +392,7 @@
 				03215F971F02A87000C9AE3E /* SampleData.swift */,
 				03A7F7401E850D5300849AE2 /* Info.plist */,
 				03935B082074A61700D3C325 /* MemoryLeakTests.swift */,
+				605AC25A210F5EB400A21951 /* MIDIPacketListTest.swift */,
 			);
 			path = NoteDetectionTests;
 			sourceTree = "<group>";
@@ -672,6 +675,7 @@
 			files = (
 				609641E820F6425900A7F67E /* NoteDetectorTestDelegate.swift in Sources */,
 				03215F9F1F02A87000C9AE3E /* MIDINoteDetectorTest.swift in Sources */,
+				605AC25B210F5EB400A21951 /* MIDIPacketListTest.swift in Sources */,
 				03215F9A1F02A87000C9AE3E /* AudioNoteDetectorTest.swift in Sources */,
 				03215F991F02A87000C9AE3E /* AppleFilterBank.swift in Sources */,
 				03215F9B1F02A87000C9AE3E /* ChromaVectorTests.swift in Sources */,

@@ -10,7 +10,7 @@ import Dispatch
 public final class MIDINoteDetector: NoteDetector {
     public weak var delegate: NoteDetectorDelegate?
     
-    private var currentMIDIKeys = Set<Int>()
+    private(set) var currentMIDIKeys = Set<Int>()
     
     public init() {}
 

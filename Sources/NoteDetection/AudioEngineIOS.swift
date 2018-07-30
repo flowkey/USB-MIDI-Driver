@@ -13,7 +13,6 @@ public final class AudioEngine: AudioEngineProtocol {
 
     public var onSampleRateChanged: SampleRateChangedCallback?
 
-    // AudioEngine has no public initialisers and is only accessible via `sharedInstance`:
     public init() throws {
         let audioSession = AVAudioSession.sharedInstance()
 

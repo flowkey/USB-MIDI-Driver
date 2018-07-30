@@ -38,7 +38,9 @@ public class YamahaLightControl {
         self.midiEngine = midiEngine
         midiEngine.set(onMIDIOutConnectionsChanged: self.onChangedMIDIOutConnections)
         midiEngine.set(onSysexMessageReceived: self.onReceiveSysexMessage)
-        midiEngine.sendToAllOutConnections(messages: [YamahaMessages.DUMP_REQUEST_MODEL])
+        midiEngine.midiOutConnections.forEach {
+            midiEngine.send(messages: [YamahaMessages.DUMP_REQUEST_MODEL], to: $0)
+        }
     }
     
     deinit {
@@ -60,7 +62,9 @@ public class YamahaLightControl {
     func onChangedMIDIOutConnections(outConnections: [MIDIOutConnection]) {
         // kill current light control connection and send a new request to all output connections
         self.connection = nil
-        midiEngine?.sendToAllOutConnections(messages: [YamahaMessages.DUMP_REQUEST_MODEL])
+        outConnections.forEach {
+            midiEngine?.send(messages: [YamahaMessages.DUMP_REQUEST_MODEL], to: $0)
+        }
     }
     
     func onReceiveSysexMessage(data: [UInt8], sourceDevice: MIDIDevice) {
@@ -76,7 +80,7 @@ public class YamahaLightControl {
     
     // MARK: Private API
     
-    private func sendToConnection(messages: [[UInt8]]) {
+    private func send(messages: [[UInt8]]) {
         guard let connection = self.connection else {
             print("light control can not send messages because outConnection does not exist.")
             return
@@ -135,28 +139,28 @@ public class YamahaLightControl {
         let noteOnMessages: [[UInt8]] = keys.map{
             createNoteOnMessage(channel: LIGHT_CONTROL_CHANNEL, key: $0)
         }
-        sendToConnection(messages: noteOnMessages)
+        send(messages: noteOnMessages)
     }
 
     private func turnOffLights(at keys: [UInt8]) {
         let noteOffMessages: [[UInt8]] = keys.map{
             createNoteOffMessage(channel: LIGHT_CONTROL_CHANNEL, key: $0)
         }
-        sendToConnection(messages: noteOffMessages)
+        send(messages: noteOffMessages)
     }
 
     private func turnOffAllLights() {
         let noteOffMessages = (0..<128).map { key in
             return self.createNoteOffMessage(channel: LIGHT_CONTROL_CHANNEL, key: UInt8(key))
         }
-        sendToConnection(messages: noteOffMessages)
+        send(messages: noteOffMessages)
     }
 
     private func turnOnAllLights() {
         let noteOnMessages = (0..<128).map { key in
             return self.createNoteOnMessage(channel: LIGHT_CONTROL_CHANNEL, key: UInt8(key))
         }
-        sendToConnection(messages: noteOnMessages)
+        send(messages: noteOnMessages)
     }
 
     private func createNoteOnMessage(channel: UInt8, key: UInt8, velocity: UInt8 = 2) -> [UInt8] {
@@ -168,19 +172,19 @@ public class YamahaLightControl {
     }
 
     private func switchLightsOnNoSound() {
-        sendToConnection(messages: [YamahaMessages.LIGHT_ON_NO_SOUND])
+        send(messages: [YamahaMessages.LIGHT_ON_NO_SOUND])
     }
 
     private func switchLightsOffNoSound() {
-        sendToConnection(messages: [YamahaMessages.LIGHT_OFF_NO_SOUND])
+        send(messages: [YamahaMessages.LIGHT_OFF_NO_SOUND])
     }
 
     private func switchGuideOff() {
-       sendToConnection(messages: [YamahaMessages.GUIDE_OFF])
+       send(messages: [YamahaMessages.GUIDE_OFF])
     }
 
     private func switchGuideOn() {
-        sendToConnection(messages: [YamahaMessages.GUIDE_ON])
+        send(messages: [YamahaMessages.GUIDE_ON])
     }
 
     private func animateLights() {
@@ -193,9 +197,9 @@ public class YamahaLightControl {
             let noteOffMsg = self.createNoteOffMessage(channel: LIGHT_CONTROL_CHANNEL, key: UInt8(key))
 
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(key*keyAnimationTime), execute: {
-                self.sendToConnection(messages: [noteOnMsg])
+                self.send(messages: [noteOnMsg])
                 DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(key*keyAnimationTime), execute: {
-                    self.sendToConnection(messages: [noteOffMsg])
+                    self.send(messages: [noteOffMsg])
                 })
             })
         }
