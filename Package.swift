@@ -28,6 +28,7 @@ let package = Package(
                 "MIDIPacket+UInt8Array.swift",
                 "MIDIPacketSizes.swift",
                 "MIDIObjectRef.swift",
+                "MIDIPacketSizes.swift",
                 "MIDIOutConnectionApple.swift",
                 "OSStatus+LocalizedError.swift",
                 "AVAudioEngine+Category.swift"
