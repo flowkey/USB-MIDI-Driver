@@ -26,6 +26,7 @@ let package = Package(
                 "MIDIEngineApple+send.swift",
                 "MIDIEngine+Debug.swift",
                 "MIDIPacket+UInt8Array.swift",
+                "MIDIPacketSizes.swift",
                 "MIDIObjectRef.swift",
                 "MIDIOutConnectionApple.swift",
                 "OSStatus+LocalizedError.swift",
