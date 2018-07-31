@@ -13,7 +13,10 @@ extension MIDIEngine {
         // send multiple packet lists if messages exceed maxPacketListLength
         for i in stride(from: 0, to: messages.count, by: maxPacketListLength) {
             let messagesToSend = messages.dropFirst(i).prefix(maxPacketListLength)
-            var packetList = MIDIPacketList(from: Array(messagesToSend))
+            guard var packetList = MIDIPacketList(from: Array(messagesToSend)) else {
+                assertionFailure("Could not create packetList")
+                return
+            }
             MIDISend(outConnection.source, outConnection.destination, &packetList)
         }
     }
@@ -21,21 +24,22 @@ extension MIDIEngine {
 
 
 extension MIDIPacketList {
-    private static var clavinovaByteLimit = 256
-    init(from midiEvents: [[UInt8]]) {
-        let totalBytesInAllEvents = midiEvents.reduce(0) { total, event in
-            return total + event.count
-        }
-
-        // CoreMIDI supports up to 65536 bytes, but the Clavinova doesn't seem to
-        assert(totalBytesInAllEvents < MIDIPacketList.clavinovaByteLimit, "The packet list was too long! Split your data into multiple lists.")
-
+    private static var clavinovaByteLimit = 256 - sizeOfMIDICombinedHeaders
+    init?(from midiEvents: [[UInt8]]) {
         var packetList = MIDIPacketList()
         var packet = MIDIPacketListInit(&packetList)
-        midiEvents.forEach { event in
+        
+        for event in midiEvents {
             packet = MIDIPacketListAdd(&packetList, MIDIPacketList.clavinovaByteLimit, packet, mach_absolute_time(), event.count, event)
+            
+            // Note: Don't believe the compiler warning about this check always
+            // returning false, indeed MIDIPacketListAdd() can return nil
+            if packet == nil {
+                print("There is not enough room in the packet for the event. Split your data into multiple lists.")
+                return nil
+            }
         }
-
+        
         self = packetList
     }
 }

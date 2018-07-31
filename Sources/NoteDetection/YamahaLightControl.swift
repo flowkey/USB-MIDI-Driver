@@ -96,7 +96,7 @@ public class YamahaLightControl {
     
     private var currentLightningKeys: [UInt8] = [] {
         didSet {
-            turnOffAllLights()
+            turnOffLights(at: oldValue)
             turnOnLights(at: currentLightningKeys)
         }
     }
@@ -143,17 +143,17 @@ public class YamahaLightControl {
     }
 
     private func turnOffLights(at keys: [UInt8]) {
-        let noteOffMessages: [[UInt8]] = keys.map{
+        let noteOffMessages: [[UInt8]] = keys.map {
             createNoteOffMessage(channel: LIGHT_CONTROL_CHANNEL, key: $0)
         }
-        send(messages: noteOffMessages)
+        send(messages: noteOffMessages) // send messages in one packetList
     }
 
     private func turnOffAllLights() {
-        let noteOffMessages = (0..<128).map { key in
-            return self.createNoteOffMessage(channel: LIGHT_CONTROL_CHANNEL, key: UInt8(key))
+        (0..<128).forEach { key in
+            let msg = createNoteOffMessage(channel: LIGHT_CONTROL_CHANNEL, key: UInt8(key))
+            send(messages: [msg]) // send messages in multiple packet lists
         }
-        send(messages: noteOffMessages)
     }
 
     private func turnOnAllLights() {
