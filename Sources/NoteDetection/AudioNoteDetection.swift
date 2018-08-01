@@ -137,7 +137,6 @@ public final class AudioNoteDetector: NoteDetector {
             if !self.isIgnoring(at: noteEventDetectedTimestamp) {
                 DispatchQueue.main.async {
                     self.delegate?.onNoteEventDetected(noteDetector: self, timestamp: noteEventDetectedTimestamp)
-                    self.pitchDetection.setExpectedEvent(self.delegate?.expectedNoteEvent)
                 }
             }
         }

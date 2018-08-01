@@ -156,13 +156,14 @@ public final class MIDIEngine: MIDIEngineProtocol {
     }
 
     func onMIDIPacketListReceived(packetList: UnsafePointer<MIDIPacketList>?, srcConnRefCon: UnsafeMutableRawPointer?) {
-        let sourceDevice = midiDeviceList.first { $0.refCon == srcConnRefCon }
-        let packets = makePacketsFromPacketList(packetList)
+        DispatchQueue.main.async {
+            let sourceDevice = self.midiDeviceList.first { $0.refCon == srcConnRefCon }
+            let packets = self.makePacketsFromPacketList(packetList)
 
-        for packet in packets {
-            let midiData = packet.toMIDIDataArray()
-            let midiMessages = parseMIDIMessages(from: midiData)
-            DispatchQueue.main.async {
+            for packet in packets {
+                let midiData = packet.toMIDIDataArray()
+                let midiMessages = parseMIDIMessages(from: midiData)
+    
                 midiMessages.forEach { message in
                     switch message {
                     case .activeSensing: break

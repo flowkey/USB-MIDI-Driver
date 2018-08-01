@@ -44,8 +44,6 @@
 		032160ED1F04EE7100C9AE3E /* PitchDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160CE1F04EE7100C9AE3E /* PitchDetection.swift */; };
 		032160EF1F04EE7100C9AE3E /* ProcessedAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160D01F04EE7100C9AE3E /* ProcessedAudio.swift */; };
 		037122141E8532A0009CC189 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 037122131E8532A0009CC189 /* .swiftlint.yml */; };
-		0377917E206C15A300350967 /* YamahaLightControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0377917D206C15A300350967 /* YamahaLightControl.swift */; };
-		0377917F206C15A300350967 /* YamahaLightControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0377917D206C15A300350967 /* YamahaLightControl.swift */; };
 		03779181206C161100350967 /* YamahaMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03779180206C161100350967 /* YamahaMessages.swift */; };
 		03779182206C161100350967 /* YamahaMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03779180206C161100350967 /* YamahaMessages.swift */; };
 		038A82871F211A7600875E5E /* AVAudioEngine+Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038A82861F211A7600875E5E /* AVAudioEngine+Category.swift */; };
@@ -94,6 +92,15 @@
 		5CC5C8E51F0BEC040037F1FF /* MIDIMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032160C41F04EE7100C9AE3E /* MIDIMessage.swift */; };
 		6026B7B221087E13009B2BBB /* MIDIEngineApple+send.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6026B7B121087E13009B2BBB /* MIDIEngineApple+send.swift */; };
 		6026B7B321087E13009B2BBB /* MIDIEngineApple+send.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6026B7B121087E13009B2BBB /* MIDIEngineApple+send.swift */; };
+		6026B8632109E57B009B2BBB /* StreamLightController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6026B8622109E57B009B2BBB /* StreamLightController.swift */; };
+		6026B8642109E57B009B2BBB /* StreamLightController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6026B8622109E57B009B2BBB /* StreamLightController.swift */; };
+		6026B8662109E582009B2BBB /* RegularLightController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6026B8652109E582009B2BBB /* RegularLightController.swift */; };
+		6026B8672109E582009B2BBB /* RegularLightController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6026B8652109E582009B2BBB /* RegularLightController.swift */; };
+		6026B8692109E68D009B2BBB /* LightControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6026B8682109E68D009B2BBB /* LightControllerProtocol.swift */; };
+		6026B86A2109E68D009B2BBB /* LightControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6026B8682109E68D009B2BBB /* LightControllerProtocol.swift */; };
+		6026B876210A097A009B2BBB /* YamahaLights.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6026B875210A097A009B2BBB /* YamahaLights.swift */; };
+		6026B877210A097A009B2BBB /* YamahaLights.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6026B875210A097A009B2BBB /* YamahaLights.swift */; };
+		609641E820F6425900A7F67E /* NoteDetectorTestDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609641E720F6425900A7F67E /* NoteDetectorTestDelegate.swift */; };
 		605AC25B210F5EB400A21951 /* MIDIPacketListTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605AC25A210F5EB400A21951 /* MIDIPacketListTest.swift */; };
 		609641E820F6425900A7F67E /* NoteDetectorTestDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609641E720F6425900A7F67E /* NoteDetectorTestDelegate.swift */; };
 		60B05BFA21107D2200797FE5 /* MIDIPacketSizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B05BF921107D2200797FE5 /* MIDIPacketSizes.swift */; };
@@ -158,7 +165,6 @@
 		032161801F065BB600C9AE3E /* build_android.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build_android.sh; sourceTree = SOURCE_ROOT; };
 		032E8CF01FC8641300729088 /* AndroidActivityContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AndroidActivityContext.swift; path = Sources/NoteDetection/AndroidActivityContext.swift; sourceTree = SOURCE_ROOT; };
 		037122131E8532A0009CC189 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
-		0377917D206C15A300350967 /* YamahaLightControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YamahaLightControl.swift; path = Sources/NoteDetection/YamahaLightControl.swift; sourceTree = SOURCE_ROOT; };
 		03779180206C161100350967 /* YamahaMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YamahaMessages.swift; path = Sources/NoteDetection/YamahaMessages.swift; sourceTree = SOURCE_ROOT; };
 		038A82841F2118A600875E5E /* MIDIEngineAndroid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIEngineAndroid.swift; path = Sources/NoteDetection/MIDIEngineAndroid.swift; sourceTree = SOURCE_ROOT; };
 		038A82861F211A7600875E5E /* AVAudioEngine+Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "AVAudioEngine+Category.swift"; path = "Sources/NoteDetection/AVAudioEngine+Category.swift"; sourceTree = SOURCE_ROOT; };
@@ -186,6 +192,11 @@
 		5C8EA7DC1F0E8E1900B66A02 /* SuperpoweredOSXAudioIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SuperpoweredOSXAudioIO.h; path = NoteDetectionMac/SuperpoweredOSXAudioIO.h; sourceTree = SOURCE_ROOT; };
 		5C8EA7DD1F0E8E1A00B66A02 /* SuperpoweredOSXAudioIO.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SuperpoweredOSXAudioIO.mm; path = NoteDetectionMac/SuperpoweredOSXAudioIO.mm; sourceTree = SOURCE_ROOT; };
 		6026B7B121087E13009B2BBB /* MIDIEngineApple+send.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MIDIEngineApple+send.swift"; path = "Sources/NoteDetection/MIDIEngineApple+send.swift"; sourceTree = SOURCE_ROOT; };
+		6026B8622109E57B009B2BBB /* StreamLightController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StreamLightController.swift; path = Sources/NoteDetection/StreamLightController.swift; sourceTree = SOURCE_ROOT; };
+		6026B8652109E582009B2BBB /* RegularLightController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegularLightController.swift; path = Sources/NoteDetection/RegularLightController.swift; sourceTree = SOURCE_ROOT; };
+		6026B8682109E68D009B2BBB /* LightControllerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LightControllerProtocol.swift; path = Sources/NoteDetection/LightControllerProtocol.swift; sourceTree = SOURCE_ROOT; };
+		6026B875210A097A009B2BBB /* YamahaLights.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YamahaLights.swift; path = Sources/NoteDetection/YamahaLights.swift; sourceTree = SOURCE_ROOT; };
+		609641E720F6425900A7F67E /* NoteDetectorTestDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetectorTestDelegate.swift; sourceTree = "<group>"; };
 		605AC25A210F5EB400A21951 /* MIDIPacketListTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDIPacketListTest.swift; sourceTree = "<group>"; };
 		609641E720F6425900A7F67E /* NoteDetectorTestDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetectorTestDelegate.swift; sourceTree = "<group>"; };
 		60B05BF921107D2200797FE5 /* MIDIPacketSizes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIPacketSizes.swift; path = Sources/NoteDetection/MIDIPacketSizes.swift; sourceTree = SOURCE_ROOT; };
@@ -404,9 +415,12 @@
 		03E95FC92060607800773C2B /* LightControl */ = {
 			isa = PBXGroup;
 			children = (
+				6026B875210A097A009B2BBB /* YamahaLights.swift */,
+				6026B8682109E68D009B2BBB /* LightControllerProtocol.swift */,
+				6026B8622109E57B009B2BBB /* StreamLightController.swift */,
+				6026B8652109E582009B2BBB /* RegularLightController.swift */,
 				03A9FD9620CABCF800FFE60B /* LightControlStatus.swift */,
 				03779180206C161100350967 /* YamahaMessages.swift */,
-				0377917D206C15A300350967 /* YamahaLightControl.swift */,
 			);
 			name = LightControl;
 			sourceTree = "<group>";
@@ -636,9 +650,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6026B8692109E68D009B2BBB /* LightControllerProtocol.swift in Sources */,
 				032160E81F04EE7100C9AE3E /* MusicalNote.swift in Sources */,
+				6026B8662109E582009B2BBB /* RegularLightController.swift in Sources */,
+				6026B876210A097A009B2BBB /* YamahaLights.swift in Sources */,
 				032160E61F04EE7100C9AE3E /* MIDINumber.swift in Sources */,
-				0377917E206C15A300350967 /* YamahaLightControl.swift in Sources */,
 				032160D81F04EE7100C9AE3E /* CrossPlatformHelper.swift in Sources */,
 				032160EA1F04EE7100C9AE3E /* OnsetDetection.swift in Sources */,
 				032160DB1F04EE7100C9AE3E /* FilterBank.swift in Sources */,
@@ -665,6 +681,7 @@
 				032160E91F04EE7100C9AE3E /* NoteDetection.swift in Sources */,
 				60B05BFA21107D2200797FE5 /* MIDIPacketSizes.swift in Sources */,
 				032160DA1F04EE7100C9AE3E /* Filter.swift in Sources */,
+				6026B8632109E57B009B2BBB /* StreamLightController.swift in Sources */,
 				03779181206C161100350967 /* YamahaMessages.swift in Sources */,
 				032160D21F04EE7100C9AE3E /* AudioEngineIOS.swift in Sources */,
 				6026B7B221087E13009B2BBB /* MIDIEngineApple+send.swift in Sources */,
@@ -707,18 +724,21 @@
 				5C0E568F1F0BE96900793A7F /* Filter.swift in Sources */,
 				03DD8F291F7D571D00E0D523 /* MIDIObjectRef.swift in Sources */,
 				5C0E56911F0BE96900793A7F /* Filterbank+ChromaVector.swift in Sources */,
-				0377917F206C15A300350967 /* YamahaLightControl.swift in Sources */,
 				5C0E569A1F0BE96900793A7F /* SpectralFlux.swift in Sources */,
+				6026B86A2109E68D009B2BBB /* LightControllerProtocol.swift in Sources */,
 				5C0E56961F0BE96900793A7F /* MIDINumber.swift in Sources */,
 				5C0E56971F0BE96900793A7F /* MusicalNote.swift in Sources */,
 				5C0E56991F0BE96900793A7F /* OnsetDetection.swift in Sources */,
 				03DD8F271F7D571400E0D523 /* MIDIEngineApple.swift in Sources */,
 				5C0E56921F0BE96900793A7F /* FlowMathApple.swift in Sources */,
 				5C0E568A1F0BE96900793A7F /* AudioHelper.swift in Sources */,
+				6026B8642109E57B009B2BBB /* StreamLightController.swift in Sources */,
+				6026B877210A097A009B2BBB /* YamahaLights.swift in Sources */,
 				5C0E568C1F0BE96900793A7F /* ChromaVector.swift in Sources */,
 				03B029261F94C7CA00367C53 /* MIDIEndpointRef+NetworkSessionMacOS.swift in Sources */,
 				03779182206C161100350967 /* YamahaMessages.swift in Sources */,
 				5C0E56901F0BE96900793A7F /* FilterBank.swift in Sources */,
+				6026B8672109E582009B2BBB /* RegularLightController.swift in Sources */,
 				03DD8F2A1F7D58C600E0D523 /* OSStatus+LocalizedError.swift in Sources */,
 				03A8F41020A3040400171C35 /* RMS.swift in Sources */,
 				03A9FD9820CABCF800FFE60B /* LightControlStatus.swift in Sources */,
