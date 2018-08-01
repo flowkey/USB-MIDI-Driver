@@ -21,8 +21,12 @@ public class YamahaLightControl {
         }
     }
     
+    public func set(isEnabled: Bool) {
+        status = isEnabled ? .enabled : .disabled
+    }
+    
     public var onStatusChanged: LightControlStatusChangedCallback?
-    public var status: LightControlStatus = .notAvailable {
+    private(set) public var status: LightControlStatus = .notAvailable {
         didSet {
             switch status {
                 case .enabled: turnOnLights(at: currentLightningKeys)
@@ -47,9 +51,9 @@ public class YamahaLightControl {
         self.turnOffAllLights()
     }
 
-    public var currentLightningNoteEvent: DetectableNoteEvent? {
+    public var currentNoteEvent: DetectableNoteEvent? {
         didSet {
-            if let notes = currentLightningNoteEvent?.notes {
+            if let notes = currentNoteEvent?.notes {
                 self.currentLightningKeys = notes.map{ UInt8($0) }
             } else {
                 self.currentLightningKeys = []
