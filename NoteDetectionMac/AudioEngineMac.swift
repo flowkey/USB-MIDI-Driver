@@ -17,7 +17,7 @@ public final class AudioEngine: SuperpoweredOSXAudioIODelegate, AudioEngineProto
     }
 
     public var sampleRate: Double = 44100
-    var onSampleRateChanged: SampleRateChangedCallback?
+    public var onSampleRateChanged: SampleRateChangedCallback?
     public func set(onAudioData: AudioDataCallback?) {
         self.onAudioData = onAudioData
     }
