@@ -16,7 +16,7 @@ public final class AudioNoteDetector: NoteDetector {
     static let maxNoteToOnsetTimeDelta = Timestamp(150)
 
 
-    let filterbank: FilterBank
+    var filterbank: FilterBank
     let pitchDetection = PitchDetection(lowNoteBoundary: lowRange.last!)
     let onsetDetection = SpectralFluxOnsetDetection()
     
@@ -46,6 +46,9 @@ public final class AudioNoteDetector: NoteDetector {
         }
     }
 
+    public func set(sampleRate: Double) {
+        filterbank = FilterBank(lowRange: lowRange, highRange: highRange, sampleRate: sampleRate)
+    }
 
     /// The volume level above which the pitch detection is activated and reported volume increases above 0.
     /// In reality our noise floor is closer to -96dB, but this value seems to work well not only save power
