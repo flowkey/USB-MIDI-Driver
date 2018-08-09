@@ -73,7 +73,14 @@ class MIDIParseTests: XCTestCase {
         XCTAssertEqual(messages[1], MIDIMessage.systemExclusive(data: arbitrarySysexData))
         XCTAssertEqual(messages[2], MIDIMessage.activeSensing)
         XCTAssertEqual(messages[3], MIDIMessage.noteOff(key: 50))
-
+    }
+    
+    func testMIDIParserCrashOnAkaiLPK25() {
+        let messageCausingACrash: [UInt8] = [117, 151, 252]
+        let messages = parseMIDIMessages(from: messageCausingACrash)
+        
+        // expected behaviour: do not crash and return no messages
+        XCTAssertEqual(messages, [])
     }
 }
 
