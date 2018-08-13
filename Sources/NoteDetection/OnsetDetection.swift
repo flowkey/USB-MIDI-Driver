@@ -14,7 +14,7 @@ protocol OnsetDetection: class {
     associatedtype InputDataType
     typealias FeatureValue = Float
 
-    func run(inputData: InputDataType) -> OnsetData
+    func run(inputData: InputDataType, timestampMs: Timestamp) -> OnsetData
     func compute(from inputData: InputDataType) -> FeatureValue
     var onsetFeatureBuffer: [FeatureValue] { get set }
 
@@ -25,7 +25,7 @@ protocol OnsetDetection: class {
 }
 
 extension OnsetDetection {
-    func run(inputData: InputDataType) -> OnsetData {
+    func run(inputData: InputDataType, timestampMs: Timestamp) -> OnsetData {
         let currentFeatureValue = compute(from: inputData)
         onsetFeatureBuffer.remove(at: 0)
         onsetFeatureBuffer.append(currentFeatureValue)
@@ -34,7 +34,7 @@ extension OnsetDetection {
         let onsetDetected: Bool
         if currentBufferIsAPeak {
             onsetDetected = true
-            onOnsetDetected?(.now)
+            onOnsetDetected?(timestampMs)
         } else {
             onsetDetected = false
         }

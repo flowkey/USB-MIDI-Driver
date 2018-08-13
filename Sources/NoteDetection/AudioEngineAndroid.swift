@@ -38,7 +38,7 @@ public final class AudioEngine: AudioEngineProtocol {
             if sr != self.sampleRate {
                 self.onSampleRateChanged?(sr)
             }
-            self.onAudioData?(floatArray)
+            self.onAudioData?(floatArray, Timestamp.now)
         }, Unmanaged.passUnretained(self).toOpaque())
     }
 }

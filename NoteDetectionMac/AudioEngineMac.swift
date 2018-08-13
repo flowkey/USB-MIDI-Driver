@@ -43,7 +43,7 @@ public final class AudioEngine: SuperpoweredOSXAudioIODelegate, AudioEngineProto
 
         let bufferPointer = UnsafeBufferPointer(start: inputBuffers.pointee, count: Int(numberOfSamples))
         let floatArray = [Float](bufferPointer)
-        self.onAudioData?(floatArray)
+        self.onAudioData?(floatArray, Double(hostTime) / 1_000_000)
 
         return false // silence audio output
     }

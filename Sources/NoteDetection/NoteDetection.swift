@@ -1,5 +1,5 @@
 public typealias SampleRateChangedCallback = ((_ sampleRate: Double) -> Void)
-public typealias AudioDataCallback = (([Float]) -> Void)
+public typealias AudioDataCallback = (([Float], Timestamp) -> Void)
 
 public typealias MIDIMessageReceivedCallback = (MIDIMessage, MIDIDevice?, Timestamp) -> Void
 public typealias MIDIDeviceListChangedCallback = (Set<MIDIDevice>) -> Void

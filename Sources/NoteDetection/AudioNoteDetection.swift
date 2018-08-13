@@ -78,15 +78,15 @@ public final class AudioNoteDetector: NoteDetector {
         return volume
     }
 
-    public func process(audio samples: [Float]) {
+    public func process(audio samples: [Float], at timestampMs: Timestamp) {
         audioBuffer.append(contentsOf: samples)
         if audioBuffer.count >= 960 {
-            performNoteDetection(audioBuffer)
+            performNoteDetection(on: audioBuffer, at: timestampMs)
             audioBuffer.removeAll(keepingCapacity: true)
         }
     }
 
-    private func performNoteDetection(_ audioData: [Float]) {
+    private func performNoteDetection(on audioData: [Float], at timestampMs: Timestamp) {
         let volume = calculateVolume(from: audioData)
         
         pitchDetection.setExpectedEvent(delegate?.expectedNoteEvent)
@@ -101,9 +101,15 @@ public final class AudioNoteDetector: NoteDetector {
 
         // Do Pitch / Onset Detection
         filterbank.calculateMagnitudes(audioData)
-        let onsetData = onsetDetection.run(inputData: filterbank.magnitudes)
+        let onsetData = onsetDetection.run(inputData: filterbank.magnitudes, timestampMs: timestampMs)
         let chromaVector = filterbank.getChroma(for: pitchDetection.currentDetectionMode)
-        pitchDetection.run(chromaVector)
+        pitchDetection.run(chromaVector, timestampMs)
+
+        // TODO: refactor above statements for more consistency & comprehensibility to:
+        // let filterbankMagnitudes = filterbank.calculateMagnitudes(audioData)
+        // let onsetData = onsetDetection.run(filterbankMagnitudes, timestampMs)
+        // let pitchData = pitchDetection.run(filterbankMagnitudes, timestampMs, detectionMode)
+        // where pitchData is (chromaVector, similarity, etc.)
 
         
         // Don't make unnecessary calls to the main thread if there is no delegate:
