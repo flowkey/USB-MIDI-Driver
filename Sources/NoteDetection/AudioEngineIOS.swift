@@ -140,11 +140,14 @@ extension AudioEngine {
             }
 
             let audioTimeStamp = timestamp.pointee
-            let timestampInMs: Timestamp =
-                audioTimeStamp.mFlags.contains(AudioTimeStampFlags.hostTimeValid)
-                    ? Double(audioTimeStamp.mHostTime) * hostTimeToMillisFactor
-                    : .now
-
+            let timestampInMs: Timestamp
+            if audioTimeStamp.mFlags.contains(AudioTimeStampFlags.hostTimeValid) {
+                timestampInMs = Double(audioTimeStamp.mHostTime) * hostTimeToMillisFactor
+            } else {
+                timestampInMs = .now
+                assertionFailure("hosttime is not valid")
+            }
+        
             onAudioData(self.audioData, timestampInMs)
 
             return noErr
