@@ -5,6 +5,7 @@
 //  Created by Geordie Jay on 04.07.17.
 //  Copyright © 2017 flowkey. All rights reserved.
 //
+import CoreAudio
 
 public final class AudioEngine: SuperpoweredOSXAudioIODelegate, AudioEngineProtocol {
     enum Error: Swift.Error { case couldNotStartEngine }
@@ -43,7 +44,11 @@ public final class AudioEngine: SuperpoweredOSXAudioIODelegate, AudioEngineProto
 
         let bufferPointer = UnsafeBufferPointer(start: inputBuffers.pointee, count: Int(numberOfSamples))
         let floatArray = [Float](bufferPointer)
-        self.onAudioData?(floatArray, Double(hostTime) / 1_000_000)
+        
+        let timeInNanos = AudioConvertHostTimeToNanos(hostTime)
+        let timeInMillis = Double(timeInNanos) / 1_000_000
+        
+        self.onAudioData?(floatArray, timeInMillis)
 
         return false // silence audio output
     }

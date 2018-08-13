@@ -140,9 +140,10 @@ extension AudioEngine {
             }
 
             let audioTimeStamp = timestamp.pointee
-            let timestampInMs = audioTimeStamp.mFlags.contains(AudioTimeStampFlags.hostTimeValid)
-                ? Double(audioTimeStamp.mHostTime) / 1_000_000
-                : .now
+            let timestampInMs: Timestamp =
+                audioTimeStamp.mFlags.contains(AudioTimeStampFlags.hostTimeValid)
+                    ? Double(audioTimeStamp.mHostTime) * hostTimeToMillisFactor
+                    : .now
 
             onAudioData(self.audioData, timestampInMs)
 
@@ -181,3 +182,20 @@ private extension AudioUnit {
 private func printOnErrorAndContinue(_ function: () throws -> Void) {
     do { try function() } catch { print(error.localizedDescription) }
 }
+
+// taken from https://stackoverflow.com/questions/675626/coreaudio-audiotimestamp-mhosttime-clock-frequency
+private let hostTimeToMillisFactor: Double = {
+    var tInfoPtr = UnsafeMutablePointer<mach_timebase_info_data_t>.allocate(capacity: 1)
+    defer {
+        tInfoPtr.deallocate()
+    }
+    
+    if mach_timebase_info(tInfoPtr) != KERN_SUCCESS {
+        fatalError("Could not get timebase info")
+    }
+    
+    let tInfo = tInfoPtr.pointee
+    let hostTimeToNanosFactor: Double = Double(tInfo.numer) / Double(tInfo.denom)
+    
+    return hostTimeToNanosFactor / 1_000_000
+}()
