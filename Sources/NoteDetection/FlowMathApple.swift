@@ -6,6 +6,8 @@
 //  Copyright © 2015 Geordie Jay. All rights reserved.
 //
 
+#if os(iOS) || os(macOS)
+
 import Foundation
 import Accelerate
 
@@ -113,3 +115,5 @@ func median(_ input: [Float], use_vDSP_vsort: Bool = false) -> Float {
         return array[half]
     }
 }
+
+#endif

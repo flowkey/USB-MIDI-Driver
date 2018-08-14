@@ -71,6 +71,10 @@ public struct ChromaVector: CustomStringConvertible, Equatable {
         return backingStore.description
     }
 
+    public var raw: [Float] {
+        return backingStore
+    }
+
 
     // Return the correlation cosine similarity (a.k.a. Pearson correlation) between two chroma vectors:
     // http://brenocon.com/blog/2012/03/cosine-similarity-pearson-correlation-and-ols-coefficients/

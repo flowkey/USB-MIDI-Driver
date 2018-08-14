@@ -14,7 +14,7 @@ public final class MIDINoteDetector: NoteDetector {
     
     public init() {}
 
-    public func process(midiMessage: MIDIMessage, from device: MIDIDevice?, at time: Timestamp) {
+    public func process(midiMessage: MIDIMessage, from device: MIDIDevice?, at timestampMs: Timestamp) {
         switch midiMessage {
         case let .noteOn(key, velocity):
             currentMIDIKeys.insert(Int(key))
@@ -33,8 +33,18 @@ public final class MIDINoteDetector: NoteDetector {
             // Otherwise it would feel strange - you could hold the correct keys down
             // then press a random key and onNoteEventDetected would be triggered...
             currentMIDIKeys.removeAll()
+            
+            guard let noteEvent = self.delegate?.expectedNoteEvent else {
+                assertionFailure("an event was detected, but the delegates event is null.")
+                return
+            }
+
             DispatchQueue.main.async {
-                self.delegate?.onNoteEventDetected(noteDetector: self, timestamp: .now)
+                self.delegate?.onNoteEventDetected(
+                    noteDetector: self,
+                    timestamp: timestampMs,
+                    detectedEvent: noteEvent
+                )
             }
         }
     }

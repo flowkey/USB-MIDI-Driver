@@ -119,7 +119,7 @@ public final class AudioNoteDetector: NoteDetector {
         
         DispatchQueue.main.async {
             processedAudioDelegate.onAudioProcessed(
-                (audioData, chromaVector, self.filterbank.magnitudes, onsetData.featureValue, onsetData.threshold, onsetData.onsetDetected)
+                (audioData, chromaVector.raw, self.filterbank.magnitudes, onsetData.featureValue, onsetData.threshold, onsetData.onsetDetected)
             )
         }
     }
@@ -140,12 +140,20 @@ public final class AudioNoteDetector: NoteDetector {
     func onInputReceived() {
         if timestampsAreCloseEnough() {
             let noteEventDetectedTimestamp = Timestamp.now
-            self.lastOnsetTimestamp = nil
-            self.lastNoteTimestamp = nil
+            lastOnsetTimestamp = nil
+            lastNoteTimestamp = nil
             
             if !self.isIgnoring(at: noteEventDetectedTimestamp) {
+                guard let noteEvent = self.delegate?.expectedNoteEvent else {
+                    assertionFailure("an event was detected, but the delegates event is null.")
+                    return
+                }
                 DispatchQueue.main.async {
-                    self.delegate?.onNoteEventDetected(noteDetector: self, timestamp: noteEventDetectedTimestamp)
+                    self.delegate?.onNoteEventDetected(
+                        noteDetector: self,
+                        timestamp: noteEventDetectedTimestamp,
+                        detectedEvent: noteEvent
+                    )
                 }
             }
         }

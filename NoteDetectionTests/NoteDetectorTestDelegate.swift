@@ -15,10 +15,14 @@ class NoteDetectorTestDelegate: NoteDetectorDelegate {
         self.callback = callback
     }
     
-    func onNoteEventDetected(noteDetector: NoteDetector, timestamp: Timestamp) {
+    func onNoteEventDetected(noteDetector: NoteDetector, timestamp: Timestamp, detectedEvent: DetectableNoteEvent) {
         callback()
     }
     
     func onInputLevelChanged(ratio: Float) {}
     var expectedNoteEvent: DetectableNoteEvent?
+    
+    public func set(expectedNoteEvent: DetectableNoteEvent?) {
+        self.expectedNoteEvent = expectedNoteEvent
+    }
 }

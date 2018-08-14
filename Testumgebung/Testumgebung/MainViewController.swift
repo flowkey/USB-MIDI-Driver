@@ -17,7 +17,7 @@ public let noteDetection = AudioNoteDetector(sampleRate: audioEngine.sampleRate)
     var midiViewController: MidiViewController?
 
     var lastProcessedBlock: ProcessedAudio {
-        get { return ProcessedAudio([], ChromaVector(), [], 0, 0, false) } // dummy data. we shouldn't ever have to "get" these data
+        get { return ProcessedAudio([], [], [], 0, 0, false) } // dummy data. we shouldn't ever have to "get" these data
         set {
             let data = newValue
             switch graphViewController?.title {

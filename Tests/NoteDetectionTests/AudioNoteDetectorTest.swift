@@ -5,7 +5,7 @@ private let sampleRate = 44100.0
 
 class AudioNoteDetectorTests: XCTestCase {
     var audioNoteDetector = AudioNoteDetector(sampleRate: sampleRate)
-    var noteDetectorDelegate: NoteDetectorDelegate? // keep a ref to delegate
+    var noteDetectorDelegate: NoteDetectorTestDelegate? // keep a ref to delegate
     
     override func setUp() {
         super.setUp()
@@ -18,6 +18,8 @@ class AudioNoteDetectorTests: XCTestCase {
         noteDetectorDelegate = NoteDetectorTestDelegate(callback: {
             notesDetectedExpectation.fulfill()
         })
+        
+        noteDetectorDelegate?.set(expectedNoteEvent: NoteEvent(notes: [69])) // dummy note event
         
         audioNoteDetector.delegate = noteDetectorDelegate
 

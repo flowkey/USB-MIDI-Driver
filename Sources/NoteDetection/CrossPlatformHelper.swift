@@ -9,7 +9,7 @@
 // TODO
 // swiftlint:disable variable_name
 
-#if os(Android)
+#if os(Android) || os(Linux)
 import Glibc
 #else
 import Darwin

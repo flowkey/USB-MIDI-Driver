@@ -6,6 +6,8 @@
 //  Copyright © 2015 Geordie Jay. All rights reserved.
 //
 
+#if os(Android) || os(Linux)
+
 import Foundation
 
 func max <T: FloatingPoint>(v: [T]) -> T {
@@ -58,3 +60,5 @@ func median (_ v: [Float]) -> Float {
         return array[halfway]
     }
 }
+
+#endif

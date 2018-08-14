@@ -1,10 +1,7 @@
-public protocol AudioEngineProtocol: class {
-    var sampleRate: Double { get }
-    var onSampleRateChanged: SampleRateChangedCallback? { get set }
-    func set(onAudioData: AudioDataCallback?)
-    func startMicrophone() throws
-    func stopMicrophone() throws
-}
+public typealias MIDIMessageReceivedCallback = (MIDIMessage, MIDIDevice?, Timestamp) -> Void
+public typealias MIDIDeviceListChangedCallback = (Set<MIDIDevice>) -> Void
+public typealias SysexMessageReceivedCallback = ([UInt8], MIDIDevice) -> Void
+public typealias MIDIOutConnectionsChangedCallback = ([MIDIOutConnection]) -> Void
 
 public protocol MIDIEngineProtocol: class {
     var midiDeviceList: Set<MIDIDevice> { get }
