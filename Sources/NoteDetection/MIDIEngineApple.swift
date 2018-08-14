@@ -50,8 +50,9 @@ public final class MIDIEngine: MIDIEngineProtocol {
         MIDIPortDispose(outputPort)
 
         // The following line causes a failure when initing the NoteDetection after reiniting a few times!
-        // Leave it commented out as a warning in case we think it's a good idea to try this again in the future ;)
-        // MIDIClientDispose(midiClient)
+        // Nevertheless if we would NOT dispose the client, there is an even more frequent failure when
+        // reiniting the note detection and disconnecting the midi device
+        MIDIClientDispose(midiClient)
     }
 
     public func set(onMIDIMessageReceived callback: MIDIMessageReceivedCallback?) {
