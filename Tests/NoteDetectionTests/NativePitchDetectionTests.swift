@@ -38,7 +38,7 @@ class NativePitchDetectionTests: XCTestCase {
         let audioNoteDetection = AudioNoteDetector(sampleRate: Double(sampleRate))
 
         for _ in 0...100 {
-            audioNoteDetection.process(audio: sineWave)
+            audioNoteDetection.process(audio: sineWave, at: Timestamp.now)
         }
 
         let magnitudes = audioNoteDetection.filterbank.magnitudes
@@ -57,7 +57,7 @@ class NativePitchDetectionTests: XCTestCase {
         let noteDetector = AudioNoteDetector(sampleRate: Double(sampleRate))
 
         for _ in 0...100 {
-            noteDetector.process(audio: sineWave)
+            noteDetector.process(audio: sineWave, at: Timestamp.now)
         }
 
         let chromaVector = noteDetector.filterbank.getChroma(for: .highAndLow)
