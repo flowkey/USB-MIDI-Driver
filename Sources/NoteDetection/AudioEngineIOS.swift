@@ -188,17 +188,13 @@ private func printOnErrorAndContinue(_ function: () throws -> Void) {
 
 // taken from https://stackoverflow.com/questions/675626/coreaudio-audiotimestamp-mhosttime-clock-frequency
 private let hostTimeToMillisFactor: Double = {
-    var tInfoPtr = UnsafeMutablePointer<mach_timebase_info_data_t>.allocate(capacity: 1)
-    defer {
-        tInfoPtr.deallocate()
+    var timebaseInfo = mach_timebase_info_data_t(numer: 1, denom: 1)
+    
+    if mach_timebase_info(&timebaseInfo) != KERN_SUCCESS {
+        assertionFailure("Could not get timebase info")
     }
     
-    if mach_timebase_info(tInfoPtr) != KERN_SUCCESS {
-        fatalError("Could not get timebase info")
-    }
-    
-    let tInfo = tInfoPtr.pointee
-    let hostTimeToNanosFactor: Double = Double(tInfo.numer) / Double(tInfo.denom)
+    let hostTimeToNanosFactor: Double = Double(timebaseInfo.numer) / Double(timebaseInfo.denom)
     
     return hostTimeToNanosFactor / 1_000_000
 }()
