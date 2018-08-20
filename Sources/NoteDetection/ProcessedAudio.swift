@@ -8,8 +8,7 @@
 
 // To use these in the Testumgebung, import NoteDetection as @testable
 public typealias ProcessedAudio = (
-    audioData: [Float],
-    chromaVector: [Float],
+    chromaVector: ChromaVector?,
     filterbankMagnitudes: [Float],
     onsetFeatureValue: Float,
     onsetThreshold: Float,

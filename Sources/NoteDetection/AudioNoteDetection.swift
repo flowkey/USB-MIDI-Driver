@@ -1,9 +1,10 @@
 import Dispatch
 
 // Chroma extractors for our different ranges:
-private let lowRange = MIDINumber(note: .g, octave: 1) ... MIDINumber(note: .d, octave: 5)
-private let highRange = lowRange.last! ... MIDINumber(note: .d, octave: 8)
-
+private let noteRange = NoteRange(
+    fullRange: MIDINumber(note: .g, octave: 1) ... MIDINumber(note: .d, octave: 8),
+    lowNoteBoundary: MIDINumber(note: .d, octave: 5)
+)
 
 public protocol ProcessedAudioDelegate: class {
     func onAudioProcessed(_: ProcessedAudio) -> Void
@@ -15,9 +16,8 @@ public final class AudioNoteDetector: NoteDetector {
     
     static let maxNoteToOnsetTimeDelta = Timestamp(150)
 
-
     var filterbank: FilterBank
-    let pitchDetection = PitchDetection(lowNoteBoundary: lowRange.last!)
+    let pitchDetection = PitchDetection(noteRange: noteRange)
     let onsetDetection = SpectralFluxOnsetDetection()
     
     fileprivate var ignoreUntilDeadline: Timestamp?
@@ -37,7 +37,7 @@ public final class AudioNoteDetector: NoteDetector {
         audioBuffer = [Float]()
         audioBuffer.reserveCapacity(1024)
 
-        filterbank = FilterBank(lowRange: lowRange, highRange: highRange, sampleRate: sampleRate)
+        filterbank = FilterBank(noteRange: noteRange, sampleRate: sampleRate)
         pitchDetection.onPitchDetected = { [unowned self] timestamp in
             self.onPitchDetected(timestamp: timestamp)
         }
@@ -47,7 +47,7 @@ public final class AudioNoteDetector: NoteDetector {
     }
 
     public func set(sampleRate: Double) {
-        filterbank = FilterBank(lowRange: lowRange, highRange: highRange, sampleRate: sampleRate)
+        filterbank = FilterBank(noteRange: noteRange, sampleRate: sampleRate)
     }
 
     /// The volume level above which the pitch detection is activated and reported volume increases above 0.
@@ -81,15 +81,13 @@ public final class AudioNoteDetector: NoteDetector {
     public func process(audio samples: [Float], at timestampMs: Timestamp) {
         audioBuffer.append(contentsOf: samples)
         if audioBuffer.count >= 960 {
-            performNoteDetection(on: audioBuffer, at: timestampMs)
+            performNoteDetection(audioData: audioBuffer, at: timestampMs)
             audioBuffer.removeAll(keepingCapacity: true)
         }
     }
 
-    private func performNoteDetection(on audioData: [Float], at timestampMs: Timestamp) {
+    private func performNoteDetection(audioData: [Float], at timestampMs: Timestamp) {
         let volume = calculateVolume(from: audioData)
-        
-        pitchDetection.setExpectedEvent(delegate?.expectedNoteEvent)
 
         // Volume drops a lot more quickly than the filterbank magnitudes
         // So check we either have enough volume, OR the filterbank is still "ringing out":
@@ -99,19 +97,17 @@ public final class AudioNoteDetector: NoteDetector {
         }
         #endif
 
+        let filterbankMagnitudes = filterbank.calculateMagnitudes(audioData)
+        performNoteDetection(filterbankMagnitudes: filterbankMagnitudes, at: timestampMs)
+    }
+
+    private func performNoteDetection(filterbankMagnitudes: [Float], at timestampMs: Timestamp) {
+        pitchDetection.setExpectedEvent(delegate?.expectedNoteEvent)
+
         // Do Pitch / Onset Detection
-        filterbank.calculateMagnitudes(audioData)
-        let onsetData = onsetDetection.run(inputData: filterbank.magnitudes, timestampMs: timestampMs)
-        let chromaVector = filterbank.getChroma(for: pitchDetection.currentDetectionMode)
-        pitchDetection.run(chromaVector, timestampMs)
+        let onsetData = onsetDetection.run(on: filterbankMagnitudes, at: timestampMs)
+        let pitchData = pitchDetection.run(on: filterbankMagnitudes, at: timestampMs)
 
-        // TODO: refactor above statements for more consistency & comprehensibility to:
-        // let filterbankMagnitudes = filterbank.calculateMagnitudes(audioData)
-        // let onsetData = onsetDetection.run(filterbankMagnitudes, timestampMs)
-        // let pitchData = pitchDetection.run(filterbankMagnitudes, timestampMs, detectionMode)
-        // where pitchData is (chromaVector, similarity, etc.)
-
-        
         // Don't make unnecessary calls to the main thread if there is no delegate:
         guard let processedAudioDelegate = processedAudioDelegate else {
             return
@@ -119,7 +115,7 @@ public final class AudioNoteDetector: NoteDetector {
         
         DispatchQueue.main.async {
             processedAudioDelegate.onAudioProcessed(
-                (audioData, chromaVector.raw, self.filterbank.magnitudes, onsetData.featureValue, onsetData.threshold, onsetData.onsetDetected)
+                (pitchData?.detectedChroma, filterbankMagnitudes, onsetData.featureValue, onsetData.threshold, onsetData.onsetDetected)
             )
         }
     }
