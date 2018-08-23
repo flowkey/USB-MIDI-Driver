@@ -1,11 +1,5 @@
 import Dispatch
 
-// Chroma extractors for our different ranges:
-private let noteRange = NoteRange(
-    fullRange: MIDINumber(note: .g, octave: 1) ... MIDINumber(note: .d, octave: 8),
-    lowNoteBoundary: MIDINumber(note: .d, octave: 5)
-)
-
 public protocol ProcessedAudioDelegate: class {
     func onAudioProcessed(_: ProcessedAudio) -> Void
 }
@@ -16,8 +10,8 @@ public final class AudioNoteDetector: NoteDetector {
     
     static let maxNoteToOnsetTimeDelta = Timestamp(150)
 
-    var filterbank: FilterBank
-    let pitchDetection = PitchDetection(noteRange: noteRange)
+    var filterbank: Filterbank
+    let pitchDetection = PitchDetection(noteRange: .standard)
     let onsetDetection = SpectralFluxOnsetDetection()
     
     fileprivate var ignoreUntilDeadline: Timestamp?
@@ -37,7 +31,7 @@ public final class AudioNoteDetector: NoteDetector {
         audioBuffer = [Float]()
         audioBuffer.reserveCapacity(1024)
 
-        filterbank = FilterBank(noteRange: noteRange, sampleRate: sampleRate)
+        filterbank = Filterbank(noteRange: pitchDetection.noteRange, sampleRate: sampleRate)
         pitchDetection.onPitchDetected = { [unowned self] timestamp in
             self.onPitchDetected(timestamp: timestamp)
         }
@@ -47,7 +41,7 @@ public final class AudioNoteDetector: NoteDetector {
     }
 
     public func set(sampleRate: Double) {
-        filterbank = FilterBank(noteRange: noteRange, sampleRate: sampleRate)
+        filterbank = Filterbank(noteRange: pitchDetection.noteRange, sampleRate: sampleRate)
     }
 
     /// The volume level above which the pitch detection is activated and reported volume increases above 0.
@@ -101,7 +95,7 @@ public final class AudioNoteDetector: NoteDetector {
         performNoteDetection(filterbankMagnitudes: filterbankMagnitudes, at: timestampMs)
     }
 
-    private func performNoteDetection(filterbankMagnitudes: [Float], at timestampMs: Timestamp) {
+    public func performNoteDetection(filterbankMagnitudes: [Float], at timestampMs: Timestamp) {
         pitchDetection.setExpectedEvent(delegate?.expectedNoteEvent)
 
         // Do Pitch / Onset Detection
@@ -135,17 +129,24 @@ public final class AudioNoteDetector: NoteDetector {
 
     func onInputReceived() {
         if timestampsAreCloseEnough() {
-            let noteEventDetectedTimestamp = Timestamp.now
+            // timestampsAreCloseEnough ensures both timestamps exist:
+            let noteEventDetectedTimestamp = max(lastOnsetTimestamp!, lastNoteTimestamp!)
             lastOnsetTimestamp = nil
             lastNoteTimestamp = nil
             
             if !self.isIgnoring(at: noteEventDetectedTimestamp) {
-                guard let noteEvent = self.delegate?.expectedNoteEvent else {
-                    assertionFailure("an event was detected, but the delegates event is null.")
+                guard let delegate = self.delegate else {
+                    assertionFailure("An event was detected, but the delegate was nil")
                     return
                 }
+
+                guard let noteEvent = delegate.expectedNoteEvent else {
+                    print("An event was detected, but the delegate's event is null.")
+                    return
+                }
+
                 DispatchQueue.main.async {
-                    self.delegate?.onNoteEventDetected(
+                    delegate.onNoteEventDetected(
                         noteDetector: self,
                         timestamp: noteEventDetectedTimestamp,
                         detectedEvent: noteEvent

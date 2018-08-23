@@ -1,5 +1,5 @@
 //
-//  AppleFilterBank.swift
+//  AppleFilterbank.swift
 //  NativePitchDetection
 //
 //  Created by Geordie Jay on 10.03.17.
@@ -82,7 +82,7 @@ class AppleFilter {
 }
 
 
-class AppleFilterBank {
+class AppleFilterbank {
     private let filters: [AppleFilter]
     private var magnitudes: [Float]
 

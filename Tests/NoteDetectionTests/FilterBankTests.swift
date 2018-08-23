@@ -1,5 +1,5 @@
 //
-//  FilterBankTests.swift
+//  FilterbankTests.swift
 //  NativePitchDetection
 //
 //  Created by Geordie Jay on 10.03.17.
@@ -9,24 +9,24 @@
 import XCTest
 @testable import NoteDetection
 
-private protocol TestableFilterBank {
+private protocol TestableFilterbank {
     var magnitudes: [Float] { get set }
     func calculateMagnitudes(_ inputBuffer: [Float])
 }
 
-extension FilterBank: TestableFilterBank {}
-extension AppleFilterBank: TestableFilterBank {}
+extension Filterbank: TestableFilterbank {}
+extension AppleFilterbank: TestableFilterbank {}
 
 private let lowNote = MIDINumber(note: .c, octave: 1)
 private let crossoverNote = MIDINumber(note: .c, octave: 4)
 private let highNote = MIDINumber(note: .b, octave: 7)
 
-class FilterBankTests: XCTestCase {
+class FilterbankTests: XCTestCase {
     let noteRange = lowNote ... highNote
     let largestMeanMagnitudeInSampleAudioFrame: Float = 7.47748e-05 // found by manually testing the sample data
 
     // Test any filterbank we have in the same way:
-    private func runFilterbankTest<T: TestableFilterBank>(filterbank: T) -> Float {
+    private func runFilterbankTest<T: TestableFilterbank>(filterbank: T) -> Float {
         for _ in 0 ..< 500 {
             filterbank.calculateMagnitudes(sampleAudioFrame)
         }
@@ -36,7 +36,7 @@ class FilterBankTests: XCTestCase {
 
     func testAppleFilterbankPerformance() {
         measure {
-            let filterbank = AppleFilterBank(noteRange: self.noteRange, sampleRate: 44100)
+            let filterbank = AppleFilterbank(noteRange: self.noteRange, sampleRate: 44100)
             let maxElement = self.runFilterbankTest(filterbank: filterbank)
             XCTAssertEqual(maxElement, self.largestMeanMagnitudeInSampleAudioFrame, accuracy: 1e-06)
         }
@@ -44,7 +44,7 @@ class FilterBankTests: XCTestCase {
 
     func testFlowkeyFilterbankPerformance() {
         measure {
-            let filterbank = FilterBank(
+            let filterbank = Filterbank(
                 lowRange: lowNote ... crossoverNote,
                 highRange: crossoverNote + 1 ... highNote,
                 sampleRate: 44100

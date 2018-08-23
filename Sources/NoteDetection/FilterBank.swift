@@ -1,5 +1,5 @@
 //
-//  FilterBank.swift
+//  Filterbank.swift
 //  NativePitchDetection
 //
 //  Created by Geordie Jay on 18.03.15.
@@ -10,18 +10,18 @@
 import simd
 #endif
 
-final class FilterBank {
-    typealias Magnitude = Float
+public final class Filterbank {
+    public typealias Magnitude = Float
     private var bandpassFilters: [Filter]
     private var magnitudes: [Magnitude]
 
-    init (noteRange: NoteRange, sampleRate: Double) {
+    public init(noteRange: NoteRange, sampleRate: Double) {
         let frequencies = noteRange.fullRange.map { midiNum in midiNum.inHz }
 
         precondition(
-            noteRange.fullRange.count % FilterBank.strideWidth == 0,
-            "FilterBank now calculates multiple filters at once, please make the " +
-            "note range divisible by FilterBank.stride (\(FilterBank.strideWidth))"
+            noteRange.fullRange.count % Filterbank.strideWidth == 0,
+            "Filterbank now calculates multiple filters at once, please make the " +
+            "note range divisible by Filterbank.stride (\(Filterbank.strideWidth))"
         )
 
 
@@ -41,11 +41,11 @@ final class FilterBank {
 
 
 #if os(iOS) || os(macOS) // Use SIMD instructions:
-    func calculateMagnitudes (_ audioData: [Float]) -> [FilterBank.Magnitude] {
+    public func calculateMagnitudes (_ audioData: [Float]) -> [Filterbank.Magnitude] {
         // We can't divide sum (a float4) by a scalar (below) so this is a workaround:
         let count = float4(Float(audioData.count))
 
-        for bi in stride(from: 0, through: bandpassFilters.count - FilterBank.strideWidth, by: FilterBank.strideWidth) {
+        for bi in stride(from: 0, through: bandpassFilters.count - Filterbank.strideWidth, by: Filterbank.strideWidth) {
             var filterA = bandpassFilters[bi + 0]
             var filterB = bandpassFilters[bi + 1]
             var filterC = bandpassFilters[bi + 2]
@@ -102,10 +102,9 @@ final class FilterBank {
     }
 
 #else // Non-SIMD version:
-
-    func calculateMagnitudes (_ audioData: [Float]) -> [FilterBank.Magnitude] {
+    func calculateMagnitudes (_ audioData: [Float]) -> [Filterbank.Magnitude] {
         let count = Float(audioData.count)
-        for bi in stride(from: 0, through: bandpassFilters.count - FilterBank.strideWidth, by: FilterBank.strideWidth) {
+        for bi in stride(from: 0, through: bandpassFilters.count - Filterbank.strideWidth, by: Filterbank.strideWidth) {
             var sumA: Float = 0
             var sumB: Float = 0
             var sumC: Float = 0

@@ -5,25 +5,33 @@
 //  Copyright © 2018 flowkey. All rights reserved.
 //
 
-struct NoteRange {
-    init(fullRange: ClosedRange<MIDINumber>, lowNoteBoundary: MIDINumber) {
+public struct NoteRange: Codable {
+    public init(fullRange: CountableClosedRange<MIDINumber>, lowNoteBoundary: MIDINumber) {
         self.lowNoteBoundary = lowNoteBoundary
-        self.fullRange = fullRange
         first = fullRange.first!
         last = fullRange.last!
     }
 
-    let fullRange: ClosedRange<MIDINumber>
+    public var fullRange: CountableClosedRange<MIDINumber> {
+        return first ... last
+    }
 
-    var lowRange: ClosedRange<MIDINumber> {
+    public var lowRange: CountableClosedRange<MIDINumber> {
         return first ... lowNoteBoundary
     }
 
-    var highRange: ClosedRange<MIDINumber> {
+    public var highRange: CountableClosedRange<MIDINumber> {
         return lowNoteBoundary ... last
     }
 
-    let first: MIDINumber
-    let lowNoteBoundary: MIDINumber
-    let last: MIDINumber
+    public let first: MIDINumber
+    public let lowNoteBoundary: MIDINumber
+    public let last: MIDINumber
+}
+
+extension NoteRange {
+    public static let standard = NoteRange(
+        fullRange: MIDINumber(note: .g, octave: 1) ... MIDINumber(note: .d, octave: 8),
+        lowNoteBoundary: MIDINumber(note: .d, octave: 5)
+    )
 }

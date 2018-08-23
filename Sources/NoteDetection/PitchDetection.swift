@@ -27,7 +27,7 @@ class PitchDetection {
     // Let someone know when we play the event correctly
     var onPitchDetected: OnPitchDetectedCallback?
 
-    private let noteRange: NoteRange
+    let noteRange: NoteRange
     private var statusBuffer: [Bool]    // Store the previous runs' status booleans
     private let similarityThreshold: Float = 0.7    // If similarity is higher than this, event status is true
     private var currentDetectionMode: DetectionMode = .highAndLow
@@ -37,7 +37,7 @@ class PitchDetection {
 
     /// If we have a note to detect, compare the current ChromaVector's similarity with the one we expect
     /// Call "onNotesDetected" for the expected event if our statusBuffers are true
-    func run(on filterbankMagnitudes: [FilterBank.Magnitude], at timestampMs: Timestamp) -> DetectionResult? {
+    func run(on filterbankMagnitudes: [Filterbank.Magnitude], at timestampMs: Timestamp) -> DetectionResult? {
         guard let expectedChroma = expectedChroma else { return nil }
 
         let detectedChroma = chroma(from: filterbankMagnitudes)
@@ -94,7 +94,7 @@ class PitchDetection {
         }
     }
 
-    func chroma(from magnitudes: [FilterBank.Magnitude]) -> ChromaVector {
+    func chroma(from magnitudes: [Filterbank.Magnitude]) -> ChromaVector {
         // These only get calculated if you actually access them:
         /// Extracted from filterbank magnitudes within __LOW__ range
         var lowChroma: ChromaVector {
