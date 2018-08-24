@@ -14,7 +14,7 @@ public typealias FilterbankMagnitude = Float // typealias is public, Filterbank 
 
 final class Filterbank {
     private var bandpassFilters: [Filter]
-    private var magnitudes: [FilterbankMagnitude]
+    var magnitudes: [FilterbankMagnitude]
 
     init(noteRange: NoteRange, sampleRate: Double) {
         let frequencies = noteRange.fullRange.map { midiNum in midiNum.inHz }
