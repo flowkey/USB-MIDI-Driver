@@ -8,17 +8,16 @@
 
 
 typealias OnPitchDetectedCallback = (Timestamp) -> Void
+public struct PitchDetectionResult {
+    let timestamp: Timestamp
+    let expectedChroma: ChromaVector
+    let detectedChroma: ChromaVector
+    let similarity: Float
+    let chromaTolerance: Float
+    let pitchWasDetected: Bool
+}
 
 class PitchDetection {
-    struct DetectionResult {
-        let timestamp: Timestamp
-        let expectedChroma: ChromaVector
-        let detectedChroma: ChromaVector
-        let similarity: Float
-        let chromaTolerance: Float
-        let pitchWasDetected: Bool
-    }
-
     init(noteRange: NoteRange) {
         self.noteRange = noteRange
         self.statusBuffer = [false, false, false]
@@ -37,7 +36,7 @@ class PitchDetection {
 
     /// If we have a note to detect, compare the current ChromaVector's similarity with the one we expect
     /// Call "onNotesDetected" for the expected event if our statusBuffers are true
-    func run(on filterbankMagnitudes: [FilterbankMagnitude], at timestampMs: Timestamp) -> DetectionResult? {
+    func run(on filterbankMagnitudes: [FilterbankMagnitude], at timestampMs: Timestamp) -> PitchDetectionResult? {
         guard let expectedChroma = expectedChroma else { return nil }
 
         let detectedChroma = chroma(from: filterbankMagnitudes)
@@ -60,7 +59,7 @@ class PitchDetection {
             statusBuffer = [Bool](repeating: false, count: statusBuffer.count)
         }
 
-        return DetectionResult(timestamp: timestampMs, expectedChroma: expectedChroma, detectedChroma: detectedChroma, similarity: similarity, chromaTolerance: currentTolerance, pitchWasDetected: pitchWasDetected)
+        return PitchDetectionResult(timestamp: timestampMs, expectedChroma: expectedChroma, detectedChroma: detectedChroma, similarity: similarity, chromaTolerance: currentTolerance, pitchWasDetected: pitchWasDetected)
     }
 
     var statusBufferIsAllTrue: Bool {

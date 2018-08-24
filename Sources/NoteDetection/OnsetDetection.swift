@@ -7,14 +7,14 @@
 //
 
 public typealias OnsetDetectedCallback = (Timestamp) -> Void
-public typealias OnsetData = (featureValue: Float, threshold: Float, onsetDetected: Bool)
+public typealias OnsetDetectionResult = (featureValue: Float, threshold: Float, onsetDetected: Bool)
 
 protocol OnsetDetection: class {
     /// An array of FilterbankMagnitudes or AudioSamples
     associatedtype InputDataType
     typealias FeatureValue = Float
 
-    func run(on inputData: InputDataType, at timestampMs: Timestamp) -> OnsetData
+    func run(on inputData: InputDataType, at timestampMs: Timestamp) -> OnsetDetectionResult
     func compute(from inputData: InputDataType) -> FeatureValue
     var onsetFeatureBuffer: [FeatureValue] { get set }
 
@@ -25,7 +25,7 @@ protocol OnsetDetection: class {
 }
 
 extension OnsetDetection {
-    func run(on inputData: InputDataType, at timestampMs: Timestamp) -> OnsetData {
+    func run(on inputData: InputDataType, at timestampMs: Timestamp) -> OnsetDetectionResult {
         let currentFeatureValue = compute(from: inputData)
         onsetFeatureBuffer.remove(at: 0)
         onsetFeatureBuffer.append(currentFeatureValue)

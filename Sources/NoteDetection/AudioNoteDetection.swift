@@ -73,15 +73,12 @@ public final class AudioNoteDetector: NoteDetector {
     }
 
     public func process(audio samples: [Float], at timestampMs: Timestamp) {
-        audioBuffer.append(contentsOf: samples)
-        if audioBuffer.count >= 960 {
-            performNoteDetection(audioData: audioBuffer, at: timestampMs)
-            audioBuffer.removeAll(keepingCapacity: true)
-        }
-    }
+        // ensure we always have at least 960 samples before processing audio:
+        self.audioBuffer.append(contentsOf: samples)
+        guard self.audioBuffer.count >= 960 else { return }
+        defer { self.audioBuffer.removeAll(keepingCapacity: true) }
 
-    private func performNoteDetection(audioData: [Float], at timestampMs: Timestamp) {
-        let volume = calculateVolume(from: audioData)
+        let volume = calculateVolume(from: self.audioBuffer)
 
         // Volume drops a lot more quickly than the filterbank magnitudes
         // So check we either have enough volume, OR the filterbank is still "ringing out":
@@ -91,27 +88,29 @@ public final class AudioNoteDetector: NoteDetector {
         }
         #endif
 
-        let filterbankMagnitudes = filterbank.calculateMagnitudes(audioData)
-        performNoteDetection(filterbankMagnitudes: filterbankMagnitudes, at: timestampMs)
-    }
-
-    public func performNoteDetection(filterbankMagnitudes: [Float], at timestampMs: Timestamp) {
-        pitchDetection.setExpectedEvent(delegate?.expectedNoteEvent)
-
-        // Do Pitch / Onset Detection
-        let onsetData = onsetDetection.run(on: filterbankMagnitudes, at: timestampMs)
-        let pitchData = pitchDetection.run(on: filterbankMagnitudes, at: timestampMs)
+        let filterbankMagnitudes = filterbank.calculateMagnitudes(self.audioBuffer)
+        let (onsetData, pitchData) = performNoteDetection(filterbankMagnitudes: filterbankMagnitudes, at: timestampMs)
 
         // Don't make unnecessary calls to the main thread if there is no delegate:
-        guard let processedAudioDelegate = processedAudioDelegate else {
-            return
-        }
-        
+        guard let processedAudioDelegate = processedAudioDelegate else { return }
+        let audioBuffer = self.audioBuffer // make a copy before the buffer is emptied
+
         DispatchQueue.main.async {
             processedAudioDelegate.onAudioProcessed(
-                (pitchData?.detectedChroma, filterbankMagnitudes, onsetData.featureValue, onsetData.threshold, onsetData.onsetDetected)
+                (audioBuffer, pitchData?.detectedChroma, filterbankMagnitudes, onsetData.featureValue, onsetData.threshold, onsetData.onsetDetected)
             )
         }
+    }
+
+    @discardableResult
+    public func performNoteDetection(filterbankMagnitudes: [Float], at timestampMs: Timestamp) ->
+        (OnsetDetectionResult, PitchDetectionResult?)
+    {
+        pitchDetection.setExpectedEvent(delegate?.expectedNoteEvent)
+
+        let onsetData = onsetDetection.run(on: filterbankMagnitudes, at: timestampMs)
+        let pitchData = pitchDetection.run(on: filterbankMagnitudes, at: timestampMs)
+        return (onsetData, pitchData)
     }
 
     private var lastOnsetTimestamp: Timestamp?
