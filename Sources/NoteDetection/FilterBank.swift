@@ -10,12 +10,13 @@
 import simd
 #endif
 
-public final class Filterbank {
-    public typealias Magnitude = Float
-    private var bandpassFilters: [Filter]
-    private var magnitudes: [Magnitude]
+public typealias FilterbankMagnitude = Float // typealias is public, Filterbank is not
 
-    public init(noteRange: NoteRange, sampleRate: Double) {
+final class Filterbank {
+    private var bandpassFilters: [Filter]
+    private var magnitudes: [FilterbankMagnitude]
+
+    init(noteRange: NoteRange, sampleRate: Double) {
         let frequencies = noteRange.fullRange.map { midiNum in midiNum.inHz }
 
         precondition(
@@ -31,7 +32,7 @@ public final class Filterbank {
             return Filter(sampleRate: sampleRate, centreFrequency: freq, Q: 120)
         }
 
-        magnitudes = [Magnitude](repeating: 0, count: noteRange.fullRange.count)
+        magnitudes = [FilterbankMagnitude](repeating: 0, count: noteRange.fullRange.count)
     }
 
     private var x1: Float = 0
@@ -41,7 +42,7 @@ public final class Filterbank {
 
 
 #if os(iOS) || os(macOS) // Use SIMD instructions:
-    public func calculateMagnitudes (_ audioData: [Float]) -> [Filterbank.Magnitude] {
+    func calculateMagnitudes (_ audioData: [Float]) -> [FilterbankMagnitude] {
         // We can't divide sum (a float4) by a scalar (below) so this is a workaround:
         let count = float4(Float(audioData.count))
 
@@ -102,7 +103,7 @@ public final class Filterbank {
     }
 
 #else // Non-SIMD version:
-    func calculateMagnitudes (_ audioData: [Float]) -> [Filterbank.Magnitude] {
+    func calculateMagnitudes (_ audioData: [Float]) -> [FilterbankMagnitude] {
         let count = Float(audioData.count)
         for bi in stride(from: 0, through: bandpassFilters.count - Filterbank.strideWidth, by: Filterbank.strideWidth) {
             var sumA: Float = 0

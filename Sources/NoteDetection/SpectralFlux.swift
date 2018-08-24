@@ -15,9 +15,9 @@ class SpectralFluxOnsetDetection: OnsetDetection {
     var currentThreshold: Float = 0
     var onOnsetDetected: OnsetDetectedCallback?
 
-    private var previousData = [Filterbank.Magnitude]()
+    private var previousData = [FilterbankMagnitude]()
 
-    func compute(from inputData: [Filterbank.Magnitude]) -> OnsetDetection.FeatureValue {
+    func compute(from inputData: [FilterbankMagnitude]) -> OnsetDetection.FeatureValue {
         defer { // save current spectrum as previous spectrum for next computation
             self.previousData = inputData
         }
