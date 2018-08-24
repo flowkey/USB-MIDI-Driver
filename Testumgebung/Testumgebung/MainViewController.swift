@@ -16,25 +16,6 @@ public let noteDetection = AudioNoteDetector(sampleRate: audioEngine.sampleRate)
     var graphViewController: GraphViewController?
     var midiViewController: MidiViewController?
 
-    var lastProcessedBlock: ProcessedAudio {
-        get { return ProcessedAudio([], ChromaVector(), [], 0, 0, false) } // dummy data. we shouldn't ever have to "get" these data
-        set {
-            let data = newValue
-            switch graphViewController?.title {
-            case .some("Filter Bank"):
-                graphViewController?.updateView(data.filterbankMagnitudes)
-            case .some("Waveform"):
-                graphViewController?.updateView(data.audioData)
-            case .some("Onset"):
-                graphViewController?.updateView(data.onsetFeatureValue, onsetThreshold: data.onsetThreshold, onsetDetected: data.onsetDetected)
-            default:
-                let chromaAsFloatArray: [Float] = data.chromaVector.raw
-                graphViewController?.updateView(chromaAsFloatArray)
-            }
-        }
-    }
-
-
     // Set the graphController we want to update when switching tabs
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         graphViewController = viewController as? GraphViewController
@@ -48,16 +29,38 @@ public let noteDetection = AudioNoteDetector(sampleRate: audioEngine.sampleRate)
     override func viewDidAppear(_ animated: Bool) {
         audioEngine.set(onAudioData: noteDetection.process)
         noteDetection.processedAudioDelegate = self
+        noteDetection.delegate = self
         try! audioEngine.startMicrophone()
     }
-    
-    func onAudioProcessed(_ processedAudio: ProcessedAudio) {
-        self.lastProcessedBlock = processedAudio
+
+    func onAudioProcessed(_ data: ProcessedAudio) {
+        guard let graphViewController = graphViewController else { return }
+        switch graphViewController.title {
+        case "Filter Bank":
+            graphViewController.updateView(data.filterbankMagnitudes)
+        case "Waveform":
+            graphViewController.updateView(data.audioData)
+        case "Onset":
+            graphViewController.updateView(data.onsetFeatureValue, onsetThreshold: data.onsetThreshold, onsetDetected: data.onsetDetected)
+        default:
+            let chromaAsFloatArray: [Float] = (data.chromaVector ?? ChromaVector()).raw
+            graphViewController.updateView(chromaAsFloatArray)
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         try? audioEngine.stopMicrophone()
-        delegate = nil
         NotificationCenter.default.removeObserver(self)
     }
+}
+
+extension MainViewController: NoteDetectorDelegate {
+    func onNoteEventDetected(noteDetector: NoteDetector, timestamp: Timestamp, detectedEvent: DetectableNoteEvent) -> Void {}
+    func onInputLevelChanged(ratio: Float) -> Void {}
+    var expectedNoteEvent: DetectableNoteEvent? { return DummyNoteEvent.empty }
+}
+
+struct DummyNoteEvent: DetectableNoteEvent {
+    var notes: Set<MIDINumber> = []
+    static let empty = DummyNoteEvent()
 }
