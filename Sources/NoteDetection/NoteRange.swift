@@ -5,7 +5,7 @@
 //  Copyright © 2018 flowkey. All rights reserved.
 //
 
-public struct NoteRange: Codable {
+public struct NoteRange {
     public init(fullRange: CountableClosedRange<MIDINumber>, lowNoteBoundary: MIDINumber) {
         self.lowNoteBoundary = lowNoteBoundary
         first = fullRange.first!
