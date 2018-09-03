@@ -1,3 +1,5 @@
+confidential information
+
 # Building the NoteDetection
 
 ## Build on macOS
