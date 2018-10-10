@@ -25,13 +25,13 @@ class AndroidPermissions {
     private func getRecordAudioPermissionResult() throws -> Result {
         let context = try getMainActivityContext()
         let audioPermissionResult: JavaInt = try jni.callStatic("checkRecordAudioPermission", on: getPermissionsJavaClass(), arguments: [context])
-        guard let result = Result(rawValue: Int(audioPermissionResult)) else {
+        guard let result = Result(rawValue: audioPermissionResult) else {
             throw AndroidPermissionsError.getResultFailed
         }
         return result
     }
 
-    enum Result: Int {
+    enum Result: JavaInt {
         case granted = 0
         case denied = -1
     }
@@ -59,7 +59,7 @@ public func onRequestPermissionsResult(
     }
 
     let requestedPermissionResults = jni.GetIntArrayRegion(array: grantResultsJavaArr)
-    let permissions: [(name: String, result: Int)] = Array(zip(requestedPermissionNames, requestedPermissionResults))
+    let permissions: [(name: String, result: JavaInt)] = Array(zip(requestedPermissionNames, requestedPermissionResults))
 
     guard
         let recordAudioPermissionsName: String = try? jni.GetStaticField("RECORD_AUDIO", on: getPermissionsJavaClass()),

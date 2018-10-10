@@ -5,7 +5,7 @@ public final class AudioEngine: AudioEngineProtocol {
     private var onAudioData: AudioDataCallback?
     public var onSampleRateChanged: SampleRateChangedCallback?
     public var sampleRate: Double
-    private let bufferSize: JavaInt
+    private let bufferSize: Int
 
     public init() throws { // throws as in iOS
         AndroidPermissions.sharedInstance = AndroidPermissions()
@@ -14,8 +14,10 @@ public final class AudioEngine: AudioEngineProtocol {
             let audioSettingsClass = getAudioSettingsJavaClass()
             let jContext = try getMainActivityContext()
             sampleRate = try jni.callStatic("getFastAudioPathSampleRate", on: audioSettingsClass, arguments: [jContext])
-            bufferSize = try jni.callStatic("getFastAudioPathBufferSize", on: audioSettingsClass, arguments: [jContext])
-        } catch {
+
+            let bufferSize: JavaInt = try jni.callStatic("getFastAudioPathBufferSize", on: audioSettingsClass, arguments: [jContext])
+            self.bufferSize = Int(bufferSize)
+          } catch {
             assertionFailure("Couldn't get either the settings class or optimal sample rates")
             sampleRate = 48000 // most common fast audio path sampleRate
             bufferSize = 512 // as in our settings for iOS
