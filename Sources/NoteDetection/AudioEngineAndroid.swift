@@ -5,7 +5,7 @@ public final class AudioEngine: AudioEngineProtocol {
     private var onAudioData: AudioDataCallback?
     public var onSampleRateChanged: SampleRateChangedCallback?
     public var sampleRate: Double
-    private let bufferSize: Int
+    private let bufferSize: JavaInt
 
     public init() throws { // throws as in iOS
         AndroidPermissions.sharedInstance = AndroidPermissions()

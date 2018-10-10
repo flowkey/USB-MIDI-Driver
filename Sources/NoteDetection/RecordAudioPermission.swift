@@ -24,8 +24,8 @@ class AndroidPermissions {
 
     private func getRecordAudioPermissionResult() throws -> Result {
         let context = try getMainActivityContext()
-        let audioPermissionResult: Int = try jni.callStatic("checkRecordAudioPermission", on: getPermissionsJavaClass(), arguments: [context])
-        guard let result = Result(rawValue: audioPermissionResult) else {
+        let audioPermissionResult: JavaInt = try jni.callStatic("checkRecordAudioPermission", on: getPermissionsJavaClass(), arguments: [context])
+        guard let result = Result(rawValue: Int(audioPermissionResult)) else {
             throw AndroidPermissionsError.getResultFailed
         }
         return result

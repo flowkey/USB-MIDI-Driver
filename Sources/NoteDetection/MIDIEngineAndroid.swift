@@ -50,7 +50,7 @@ fileprivate extension JavaObject {
     func toMIDIDevice() throws -> MIDIDevice {
         let model: String = try jni.GetField("model", from: self)
         let manufacturer: String = try jni.GetField("manufacturer", from: self)
-        let id: Int = try jni.GetField("uniqueID", from: self)
+        let id: JavaInt = try jni.GetField("uniqueID", from: self)
         let displayName = model + "/" + manufacturer
         var arbitraryReferenceContext = 0 // dummy
 
@@ -58,7 +58,7 @@ fileprivate extension JavaObject {
             displayName: displayName,
             manufacturer: manufacturer,
             model: model,
-            uniqueID: id,
+            uniqueID: Int(id),
             refCon: &arbitraryReferenceContext
         )
     }
