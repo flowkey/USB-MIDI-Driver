@@ -45,7 +45,7 @@ private func getPermissionsJavaClass() throws -> JavaClass {
     return try jni.FindClass(name: "com.flowkey.notedetection.permissions.PermissionsKt")
 }
 
-@_silgen_name("Java_com_flowkey_notedetection_permissions_PermissionsKt_onRequestPermissionsResult")
+@_cdecl("Java_com_flowkey_notedetection_permissions_PermissionsKt_onRequestPermissionsResult")
 public func onRequestPermissionsResult(
     env: UnsafeMutablePointer<JNIEnv>,
     cls: JavaObject,
@@ -53,6 +53,14 @@ public func onRequestPermissionsResult(
     permissionsJavaArr: JavaObjectArray,
     grantResultsJavaArr: JavaIntArray)
 {
+    guard let androidPermissions = AndroidPermissions.sharedInstance else {
+        print(
+            "Could not find AndroidPermissions singleton." +
+            "If you're outside the player this is to be expected."
+        ) // if you're *in* the player though, this is a Bad Thing™
+        return
+    }
+
     guard let requestedPermissionNames = try? jni.GetStrings(from: permissionsJavaArr) else {
         assertionFailure("Couldn't get requestedPermissions from Java result")
         return
@@ -74,9 +82,10 @@ public func onRequestPermissionsResult(
         return
     }
 
-    guard AndroidPermissions.sharedInstance?.onRecordAudioPermissionResult != nil else {
-        assertionFailure("sharedInstance or onRecordAudioPermissionResult does not exist")
+    guard let onRecordAudioPermissionResult = androidPermissions.onRecordAudioPermissionResult else {
+        assertionFailure("onRecordAudioPermissionResult has not been set")
         return
     }
-    AndroidPermissions.sharedInstance?.onRecordAudioPermissionResult?(result)
+
+    onRecordAudioPermissionResult(result)
 }

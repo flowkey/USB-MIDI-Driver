@@ -11,7 +11,7 @@ import Dispatch
 
 private weak var midiEngine: MIDIEngine?
 
-@_silgen_name("Java_com_flowkey_notedetection_midi_ApiIndependentMIDIEngine_nativeMidiMessageCallback")
+@_cdecl("Java_com_flowkey_notedetection_midi_ApiIndependentMIDIEngine_nativeMidiMessageCallback")
 public func onMIDIMessageReceived(env: UnsafeMutablePointer<JNIEnv>, cls: JavaObject, midiData: JavaByteArray, timestamp: JavaLong) {
     let midiDataArray: [UInt8] = jni.GetByteArrayRegion(array: midiData)
     let midiMessages = parseMIDIMessages(from: midiDataArray)
@@ -28,7 +28,7 @@ public func onMIDIMessageReceived(env: UnsafeMutablePointer<JNIEnv>, cls: JavaOb
     }
 }
 
-@_silgen_name("Java_com_flowkey_notedetection_midi_ApiIndependentMIDIEngine_nativeMidiDeviceCallback")
+@_cdecl("Java_com_flowkey_notedetection_midi_ApiIndependentMIDIEngine_nativeMidiDeviceCallback")
 public func onDeviceListChanged(env: UnsafeMutablePointer<JNIEnv>, cls: JavaObject, jMIDIDevices: JavaObjectArray) {
     let numberOfDevices = jni.GetLength(jMIDIDevices)
     var midiDeviceList: Set<MIDIDevice> = []

@@ -13,4 +13,3 @@ public func androidPrint(_ prio: Int32, _ tag: UnsafePointer<CChar>, _ text: Uns
 func print(_ string: String) {
     androidPrint(5, "NoteDetection", string)
 }
-
