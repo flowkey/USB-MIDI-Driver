@@ -911,6 +911,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.flowkey.NoteDetection;
 				PRODUCT_NAME = NoteDetection;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};

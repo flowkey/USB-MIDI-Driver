@@ -45,7 +45,7 @@ class NativePitchDetectionTests: XCTestCase {
 
         let actualMaxMagnitudeIndex = magnitudes.index(of: max(magnitudes))
 
-        let desiredMaxMagnitudeIndex = midiNumberForA - audioNoteDetection.filterbank.lowRange.lowerBound
+        let desiredMaxMagnitudeIndex = midiNumberForA - audioNoteDetection.pitchDetection.noteRange.lowRange.lowerBound
 
         XCTAssertEqual(actualMaxMagnitudeIndex, desiredMaxMagnitudeIndex)
 
@@ -60,7 +60,7 @@ class NativePitchDetectionTests: XCTestCase {
             noteDetector.process(audio: sineWave, at: Timestamp.now)
         }
 
-        let chromaVector = noteDetector.filterbank.getChroma(for: .highAndLow)
+        let chromaVector = noteDetector.pitchDetection.chroma(from: noteDetector.filterbank.magnitudes)
         let actualMaxElementIndex = chromaVector.index(of: max(chromaVector))
         let desiredMaxElementIndex = testedNote % 12
         XCTAssertEqual(actualMaxElementIndex, desiredMaxElementIndex)

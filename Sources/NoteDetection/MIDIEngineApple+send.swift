@@ -27,13 +27,11 @@ extension MIDIPacketList {
     private static var clavinovaByteLimit = 256 - sizeOfMIDICombinedHeaders
     init?(from midiEvents: [[UInt8]]) {
         var packetList = MIDIPacketList()
-        var packet = MIDIPacketListInit(&packetList)
+        var packet: UnsafeMutablePointer<MIDIPacket>? = MIDIPacketListInit(&packetList)
         
         for event in midiEvents {
-            packet = MIDIPacketListAdd(&packetList, MIDIPacketList.clavinovaByteLimit, packet, mach_absolute_time(), event.count, event)
-            
-            // Note: Don't believe the compiler warning about this check always
-            // returning false, indeed MIDIPacketListAdd() can return nil
+            packet = MIDIPacketListAdd(&packetList, MIDIPacketList.clavinovaByteLimit, packet!, mach_absolute_time(), event.count, event)
+
             if packet == nil {
                 print("There is not enough room in the packet for the event. Split your data into multiple lists.")
                 return nil

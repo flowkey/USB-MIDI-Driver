@@ -11,7 +11,7 @@ import XCTest
 
 private protocol TestableFilterbank {
     var magnitudes: [Float] { get set }
-    func calculateMagnitudes(_ inputBuffer: [Float])
+    func calculateMagnitudes(_ inputBuffer: [Float]) -> [Float]
 }
 
 extension Filterbank: TestableFilterbank {}
@@ -23,15 +23,20 @@ private let highNote = MIDINumber(note: .b, octave: 7)
 
 class FilterbankTests: XCTestCase {
     let noteRange = lowNote ... highNote
-    let largestMeanMagnitudeInSampleAudioFrame: Float = 7.47748e-05 // found by manually testing the sample data
+
+    /// Found by manually testing the sample data.
+    /// Note this value you will be change depending on the Filters' Q value, so ensure you update both Filterbanks.
+    let largestMeanMagnitudeInSampleAudioFrame: Float = 8.734285e-05
 
     // Test any filterbank we have in the same way:
     private func runFilterbankTest<T: TestableFilterbank>(filterbank: T) -> Float {
+        var magnitudes = [Float]()
+
         for _ in 0 ..< 500 {
-            filterbank.calculateMagnitudes(sampleAudioFrame)
+            magnitudes = filterbank.calculateMagnitudes(sampleAudioFrame)
         }
 
-        return max(filterbank.magnitudes)
+        return max(magnitudes)
     }
 
     func testAppleFilterbankPerformance() {
@@ -43,10 +48,11 @@ class FilterbankTests: XCTestCase {
     }
 
     func testFlowkeyFilterbankPerformance() {
+        let noteRange = NoteRange(fullRange: self.noteRange, lowNoteBoundary: crossoverNote)
+
         measure {
             let filterbank = Filterbank(
-                lowRange: lowNote ... crossoverNote,
-                highRange: crossoverNote + 1 ... highNote,
+                noteRange: noteRange,
                 sampleRate: 44100
             )
 

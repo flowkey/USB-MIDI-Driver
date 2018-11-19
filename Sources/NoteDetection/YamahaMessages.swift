@@ -71,7 +71,7 @@ enum LEDMode: UInt8 {
 
 /**
  Create a midi message to control a certain LED of a CSP piano
- 
+
  - returns:
     sysex midi message data that can be send to a CSP piano
 

@@ -11,23 +11,34 @@ public class YamahaLights {
             status = (controller == nil) ? .notAvailable : .enabled
         }
     }
-    
+
     public func set(isEnabled: Bool) {
         status = isEnabled ? .enabled : .disabled
     }
-    
+
     public var onStatusChanged: LightControlStatusChangedCallback?
     private(set) public var status: LightControlStatus = .notAvailable {
         didSet {
+            if status == oldValue { return }
+
             switch status {
-            case .enabled: controller?.isEnabled = true
-            case .disabled: controller?.isEnabled = false
+            case .enabled:
+                animateLights()
+            case .disabled:
+                controller?.turnOffAllLights()
             case .notAvailable:
                 if controller != nil {
                     assertionFailure("light controller should be nil but is not")
                 }
             }
             onStatusChanged?(status)
+        }
+    }
+
+    private func animateLights() {
+        guard status == .enabled else { return }
+        controller?.animateLights { controller in
+            controller.turnOnLights(at: self.eventIndex, in: self.noteEvents)
         }
     }
 
@@ -40,18 +51,27 @@ public class YamahaLights {
             midiEngine.send(messages: [YamahaMessages.DUMP_REQUEST_MODEL], to: $0)
         }
     }
-    
+
     deinit {
         self.controller = nil
     }
 
-    public var noteEvents: [DetectableNoteEvent] {
-        get { return [] }
-        set { controller?.noteEvents = newValue }
+    public var noteEvents: [DetectableNoteEvent] = [] {
+        didSet { updateLights() }
+    }
+
+    public var eventIndex: Int = 0 {
+        didSet { updateLights() }
     }
     
+    private func updateLights() {
+        guard status == .enabled else { return }
+        controller?.turnOffAllLights()
+        controller?.turnOnLights(at: self.eventIndex, in: self.noteEvents)
+    }
+
     // MARK: Internal API
-    
+
     func onChangedMIDIOutConnections(outConnections: [MIDIOutConnection]) {
         // kill current light control connection and send a new request to all output connections
         self.controller = nil
@@ -67,7 +87,9 @@ public class YamahaLights {
                 return connection.displayName == sourceDevice.displayName
             })
         else { return }
+
         self.controller = type.toLightController(with: connection, midiEngine: midiEngine)
+        self.animateLights()
     }
 
     // MARK: Statics
@@ -103,7 +125,7 @@ public class YamahaLights {
         guard data.count >= responseSignatureCount else {
             return false
         }
-        let messageDataBegin = Array<UInt8>(data[0 ..< responseSignatureCount])
+        let messageDataBegin = [UInt8](data[0 ..< responseSignatureCount])
         return messageDataBegin == YamahaMessages.DUMP_REQUEST_RESPONSE_SIGNATURE
     }
 }
@@ -112,7 +134,7 @@ private extension YamahaLights {
     private enum ControllerType {
         case RegularLights
         case StreamLights
-        
+
         func toLightController(with connection: MIDIOutConnection, midiEngine: MIDIEngineProtocol?) -> LightController {
             switch self {
             case .RegularLights: return RegularLightController(connection: connection, midiEngine: midiEngine)

@@ -84,17 +84,17 @@ class AppleFilter {
 
 class AppleFilterbank {
     private let filters: [AppleFilter]
-    private var magnitudes: [Float]
+    var magnitudes: [Float]
 
     init(noteRange: CountableClosedRange<MIDINumber>, sampleRate: Double) {
-        filters = noteRange.map { AppleFilter(sampleRate: sampleRate, centreFrequency: $0.inHz, Q: 180) }
+        filters = noteRange.map { AppleFilter(sampleRate: sampleRate, centreFrequency: $0.inHz, Q: 120) }
         magnitudes = [Float](repeating: 0, count: noteRange.count)
     }
 
     var x1 = Float(0)
     var x2 = Float(0)
 
-    func calculateMagnitudes(_ input: [Float]) {
+    func calculateMagnitudes(_ input: [Float]) -> [Float] {
         let paddedInput = [x2, x1] + input
         filters.enumerated().forEach { i, freq in magnitudes[i] = freq.filter(paddedInput) }
         x2 = input[input.count - 2]
