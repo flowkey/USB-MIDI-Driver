@@ -139,16 +139,16 @@ extension AudioEngine {
                 return status // abort and don't call onAudioData
             }
 
-            let audioTimeStamp = timestamp.pointee
-            let timestampInMs: Timestamp
-            if audioTimeStamp.mFlags.contains(AudioTimeStampFlags.hostTimeValid) {
-                timestampInMs = Double(audioTimeStamp.mHostTime) * hostTimeToMillisFactor
-            } else {
-                timestampInMs = .now
-                assertionFailure("hosttime is not valid")
-            }
+//            let audioTimeStamp = timestamp.pointee
+//            let timestampInMs: Timestamp
+//            if audioTimeStamp.mFlags.contains(AudioTimeStampFlags.hostTimeValid) {
+//                timestampInMs = Double(audioTimeStamp.mHostTime) * hostTimeToMillisFactor
+//            } else {
+//                timestampInMs = .now
+//                assertionFailure("hosttime is not valid")
+//            }
         
-            onAudioData(self.audioData, timestampInMs)
+            onAudioData(self.audioData, .now)
 
             return noErr
         }
