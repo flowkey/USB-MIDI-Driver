@@ -30,7 +30,7 @@ class NoteDetectionTests: XCTestCase {
         let arbitaryIgnoreTime = 200.0
         audioNoteDetector.ignoreFor(ms: arbitaryIgnoreTime)
 
-        let onsetTimestamp = Timestamp.now
+        let onsetTimestamp = 0.0
         let noteTimestmap = onsetTimestamp + 50
         audioNoteDetector.onOnsetDetected(timestamp: onsetTimestamp)
         audioNoteDetector.onPitchDetected(timestamp: noteTimestmap)

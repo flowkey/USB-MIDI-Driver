@@ -9,6 +9,7 @@
 @testable import NoteDetection
 
 class NoteDetectorTestDelegate: NoteDetectorDelegate {
+    
     var callback: () -> Void
     
     init(callback: @escaping () -> Void) {
@@ -19,7 +20,7 @@ class NoteDetectorTestDelegate: NoteDetectorDelegate {
         noteDetector: NoteDetector,
         timestamp: Numeric,
         detectedEvent: DetectableNoteEvent
-    ) where Timestamp : Equatable {
+    ) {
         callback()
     }
     

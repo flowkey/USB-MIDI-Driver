@@ -32,7 +32,7 @@ class MIDINoteDetectorTests: XCTestCase {
 
         for note in noteEvent.notes {
             let message = MIDIMessage.noteOn(key: UInt8(note), velocity: 10)
-            midiNoteDetector.process(midiMessage: message, from: nil, at: .now)
+            midiNoteDetector.process(midiMessage: message, from: nil, at: 0)
         }
 
         wait(for: [notesDetectedExpectation], timeout: 0.1)
@@ -40,12 +40,12 @@ class MIDINoteDetectorTests: XCTestCase {
 
     func testIfMIDIArrayIsEmptyAfterNoteOff() {
         // add some keys
-        midiNoteDetector.process(midiMessage: .noteOn(key: 69, velocity: 10), from: nil, at: .now)
-        midiNoteDetector.process(midiMessage: .noteOn(key: 69 + 12, velocity: 10), from: nil, at: .now)
+        midiNoteDetector.process(midiMessage: .noteOn(key: 69, velocity: 10), from: nil, at: 0)
+        midiNoteDetector.process(midiMessage: .noteOn(key: 69 + 12, velocity: 10), from: nil, at: 0)
 
         // remove them again
-        midiNoteDetector.process(midiMessage: .noteOff(key: 69), from: nil, at: .now)
-        midiNoteDetector.process(midiMessage: .noteOff(key: 69 + 12), from: nil, at: .now)
+        midiNoteDetector.process(midiMessage: .noteOff(key: 69), from: nil, at: 0)
+        midiNoteDetector.process(midiMessage: .noteOff(key: 69 + 12), from: nil, at: 0)
 
         XCTAssertTrue(midiNoteDetector.currentMIDIKeys.isEmpty)
     }
@@ -63,7 +63,7 @@ class MIDINoteDetectorTests: XCTestCase {
         noteDetectorDelegate!.expectedNoteEvent = noteEvents[randomEventIndex]
 
         // add not expected key
-        midiNoteDetector.process(midiMessage: .noteOn(key: 0, velocity: 10), from: nil, at: .now)
+        midiNoteDetector.process(midiMessage: .noteOn(key: 0, velocity: 10), from: nil, at: 0)
 
         guard let noteEvent = noteDetectorDelegate?.expectedNoteEvent else {
             XCTFail()
@@ -72,7 +72,7 @@ class MIDINoteDetectorTests: XCTestCase {
 
         // add expected keys
         for note in noteEvent.notes {
-            midiNoteDetector.process(midiMessage: .noteOn(key: UInt8(note), velocity: 10), from: nil, at: .now)
+            midiNoteDetector.process(midiMessage: .noteOn(key: UInt8(note), velocity: 10), from: nil, at: 0)
         }
 
         wait(for: [notesDetectedExpectation], timeout: 0.1)
