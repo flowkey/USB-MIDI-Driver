@@ -1,5 +1,6 @@
 import CAndroidAudioEngine
 import JNI
+import Glibc
 
 public final class AudioEngine: AudioEngineProtocol {
     private var onAudioData: AudioDataCallback?
@@ -40,7 +41,7 @@ public final class AudioEngine: AudioEngineProtocol {
             if sr != self.sampleRate {
                 self.onSampleRateChanged?(sr)
             }
-            self.onAudioData?(floatArray, Timestamp.now)
+            self.onAudioData?(floatArray, getTimeInMillisecondsSince1970())
         }, Unmanaged.passUnretained(self).toOpaque())
     }
 }
@@ -100,4 +101,12 @@ private func printAudioSettings(sampleRate: Double, bufferSize: Int, lowLatency:
     print("hasLowLatency: " + String(describing: lowLatency))
     print("hasProAudio: " + String(describing: proAudio))
     print("----------------------------------------------------------------")
+}
+
+
+fileprivate let MSEC_PER_SEC = 1000
+fileprivate func getTimeInMillisecondsSince1970() -> Double {
+    var now: timeval = timeval()
+    gettimeofday(&now, nil)
+    return (Double(now.tv_sec) * Double(MSEC_PER_SEC)) + (Double(now.tv_usec) / Double(MSEC_PER_SEC))
 }

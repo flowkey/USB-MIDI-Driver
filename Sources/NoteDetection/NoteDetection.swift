@@ -1,7 +1,7 @@
 public protocol NoteDetectorDelegate: class {
-    func onNoteEventDetected(
+    func onNoteEventDetected<Numeric>(
         noteDetector: NoteDetector,
-        timestamp: Timestamp,
+        timestamp: Numeric,
         detectedEvent: DetectableNoteEvent
     ) -> Void
     func onInputLevelChanged(ratio: Float) -> Void

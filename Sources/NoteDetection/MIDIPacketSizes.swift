@@ -19,5 +19,5 @@ let sizeOfMIDIPacketListHeader = sizeOfMIDIPacketList - sizeOfMIDIPacket
 /// size of the header portion of this struct, we can add the size of the `timestamp` and `length`
 /// fields, or subtract the size of the 256 `Byte`s from the size of the whole packet. I opted for
 /// the former.
-let sizeOfMIDIPacketHeader = MemoryLayout<MIDITimeStamp>.size + MemoryLayout<UInt16>.size
+let sizeOfMIDIPacketHeader = MemoryLayout<MIDITime>.size + MemoryLayout<UInt16>.size
 let sizeOfMIDICombinedHeaders = sizeOfMIDIPacketListHeader + sizeOfMIDIPacketHeader

@@ -14,7 +14,7 @@ public final class MIDINoteDetector: NoteDetector {
     
     public init() {}
 
-    public func process(midiMessage: MIDIMessage, from device: MIDIDevice?, at timestampMs: Timestamp) {
+    public func process(midiMessage: MIDIMessage, from device: MIDIDevice?, at timestampMs: MIDITime) {
         switch midiMessage {
         case let .noteOn(key, velocity):
             currentMIDIKeys.insert(Int(key))

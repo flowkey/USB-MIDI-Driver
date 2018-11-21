@@ -7,9 +7,9 @@
 //
 
 
-typealias OnPitchDetectedCallback = (Timestamp) -> Void
+typealias OnPitchDetectedCallback = (AudioTime) -> Void
 public struct PitchDetectionResult {
-    let timestamp: Timestamp
+    let timestamp: AudioTime
     let expectedChroma: ChromaVector
     let detectedChroma: ChromaVector
     let similarity: Float
@@ -36,7 +36,7 @@ class PitchDetection {
 
     /// If we have a note to detect, compare the current ChromaVector's similarity with the one we expect
     /// Call "onNotesDetected" for the expected event if our statusBuffers are true
-    func run(on filterbankMagnitudes: [FilterbankMagnitude], at timestampMs: Timestamp) -> PitchDetectionResult? {
+    func run(on filterbankMagnitudes: [FilterbankMagnitude], at timestampMs: AudioTime) -> PitchDetectionResult? {
         guard let expectedChroma = expectedChroma else { return nil }
 
         let detectedChroma = chroma(from: filterbankMagnitudes)

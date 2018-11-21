@@ -1,5 +1,6 @@
+public typealias AudioTime = Double
 public typealias SampleRateChangedCallback = ((_ sampleRate: Double) -> Void)
-public typealias AudioDataCallback = (([Float], Timestamp) -> Void)
+public typealias AudioDataCallback = (([Float], AudioTime) -> Void)
 
 public protocol AudioEngineProtocol: class {
     var sampleRate: Double { get }
