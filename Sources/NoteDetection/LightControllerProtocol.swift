@@ -4,8 +4,8 @@ protocol LightController {
     var midiEngine: MIDIEngineProtocol? { get }
     var connection: MIDIOutConnection? { get }
 
-    func createLightOnMessage(key: UInt8) -> [UInt8]
-    func createLightOffMessage(key: UInt8) -> [UInt8]
+    static func createLightOnMessage(key: UInt8) -> [UInt8]
+    static func createLightOffMessage(key: UInt8) -> [UInt8]
 
     func animateLights(onComplete: ((LightController) -> Void)?)
     func turnOnLights(at index: Int, in noteEvents: [DetectableNoteEvent])
@@ -33,8 +33,8 @@ extension LightController {
 
         // trigger animation (async)
         for key in pianoMIDIRange {
-            let noteOnMsg = createLightOnMessage(key: UInt8(key))
-            let noteOffMsg = createLightOffMessage(key: UInt8(key))
+            let noteOnMsg = Self.createLightOnMessage(key: UInt8(key))
+            let noteOffMsg = Self.createLightOffMessage(key: UInt8(key))
 
             DispatchQueue.main.asyncAfter(deadline: startTime + .milliseconds(key * animationTimePerKeyMS), execute: {
                 self.send(messages: [noteOnMsg])

@@ -106,6 +106,7 @@
 		60A0A6A1211349FC00C66CF5 /* MIDIEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A0A69F211349FC00C66CF5 /* MIDIEngine.swift */; };
 		60B05BFA21107D2200797FE5 /* MIDIPacketSizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B05BF921107D2200797FE5 /* MIDIPacketSizes.swift */; };
 		60B05BFB21107D2200797FE5 /* MIDIPacketSizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B05BF921107D2200797FE5 /* MIDIPacketSizes.swift */; };
+		60FCFF5E21A5DEA2000B527F /* LightControlTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FCFF5D21A5DEA2000B527F /* LightControlTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -201,6 +202,7 @@
 		60A0A69C211349E300C66CF5 /* AudioEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioEngine.swift; path = Sources/NoteDetection/AudioEngine.swift; sourceTree = SOURCE_ROOT; };
 		60A0A69F211349FC00C66CF5 /* MIDIEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIEngine.swift; path = Sources/NoteDetection/MIDIEngine.swift; sourceTree = SOURCE_ROOT; };
 		60B05BF921107D2200797FE5 /* MIDIPacketSizes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIPacketSizes.swift; path = Sources/NoteDetection/MIDIPacketSizes.swift; sourceTree = SOURCE_ROOT; };
+		60FCFF5D21A5DEA2000B527F /* LightControlTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightControlTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -410,6 +412,7 @@
 				03A7F7401E850D5300849AE2 /* Info.plist */,
 				03935B082074A61700D3C325 /* MemoryLeakTests.swift */,
 				605AC25A210F5EB400A21951 /* MIDIPacketListTest.swift */,
+				60FCFF5D21A5DEA2000B527F /* LightControlTests.swift */,
 			);
 			path = NoteDetectionTests;
 			sourceTree = "<group>";
@@ -699,6 +702,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60FCFF5E21A5DEA2000B527F /* LightControlTests.swift in Sources */,
 				609641E820F6425900A7F67E /* NoteDetectorTestDelegate.swift in Sources */,
 				03215F9F1F02A87000C9AE3E /* MIDINoteDetectorTest.swift in Sources */,
 				605AC25B210F5EB400A21951 /* MIDIPacketListTest.swift in Sources */,
