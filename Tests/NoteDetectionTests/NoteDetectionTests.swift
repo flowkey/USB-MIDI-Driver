@@ -9,32 +9,35 @@
 import XCTest
 @testable import NoteDetection
 
-var audioNoteDetectorDelegate: NoteDetectorTestDelegate? = nil
+
+fileprivate let sampleRate = 44100.0
 
 class NoteDetectionTests: XCTestCase {
+    
+    let arbitaryIgnoreTime = 200.0
+    let arbitraryMidiNumber = MIDINumber(69)
+    
+    var audioNoteDetector = AudioNoteDetector(sampleRate: sampleRate)
+    var audioNoteDetectorDelegate = NoteDetectorTestDelegate()
+    
+    override func setUp() {
+        audioNoteDetector = AudioNoteDetector(sampleRate: sampleRate)
+        audioNoteDetectorDelegate = NoteDetectorTestDelegate()
+    }
 
     func testIfNoteDetectionIgnores() {
         let noteEventIsNotIgnored = XCTestExpectation(description: "note event is not ignored")
         noteEventIsNotIgnored.isInverted = true // the test passes if the expectation is never fulfilled
 
-        let audioNoteDetector = AudioNoteDetector(sampleRate: 44100)
-        audioNoteDetectorDelegate = NoteDetectorTestDelegate(callback: {
-            noteEventIsNotIgnored.fulfill() // for the test to pass this should never be called
-        })
-        
+        audioNoteDetectorDelegate.callback = { noteEventIsNotIgnored.fulfill() } // for the test to callback should never be called
         audioNoteDetector.delegate = audioNoteDetectorDelegate
-
-        let arbitraryMidiNumber = MIDINumber(69)
+        
         audioNoteDetector.pitchDetection.setExpectedEvent(NoteEvent(notes: [arbitraryMidiNumber]))
-
-        let arbitaryIgnoreTime = 200.0
         audioNoteDetector.ignoreFor(ms: arbitaryIgnoreTime)
-
-        let onsetTimestamp = 0.0
-        let noteTimestmap = onsetTimestamp + 50
-        audioNoteDetector.onOnsetDetected(timestamp: onsetTimestamp)
-        audioNoteDetector.onPitchDetected(timestamp: noteTimestmap)
+        audioNoteDetector.onOnsetDetected(timestamp: 0.0)
+        audioNoteDetector.onPitchDetected(timestamp: 50.0)
 
         wait(for: [noteEventIsNotIgnored], timeout: 0.4)
     }
+    
 }

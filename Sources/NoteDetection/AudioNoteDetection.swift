@@ -11,6 +11,9 @@ public final class AudioNoteDetector: NoteDetector {
     static let maxNoteToOnsetTimeDelta = AudioTime(150)
 
     var filterbank: Filterbank
+    
+    // ToDo: both of the following members should be private
+    // some tests still use them though, needs to be refactored
     let pitchDetection = PitchDetection(noteRange: .standard)
     let onsetDetection = SpectralFluxOnsetDetection()
     
