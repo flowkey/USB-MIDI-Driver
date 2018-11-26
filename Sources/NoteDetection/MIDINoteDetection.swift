@@ -42,7 +42,7 @@ public final class MIDINoteDetector: NoteDetector {
             DispatchQueue.main.async {
                 self.delegate?.onNoteEventDetected(
                     noteDetector: self,
-                    timestamp: timestampMs,
+                    timestamp: TimeInterval(timestampMs),
                     detectedEvent: noteEvent
                 )
             }

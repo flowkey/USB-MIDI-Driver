@@ -16,9 +16,9 @@ class NoteDetectorTestDelegate: NoteDetectorDelegate {
         self.callback = callback
     }
     
-    func onNoteEventDetected<Numeric>(
+    func onNoteEventDetected(
         noteDetector: NoteDetector,
-        timestamp: Numeric,
+        timestamp: TimeInterval,
         detectedEvent: DetectableNoteEvent
     ) {
         callback()

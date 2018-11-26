@@ -1,7 +1,9 @@
+import Foundation
+
 public protocol NoteDetectorDelegate: class {
-    func onNoteEventDetected<Numeric>(
+    func onNoteEventDetected(
         noteDetector: NoteDetector,
-        timestamp: Numeric,
+        timestamp: TimeInterval,
         detectedEvent: DetectableNoteEvent
     ) -> Void
     func onInputLevelChanged(ratio: Float) -> Void
