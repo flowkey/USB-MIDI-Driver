@@ -1,4 +1,3 @@
-public typealias AudioTime = Double
 public typealias SampleRateChangedCallback = ((_ sampleRate: Double) -> Void)
 public typealias AudioDataCallback = (([Float], AudioTime) -> Void)
 

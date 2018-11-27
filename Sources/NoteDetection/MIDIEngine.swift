@@ -1,11 +1,3 @@
-#if os(Android)
-import JNI
-public typealias MIDITime = JavaLong
-#else
-import CoreMIDI
-public typealias MIDITime = CoreMIDI.MIDITimeStamp
-#endif
-
 public typealias MIDIMessageReceivedCallback = (MIDIMessage, MIDIDevice?, MIDITime) -> Void
 public typealias MIDIDeviceListChangedCallback = (Set<MIDIDevice>) -> Void
 public typealias SysexMessageReceivedCallback = ([UInt8], MIDIDevice) -> Void
