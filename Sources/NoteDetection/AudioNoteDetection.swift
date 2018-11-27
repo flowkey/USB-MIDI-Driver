@@ -79,6 +79,7 @@ public final class AudioNoteDetector: NoteDetector {
     }
 
     public func process(audio samples: [Float], at timestampMs: AudioTime) {
+        self.lastReceivedAudioTimestamp = timestampMs
         // ensure we always have at least 960 samples before processing audio:
         self.audioBuffer.append(contentsOf: samples)
         guard self.audioBuffer.count >= 960 else { return }
@@ -112,6 +113,7 @@ public final class AudioNoteDetector: NoteDetector {
     public func performNoteDetection(filterbankMagnitudes: [Float], at timestampMs: AudioTime) ->
         (OnsetDetectionResult, PitchDetectionResult?)
     {
+        self.lastReceivedAudioTimestamp = timestampMs
         pitchDetection.setExpectedEvent(delegate?.expectedNoteEvent)
 
         let onsetData = onsetDetection.run(on: filterbankMagnitudes, at: timestampMs)
