@@ -44,4 +44,24 @@ class AudioNoteDetectorTests: XCTestCase {
 
         XCTAssert(noteWasDetected == false)
     }
+    
+    func testIfNoteDetectionIsIgnoring() {
+        let audioNoteDetector = AudioNoteDetector(sampleRate: 44100)
+        
+        audioNoteDetector.process(audio: [], at: 0)
+        audioNoteDetector.ignoreFor(ms: 100)
+
+        let isIgnoring = audioNoteDetector.isIgnoring(at: 50)
+        XCTAssertEqual(isIgnoring, true)
+    }
+    
+    func testIfNoteDetectionIsIgnoringEnded() {
+        let audioNoteDetector = AudioNoteDetector(sampleRate: 44100)
+        
+        audioNoteDetector.process(audio: [], at: 0)
+        audioNoteDetector.ignoreFor(ms: 100)
+        
+        let isIgnoring = audioNoteDetector.isIgnoring(at: 150)
+        XCTAssertEqual(isIgnoring, false)
+    }
 }

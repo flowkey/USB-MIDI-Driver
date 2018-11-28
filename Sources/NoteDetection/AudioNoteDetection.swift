@@ -14,20 +14,18 @@ public final class AudioNoteDetector: NoteDetector {
 
     var filterbank: Filterbank
     
-    // ToDo: both of the following members should be private
-    // some tests still use them though, needs to be refactored
     let pitchDetection = PitchDetection(noteRange: .standard)
     let onsetDetection = SpectralFluxOnsetDetection()
     
     private var ignoreUntilDeadline: AudioTime?
     private var lastReceivedAudioTimestamp: AudioTime?
     
-    fileprivate func isIgnoring(at timestamp: AudioTime) -> Bool {
+    func isIgnoring(at timestamp: AudioTime) -> Bool {
         guard let deadline = ignoreUntilDeadline else { return false }
         return (timestamp - deadline) < 0
     }
 
-    public func ignoreFor(ms duration: Double) {
+    public func ignoreFor(ms duration: AudioTime) {
         guard let lastReceivedAudioTimeStamp = self.lastReceivedAudioTimestamp
         else { return }
         ignoreUntilDeadline = lastReceivedAudioTimeStamp + duration
