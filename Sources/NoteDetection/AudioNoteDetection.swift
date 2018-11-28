@@ -4,6 +4,8 @@ public protocol ProcessedAudioDelegate: class {
     func onAudioProcessed(_: ProcessedAudio) -> Void
 }
 
+public typealias AudioTime = Double
+
 public final class AudioNoteDetector: NoteDetector {
     public weak var delegate: NoteDetectorDelegate?
     public weak var processedAudioDelegate: ProcessedAudioDelegate?

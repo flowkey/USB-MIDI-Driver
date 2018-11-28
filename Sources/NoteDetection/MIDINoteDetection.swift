@@ -7,6 +7,15 @@
 //
 import Dispatch
 
+#if os(Android)
+import JNI
+public typealias MIDITime = JavaLong
+#else
+import CoreMIDI
+public typealias MIDITime = CoreMIDI.MIDITimeStamp
+#endif
+
+
 public final class MIDINoteDetector: NoteDetector {
     public weak var delegate: NoteDetectorDelegate?
     
