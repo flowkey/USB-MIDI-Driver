@@ -137,41 +137,43 @@ public final class AudioNoteDetector: NoteDetector {
     }
 
     func onInputReceived() {
-        if timestampsAreCloseEnough() {
-            // timestampsAreCloseEnough ensures both timestamps exist:
-            let noteEventDetectedTimestamp = max(lastOnsetTimestamp!, lastNoteTimestamp!)
-            lastOnsetTimestamp = nil
-            lastNoteTimestamp = nil
-            
-            if !self.isIgnoring(at: noteEventDetectedTimestamp) {
-                guard let delegate = self.delegate else {
-                    assertionFailure("An event was detected, but the delegate was nil")
-                    return
-                }
+        guard
+            let onsetTimestamp = lastOnsetTimestamp,
+            let noteTimestamp = lastNoteTimestamp,
+            noteTimestamp.isCloseEnough(to: onsetTimestamp)
+        else {
+            return
+        }
+        
+        let noteEventDetectedTimestamp = max(onsetTimestamp, noteTimestamp)
+        lastOnsetTimestamp = nil
+        lastNoteTimestamp = nil
+        
+        if !self.isIgnoring(at: noteEventDetectedTimestamp) {
+            guard let delegate = self.delegate else {
+                assertionFailure("An event was detected, but the delegate was nil")
+                return
+            }
 
-                guard let noteEvent = delegate.expectedNoteEvent else {
-                    print("An event was detected, but the delegate's event is null.")
-                    return
-                }
+            guard let noteEvent = delegate.expectedNoteEvent else {
+                print("An event was detected, but the delegate's event is null.")
+                return
+            }
 
-                DispatchQueue.main.async {
-                    delegate.onNoteEventDetected(
-                        noteDetector: self,
-                        timestamp: noteEventDetectedTimestamp,
-                        detectedEvent: noteEvent
-                    )
-                }
+            DispatchQueue.main.async {
+                delegate.onNoteEventDetected(
+                    noteDetector: self,
+                    timestamp: noteEventDetectedTimestamp,
+                    detectedEvent: noteEvent
+                )
             }
         }
     }
+}
 
-    private func timestampsAreCloseEnough() -> Bool {
-        guard
-            let onsetTimestamp = lastOnsetTimestamp,
-            let noteTimestamp = lastNoteTimestamp
-            else { return false }
-
-        let timestampDiff = abs(onsetTimestamp - noteTimestamp)
+extension AudioTime {
+    func isCloseEnough(to otherAudioTime: AudioTime) -> Bool {
+        let timestampDiff = abs(self - otherAudioTime)
         return timestampDiff < AudioNoteDetector.maxNoteToOnsetTimeDelta
     }
 }
