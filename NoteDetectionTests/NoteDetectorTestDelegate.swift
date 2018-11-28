@@ -12,7 +12,7 @@ class NoteDetectorTestDelegate: NoteDetectorDelegate {
     
     var callback: () -> Void
     
-    init(callback: @escaping () -> Void = {}) {
+    init(callback: @escaping () -> Void) {
         self.callback = callback
     }
     
