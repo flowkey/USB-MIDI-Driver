@@ -6,6 +6,7 @@
 //  Copyright © 2017 flowkey. All rights reserved.
 //
 import Dispatch
+import typealias Foundation.TimeInterval
 
 #if os(Android)
 import JNI
