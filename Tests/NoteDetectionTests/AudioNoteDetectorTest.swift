@@ -37,8 +37,10 @@ class AudioNoteDetectorTests: XCTestCase {
             noteWasDetected = true
         })
 
-        audioNoteDetector.onOnsetDetected(timestamp: 0)
-        audioNoteDetector.onPitchDetected(timestamp: AudioNoteDetector.maxNoteToOnsetTimeDelta + 1)
+        let now = 0.0
+        let then = now + AudioNoteDetector.maxNoteToOnsetTimeDelta + 1
+        audioNoteDetector.onOnsetDetected(timestamp: now)
+        audioNoteDetector.onPitchDetected(timestamp: then)
 
         XCTAssert(noteWasDetected == false)
     }
