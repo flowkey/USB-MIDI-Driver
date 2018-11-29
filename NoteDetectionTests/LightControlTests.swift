@@ -13,14 +13,18 @@ class LightControlTests: XCTestCase {
     var yamahaLights = YamahaLights(midiEngine: nil)
     
     override func setUp() {
-         yamahaLights = YamahaLights(midiEngine: nil)
+        yamahaLights = YamahaLights(midiEngine: nil)
     }
 
     func testIfStatusIsNotAvailableAfterInit() {
+        XCTAssertNil(yamahaLights.midiEngine)
+        XCTAssertNil(yamahaLights.controller)
         XCTAssertEqual(yamahaLights.status, .notAvailable)
     }
 
     func testIfEnabledWhenControllerExists() {
+        yamahaLights.isEnabled = true
+        XCTAssertEqual(yamahaLights.status, .notAvailable)
         yamahaLights.controller = RegularLightController(connection: nil, midiEngine: nil)
         XCTAssertEqual(yamahaLights.status, .enabled)
     }
@@ -47,13 +51,13 @@ class LightControlTests: XCTestCase {
     func testIfStillNotAvailableAfterAttemptToEnableWithNoController() {
         XCTAssertNil(yamahaLights.controller)
         yamahaLights.isEnabled = true
-        XCTAssertEqual(yamahaLights.status, LightControlStatus.notAvailable)
+        XCTAssertEqual(yamahaLights.status, .notAvailable)
     }
 
     func testIfStillNotAvailableAfterAttemptToDisableWithNoController() {
         XCTAssertNil(yamahaLights.controller)
         yamahaLights.isEnabled = false
-        XCTAssertEqual(yamahaLights.status, LightControlStatus.notAvailable)
+        XCTAssertEqual(yamahaLights.status, .notAvailable)
     }
 
     func testLightsOffMessagePerOctave() {
@@ -64,5 +68,4 @@ class LightControlTests: XCTestCase {
         let expectedKeys = Array(UInt8(21)...UInt8(108))
         XCTAssertEqual(keys, expectedKeys)
     }
-
 }
