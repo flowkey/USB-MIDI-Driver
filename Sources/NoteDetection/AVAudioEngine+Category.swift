@@ -9,14 +9,30 @@ import AVFoundation
 
 extension AVAudioSession {
     func setCategoryToPlayAndRecordIfNecessary() throws {
-        if category != AVAudioSessionCategoryPlayAndRecord {
+        if category != .playAndRecord {
             try setActive(false)
-            var options: AVAudioSessionCategoryOptions = [.defaultToSpeaker, .allowBluetooth]
-            if #available(iOS 10.0, *) {
-                options.insert([.allowBluetoothA2DP, .allowAirPlay])
-            }
-            try setCategory(AVAudioSessionCategoryPlayAndRecord, with: options)
+            try setCategoryToPlayAndRecordWithCustomOptions()
             try setActive(true)
+        }
+    }
+}
+
+public extension AVAudioSession {
+    func setCategoryToPlayAndRecordWithCustomOptions() throws {
+        var options: AVAudioSession.CategoryOptions = [.defaultToSpeaker, .allowBluetooth]
+        
+        if #available(iOS 10.0, *) {
+            options.insert([.allowBluetoothA2DP, .allowAirPlay])
+            try AVAudioSession.sharedInstance().setCategory(.playAndRecord,
+                                                            mode: .measurement,
+                                                            options: options)
+        } else {
+            // use workaround to set category with options because of http://www.openradar.me/42382075
+            AVAudioSession.sharedInstance().perform(
+                NSSelectorFromString("setCategory:withOptions:error:"),
+                with: AVAudioSession.Category.playAndRecord,
+                with: options
+            )
         }
     }
 }
