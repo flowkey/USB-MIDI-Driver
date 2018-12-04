@@ -49,6 +49,12 @@ public final class AudioEngine: AudioEngineProtocol {
         try audioIOUnit.setProperty(kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Input, .inputBus, UInt32(truncating: true))
         try audioIOUnit.initialize()
     }
+    
+    func disableInput() throws {
+        try audioIOUnit.uninitialize()
+        try audioIOUnit.setProperty(kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Input, .inputBus, UInt32(truncating: false))
+        try audioIOUnit.initialize()
+    }
 
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -76,6 +82,7 @@ extension AudioEngine {
 
     public func stopMicrophone() throws {
         try audioIOUnit.stop()
+        try? disableInput()
     }
 }
 
