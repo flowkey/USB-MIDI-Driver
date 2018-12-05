@@ -110,12 +110,14 @@ fileprivate extension TimeInterval {
 
 fileprivate extension Array where Element == Double {
     func getDifferences() -> [Double] {
+        assert(self.count > 1)
         var diffs: [Double] = []
         for (offset, element) in self.enumerated() {
-            if offset < self.count - 1 {
-                let diff = self[offset + 1] - element
-                diffs.append(diff)
+            guard offset < self.count - 1 else {
+                break
             }
+            let diff = self[offset + 1] - element
+            diffs.append(diff)
         }
         return diffs
     }
