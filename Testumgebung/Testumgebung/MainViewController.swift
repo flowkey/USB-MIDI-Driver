@@ -17,7 +17,10 @@ public let noteDetection = AudioNoteDetector(sampleRate: audioEngine.sampleRate)
     var midiViewController: MidiViewController?
 
     // Set the graphController we want to update when switching tabs
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+    func tabBarController(
+        _ tabBarController: UITabBarController, 
+        didSelect viewController: UIViewController
+    ) {
         graphViewController = viewController as? GraphViewController
     }
 
@@ -41,7 +44,9 @@ public let noteDetection = AudioNoteDetector(sampleRate: audioEngine.sampleRate)
         case "Waveform":
             graphViewController.updateView(data.audioData)
         case "Onset":
-            graphViewController.updateView(data.onsetFeatureValue, onsetThreshold: data.onsetThreshold, onsetDetected: data.onsetDetected)
+            graphViewController.updateView(data.onsetFeatureValue,
+                                           onsetThreshold: data.onsetThreshold,
+                                           onsetDetected: data.onsetDetected)
         default:
             let chromaAsFloatArray: [Float] = (data.chromaVector ?? ChromaVector()).raw
             graphViewController.updateView(chromaAsFloatArray)
@@ -55,7 +60,11 @@ public let noteDetection = AudioNoteDetector(sampleRate: audioEngine.sampleRate)
 }
 
 extension MainViewController: NoteDetectorDelegate {
-    func onNoteEventDetected(noteDetector: NoteDetector, timestamp: Timestamp, detectedEvent: DetectableNoteEvent) -> Void {}
+    func onNoteEventDetected(
+        noteDetector: NoteDetector,
+        timestamp: TimeInterval,
+        detectedEvent: DetectableNoteEvent
+    ) -> Void {}
     func onInputLevelChanged(ratio: Float) -> Void {}
     var expectedNoteEvent: DetectableNoteEvent? { return DummyNoteEvent.empty }
 }

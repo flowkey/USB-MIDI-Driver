@@ -159,10 +159,10 @@ public final class MIDIEngine: MIDIEngineProtocol {
     func onMIDIPacketListReceived(packetList: UnsafePointer<MIDIPacketList>?, srcConnRefCon: UnsafeMutableRawPointer?) {
         let sourceDevice = midiDeviceList.first { $0.refCon == srcConnRefCon }
         let packets = makePacketsFromPacketList(packetList)
-
         for packet in packets {
             let midiData = packet.toMIDIDataArray()
             let midiMessages = parseMIDIMessages(from: midiData)
+            let timestamp = packet.timeStamp
             DispatchQueue.main.async {
                 midiMessages.forEach { message in
                     switch message {
@@ -171,7 +171,7 @@ public final class MIDIEngine: MIDIEngineProtocol {
                         guard let sourceDevice = sourceDevice else { break }
                         self.onSysexMessageReceived?(data, sourceDevice)
                     default:
-                        self.onMIDIMessageReceived?(message, sourceDevice, .now)
+                        self.onMIDIMessageReceived?(message, sourceDevice, timestamp)
                     }
                 }
             }

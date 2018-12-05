@@ -54,6 +54,17 @@ public final class AudioEngine: AudioEngineProtocol {
         )
         try audioIOUnit.initialize()
     }
+    
+    func disableInput() throws {
+        try audioIOUnit.uninitialize()
+        try audioIOUnit.setProperty(
+            kAudioOutputUnitProperty_EnableIO,
+            kAudioUnitScope_Input,
+            .inputBus,
+            UInt32(truncating: false)
+        )
+        try audioIOUnit.initialize()
+    }
 
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -81,6 +92,7 @@ extension AudioEngine {
 
     public func stopMicrophone() throws {
         try audioIOUnit.stop()
+        try? disableInput()
     }
 }
 
@@ -144,16 +156,12 @@ extension AudioEngine {
                 return status // abort and don't call onAudioData
             }
 
-//            let audioTimeStamp = timestamp.pointee
-//            let timestampInMs: Timestamp
-//            if audioTimeStamp.mFlags.contains(AudioTimeStampFlags.hostTimeValid) {
-//                timestampInMs = Double(audioTimeStamp.mHostTime) * hostTimeToMillisFactor
-//            } else {
-//                timestampInMs = .now
-//                assertionFailure("hosttime is not valid")
-//            }
-        
-            onAudioData(self.audioData, .now)
+            let audioTimeStamp = timestamp.pointee
+            if !audioTimeStamp.mFlags.contains(AudioTimeStampFlags.hostTimeValid) {
+                assertionFailure("hosttime is not valid")
+            }
+            let timestampInMs: AudioTime = Double(audioTimeStamp.mHostTime) * hostTimeToMillisFactor
+            onAudioData(self.audioData, timestampInMs)
 
             return noErr
         }

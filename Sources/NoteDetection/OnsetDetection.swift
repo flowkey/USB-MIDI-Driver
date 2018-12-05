@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Geordie Jay. All rights reserved.
 //
 
-public typealias OnsetDetectedCallback = (Timestamp) -> Void
+public typealias OnsetDetectedCallback = (AudioTime) -> Void
 public typealias OnsetDetectionResult = (featureValue: Float, threshold: Float, onsetDetected: Bool)
 
 protocol OnsetDetection: class {
@@ -14,7 +14,7 @@ protocol OnsetDetection: class {
     associatedtype InputDataType
     typealias FeatureValue = Float
 
-    func run(on inputData: InputDataType, at timestampMs: Timestamp) -> OnsetDetectionResult
+    func run(on inputData: InputDataType, at timestampMs: AudioTime) -> OnsetDetectionResult
     func compute(from inputData: InputDataType) -> FeatureValue
     var onsetFeatureBuffer: [FeatureValue] { get set }
 
@@ -25,7 +25,7 @@ protocol OnsetDetection: class {
 }
 
 extension OnsetDetection {
-    func run(on inputData: InputDataType, at timestampMs: Timestamp) -> OnsetDetectionResult {
+    func run(on inputData: InputDataType, at timestampMs: AudioTime) -> OnsetDetectionResult {
         let currentFeatureValue = compute(from: inputData)
         onsetFeatureBuffer.remove(at: 0)
         onsetFeatureBuffer.append(currentFeatureValue)

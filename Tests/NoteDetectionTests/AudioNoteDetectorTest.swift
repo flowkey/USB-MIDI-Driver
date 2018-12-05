@@ -23,8 +23,8 @@ class AudioNoteDetectorTests: XCTestCase {
         
         audioNoteDetector.delegate = noteDetectorDelegate
 
-        let now: Timestamp = .now
-        let then: Timestamp = now + AudioNoteDetector.maxNoteToOnsetTimeDelta / 2
+        let now = 0.0
+        let then = now + AudioNoteDetector.maxNoteToOnsetTimeDelta / 2
         audioNoteDetector.onOnsetDetected(timestamp: now)
         audioNoteDetector.onPitchDetected(timestamp: then)
 
@@ -37,9 +37,31 @@ class AudioNoteDetectorTests: XCTestCase {
             noteWasDetected = true
         })
 
-        audioNoteDetector.onOnsetDetected(timestamp: .now)
-        audioNoteDetector.onPitchDetected(timestamp: .now + AudioNoteDetector.maxNoteToOnsetTimeDelta + 1)
+        let now = 0.0
+        let then = now + AudioNoteDetector.maxNoteToOnsetTimeDelta + 1
+        audioNoteDetector.onOnsetDetected(timestamp: now)
+        audioNoteDetector.onPitchDetected(timestamp: then)
 
         XCTAssert(noteWasDetected == false)
+    }
+    
+    func testIfNoteDetectionIsIgnoring() {
+        let audioNoteDetector = AudioNoteDetector(sampleRate: 44100)
+        
+        audioNoteDetector.process(audio: [], at: 0)
+        audioNoteDetector.ignoreFor(ms: 100)
+
+        let isIgnoring = audioNoteDetector.isIgnoring(at: 50)
+        XCTAssertEqual(isIgnoring, true)
+    }
+    
+    func testIfNoteDetectionIsIgnoringEnded() {
+        let audioNoteDetector = AudioNoteDetector(sampleRate: 44100)
+        
+        audioNoteDetector.process(audio: [], at: 0)
+        audioNoteDetector.ignoreFor(ms: 100)
+        
+        let isIgnoring = audioNoteDetector.isIgnoring(at: 150)
+        XCTAssertEqual(isIgnoring, false)
     }
 }

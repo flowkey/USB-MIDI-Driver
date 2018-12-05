@@ -12,10 +12,9 @@ import Dispatch
 private weak var midiEngine: MIDIEngine?
 
 @_cdecl("Java_com_flowkey_notedetection_midi_ApiIndependentMIDIEngine_nativeMidiMessageCallback")
-public func onMIDIMessageReceived(env: UnsafeMutablePointer<JNIEnv>, cls: JavaObject, midiData: JavaByteArray, timestamp: JavaLong) {
+public func onMIDIMessageReceived(env: UnsafeMutablePointer<JNIEnv>, cls: JavaObject, midiData: JavaByteArray, timestamp: MIDITime) {
     let midiDataArray: [UInt8] = jni.GetByteArrayRegion(array: midiData)
     let midiMessages = parseMIDIMessages(from: midiDataArray)
-    let timestamp = Timestamp.now
 
     DispatchQueue.main.async {
         midiMessages.forEach { message in

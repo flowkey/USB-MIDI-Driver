@@ -15,11 +15,9 @@ class MIDINoteDetectorTests: XCTestCase {
     func testIfFollowsOnRandomEvent() {
         // testing with async expectation because MIDINoteDetector uses DispatchQueue.main.async
         let notesDetectedExpectation = expectation(description: "notes were detected")
-        
         noteDetectorDelegate = NoteDetectorTestDelegate(callback: {
             notesDetectedExpectation.fulfill()
         })
-        
         midiNoteDetector.delegate = noteDetectorDelegate
 
         let randomEventIndex = getRandomEventIndexFrom(noteEvents: noteEvents)
@@ -30,27 +28,48 @@ class MIDINoteDetectorTests: XCTestCase {
             return
         }
 
+        let arbitraryTimestamp: MIDITime = 123
         for note in noteEvent.notes {
             let message = MIDIMessage.noteOn(key: UInt8(note), velocity: 10)
-            midiNoteDetector.process(midiMessage: message, from: nil, at: .now)
+            midiNoteDetector.process(midiMessage: message, from: nil, at: arbitraryTimestamp)
         }
 
         wait(for: [notesDetectedExpectation], timeout: 0.1)
     }
 
     func testIfMIDIArrayIsEmptyAfterNoteOff() {
+        let arbitraryNoteOnTime: MIDITime = 1000
+        let arbitraryNoteOffTime: MIDITime = 2000
+
         // add some keys
-        midiNoteDetector.process(midiMessage: .noteOn(key: 69, velocity: 10), from: nil, at: .now)
-        midiNoteDetector.process(midiMessage: .noteOn(key: 69 + 12, velocity: 10), from: nil, at: .now)
+        midiNoteDetector.process(
+            midiMessage: .noteOn(key: 69, velocity: 10),
+            from: nil,
+            at: arbitraryNoteOnTime
+        )
+        midiNoteDetector.process(
+            midiMessage: .noteOn(key: 69 + 12, velocity: 10),
+            from: nil,
+            at: arbitraryNoteOnTime
+        )
 
         // remove them again
-        midiNoteDetector.process(midiMessage: .noteOff(key: 69), from: nil, at: .now)
-        midiNoteDetector.process(midiMessage: .noteOff(key: 69 + 12), from: nil, at: .now)
+        midiNoteDetector.process(
+            midiMessage: .noteOff(key: 69),
+            from: nil,
+            at: arbitraryNoteOffTime
+        )
+        midiNoteDetector.process(
+            midiMessage: .noteOff(key: 69 + 12),
+            from: nil,
+            at: arbitraryNoteOffTime
+        )
 
         XCTAssertTrue(midiNoteDetector.currentMIDIKeys.isEmpty)
     }
 
     func testIfItFollowsWhenSetContainsNotExpectedKeys() {
+        let arbitraryTimestamp: MIDITime = 1000
         let notesDetectedExpectation = expectation(description: "notes were detected")
         
         noteDetectorDelegate = NoteDetectorTestDelegate(callback: {
@@ -63,7 +82,11 @@ class MIDINoteDetectorTests: XCTestCase {
         noteDetectorDelegate!.expectedNoteEvent = noteEvents[randomEventIndex]
 
         // add not expected key
-        midiNoteDetector.process(midiMessage: .noteOn(key: 0, velocity: 10), from: nil, at: .now)
+        midiNoteDetector.process(
+            midiMessage: .noteOn(key: 0, velocity: 10),
+            from: nil,
+            at: arbitraryTimestamp
+        )
 
         guard let noteEvent = noteDetectorDelegate?.expectedNoteEvent else {
             XCTFail()
@@ -72,7 +95,7 @@ class MIDINoteDetectorTests: XCTestCase {
 
         // add expected keys
         for note in noteEvent.notes {
-            midiNoteDetector.process(midiMessage: .noteOn(key: UInt8(note), velocity: 10), from: nil, at: .now)
+            midiNoteDetector.process(midiMessage: .noteOn(key: UInt8(note), velocity: 10), from: nil, at: 0)
         }
 
         wait(for: [notesDetectedExpectation], timeout: 0.1)

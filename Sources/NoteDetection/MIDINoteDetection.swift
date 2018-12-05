@@ -6,6 +6,16 @@
 //  Copyright © 2017 flowkey. All rights reserved.
 //
 import Dispatch
+import typealias Foundation.TimeInterval
+
+#if os(Android)
+import JNI
+public typealias MIDITime = JavaLong
+#else
+import CoreMIDI
+public typealias MIDITime = CoreMIDI.MIDITimeStamp
+#endif
+
 
 public final class MIDINoteDetector: NoteDetector {
     public weak var delegate: NoteDetectorDelegate?
@@ -14,7 +24,7 @@ public final class MIDINoteDetector: NoteDetector {
     
     public init() {}
 
-    public func process(midiMessage: MIDIMessage, from device: MIDIDevice?, at timestampMs: Timestamp) {
+    public func process(midiMessage: MIDIMessage, from device: MIDIDevice?, at timestampMs: MIDITime) {
         switch midiMessage {
         case let .noteOn(key, velocity):
             currentMIDIKeys.insert(Int(key))
@@ -42,7 +52,7 @@ public final class MIDINoteDetector: NoteDetector {
             DispatchQueue.main.async {
                 self.delegate?.onNoteEventDetected(
                     noteDetector: self,
-                    timestamp: timestampMs,
+                    timestamp: TimeInterval(timestampMs),
                     detectedEvent: noteEvent
                 )
             }
