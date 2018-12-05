@@ -57,7 +57,12 @@ public final class AudioEngine: AudioEngineProtocol {
     
     func disableInput() throws {
         try audioIOUnit.uninitialize()
-        try audioIOUnit.setProperty(kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Input, .inputBus, UInt32(truncating: false))
+        try audioIOUnit.setProperty(
+            kAudioOutputUnitProperty_EnableIO,
+            kAudioUnitScope_Input,
+            .inputBus,
+            UInt32(truncating: false)
+        )
         try audioIOUnit.initialize()
     }
 
