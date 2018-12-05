@@ -93,6 +93,14 @@ public func mean(_ input: [Float]) -> Float {
 }
 
 
+public func mean(_ input: [Double]) -> Double {
+    var meanValue = Double(0)
+    vDSP_meanvD(input, 1, &meanValue, vDSP_Length(input.count))
+    
+    return meanValue
+}
+
+
 func median(_ input: [Float], use_vDSP_vsort: Bool = false) -> Float {
     var array = input
 

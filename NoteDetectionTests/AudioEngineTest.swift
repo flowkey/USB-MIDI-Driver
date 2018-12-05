@@ -86,8 +86,8 @@ class AudioEngineIOSTests: XCTestCase {
             deadline: DispatchTime.now() + audioTestDurationS,
             execute: {
                 try! self.audioEngine.stopMicrophone()
-                let audioTimeDiffMean = audioTimes.getDifferences().getMean()
-                let referenceTimeDiffMean = referenceTimes.getDifferences().getMean()
+                let audioTimeDiffMean = mean(audioTimes.getDifferences())
+                let referenceTimeDiffMean = mean(referenceTimes.getDifferences())
                 XCTAssertEqual(audioTimeDiffMean, referenceTimeDiffMean, accuracy: accuracy)
                 audioTimeIsInMS.fulfill()
             }
@@ -118,9 +118,5 @@ fileprivate extension Array where Element == Double {
             }
         }
         return diffs
-    }
-
-    func getMean() -> Double {
-        return self.reduce(0, +) / Double(self.count)
     }
 }
