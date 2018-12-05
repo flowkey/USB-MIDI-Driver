@@ -35,7 +35,7 @@ public final class AudioEngine: AudioEngineProtocol {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleRouteChange),
-            name: .AVAudioSessionRouteChange,
+            name: AVAudioSession.routeChangeNotification,
             object: nil
         )
     }
@@ -46,7 +46,12 @@ public final class AudioEngine: AudioEngineProtocol {
 
     func enableInput() throws {
         try audioIOUnit.uninitialize()
-        try audioIOUnit.setProperty(kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Input, .inputBus, UInt32(truncating: true))
+        try audioIOUnit.setProperty(
+            kAudioOutputUnitProperty_EnableIO,
+            kAudioUnitScope_Input,
+            .inputBus,
+            UInt32(truncating: true)
+        )
         try audioIOUnit.initialize()
     }
     
@@ -93,7 +98,7 @@ extension AudioEngine {
         // Sometimes iOS will set the output port to the phone receiver (even when using .defaultToSpeaker),
         // override it to speaker if it's set to receiver
         let audioOutputPortType = audioSession.currentRoute.outputs.first?.portType
-        if audioOutputPortType == AVAudioSessionPortBuiltInReceiver {
+        if audioOutputPortType == .builtInReceiver {
             try? audioSession.overrideOutputAudioPort(.speaker)
         }
 
@@ -192,12 +197,12 @@ private func printOnErrorAndContinue(_ function: () throws -> Void) {
 // taken from https://stackoverflow.com/questions/675626/coreaudio-audiotimestamp-mhosttime-clock-frequency
 private let hostTimeToMillisFactor: Double = {
     var timebaseInfo = mach_timebase_info_data_t(numer: 1, denom: 1)
-    
+
     if mach_timebase_info(&timebaseInfo) != KERN_SUCCESS {
         assertionFailure("Could not get timebase info")
     }
-    
+
     let hostTimeToNanosFactor: Double = Double(timebaseInfo.numer) / Double(timebaseInfo.denom)
-    
+
     return hostTimeToNanosFactor / 1_000_000
 }()

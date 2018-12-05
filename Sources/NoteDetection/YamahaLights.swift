@@ -3,35 +3,35 @@ import Foundation
 public class YamahaLights {
     private(set) weak var midiEngine: MIDIEngineProtocol?
 
-    private var controller: LightController? {
+    var controller: LightController? {
         didSet {
             if oldValue != nil && controller != nil {
                 return // if nothing changed
             }
-            status = (controller == nil) ? .notAvailable : .enabled
+            onStatusChanged?(status)
+        }
+        
+    }
+    
+    public var isEnabled: Bool = true {
+        didSet {
+            switch isEnabled {
+                case oldValue: return
+                case true: animateLights()
+                case false: controller?.turnOffAllLights()
+            }
+            onStatusChanged?(status)
         }
     }
 
-    public func set(isEnabled: Bool) {
-        status = isEnabled ? .enabled : .disabled
-    }
-
     public var onStatusChanged: LightControlStatusChangedCallback?
-    private(set) public var status: LightControlStatus = .notAvailable {
-        didSet {
-            if status == oldValue { return }
-
-            switch status {
-            case .enabled:
-                animateLights()
-            case .disabled:
-                controller?.turnOffAllLights()
-            case .notAvailable:
-                if controller != nil {
-                    assertionFailure("light controller should be nil but is not")
-                }
-            }
-            onStatusChanged?(status)
+    
+    public var status: LightControlStatus {
+        let controllerExists = controller != nil
+        switch (controllerExists, isEnabled) {
+            case (true, true): return .enabled
+            case (true, false): return .disabled
+            case (false, _): return .notAvailable
         }
     }
 
@@ -43,12 +43,12 @@ public class YamahaLights {
     }
 
     // MARK: Public API
-    public init(midiEngine: MIDIEngineProtocol) {
+    public init(midiEngine: MIDIEngineProtocol?) {
         self.midiEngine = midiEngine
-        midiEngine.set(onMIDIOutConnectionsChanged: self.onChangedMIDIOutConnections)
-        midiEngine.set(onSysexMessageReceived: self.onReceiveSysexMessage)
-        midiEngine.midiOutConnections.forEach {
-            midiEngine.send(messages: [YamahaMessages.DUMP_REQUEST_MODEL], to: $0)
+        midiEngine?.set(onMIDIOutConnectionsChanged: self.onChangedMIDIOutConnections)
+        midiEngine?.set(onSysexMessageReceived: self.onReceiveSysexMessage)
+        midiEngine?.midiOutConnections.forEach {
+            midiEngine?.send(messages: [YamahaMessages.DUMP_REQUEST_MODEL], to: $0)
         }
     }
 
