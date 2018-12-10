@@ -14,6 +14,7 @@ let arbitraryNoteOnData: [UInt8] = [144 + 1, 50, 50] // channel=1, key=50, veloc
 let arbitraryNoteOffData: [UInt8] = [128 + 1, 50, 50] // channel=1, key=50, velocity=50
 let arbitrarySysexData: [UInt8] = [0b11110000, 50, 0b11110111] // sysexstart, arbitrary=50, syexend
 let activeSensingData: [UInt8] = [254]
+let arbitraryControlChangeData: [UInt8] = [0b10111000, 64, 127] // status, sustain=64, value=127
 
 class MIDIParseTests: XCTestCase {
     func testSingleNoteOn() {
@@ -62,10 +63,22 @@ class MIDIParseTests: XCTestCase {
         }
         XCTAssertEqual(firstMessage, MIDIMessage.activeSensing)
     }
+    
+    func testSingleControlStateChange() {
+        let message: [MIDIMessage] = parseMIDIMessages(from: arbitraryControlChangeData)
+        guard let firstMessage = message.first else {
+            XCTFail("no message")
+            return
+        }
+
+        let control = arbitraryControlChangeData[1]
+        let value = arbitraryControlChangeData[2]
+        XCTAssertEqual(firstMessage, MIDIMessage.controlChange(control: control, value: value))
+    }
 
     func testMultipleMessages() {
         let multipleMessageData: [UInt8] =
-            [arbitraryNoteOnData, arbitrarySysexData, activeSensingData, arbitraryNoteOffData].flatMap { $0 }
+            [arbitraryNoteOnData, arbitrarySysexData, activeSensingData, arbitraryNoteOffData, arbitraryControlChangeData].flatMap { $0 }
 
         let messages: [MIDIMessage] = parseMIDIMessages(from: Array<UInt8>(multipleMessageData))
 
@@ -73,6 +86,7 @@ class MIDIParseTests: XCTestCase {
         XCTAssertEqual(messages[1], MIDIMessage.systemExclusive(data: arbitrarySysexData))
         XCTAssertEqual(messages[2], MIDIMessage.activeSensing)
         XCTAssertEqual(messages[3], MIDIMessage.noteOff(key: 50))
+        XCTAssertEqual(messages[4], MIDIMessage.controlChange(control: 64, value: 127))
     }
     
     func testMIDIParserCrashOnAkaiLPK25() {

@@ -60,6 +60,12 @@ internal class MIDIEngineKitkat(context: Context): MIDIEngine, UsbMidiDriver(con
         onMIDIMessageReceived?.invoke(msg, 0, msg.size, System.nanoTime())
     }
 
+    override fun onMidiControlChange(midiInputDevice: MidiInputDevice, cable: Int, channel: Int, control: Int, value: Int) {
+        val controlChangeStatus = 0b10110000 or channel  // bitwise or
+        val msg = byteArrayOf(controlChangeStatus.toByte(), control.toByte(), value.toByte())
+        onMIDIMessageReceived?.invoke(msg, 0, msg.size, System.nanoTime())
+    }
+
     override fun onMidiSystemCommonMessage(midiInputDevice: MidiInputDevice, cable: Int, msg: ByteArray) {}
     override fun onDeviceAttached(usbDevice: UsbDevice) {}
     override fun onMidiOutputDeviceAttached(midiOutputDevice: MidiOutputDevice) {}
@@ -69,7 +75,6 @@ internal class MIDIEngineKitkat(context: Context): MIDIEngine, UsbMidiDriver(con
     override fun onMidiCableEvents(midiInputDevice: MidiInputDevice, i: Int, i1: Int, i2: Int, i3: Int) {}
     override fun onMidiSystemExclusive(midiInputDevice: MidiInputDevice, i: Int, bytes: ByteArray) {}
     override fun onMidiPolyphonicAftertouch(midiInputDevice: MidiInputDevice, i: Int, i1: Int, i2: Int, i3: Int) {}
-    override fun onMidiControlChange(midiInputDevice: MidiInputDevice, i: Int, i1: Int, i2: Int, i3: Int) {}
     override fun onMidiProgramChange(midiInputDevice: MidiInputDevice, i: Int, i1: Int, i2: Int) {}
     override fun onMidiChannelAftertouch(midiInputDevice: MidiInputDevice, i: Int, i1: Int, i2: Int) {}
     override fun onMidiPitchWheel(midiInputDevice: MidiInputDevice, i: Int, i1: Int, i2: Int) {}

@@ -19,7 +19,7 @@ public func onMIDIMessageReceived(env: UnsafeMutablePointer<JNIEnv>, cls: JavaOb
     DispatchQueue.main.async {
         midiMessages.forEach { message in
             switch message {
-            case .noteOn, .noteOff:
+            case .noteOn, .noteOff, .controlChange:
                 midiEngine?.onMIDIMessageReceived?(message, nil, timestamp)
             default: break
             }

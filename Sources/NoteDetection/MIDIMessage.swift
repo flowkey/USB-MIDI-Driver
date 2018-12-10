@@ -14,6 +14,7 @@ public enum MIDIMessage {
     case noteOff(key: UInt8)
     case systemExclusive(data: [UInt8])
     case activeSensing
+    case controlChange(control: UInt8, value: UInt8)
 }
 
 extension MIDIMessage: Equatable {
@@ -27,6 +28,8 @@ extension MIDIMessage: Equatable {
             return true
         case let (.systemExclusive(dataA), .systemExclusive(dataB)):
             return dataA == dataB
+        case let (.controlChange(lhs), .controlChange(rhs)):
+            return lhs.control == rhs.control && lhs.value == rhs.value
         default:
             return false
         }
@@ -39,6 +42,7 @@ fileprivate enum MIDICommand: UInt8 {
     case noteOff
     case systemExclusive
     case activeSensing
+    case controlChange
 }
 
 fileprivate extension UInt8 {
@@ -50,6 +54,7 @@ fileprivate extension UInt8 {
             case 0b1001_0000: return .noteOn
             case 0b1000_0000: return .noteOff
             case 0b1111_0000: return .systemExclusive
+            case 0b1011_0000: return .controlChange
             default: break
         }
 
@@ -96,6 +101,15 @@ func parseMIDIMessages(from data: [UInt8]) -> [MIDIMessage] {
             let sysexEndIndex = data[index...].index(where: { $0 == 0b1111_0111 })
             endIndex = (sysexEndIndex ?? index)
             message = MIDIMessage.systemExclusive(data: Array<UInt8>(data[index ... endIndex]))
+        case .controlChange:
+            endIndex = index + 2
+            if endIndex < data.count {
+                let control = data[index + 1]
+                let value = data[endIndex]
+                message = MIDIMessage.controlChange(control: control, value: value)
+            } else {
+                message = nil
+            }
         }
 
         if let message = message {
@@ -108,4 +122,3 @@ func parseMIDIMessages(from data: [UInt8]) -> [MIDIMessage] {
 
     return midiMessages
 }
-
