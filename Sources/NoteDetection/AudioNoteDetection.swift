@@ -103,9 +103,14 @@ public final class AudioNoteDetector: NoteDetector {
         let audioBuffer = self.audioBuffer // make a copy before the buffer is emptied
 
         DispatchQueue.main.async {
-            processedAudioDelegate.onAudioProcessed(
-                (audioBuffer, pitchData?.detectedChroma, filterbankMagnitudes, onsetData.featureValue, onsetData.threshold, onsetData.onsetDetected)
-            )
+            processedAudioDelegate.onAudioProcessed(ProcessedAudio(
+                audioData: audioBuffer,
+                chromaVector: pitchData?.detectedChroma.raw ?? ChromaVector.emptyVector,
+                filterbankMagnitudes: filterbankMagnitudes,
+                onsetFeatureValue: onsetData.featureValue,
+                onsetThreshold: onsetData.threshold,
+                onsetDetected: onsetData.onsetDetected
+            ))
         }
     }
 

@@ -48,8 +48,7 @@ public let noteDetection = AudioNoteDetector(sampleRate: audioEngine.sampleRate)
                                            onsetThreshold: data.onsetThreshold,
                                            onsetDetected: data.onsetDetected)
         default:
-            let chromaAsFloatArray: [Float] = (data.chromaVector ?? ChromaVector()).raw
-            graphViewController.updateView(chromaAsFloatArray)
+            graphViewController.updateView(data.chromaVector)
         }
     }
 

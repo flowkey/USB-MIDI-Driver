@@ -7,11 +7,11 @@
 //
 
 // To use these in the Testumgebung, import NoteDetection as @testable
-public typealias ProcessedAudio = (
-    audioData: [Float],
-    chromaVector: ChromaVector?,
-    filterbankMagnitudes: [Float],
-    onsetFeatureValue: Float,
-    onsetThreshold: Float,
-    onsetDetected: Bool
-)
+public struct ProcessedAudio {
+    public let audioData: [Float]
+    public let chromaVector: [Float]
+    public let filterbankMagnitudes: [Float]
+    public let onsetFeatureValue: Float
+    public let onsetThreshold: Float
+    public let onsetDetected: Bool
+}
