@@ -12,7 +12,7 @@ import Foundation
 // for the fifth of a key is calculated. determined through obervation of filterbank during testing
 fileprivate let lowKeyBoundary = 48
 
-public struct ChromaVector: CustomStringConvertible, Equatable {
+struct ChromaVector: CustomStringConvertible, Equatable {
     public static let size = 12 // a chroma vector always contains 12 values
     static let emptyVector = [Float](repeating: 0, count: ChromaVector.size)
 
