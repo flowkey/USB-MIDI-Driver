@@ -7,7 +7,11 @@
 //
 
 public typealias OnsetDetectedCallback = (AudioTime) -> Void
-public typealias OnsetDetectionResult = (featureValue: Float, threshold: Float, onsetDetected: Bool)
+public struct OnsetDetectionResult {
+    let featureValue: Float
+    let threshold: Float
+    let onsetDetected: Bool
+}
 
 protocol OnsetDetection: class {
     /// An array of FilterbankMagnitudes or AudioSamples
@@ -18,7 +22,7 @@ protocol OnsetDetection: class {
     func compute(from inputData: InputDataType) -> FeatureValue
     var onsetFeatureBuffer: [FeatureValue] { get set }
 
-    var currentThreshold: Float { get set }
+    var threshold: Float { get set }
     func computeThreshold(from buffer: [FeatureValue]) -> Float
 
     var onOnsetDetected: OnsetDetectedCallback? { get set }
@@ -26,10 +30,10 @@ protocol OnsetDetection: class {
 
 extension OnsetDetection {
     func run(on inputData: InputDataType, at timestampMs: AudioTime) -> OnsetDetectionResult {
-        let currentFeatureValue = compute(from: inputData)
+        let featureValue = compute(from: inputData)
         onsetFeatureBuffer.remove(at: 0)
-        onsetFeatureBuffer.append(currentFeatureValue)
-        currentThreshold = computeThreshold(from: onsetFeatureBuffer)
+        onsetFeatureBuffer.append(featureValue)
+        threshold = computeThreshold(from: onsetFeatureBuffer)
 
         let onsetDetected: Bool
         if currentBufferIsAPeak {
@@ -39,7 +43,11 @@ extension OnsetDetection {
             onsetDetected = false
         }
 
-        return (currentFeatureValue, currentThreshold, onsetDetected)
+        return OnsetDetectionResult(
+            featureValue: featureValue,
+            threshold: threshold,
+            onsetDetected: onsetDetected
+        )
     }
 
     // MARK: Peak Picking functions
@@ -57,7 +65,7 @@ extension OnsetDetection {
 
     // check if element at position [bufferlength - reverseIndex] is bigger than current threshold
     fileprivate func isAboveThreshold(atNegativeIndex reverseIndex: Int) -> Bool {
-        return onsetFeatureBuffer[onsetFeatureBuffer.count - reverseIndex] > self.currentThreshold
+        return onsetFeatureBuffer[onsetFeatureBuffer.count - reverseIndex] > self.threshold
     }
 }
 

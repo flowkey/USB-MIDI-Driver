@@ -12,7 +12,7 @@ import Foundation
 
 class SpectralFluxOnsetDetection: OnsetDetection {
     var onsetFeatureBuffer = [OnsetDetection.FeatureValue](repeating: 0, count: 10)
-    var currentThreshold: Float = 0
+    var threshold: Float = 0
     var onOnsetDetected: OnsetDetectedCallback?
 
     private var previousData = [FilterbankMagnitude]()
