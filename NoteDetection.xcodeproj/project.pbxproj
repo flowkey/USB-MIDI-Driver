@@ -105,25 +105,6 @@
 		60B05BFA21107D2200797FE5 /* MIDIPacketSizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B05BF921107D2200797FE5 /* MIDIPacketSizes.swift */; };
 		60B05BFB21107D2200797FE5 /* MIDIPacketSizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B05BF921107D2200797FE5 /* MIDIPacketSizes.swift */; };
 		60FCFF5E21A5DEA2000B527F /* LightControlTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FCFF5D21A5DEA2000B527F /* LightControlTests.swift */; };
-		6139FBFA21A5AC68003D2480 /* MIDINotePressedDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6139FBF921A5AC68003D2480 /* MIDINotePressedDetection.swift */; };
-		6139FBFB21A5AC6D003D2480 /* MIDINotePressedDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6139FBF921A5AC68003D2480 /* MIDINotePressedDetection.swift */; };
-		6139FBFD21A5B079003D2480 /* MIDINotePressedDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6139FBFC21A5B079003D2480 /* MIDINotePressedDetector.swift */; };
-		6139FBFE21A5B079003D2480 /* MIDINotePressedDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6139FBFC21A5B079003D2480 /* MIDINotePressedDetector.swift */; };
-		6139FC0021A5B377003D2480 /* MIDINotePressedDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6139FBFF21A5B377003D2480 /* MIDINotePressedDetectorTests.swift */; };
-		61428F7C21A417D000BE6B17 /* MIDIControlChangeDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61428F7B21A417D000BE6B17 /* MIDIControlChangeDetectorTests.swift */; };
-		6175EE5821A6FB8C00277A76 /* MIDINotePressedDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6175EE5321A6FB8B00277A76 /* MIDINotePressedDetector.swift */; };
-		6175EE5921A6FB8C00277A76 /* MIDINotePressedDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6175EE5321A6FB8B00277A76 /* MIDINotePressedDetector.swift */; };
-		6175EE5A21A6FB8C00277A76 /* MIDIControlState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6175EE5421A6FB8B00277A76 /* MIDIControlState.swift */; };
-		6175EE5B21A6FB8C00277A76 /* MIDIControlState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6175EE5421A6FB8B00277A76 /* MIDIControlState.swift */; };
-		6175EE5C21A6FB8C00277A76 /* MIDIControlChangeDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6175EE5521A6FB8B00277A76 /* MIDIControlChangeDetector.swift */; };
-		6175EE5D21A6FB8C00277A76 /* MIDIControlChangeDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6175EE5521A6FB8B00277A76 /* MIDIControlChangeDetector.swift */; };
-		6175EE5E21A6FB8C00277A76 /* MIDINotePressedDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6175EE5621A6FB8C00277A76 /* MIDINotePressedDetection.swift */; };
-		6175EE5F21A6FB8C00277A76 /* MIDINotePressedDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6175EE5621A6FB8C00277A76 /* MIDINotePressedDetection.swift */; };
-		6175EE6021A6FB8C00277A76 /* MIDIControlChangeDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6175EE5721A6FB8C00277A76 /* MIDIControlChangeDetection.swift */; };
-		6175EE6121A6FB8C00277A76 /* MIDIControlChangeDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6175EE5721A6FB8C00277A76 /* MIDIControlChangeDetection.swift */; };
-		6175EE6321A71D4800277A76 /* MIDIControlState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6175EE6221A71D4800277A76 /* MIDIControlState.swift */; };
-		6175EE6421A71D4800277A76 /* MIDIControlState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6175EE6221A71D4800277A76 /* MIDIControlState.swift */; };
-		61DF4D2021A324EC00C74074 /* MIDIControlStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DF4D1F21A324EC00C74074 /* MIDIControlStateTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -219,17 +200,6 @@
 		60A0A69F211349FC00C66CF5 /* MIDIEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIEngine.swift; path = Sources/NoteDetection/MIDIEngine.swift; sourceTree = SOURCE_ROOT; };
 		60B05BF921107D2200797FE5 /* MIDIPacketSizes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIPacketSizes.swift; path = Sources/NoteDetection/MIDIPacketSizes.swift; sourceTree = SOURCE_ROOT; };
 		60FCFF5D21A5DEA2000B527F /* LightControlTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightControlTests.swift; sourceTree = "<group>"; };
-		6139FBF921A5AC68003D2480 /* MIDINotePressedDetection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDINotePressedDetection.swift; sourceTree = "<group>"; };
-		6139FBFC21A5B079003D2480 /* MIDINotePressedDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDINotePressedDetector.swift; sourceTree = "<group>"; };
-		6139FBFF21A5B377003D2480 /* MIDINotePressedDetectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDINotePressedDetectorTests.swift; sourceTree = "<group>"; };
-		61428F7B21A417D000BE6B17 /* MIDIControlChangeDetectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDIControlChangeDetectorTests.swift; sourceTree = "<group>"; };
-		6175EE5321A6FB8B00277A76 /* MIDINotePressedDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDINotePressedDetector.swift; path = Sources/NoteDetection/MIDINotePressedDetector.swift; sourceTree = SOURCE_ROOT; };
-		6175EE5421A6FB8B00277A76 /* MIDIControlState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIControlState.swift; path = Sources/NoteDetection/MIDIControlState.swift; sourceTree = SOURCE_ROOT; };
-		6175EE5521A6FB8B00277A76 /* MIDIControlChangeDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIControlChangeDetector.swift; path = Sources/NoteDetection/MIDIControlChangeDetector.swift; sourceTree = SOURCE_ROOT; };
-		6175EE5621A6FB8C00277A76 /* MIDINotePressedDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDINotePressedDetection.swift; path = Sources/NoteDetection/MIDINotePressedDetection.swift; sourceTree = SOURCE_ROOT; };
-		6175EE5721A6FB8C00277A76 /* MIDIControlChangeDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIControlChangeDetection.swift; path = Sources/NoteDetection/MIDIControlChangeDetection.swift; sourceTree = SOURCE_ROOT; };
-		6175EE6221A71D4800277A76 /* MIDIControlState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIControlState.swift; path = Sources/NoteDetection/MIDIControlState.swift; sourceTree = SOURCE_ROOT; };
-		61DF4D1F21A324EC00C74074 /* MIDIControlStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDIControlStateTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -439,8 +409,6 @@
 				605AC25A210F5EB400A21951 /* MIDIPacketListTest.swift */,
 				60FCFF5D21A5DEA2000B527F /* LightControlTests.swift */,
 				6089441F21B6D545009DC35B /* AudioEngineTest.swift */,
-				61DF4D1F21A324EC00C74074 /* MIDIControlStateTests.swift */,
-				61428F7B21A417D000BE6B17 /* MIDIControlChangeDetectorTests.swift */,
 			);
 			path = NoteDetectionTests;
 			sourceTree = "<group>";
