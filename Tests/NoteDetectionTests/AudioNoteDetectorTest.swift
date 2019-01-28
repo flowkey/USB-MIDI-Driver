@@ -19,7 +19,7 @@ class AudioNoteDetectorTests: XCTestCase {
             notesDetectedExpectation.fulfill()
         })
         
-        noteDetectorDelegate?.set(expectedNoteEvent: NoteEvent(notes: [69])) // dummy note event
+        audioNoteDetector.expectedNoteEvent = NoteEvent(notes: [69])
         
         audioNoteDetector.delegate = noteDetectorDelegate
 

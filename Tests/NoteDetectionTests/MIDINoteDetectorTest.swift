@@ -21,9 +21,9 @@ class MIDINoteDetectorTests: XCTestCase {
         midiNoteDetector.delegate = noteDetectorDelegate
 
         let randomEventIndex = getRandomEventIndexFrom(noteEvents: noteEvents)
-        noteDetectorDelegate!.expectedNoteEvent = noteEvents[randomEventIndex]
+        midiNoteDetector.expectedNoteEvent = noteEvents[randomEventIndex]
         
-        guard let noteEvent = noteDetectorDelegate?.expectedNoteEvent else {
+        guard let noteEvent = midiNoteDetector.expectedNoteEvent else {
             XCTFail()
             return
         }
@@ -79,7 +79,7 @@ class MIDINoteDetectorTests: XCTestCase {
         midiNoteDetector.delegate = noteDetectorDelegate
         
         let randomEventIndex = getRandomEventIndexFrom(noteEvents: noteEvents)
-        noteDetectorDelegate!.expectedNoteEvent = noteEvents[randomEventIndex]
+        midiNoteDetector.expectedNoteEvent = noteEvents[randomEventIndex]
 
         // add not expected key
         midiNoteDetector.process(
@@ -88,7 +88,7 @@ class MIDINoteDetectorTests: XCTestCase {
             at: arbitraryTimestamp
         )
 
-        guard let noteEvent = noteDetectorDelegate?.expectedNoteEvent else {
+        guard let noteEvent = midiNoteDetector.expectedNoteEvent else {
             XCTFail()
             return
         }
