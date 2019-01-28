@@ -104,9 +104,8 @@ struct ChromaVector: CustomStringConvertible, Equatable {
 
     /// Takes a set of MIDINumbers and composes the ChromaVector we expect to see given those notes.
     /// This includes adding values to the fifth harmonic of lower notes.
-    init?(composeFrom midiKeys: Set<MIDINumber>?) {
-        guard let midiKeys = midiKeys else { return nil }
-        var vector = ChromaVector()
+    init(composeFrom midiKeys: Set<MIDINumber>) {
+        self = ChromaVector()
 
         for key in midiKeys {
             var valueToAdd: Float = 1.0
@@ -117,11 +116,9 @@ struct ChromaVector: CustomStringConvertible, Equatable {
                 valueToAddToFifth = ChromaVector.computeExpectedValueForFifth(of: key)
             }
 
-            vector[key] += valueToAdd
-            vector[key+7] += valueToAddToFifth // for low keys: add something to its fifth ('Quinte', 7 semitones up)
+            self[key] += valueToAdd
+            self[key+7] += valueToAddToFifth // for low keys: add something to its fifth ('Quinte', 7 semitones up)
         }
-
-        self = vector
     }
 
     static func computeExpectedValueForFifth(of key: MIDINumber) -> Float {

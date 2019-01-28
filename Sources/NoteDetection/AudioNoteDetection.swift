@@ -6,7 +6,7 @@ public protocol ProcessedAudioDelegate: class {
 
 public typealias AudioTime = Double
 
-public final class AudioNoteDetector: NoteDetector {
+public class AudioNoteDetector: NoteDetector {
     public weak var delegate: NoteDetectorDelegate?
     public weak var processedAudioDelegate: ProcessedAudioDelegate?
     
@@ -114,12 +114,16 @@ public final class AudioNoteDetector: NoteDetector {
         }
     }
 
+    public var expectedNoteEvent: DetectableNoteEvent? {
+        get { return self.pitchDetection.expectedNoteEvent }
+        set { self.pitchDetection.expectedNoteEvent = newValue }
+    }
+
     @discardableResult
     public func performNoteDetection(filterbankMagnitudes: [Float], at timestampMs: AudioTime) ->
         (OnsetDetectionResult, PitchDetectionResult?)
     {
         self.lastReceivedAudioTimestamp = timestampMs
-        pitchDetection.setExpectedEvent(delegate?.expectedNoteEvent)
 
         let onsetData = onsetDetection.run(on: filterbankMagnitudes, at: timestampMs)
         let pitchData = pitchDetection.run(on: filterbankMagnitudes, at: timestampMs)
@@ -158,7 +162,7 @@ public final class AudioNoteDetector: NoteDetector {
                 return
             }
 
-            guard let noteEvent = delegate.expectedNoteEvent else {
+            guard let noteEvent = expectedNoteEvent else {
                 print("An event was detected, but the delegate's event is null.")
                 return
             }

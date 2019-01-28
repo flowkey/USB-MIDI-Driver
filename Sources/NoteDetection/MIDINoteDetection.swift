@@ -19,6 +19,8 @@ public typealias MIDITime = CoreMIDI.MIDITimeStamp
 
 public final class MIDINoteDetector: NoteDetector {
     public weak var delegate: NoteDetectorDelegate?
+
+    public var expectedNoteEvent: DetectableNoteEvent?
     
     private(set) var currentMIDIKeys = Set<Int>()
     
@@ -44,7 +46,7 @@ public final class MIDINoteDetector: NoteDetector {
             // then press a random key and onNoteEventDetected would be triggered...
             currentMIDIKeys.removeAll()
             
-            guard let noteEvent = self.delegate?.expectedNoteEvent else {
+            guard let noteEvent = self.expectedNoteEvent else {
                 assertionFailure("an event was detected, but the delegates event is null.")
                 return
             }
@@ -64,7 +66,7 @@ public final class MIDINoteDetector: NoteDetector {
     }
 
     private var allExpectedNotesAreOn: Bool {
-        guard let expectedKeys = self.delegate?.expectedNoteEvent?.notes else { return false }
+        guard let expectedKeys = self.expectedNoteEvent?.notes else { return false }
         return currentMIDIKeys.isSuperset(of: expectedKeys) // allows not expected keys
     }
 }

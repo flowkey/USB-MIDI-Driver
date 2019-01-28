@@ -37,7 +37,9 @@ class PitchDetection {
     /// If we have a note to detect, compare the current ChromaVector's similarity with the one we expect
     /// Call "onNotesDetected" for the expected event if our statusBuffers are true
     func run(on filterbankMagnitudes: [FilterbankMagnitude], at timestampMs: AudioTime) -> PitchDetectionResult? {
-        guard let expectedChroma = expectedChroma else { return nil }
+        guard let expectedChroma = expectedChroma else { 
+            return nil
+        }
 
         let detectedChroma = chroma(from: filterbankMagnitudes)
 
@@ -74,10 +76,15 @@ class PitchDetection {
     private var expectedChroma: ChromaVector?
     private var currentTolerance: Float = 0
 
-    func setExpectedEvent(_ event: DetectableNoteEvent?) {
-        expectedChroma = ChromaVector(composeFrom: event?.notes) // result could be nil
-        currentTolerance = event?.notes.calculateTolerance() ?? 0
-        if let event = event { currentDetectionMode = detectionMode(from: event) }
+    var expectedNoteEvent: DetectableNoteEvent? {
+        didSet {
+            guard let event = expectedNoteEvent else {
+                return
+            }
+            expectedChroma = ChromaVector(composeFrom: event.notes)
+            currentTolerance = event.notes.calculateTolerance()
+            currentDetectionMode = detectionMode(from: event)
+        }
     }
 
     fileprivate func detectionMode(from data: DetectableNoteEvent) -> DetectionMode {
