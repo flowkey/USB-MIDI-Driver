@@ -158,12 +158,12 @@ public class AudioNoteDetector: NoteDetector {
         
         if !self.isIgnoring(at: noteEventDetectedTimestamp) {
             guard let delegate = self.delegate else {
-                assertionFailure("An event was detected, but the delegate was nil")
+                assertionFailure("An event was detected, but the delegate is nil")
                 return
             }
 
             guard let noteEvent = expectedNoteEvent else {
-                print("An event was detected, but the delegate's event is null.")
+                assertionFailure("An event was detected, but the expected event is nil.")
                 return
             }
 

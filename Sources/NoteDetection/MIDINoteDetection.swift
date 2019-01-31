@@ -47,7 +47,7 @@ public final class MIDINoteDetector: NoteDetector {
             currentMIDIKeys.removeAll()
             
             guard let noteEvent = self.expectedNoteEvent else {
-                assertionFailure("an event was detected, but the delegates event is null.")
+                assertionFailure("an event was detected, but the expected event is null.")
                 return
             }
 
