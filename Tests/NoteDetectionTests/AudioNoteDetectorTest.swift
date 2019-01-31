@@ -64,4 +64,15 @@ class AudioNoteDetectorTests: XCTestCase {
         let isIgnoring = audioNoteDetector.isIgnoring(at: 150)
         XCTAssertEqual(isIgnoring, false)
     }
+
+    func testIfExpectedChromaIsNullAfterSettingExpectedEventToNull() {
+        let pitchDetection = PitchDetection(noteRange: .standard)
+        XCTAssertNil(pitchDetection.expectedChroma)
+
+        pitchDetection.expectedNoteEvent = NoteEvent(notes: [69])
+        XCTAssertNotNil(pitchDetection.expectedChroma)
+
+        pitchDetection.expectedNoteEvent = nil
+        XCTAssertNil(pitchDetection.expectedChroma)
+    }
 }
