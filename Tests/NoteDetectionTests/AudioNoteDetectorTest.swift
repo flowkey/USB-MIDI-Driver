@@ -19,7 +19,7 @@ class AudioNoteDetectorTests: XCTestCase {
             notesDetectedExpectation.fulfill()
         })
         
-        audioNoteDetector.expectedNoteEvent = NoteEvent(notes: [69])
+        audioNoteDetector.expectedNoteEvent = NoteEvent(notes: [69], id: 0)
         
         audioNoteDetector.delegate = noteDetectorDelegate
 
@@ -69,7 +69,7 @@ class AudioNoteDetectorTests: XCTestCase {
         let pitchDetection = PitchDetection(noteRange: .standard)
         XCTAssertNil(pitchDetection.expectedChroma)
 
-        pitchDetection.expectedNoteEvent = NoteEvent(notes: [69])
+        pitchDetection.expectedNoteEvent = NoteEvent(notes: [69], id: 0)
         XCTAssertNotNil(pitchDetection.expectedChroma)
 
         pitchDetection.expectedNoteEvent = nil

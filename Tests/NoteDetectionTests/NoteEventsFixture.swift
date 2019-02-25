@@ -10,13 +10,16 @@
 
 import NoteDetection
 
-struct NoteEvent: DetectableNoteEvent {
+internal struct NoteEvent: DetectableNoteEvent {
+    var id: Int
     var notes: Set<MIDINumber>
     init(x: Int, t: Int, notesL: Set<MIDINumber>, notesR: Set<MIDINumber>) {
-        notes = notesL.union(notesR)
+        self.notes = notesL.union(notesR)
+        self.id = Int(round(Double(x*10)))
     }
-    init(notes: Set<MIDINumber>) {
+    init(notes: Set<MIDINumber>, id: Int) {
         self.notes = notes
+        self.id = id
     }
 }
 

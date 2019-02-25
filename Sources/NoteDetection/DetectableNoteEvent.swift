@@ -12,7 +12,7 @@ typealias JSONDict = [String:AnyObject]
 fileprivate let lowKeyBoundary = 48
 
 public protocol DetectableNoteEvent {
-    /// Stores the midi number of every expected note
+    var id: Int { get }
     var notes: Set<MIDINumber> { get }
 }
 

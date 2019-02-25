@@ -65,10 +65,10 @@ extension MainViewController: NoteDetectorDelegate {
         detectedEvent: DetectableNoteEvent
     ) -> Void {}
     func onInputLevelChanged(ratio: Float) -> Void {}
-    var expectedNoteEvent: DetectableNoteEvent? { return DummyNoteEvent.empty }
+    var expectedNoteEvent: DetectableNoteEvent? { return DummyNoteEvent() }
 }
 
 struct DummyNoteEvent: DetectableNoteEvent {
-    var notes: Set<MIDINumber> = []
-    static let empty = DummyNoteEvent()
+    let notes: Set<MIDINumber> = []
+    let id: Int = 0
 }
