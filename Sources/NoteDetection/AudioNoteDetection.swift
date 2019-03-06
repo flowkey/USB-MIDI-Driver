@@ -16,6 +16,20 @@ public class AudioNoteDetector: NoteDetector {
     
     let pitchDetection = PitchDetection(noteRange: .standard)
     let onsetDetection = SpectralFluxOnsetDetection()
+
+    // the lower the threshold the more likely it is 
+    // that an onset will be required
+    private let onsetRequiredSimilarityThreshold: Float = 0.001
+    var onsetIsRequired: Bool {
+        guard 
+            let prevVector = pitchDetection.previousExpectedChroma,
+            let currVector = pitchDetection.expectedChroma
+        else { return true }
+
+        let similarity = prevVector.similarity(to: currVector)
+
+        return similarity > onsetRequiredSimilarityThreshold
+    }
     
     private var ignoreUntilDeadline: AudioTime?
     private var lastReceivedAudioTimestamp: AudioTime?
@@ -144,15 +158,14 @@ public class AudioNoteDetector: NoteDetector {
     }
 
     func onInputReceived() {
-        guard
-            let onsetTimestamp = lastOnsetTimestamp,
-            let noteTimestamp = lastNoteTimestamp,
-            noteTimestamp.isCloseEnough(to: onsetTimestamp)
-        else {
+        guard let noteEventDetectedTimestamp = getNoteEventDetectedTimeFrom(
+            noteTimestamp: lastNoteTimestamp,
+            onsetTimestamp: lastOnsetTimestamp,
+            onsetIsRequired: onsetIsRequired
+        ) else {
             return
         }
-        
-        let noteEventDetectedTimestamp = max(onsetTimestamp, noteTimestamp)
+
         lastOnsetTimestamp = nil
         lastNoteTimestamp = nil
         
@@ -176,6 +189,23 @@ public class AudioNoteDetector: NoteDetector {
             }
         }
     }
+}
+
+func getNoteEventDetectedTimeFrom(
+    noteTimestamp: AudioTime?,
+    onsetTimestamp: AudioTime?,
+    onsetIsRequired: Bool
+) -> AudioTime? {
+    if onsetIsRequired {
+        guard
+            let onsetTimestamp = onsetTimestamp,
+            let noteTimestamp = noteTimestamp,
+            noteTimestamp.isCloseEnough(to: onsetTimestamp)
+        else { return nil }
+        return max(onsetTimestamp, noteTimestamp)
+    }
+
+    return noteTimestamp // may be nil
 }
 
 extension AudioTime {

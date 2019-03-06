@@ -73,31 +73,38 @@ class PitchDetection {
         case lowPitches, highPitches, highAndLow
     }
 
-    private(set) var expectedChroma: ChromaVector?
+    private(set) var previousExpectedChroma: ChromaVector?
+    private(set) var expectedChroma: ChromaVector? {
+        didSet { previousExpectedChroma = oldValue }
+    }
+
     private var currentTolerance: Float = 0
 
     var expectedNoteEvent: DetectableNoteEvent? {
         didSet {
-            guard let event = expectedNoteEvent else {
-                expectedChroma = nil
+            if oldValue?.id == expectedNoteEvent?.id {
                 return
             }
-            expectedChroma = ChromaVector(composeFrom: event.notes)
-            currentTolerance = event.notes.calculateTolerance()
-            currentDetectionMode = detectionMode(from: event)
+            if let notes = expectedNoteEvent?.notes {
+                expectedChroma = ChromaVector(composeFrom: notes)
+                currentTolerance = notes.calculateTolerance()
+                currentDetectionMode = detectionMode(from: notes)
+            } else {
+                expectedChroma = nil
+            }
         }
     }
 
-    fileprivate func detectionMode(from data: DetectableNoteEvent) -> DetectionMode {
+    fileprivate func detectionMode(from notes: Set<MIDINumber> ) -> DetectionMode {
         // Check how many low notes are expected in the event
-        let lowNotesExpected: Int = data.notes.reduce(0) { (total, note) in
+        let lowNotesExpected: Int = notes.reduce(0) { (total, note) in
             return note < self.noteRange.lowNoteBoundary ? (total + 1) : total
         }
 
         switch lowNotesExpected {
-        case 0: return .highPitches                   // no low notes expected
-        case data.notes.count: return .lowPitches     // no high notes expected
-        default: return .highAndLow                   // check it all
+        case 0: return .highPitches             // no low notes expected
+        case notes.count: return .lowPitches    // no high notes expected
+        default: return .highAndLow             // check it all
         }
     }
 

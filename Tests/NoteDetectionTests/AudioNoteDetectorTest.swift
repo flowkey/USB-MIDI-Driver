@@ -31,6 +31,89 @@ class AudioNoteDetectorTests: XCTestCase {
         wait(for: [notesDetectedExpectation], timeout: 0.1)
     }
 
+    func testGetNoteEventDetectedTimeWhenOnsetIsRequired() {
+        let onsetTimestamp = AudioTime(10)
+        let noteTimestamp = AudioTime(20)
+        let noteEventDetectedTimestamp = getNoteEventDetectedTimeFrom(
+            noteTimestamp: noteTimestamp,
+            onsetTimestamp: onsetTimestamp,
+            onsetIsRequired: true
+        )
+
+        XCTAssertEqual(noteEventDetectedTimestamp, noteTimestamp)
+    }
+
+    func testGetNoteEventDetectedTimeWhenOnsetIsNotRequired() {
+        let onsetTimestamp = AudioTime(10)
+        let noteTimestamp = AudioTime(20)
+        let noteEventDetectedTimestamp = getNoteEventDetectedTimeFrom(
+            noteTimestamp: noteTimestamp,
+            onsetTimestamp: onsetTimestamp,
+            onsetIsRequired: false
+        )
+
+        XCTAssertEqual(noteEventDetectedTimestamp, noteTimestamp)
+    }
+
+    func testGetNoteEventDetectedTimeWhenOnsetIsRequiredAndNoteTimestampIsNil() {
+        let onsetTimestamp = AudioTime(10)
+        let noteTimestamp: AudioTime? = nil
+        let noteEventDetectedTimestamp = getNoteEventDetectedTimeFrom(
+            noteTimestamp: noteTimestamp,
+            onsetTimestamp: onsetTimestamp,
+            onsetIsRequired: true
+        )
+
+        XCTAssertNil(noteEventDetectedTimestamp)
+    }
+
+    func testExpectedChromaVectorsInit() {
+        let noteEvent = NoteEvent(notes: [69], id: 0)
+        let pitchDetection = PitchDetection(noteRange: .standard)
+
+        // both vectors should be nil right after initing
+        XCTAssertNil(pitchDetection.expectedChroma)
+        XCTAssertNil(pitchDetection.previousExpectedChroma)
+
+        // set expected event once
+        pitchDetection.expectedNoteEvent = noteEvent
+
+        // since we only set the expected event once, the previous expected chroma vector should still be nil
+        XCTAssertNil(pitchDetection.previousExpectedChroma)
+        XCTAssertEqual(pitchDetection.expectedChroma, ChromaVector(composeFrom: noteEvent.notes))
+    }
+
+    func testExpectedChromaVectorsAfterSettingDifferentEvents() {
+        let noteEvent1 = NoteEvent(notes: [69], id: 0)
+        let noteEvent2 = NoteEvent(notes: [70], id: 1)
+        let pitchDetection = PitchDetection(noteRange: .standard)
+
+        pitchDetection.expectedNoteEvent = noteEvent1
+        pitchDetection.expectedNoteEvent = noteEvent2
+
+        XCTAssertEqual(
+            pitchDetection.previousExpectedChroma,
+            ChromaVector(composeFrom: noteEvent1.notes)
+        )
+
+        XCTAssertEqual(
+            pitchDetection.expectedChroma,
+            ChromaVector(composeFrom: noteEvent2.notes)
+        )
+    }
+
+    func testIfPreviousExpectedChromaVectorUpdatesAfterSettingSameEventTwice() {
+        let noteEvent = NoteEvent(notes: [69], id: 0)
+        let pitchDetection = PitchDetection(noteRange: .standard)
+
+        pitchDetection.expectedNoteEvent = noteEvent
+        pitchDetection.expectedNoteEvent = noteEvent
+
+        // when we set the same event (same ID) twice in a row,
+        // the previous expected vector should NOT update
+        XCTAssertNotEqual(pitchDetection.previousExpectedChroma, pitchDetection.expectedChroma)
+    }
+
     func testTimestampsAreNotCloseEnough() {
         var noteWasDetected = false
         audioNoteDetector.delegate = NoteDetectorTestDelegate(callback: {
