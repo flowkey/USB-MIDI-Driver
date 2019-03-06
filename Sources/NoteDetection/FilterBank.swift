@@ -16,6 +16,8 @@ final class Filterbank {
     private var bandpassFilters: [Filter]
     var magnitudes: [FilterbankMagnitude]
 
+    static let bandwidthInOctaves = 0.012022 // TODO: tune this parameter
+
     init(noteRange: NoteRange, sampleRate: Double) {
         let frequencies = noteRange.fullRange.map { midiNum in midiNum.inHz }
 
@@ -25,11 +27,13 @@ final class Filterbank {
             "note range divisible by Filterbank.stride (\(Filterbank.strideWidth))"
         )
 
-
         // Set up a constant Q filterbank, each filter with their own buffers:
         bandpassFilters = frequencies.map { freq -> Filter in
-            // It appears Q == 1 is one octave, and 120 is one semitone.		 +            // our desired bandwidth should be (far) less than one semitone, which would be 1/12
-            return Filter(sampleRate: sampleRate, centreFrequency: freq, Q: 120)
+            return Filter(
+                sampleRate: sampleRate,
+                centreFrequency: freq,
+                Q: calculateQFrom(bandWidthInOctaves: Filterbank.bandwidthInOctaves)
+            )
         }
 
         magnitudes = [FilterbankMagnitude](repeating: 0, count: noteRange.fullRange.count)
@@ -148,4 +152,10 @@ final class Filterbank {
         return magnitudes
     }
 #endif
+}
+
+func calculateQFrom(bandWidthInOctaves N: Double) -> Double {
+    let a = sqrt(pow(2, N));
+    let b = pow(2, N) - 1;
+    return a / b;
 }

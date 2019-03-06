@@ -61,4 +61,31 @@ class FilterbankTests: XCTestCase {
             XCTAssertEqual(maxElement, self.largestMeanMagnitudeInSampleAudioFrame, accuracy: 1e-06)
         }
     }
+
+    func testCalculateQFromBandwithInOctaves() {
+        let bandWidthInOctaves: Double = 1 / 12
+        let expectedQ: Double = 17.309941
+        let q = calculateQFrom(bandWidthInOctaves: bandWidthInOctaves)
+
+        XCTAssertEqual(expectedQ, q, accuracy: 0.00001)
+
+        // a sanity check for the the change in the Filterbank.swift
+        // can be removed for future changes of Filterbank.bandwidthInOctaves
+        let previousQ = 120.0
+        let currentQ = calculateQFrom(bandWidthInOctaves: Filterbank.bandwidthInOctaves)
+        XCTAssertEqual(currentQ, previousQ, accuracy: 0.01)
+    }
+
+    func testFilterCoefficients() {
+        let filter = Filter(sampleRate: 44100, centreFrequency: 440, Q: 100)
+        // got groundtruth from https://arachnoid.com/BiQuadDesigner/ // gain=1
+        let expected_a1: Float = -1.99544627
+        let expected_a2: Float = 0.99937371
+        let expected_b0: Float = 0.000313143531
+
+        XCTAssertEqual(filter.a1, expected_a1)
+        XCTAssertEqual(filter.a2, expected_a2)
+        XCTAssertEqual(filter.b0, expected_b0)
+    }
+
 }
