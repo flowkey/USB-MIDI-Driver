@@ -6,6 +6,9 @@
 //  Copyright (c) 2015 flowkey. All rights reserved.
 //
 
+import func Foundation.pow
+import func Foundation.sqrt
+
 #if os(iOS) || os(macOS)
 import simd
 #endif
