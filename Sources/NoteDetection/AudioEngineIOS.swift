@@ -1,13 +1,16 @@
 import AVFoundation
 
 public final class AudioEngine: AudioEngineProtocol {
-    fileprivate var audioData: [Float] = []
+    private var audioData: [Float] = []
 
     /// RemoteIOAudioUnit, from which we capture audio data and execute `onAudioData`
-    fileprivate let audioIOUnit: AudioUnit
-    fileprivate var onAudioData: AudioDataCallback?
+    private let audioIOUnit: AudioUnit
+    private var onAudioData: AudioDataCallback?
 
     public var sampleRate: Double {
+        // Although the audio session sampleRate can differ from the audioIOUnit samplerate.
+        // we choose to return the sessions sampleRate here,
+        // since we take care of syncing the audioIOUnit sampleRate with the sessions sampleRate.
         return AVAudioSession.sharedInstance().sampleRate
     }
 
@@ -44,31 +47,9 @@ public final class AudioEngine: AudioEngineProtocol {
         self.onAudioData = onAudioData
     }
 
-    func enableInput() throws {
-        try audioIOUnit.uninitialize()
-        try audioIOUnit.setProperty(
-            kAudioOutputUnitProperty_EnableIO,
-            kAudioUnitScope_Input,
-            .inputBus,
-            UInt32(truncating: true)
-        )
-        try audioIOUnit.initialize()
-    }
-    
-    func disableInput() throws {
-        try audioIOUnit.uninitialize()
-        try audioIOUnit.setProperty(
-            kAudioOutputUnitProperty_EnableIO,
-            kAudioUnitScope_Input,
-            .inputBus,
-            UInt32(truncating: false)
-        )
-        try audioIOUnit.initialize()
-    }
-
     deinit {
         NotificationCenter.default.removeObserver(self)
-        try? stopMicrophone()
+        try? audioIOUnit.stop()
         try? audioIOUnit.uninitialize()
         try? audioIOUnit.dispose()
     }
@@ -77,22 +58,13 @@ public final class AudioEngine: AudioEngineProtocol {
 // MARK: Public controls.
 extension AudioEngine {
     public func startMicrophone() throws {
-        if !inputIsEnabled { try? enableInput() }
-        try updateSampleRateIfNeeded(self.sampleRate)
+        try audioIOUnit.enableInputAndRequestMicAccess()
+        try syncAudioIOUnitWithAudioSessionSampleRate()
         try audioIOUnit.start()
-    }
-
-    var inputIsEnabled: Bool {
-        // check, default to false
-        let result: UInt32? =
-            audioIOUnit.getProperty(kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Input, .inputBus) ?? 0
-
-        return result == 1
     }
 
     public func stopMicrophone() throws {
         try audioIOUnit.stop()
-        try? disableInput()
     }
 }
 
@@ -107,26 +79,38 @@ extension AudioEngine {
             try? audioSession.overrideOutputAudioPort(.speaker)
         }
 
-        // It's very unlikely this will throw, life goes on if it does:
-        printOnErrorAndContinue { try updateSampleRateIfNeeded(audioSession.sampleRate) }
+        do {
+            try syncAudioIOUnitWithAudioSessionSampleRate()
+        } catch {
+            assertionFailure(error.localizedDescription)
+        }
     }
 
-    fileprivate func updateSampleRateIfNeeded(_ newSampleRate: Double) throws {
-        if audioIOUnit.sampleRate == newSampleRate { return }
-        let wasRunning = audioIOUnit.isRunning
 
-        // We have to uninitialize the unit before adjusting its sampleRate
-        try stopMicrophone()
-        try audioIOUnit.uninitialize()
+    // iOS changes the samplerate e.g. when the sampleRate of a playing video differs from our the current audiosession sample rate
+    fileprivate func syncAudioIOUnitWithAudioSessionSampleRate() throws {
+        // try to determine if audio unit is running
+        // on error default to true and continue (but crash in debug)
+        var audioIOUnitWasRunning = true
+        do { audioIOUnitWasRunning = try audioIOUnit.isRunning() }
+        catch { assertionFailure("Could not determine if audio unit is running") }
 
-        printOnErrorAndContinue { try audioIOUnit.setSampleRate(newSampleRate) }
+        // try to get audio unit sampleRate and compare to current session sampleRate
+        // on error continue setting the sample rate anyway (but crash in debug)
+        do { if try audioIOUnit.getSampleRate() == self.sampleRate { return } }
+        catch { assertionFailure("Could not determine audio units sampleRate") }
 
-        try audioIOUnit.initialize()
-        if wasRunning { try startMicrophone() }
+        try audioIOUnit.stop()
+        try audioIOUnit.setSampleRate(self.sampleRate)
 
-        onSampleRateChanged?(newSampleRate)
+        if audioIOUnitWasRunning {
+            try audioIOUnit.start()
+        }
+
+        self.onSampleRateChanged?(self.sampleRate)
     }
 }
+
 
 // MARK: Set onAudioData callback to input unit
 extension AudioEngine {
@@ -170,12 +154,12 @@ extension AudioEngine {
 
 // These only apply to our `audioIOUnit`, so separate them from the more general AudioUnit extensions
 private extension AudioUnit {
-    var isRunning: Bool {
-        return getProperty(kAudioOutputUnitProperty_IsRunning, kAudioUnitScope_Global, .outputBus) ?? false
+    func isRunning() throws -> Bool {
+        return try getProperty(kAudioOutputUnitProperty_IsRunning, kAudioUnitScope_Global, .outputBus)
     }
 
-    var sampleRate: Double? {
-        return getProperty(kAudioUnitProperty_SampleRate, kAudioUnitScope_Output, .inputBus)
+    func getSampleRate() throws -> Double {
+        return try getProperty(kAudioUnitProperty_SampleRate, kAudioUnitScope_Output, .inputBus)
     }
 
     func setCallback(callbackContext context: AnyObject, callback: @escaping AURenderCallback) throws {
@@ -188,15 +172,25 @@ private extension AudioUnit {
     }
 
     func setSampleRate(_ newSampleRate: Double) throws {
+        try self.uninitialize()
         try self.setProperty(kAudioUnitProperty_SampleRate, kAudioUnitScope_Output, .inputBus, newSampleRate)
         try self.setProperty(kAudioUnitProperty_SampleRate, kAudioUnitScope_Input, .outputBus, newSampleRate)
+        try self.initialize()
     }
-}
 
-/// Call a function that can throw and just print the error if one occurs. Used for functions where we
-/// want to know that they failed in debug, but don't want to interrupt program flow.
-private func printOnErrorAndContinue(_ function: () throws -> Void) {
-    do { try function() } catch { print(error.localizedDescription) }
+    func enableInputAndRequestMicAccess() throws {
+        try self.uninitialize()
+
+        // this causes iOS to show the microphone access dialogue if permission is not granted yet
+        try self.setProperty(
+            kAudioOutputUnitProperty_EnableIO,
+            kAudioUnitScope_Input,
+            .inputBus,
+            UInt32(truncating: true)
+        )
+
+        try self.initialize()
+    }
 }
 
 // taken from https://stackoverflow.com/questions/675626/coreaudio-audiotimestamp-mhosttime-clock-frequency

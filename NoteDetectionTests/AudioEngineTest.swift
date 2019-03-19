@@ -17,19 +17,6 @@ class AudioEngineIOSTests: XCTestCase {
         audioEngine = try! AudioEngine()
     }
 
-    func testInputIsEnabled() {
-        XCTAssertFalse(audioEngine.inputIsEnabled)
-        try! audioEngine.startMicrophone()
-        XCTAssertTrue(audioEngine.inputIsEnabled)
-    }
-
-    func testInputIsDisabled() {
-        try! audioEngine.startMicrophone()
-        try! audioEngine.stopMicrophone()
-
-        XCTAssertFalse(audioEngine.inputIsEnabled)
-    }
-
     func testIfOnAudioDataIsCalled() {
         let onAudioDataWasCalled = XCTestExpectation(
             description: "onAudioData callback is called"

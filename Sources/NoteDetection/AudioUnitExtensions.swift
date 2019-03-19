@@ -41,17 +41,14 @@ extension AudioUnit {
 // Generalisable helpers (not specific to our implementation):
 extension AudioUnit {
     func getProperty<PropertyData>
-        (_ propertyID: AudioUnitPropertyID, _ scope: AudioUnitScope, _ element: AudioUnitElement) -> PropertyData? {
+        (_ propertyID: AudioUnitPropertyID, _ scope: AudioUnitScope, _ element: AudioUnitElement) throws -> PropertyData {
         let data = UnsafeMutablePointer<PropertyData>.allocate(capacity: 1)
         defer { data.deallocate() }
 
-        do {
-            var size = UInt32(MemoryLayout<PropertyData>.size)
-            try AudioUnitGetProperty(self, propertyID, scope, element, data, &size).throwOnError()
-            return data.pointee
-        } catch {
-            return nil
-        }
+        var size = UInt32(MemoryLayout<PropertyData>.size)
+        try AudioUnitGetProperty(self, propertyID, scope, element, data, &size).throwOnError()
+        return data.pointee
+
     }
 
     func setProperty<PropertyData>
