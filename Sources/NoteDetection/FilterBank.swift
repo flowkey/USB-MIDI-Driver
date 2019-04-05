@@ -71,7 +71,10 @@ final class Filterbank {
 
             for x in audioData {
                 let inputDiff = x - x2
-                let ys = b0s * inputDiff - a1s * y1s - a2s * y2s
+                // temporary variables because the compiler might not be able to typecheck the "let ys = ... " expression in a reasonable amount of time
+                let temp1 = a1s * y1s
+                let temp2 = a2s * y2s
+                let ys = b0s * inputDiff - temp1 - temp2
                 y2s = y1s
                 y1s = ys
 
