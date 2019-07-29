@@ -27,7 +27,7 @@ extension LightController {
 
     func animateLights(onComplete: ((LightController) -> Void)?) {
         let animationTimeMS = 500
-        let pianoMIDIRange = 24..<112
+        let pianoMIDIRange = 21..<109
         let animationTimePerKeyMS = animationTimeMS / pianoMIDIRange.count
         let startTime = DispatchTime.now()
 
