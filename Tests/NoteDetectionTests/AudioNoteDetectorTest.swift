@@ -109,8 +109,34 @@ class AudioNoteDetectorTests: XCTestCase {
         pitchDetection.expectedNoteEvent = noteEvent
         pitchDetection.expectedNoteEvent = noteEvent
 
-        // when we set the same event (same ID) twice in a row,
+        // when we set the same event (same ID && same notes) twice in a row,
         // the previous expected vector should NOT update
+        XCTAssertNotEqual(pitchDetection.previousExpectedChroma, pitchDetection.expectedChroma)
+    }
+
+    func testIfChromaVectorUpdatesOnHandChange() {
+        // simulating a hand change:
+        // we set the same event ID, but the expected set of notes is different
+        let noteEvent0 = NoteEvent(notes: [69], id: 1)
+        let noteEvent1 = NoteEvent(notes: [34], id: 1)
+
+        let pitchDetection = PitchDetection(noteRange: .standard)
+
+        XCTAssertNil(pitchDetection.previousExpectedChroma)
+        XCTAssertNil(pitchDetection.expectedChroma)
+
+        pitchDetection.expectedNoteEvent = noteEvent0
+
+        XCTAssertNil(pitchDetection.previousExpectedChroma)
+        XCTAssertNotNil(pitchDetection.expectedChroma)
+
+        pitchDetection.expectedNoteEvent = noteEvent1
+
+        // we expect that both assignments went through,
+        // so both previous and expected events and not nil
+        // (and different from each other, as a sanity check)
+        XCTAssertNotNil(pitchDetection.previousExpectedChroma)
+        XCTAssertNotNil(pitchDetection.expectedChroma)
         XCTAssertNotEqual(pitchDetection.previousExpectedChroma, pitchDetection.expectedChroma)
     }
 

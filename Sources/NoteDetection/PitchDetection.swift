@@ -82,9 +82,13 @@ class PitchDetection {
 
     var expectedNoteEvent: DetectableNoteEvent? {
         didSet {
-            if oldValue?.id == expectedNoteEvent?.id {
-                return
+            if
+                oldValue?.id == expectedNoteEvent?.id,
+                oldValue?.notes == expectedNoteEvent?.notes
+            {
+              return
             }
+            
             if let notes = expectedNoteEvent?.notes {
                 expectedChroma = ChromaVector(composeFrom: notes)
                 currentTolerance = notes.calculateTolerance()
