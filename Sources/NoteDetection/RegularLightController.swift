@@ -4,7 +4,7 @@ private let NOTE_ON: UInt8 = 9
 private let NOTE_OFF: UInt8 = 8
 
 class RegularLightController: LightController {
-    static let supportedModels = Set(["CVP-701", "CVP-705", "CVP-709", "CVP-709GP"])
+    static let supportedModels = Set(["CVP-701", "CVP-705", "CVP-709", "CVP-709GP", "CVP-805", "CVP-809"])
 
     weak var midiEngine: MIDIEngineProtocol?
     weak var connection: MIDIOutConnection?
