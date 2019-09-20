@@ -6,8 +6,8 @@ import android.media.midi.MidiManager.DeviceCallback
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
-import android.support.annotation.RequiresApi
 import java.io.IOException
+import androidx.annotation.RequiresApi
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 internal class MIDIEngineM(context: Context) : MIDIEngine, MidiManager.OnDeviceOpenedListener {

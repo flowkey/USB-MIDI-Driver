@@ -3,8 +3,8 @@ package com.flowkey.notedetection.permissions
 import android.Manifest
 import android.app.Activity
 import android.content.Context
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
+import androidx.core.app.ActivityCompat
 
 /**
  * Created by erik on 12.07.17.

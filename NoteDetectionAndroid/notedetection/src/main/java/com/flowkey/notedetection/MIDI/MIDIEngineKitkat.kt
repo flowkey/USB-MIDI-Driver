@@ -4,11 +4,11 @@ import android.content.Context
 import android.hardware.usb.UsbDevice
 import android.os.Build
 import android.os.Looper
-import android.support.annotation.RequiresApi
 import jp.kshoji.driver.midi.device.MidiInputDevice
 import jp.kshoji.driver.midi.device.MidiOutputDevice
 import jp.kshoji.driver.midi.util.UsbMidiDriver
 import java.util.*
+import androidx.annotation.RequiresApi
 
 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
 internal class MIDIEngineKitkat(context: Context): MIDIEngine, UsbMidiDriver(context) {

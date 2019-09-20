@@ -6,8 +6,10 @@ import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES.M
 import java.util.*
 
+import androidx.annotation.Keep
+
 // wraps MIDI engine for Android 4 (Kitkat) or 6 (Marshmallow)
-@android.support.annotation.Keep
+@Keep
 class ApiIndependentMIDIEngine(context: Context) {
     private val midiEngine: MIDIEngine
 
