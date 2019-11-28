@@ -19,7 +19,7 @@ extension AVAudioSession {
 
 public extension AVAudioSession {
     func setCategoryToPlayAndRecordWithCustomOptions() throws {
-        var options: AVAudioSession.CategoryOptions = [.defaultToSpeaker, .allowBluetooth]
+        var options: AVAudioSession.CategoryOptions = [.defaultToSpeaker]
         
         if #available(iOS 10.0, *) {
             options.insert([.allowBluetoothA2DP, .allowAirPlay])
@@ -27,6 +27,8 @@ public extension AVAudioSession {
                                                             mode: .measurement,
                                                             options: options)
         } else {
+            options.insert([.allowBluetooth])
+
             // use workaround to set category with options because of http://www.openradar.me/42382075
             AVAudioSession.sharedInstance().perform(
                 NSSelectorFromString("setCategory:withOptions:error:"),
