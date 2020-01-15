@@ -9,3 +9,6 @@ Sources/CAndroidAudioEngine/obj/
 .DS_Store
 Tests/.DS_Store
 Testumgebung/.DS_Store
+
+build
+libs

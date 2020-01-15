@@ -48,7 +48,7 @@ func mean (_ v: [Float]) -> Float {
 
 func median (_ v: [Float]) -> Float {
     // Sort ascending
-    var array = v.sorted(by: <)
+    let array = v.sorted(by: <)
 
     let halfway = array.count / 2
 

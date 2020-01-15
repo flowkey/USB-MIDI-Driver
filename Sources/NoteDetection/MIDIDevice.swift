@@ -13,7 +13,9 @@ public struct MIDIDevice: Equatable, Hashable {
     public let uniqueID: Int
     public let refCon: UnsafeMutableRawPointer
 
-    public var hashValue: Int { return refCon.hashValue }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(refCon.hashValue)
+    }
 }
 
 public func == (lhs: MIDIDevice, rhs: MIDIDevice) -> Bool {

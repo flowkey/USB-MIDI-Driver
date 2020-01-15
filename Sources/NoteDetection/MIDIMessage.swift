@@ -98,7 +98,7 @@ func parseMIDIMessages(from data: [UInt8]) -> [MIDIMessage] {
                 message = nil
             }
         case .systemExclusive:
-            let sysexEndIndex = data[index...].index(where: { $0 == 0b1111_0111 })
+            let sysexEndIndex = data[index...].firstIndex(where: { $0 == 0b1111_0111 })
             endIndex = (sysexEndIndex ?? index)
             message = MIDIMessage.systemExclusive(data: Array<UInt8>(data[index ... endIndex]))
         case .controlChange:
