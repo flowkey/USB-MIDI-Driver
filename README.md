@@ -1,3 +1,8 @@
+Build aar
+`./gradlew assembleRelease` --> `MIDIDriver/build/outputs/aar/MIDIDriver.aar`
+
+## original readme:
+
 Android USB MIDI Driver
 ====
 [![Build Status](https://travis-ci.org/kshoji/USB-MIDI-Driver.svg?branch=master)](https://travis-ci.org/kshoji/USB-MIDI-Driver)
