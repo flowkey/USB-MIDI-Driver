@@ -1,0 +1,3 @@
+[submodule "USB-MIDI-Driver"]
+	path = USB-MIDI-Driver
+	url = git@github.com:flowkey/USB-MIDI-Driver.git

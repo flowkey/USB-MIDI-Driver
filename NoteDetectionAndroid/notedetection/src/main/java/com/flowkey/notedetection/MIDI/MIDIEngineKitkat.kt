@@ -4,14 +4,107 @@ import android.content.Context
 import android.hardware.usb.UsbDevice
 import android.os.Build
 import android.os.Looper
+
+
+import java.util.*
+import androidx.annotation.RequiresApi
 import jp.kshoji.driver.midi.device.MidiInputDevice
 import jp.kshoji.driver.midi.device.MidiOutputDevice
 import jp.kshoji.driver.midi.util.UsbMidiDriver
-import java.util.*
-import androidx.annotation.RequiresApi
 
 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
 internal class MIDIEngineKitkat(context: Context): MIDIEngine, UsbMidiDriver(context) {
+    override fun onMidiMiscellaneousFunctionCodes(sender: MidiInputDevice, cable: Int, byte1: Int, byte2: Int, byte3: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onMidiCableEvents(sender: MidiInputDevice, cable: Int, byte1: Int, byte2: Int, byte3: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onMidiSystemCommonMessage(sender: MidiInputDevice, cable: Int, bytes: ByteArray?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onMidiSystemExclusive(sender: MidiInputDevice, cable: Int, systemExclusive: ByteArray?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onMidiPolyphonicAftertouch(sender: MidiInputDevice, cable: Int, channel: Int, note: Int, pressure: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onMidiProgramChange(sender: MidiInputDevice, cable: Int, channel: Int, program: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onMidiChannelAftertouch(sender: MidiInputDevice, cable: Int, channel: Int, pressure: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onMidiPitchWheel(sender: MidiInputDevice, cable: Int, channel: Int, amount: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onMidiOutputDeviceAttached(midiOutputDevice: MidiOutputDevice) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onDeviceDetached(usbDevice: UsbDevice) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onMidiOutputDeviceDetached(midiOutputDevice: MidiOutputDevice) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onMidiSingleByte(sender: MidiInputDevice, cable: Int, byte1: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onDeviceAttached(usbDevice: UsbDevice) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onMidiSongSelect(sender: MidiInputDevice, cable: Int, song: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onMidiSongPositionPointer(sender: MidiInputDevice, cable: Int, position: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onMidiTuneRequest(sender: MidiInputDevice, cable: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onMidiTimingClock(sender: MidiInputDevice, cable: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onMidiStart(sender: MidiInputDevice, cable: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onMidiContinue(sender: MidiInputDevice, cable: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onMidiStop(sender: MidiInputDevice, cable: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onMidiActiveSensing(sender: MidiInputDevice, cable: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onMidiReset(sender: MidiInputDevice, cable: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onMidiTimeCodeQuarterFrame(sender: MidiInputDevice, cable: Int, timing: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     companion object {
         private var instance: MIDIEngineKitkat? = null
@@ -65,20 +158,6 @@ internal class MIDIEngineKitkat(context: Context): MIDIEngine, UsbMidiDriver(con
         val msg = byteArrayOf(controlChangeStatus.toByte(), control.toByte(), value.toByte())
         onMIDIMessageReceived?.invoke(msg, 0, msg.size, System.nanoTime())
     }
-
-    override fun onMidiSystemCommonMessage(midiInputDevice: MidiInputDevice, cable: Int, msg: ByteArray) {}
-    override fun onDeviceAttached(usbDevice: UsbDevice) {}
-    override fun onMidiOutputDeviceAttached(midiOutputDevice: MidiOutputDevice) {}
-    override fun onDeviceDetached(usbDevice: UsbDevice) {}
-    override fun onMidiOutputDeviceDetached(midiOutputDevice: MidiOutputDevice) {}
-    override fun onMidiMiscellaneousFunctionCodes(midiInputDevice: MidiInputDevice, i: Int, i1: Int, i2: Int, i3: Int) {}
-    override fun onMidiCableEvents(midiInputDevice: MidiInputDevice, i: Int, i1: Int, i2: Int, i3: Int) {}
-    override fun onMidiSystemExclusive(midiInputDevice: MidiInputDevice, i: Int, bytes: ByteArray) {}
-    override fun onMidiPolyphonicAftertouch(midiInputDevice: MidiInputDevice, i: Int, i1: Int, i2: Int, i3: Int) {}
-    override fun onMidiProgramChange(midiInputDevice: MidiInputDevice, i: Int, i1: Int, i2: Int) {}
-    override fun onMidiChannelAftertouch(midiInputDevice: MidiInputDevice, i: Int, i1: Int, i2: Int) {}
-    override fun onMidiPitchWheel(midiInputDevice: MidiInputDevice, i: Int, i1: Int, i2: Int) {}
-    override fun onMidiSingleByte(midiInputDevice: MidiInputDevice, i: Int, i1: Int) {}
 
     init {
         // in order to be able to use the SDL threads looper, we need to call .prepare()
